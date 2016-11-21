@@ -1,0 +1,72 @@
+{% extends "baseapp/master_base_new.html"|pjax:request %}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="/site_media/static/js/Verhoeff.js"></script>
+        <script src="/site_media/static/js/modernizr-2.6.2.min.js"></script>
+        <script src="/site_media/static/js/jquery-1.9.1.min.js"></script>
+        <script src="/site_media/static/js/jquery.cookie-1.3.1.js"></script>
+        <script src="/site_media/static/js/jquery.steps.js"></script>
+        <script src="/site_media/static/js/stepExample.js"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+<meta charset="utf-8">     
+{% endblock %}
+
+{% block content %}
+
+
+<center><h2> School Profile Entry - Status Report</h2></center>
+                  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+                 
+                      <tr>
+                        
+                        <th width=15% >DISTRICT</th>
+                        <th width=5% >Government</th>
+                        <th width=5% >Aided</th>
+                        <th width=5% >Un-Aided</th>
+    {% for i in lisst %}
+                      <tr>
+                        
+                        <td><a href="/bus_pass/district_report/{{i.id}}">{{i.district_name}}</a></td>
+
+
+                        <td> 
+                        {% for j in  a %}
+                                {% if j.district == i.id and j.manage_cate_id == 1 %}
+                                    {{ j.x }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td> 
+                        {% for j in  a %}
+                                {% if j.district == i.id and j.manage_cate_id == 2 %}
+                                    {{ j.x }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td> 
+                        {% for j in  a %}
+                                {% if j.district == i.id and j.manage_cate_id == 3 %}
+                                    {{ j.x }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+
+
+    {% endfor %}
+
+{% endblock %}
+
+

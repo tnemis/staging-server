@@ -1,0 +1,335 @@
+
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+{% block extrahead %} 
+
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+
+  Tipped.create('#duration_from',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+ Tipped.create('#duration_to',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+});
+</script>
+
+
+<!--- JQUERY VALIDATOR -->
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}
+}
+   
+</style>
+<script type="text/javascript">
+       $.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+
+       $( document ).ready( function () {
+           $( "#form3" ).validate( {
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                   course: {
+                       required:true
+                   
+                   },
+                   institution: {
+                       required:true
+                      
+                   },
+                   city: {
+                       required:true
+                   
+                   },
+                   country: {
+                       required:true
+                      
+                   },
+                   duration_from: {
+                       required:true
+                      
+                   },
+                   duration_to: {
+                       required:true
+                      
+                   }
+
+               },
+               messages: {
+
+                   course: {
+                       required: "Enter the Name of the Course"
+                                      },
+                   institution: {
+                       required: "Enter the Name of the Institution"
+                       
+                   },
+                   city: {
+                       required: "Enter the Name of the City"
+                       
+                   },
+                   country: {
+                       required: "Enter the Name of the Country"
+                       
+                   },
+                   duration_from: {
+                       required: "Enter the From Date"
+                       
+                   },
+                   duration_to: {
+                       required: "Enter the To Date"
+                       
+                   }
+                  
+               },
+               errorElement: "em",
+               errorPlacement: function ( error, element ) {
+                
+                   error.addClass( "help-block" );
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+                       error.insertAfter( element.parent( "label" ) );
+                   } else {
+                       error.insertAfter( element );
+                   }
+               },
+               highlight: function ( element, errorClass, validClass ) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+               },
+               unhighlight: function (element, errorClass, validClass) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+               }
+           } );
+
+      } );
+   </script>
+
+   
+    <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
+                $("[data-mask]").inputmask();
+
+
+            });
+        </script>
+
+<script type="text/javascript">
+function AfterDate(val) 
+{     
+    
+    var regis_date = document.getElementById('duration_from').value; 
+    
+    var regis_validity = document.getElementById('dategovt').value;
+     
+    var today = new Date(); 
+    
+
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+
+        if(govt < enterdate || enterdate <= 0 ) 
+        {
+        alert("Enter the Date after the Date of Appointment: "); 
+        duration_from.style.backgroundColor = "MistyRose";
+        duration_from.focus();
+        document.getElementById('duration_from').value="";
+   
+        }  
+        else
+        {
+          duration_from.style.backgroundColor = "white";
+        }
+        return false;
+}   
+}
+</script>
+
+<script type="text/javascript">
+function ToDate(val) 
+{     
+    
+    var regis_date = document.getElementById('duration_to').value; 
+    
+    var regis_validity = document.getElementById('duration_from').value;
+     
+    var today = new Date(); 
+    
+    if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date1_ms)-1;
+        var difference_ms2 = (date3_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+
+        if(enterdate < future || enterdate <= 0 ) 
+        {
+        alert(" Enter the Date after the Date of Appointment & Future Date Can not be Entered"); 
+        duration_to.style.backgroundColor = "MistyRose";
+        duration_to.focus();
+        document.getElementById('duration_to').value="";
+      
+        }  
+        else
+        {
+          duration_to.style.backgroundColor = "white";
+        }
+        return false;
+}   
+}
+</script>
+
+
+<form id="form3" action='#' method='post' encoding='utf-8'>
+<fieldset>
+     {% csrf_token %}
+
+<center><h5 style="display:block;text-align:top;float:center;font-size:200%;color:red;">
+DETAILS OF INSERVICE TRAINING ATTENDED</h5></center> 
+
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{ tid }}/'>Back...</a></p>
+
+ <h1><font color='white'> Staff-ID: 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<br> 
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Course" %}</b><input style="text-transform: uppercase"  type="text" class="form-control" class="mandatory" id="course" name="course" value="{{form.course.value}}" onclick="select()" maxlength="50" placeholder="NONE"/></div>
+<span class="error_message">{{form.course.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Institution" %}</b><input  style="text-transform: uppercase"  type="text" class="form-control" class="mandatory" id="institution" name="institution" value="{{form.institution.value}}" onclick="select()" maxlength="30" placeholder="NONE"/></div>
+<span class="error_message">{{form.institution.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the City" %}</b><input  style="text-transform: uppercase"  type="text" class="form-control" class="mandatory" id="city" name="city" maxlength="30" value="{{form.city.value}}" onclick="select()" placeholder="NONE"/></div>
+<span class="error_message">{{form.city.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the County" %}</b><input  style="text-transform: uppercase"  type="text" class="form-control" class="mandatory" id="country" name="country" maxlength="30" value="{{form.country.value}}" onclick="select()" placeholder="NONE"/></div>
+<span class="error_message">{{form.country.errors}}</span>
+<u><b>{% trans "Duration of the Training Programme" %}</b></u><br>
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "From" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="duration_from" onblur="AfterDate(new Date(this.value))" name="duration_from"   maxlength="10" value="{{form.duration_from.value|date:"d/m/Y" }}" /></div>
+<span class="error_message">{{form.duration_from.errors}}</span>
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "To" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" maxlength="10" onchange="ToDate(this.value)"class="mandatory" id="duration_to" name="duration_to"  value="{{form.duration_to.value|date:"d/m/Y" }}" /></div>
+<span class="error_message">{{form.duration_to.errors}}</span>
+</fieldset>
+<left>
+<button class='btn btn-large btn-success' type='submit'>
+{% trans "Submit" %}
+</button>
+</left>
+</tr>
+   
+</form>
+
+<form action="" method="POST"> 
+<br> 
+<table  border="2" > 
+<tr> 
+            <th style="text-align:center; ">{% trans "S. No." %}</th> 
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "Course" %}</th>
+            <th style="text-align:center; ">{% trans "Institution" %}</th>
+            <th style="text-align:center; ">{% trans "City" %}</th>
+            <th style="text-align:center; ">{% trans "County" %}</th>
+            <th style="text-align:center; ">{% trans "Training From" %}</th>
+            <th style="text-align:center; ">{% trans "Training To" %}</th>
+
+   <th >Update</th>       
+  
+  </tr> 
+</tr> 
+ 
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        
+        <td>
+        <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ i.teacherid.name|upper }} </td> 
+        <td> {{ i.course|upper }}</td> 
+        <td> {{ i.institution|upper }}</td> 
+        <td> {{ i.city|upper }}</td> 
+        <td> {{ i.country|upper }}</td> 
+        <td> {{ i.duration_from }}</td> 
+        <td> {{ i.duration_to }}</td> 
+
+       
+        <td><a href="/teachers/teacher_training_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>
+
+        
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+
+</form>
+
+
+
+    </div>
+    </div>
+    </div>
+
+    {% endblock %}
+    
+
+
+
+
+
+

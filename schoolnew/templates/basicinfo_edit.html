@@ -1,0 +1,944 @@
+
+{% extends "baseapp/master_base_new.html"%}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extrahead %}
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css" />
+<script src="/site_media/static/js/tipped.js"></script>
+<link href="/site_media/static/css/tipped.css" rel="stylesheet" type="text/css" />
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+     <script type="text/javascript" src="/site_media/static/js/Verhoeff.js"></script>
+        <script src="/site_media/static/js/modernizr-2.6.2.min.js"></script>
+        <script src="/site_media/static/js/jquery-1.9.1.min.js"></script>
+        <script src="/site_media/static/js/jquery.cookie-1.3.1.js"></script>
+        <script src="/site_media/static/js/jquery.steps.js"></script>
+        <script src="/site_media/static/js/stepExample.js"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+<!-- -Tamil- -->
+
+    <!--  (C) 2013-2015, Muthiah Annamalai <UrbanTamil.com>  -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">  
+<meta charset="utf-8"> 
+
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+
+<script src="jquery.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>      
+    <!-- look n feel -->
+    <link href="/site_media/static/css/jquery-ui.css" rel="stylesheet"/>
+    <link href="/site_media/static/css/keyboard.css" rel="stylesheet" />
+    
+    <!-- JavaScript dependencies -->
+
+
+    
+<script src="/site_media/static/js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/site_media/static/js/jquery.keyboard.js" type="text/javascript"></script>
+<script src="/site_media/static/js/tamil.js" type="text/javascript" charset="utf-8"></script>
+<script src="/site_media/static/js/tamil_visual_kbd.js" type="text/javascript"></script>
+    
+    
+<script type="text/javascript">
+    $('button.toggle').click(function(){
+  var keyboard = $('#keyboard').getkeyboard();
+  // if keyboard.enable = false, all keys & preview will be disabled
+  keyboard.enable = !keyboard.enable;
+  keyboard.toggle();
+  autoAccept: true
+  preventPaste : true,  // prevent ctrl-v and right click
+  autoAccept : true
+});
+</script>
+        <!-- -Tamil- -->
+
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_active %}
+<style> html, body, #map_canvas {
+    margin: 0;
+    padding: 0;
+    height: 100%
+}
+</style>
+
+
+
+<script>
+    $.validator.addMethod('notNone', function(value, element) {
+        return (value != 'none' && value != "Please select");
+    }, 'Please select an option.');
+
+    $(function ()
+    {
+        $("#lefthand-nav").affix({
+            offset: {
+                top: function ()
+                {
+                    return $("#topbar").outerHeight() + $("#banner").outerHeight();
+                }
+            }
+        });
+
+        prettyPrint();
+
+        function errorPlacement(error, element)
+        {
+            element.before(error);
+
+        }
+
+
+        $("#form3").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex)
+            {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex)
+                {
+                    return true;
+                }
+
+                // Forbid next action on "Warning" step if the user is to young
+                // if (newIndex === 3 && Number($("#age-2").val()) < 18)
+                // {
+                //     return false;
+                // }
+
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex)
+                {
+                    // To remove error styles
+                    $("#form3.body:eq(" + newIndex + ") label.error").remove();
+                    $("#form3.body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+
+                $("#form3").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form3").valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex)
+            {
+                // Used to skip the "Warning" step if the user is old enough.
+                // if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
+                // {
+                //     $("#form3").steps("next");
+                // }
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                // if (currentIndex === 2 && priorIndex === 3)
+                // {
+                //     $("#form3").steps("previous");
+                // }
+            },
+            onFinishing: function (event, currentIndex)
+            {
+                $("#form3").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form3").valid();
+            },
+            onFinished: function (event, currentIndex)
+            {
+                var form = $(this);
+                form.submit();
+            }
+        }).validate({
+                    errorPlacement: errorPlacement,
+                    rules: {
+                        sschool_name: {
+                            required:true,
+                            minlength: 10,
+                        },
+
+
+                    },
+                    messages: {
+                        sschool_name: {
+                            required: "Name of the School should not be blank"
+                        },                        
+
+                    },
+                });
+
+
+    });
+</script>
+
+
+
+
+<script type="text/javascript">
+function validateMobNo(mobno){
+    var mobno2;
+    var flag=false;
+    var mlen= mobno.length;
+    // alert(mobno.substr(3,mobno.length-3));
+    if(mobno.charAt(0)!='+' && mlen==10){
+        mobno2="+91-"+mobno;
+        alert("1>>The mobile no. want to be in "+mobno2);
+        flag=true;
+    }
+    else if(mobno.charAt(0)=='+'){
+        if(mobno.substr(0,4)=='+91-' && mobno.length==14){
+            mobno2=mobno.substr(0,4)+mobno.substr(4,mobno.length-4);
+            // alert("2>>The mobile no. want to be in "+mobno2);
+            flag=true;      
+        }
+        
+    }
+    else if(mobno.indexOf("-")<0&&mobno.length==12 && mobno.substr(0,2)=='91'){
+        mobno2=mobno.substr(0,2)+"-"+mobno.substr(3,mobno.length-2);
+        alert("3>>The mobile no. want to be in "+mobno2);
+        flag=true;
+        }
+                
+    else
+        alert("Please correct the mobile No.");
+    // alert(mobno2);
+   
+    if(flag==true)
+    {
+        var mobno=document.getElementById("mobile"); 
+        mobno.value = mobno2;
+              
+       // document.form3.mobile.value=mobno2;
+    }
+    else
+    {
+        document.getElementById('mobile').focus();
+        // document.form3.mobile.focus();
+    }
+    return flag;     
+}
+</script>
+
+
+<script type="text/javascript">
+
+ var map;
+
+    function initialize() {
+        var lat_val=document.getElementById('lat').value; 
+        var log_val=document.getElementById('long').value;
+        var myLatlng = new google.maps.LatLng(lat_val, log_val);
+
+        var myOptions = {
+            zoom: 15,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        var marker = new google.maps.Marker({
+            draggable: true,
+            position: myLatlng,
+            map: map,
+            title: "Your location"
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+
+
+            document.getElementById("lat").value = event.latLng.lat();
+            document.getElementById("long").value = event.latLng.lng();
+        });
+    }
+    
+</script>
+
+<script type="text/javascript">
+ function call_map() 
+        {
+            google.maps.event.addDomListener(window, "load", initialize());          
+        }
+</script>
+
+
+<script type="text/javascript">
+    function showHide_localbody() 
+        {
+            var result= $("#id_area option:selected").text()
+            if(result == 'Village Panchayat') 
+            {
+
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";    
+                document.getElementById('vpanchayat_div').style.display = "";
+                document.getElementById('vpanhabitation_div').style.display = "";
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none"; 
+            } 
+            else if (result == 'Town Panchayat')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";   
+                document.getElementById('tpanchayat_div').style.display = "";
+                document.getElementById('tpward_div').style.display = "";     
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";
+            }
+            else if (result == 'Municipality')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";      
+                document.getElementById('municipal_div').style.display = "";
+                document.getElementById('municipal_ward_div').style.display = "";
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";                      
+
+            }
+            else if (result == 'Corporation')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "";
+                document.getElementById('corpn_zone_div').style.display = "";       
+                document.getElementById('corpn_ward_div').style.display = "";
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";                     
+
+            }
+            
+            else if (result == 'Extended Chennai Corporation')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "";
+                document.getElementById('corpn_zone_div').style.display = "";       
+                document.getElementById('corpn_ward_div').style.display = "";
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";                     
+
+            }
+
+            else if (result == 'Township')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none"; 
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "";
+                document.getElementById('township_ward_div').style.display = "";
+            }
+            else if (result == 'cantonment')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";  
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";
+                document.getElementById('cantonment_div').style.display = "";
+                document.getElementById('cantonment_ward_div').style.display = "";                
+            } 
+
+            else {   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";       
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none"; 
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";    
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";
+                document.getElementById('cantonment_div').style.display = "none";
+                document.getElementById('cantonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none"; 
+
+            }
+        }
+
+    function pta() 
+        {
+            
+            var ptachk= $("#pta_div option:selected").text()
+            if(ptachk == 'Yes') 
+            {
+                document.getElementById('pta_no_div').style.display = "";
+                document.getElementById('pta_sub_div').style.display = "";
+            } 
+            else
+            {
+                document.getElementById('pta_no_div').style.display = "none";
+                document.getElementById('pta_sub_div').style.display = "none";    
+
+            }
+        }
+
+    function lkg_chk() 
+        {
+            
+            var prekgchk= $("#prekg_div option:selected").text()
+            if(prekgchk == 'Yes') 
+            {
+                document.getElementById('kg_div').style.display = "none";                 
+            } 
+            else
+            {
+
+                document.getElementById('kg_div').style.display = "";                
+
+            }
+        }
+
+    function prekg_chk() 
+        {        
+            var manachk= $("#id_sch_mana_cat option:selected").text()
+            var manachk1= $("#id_div_sch_management option:selected").text()
+            var manachk2= $("#id_sch_direct option:selected").text()
+
+            if(manachk == 'Government' | manachk == 'Aided') 
+                {
+                    if( manachk1 == 'School Education Department School') 
+                        {
+                            document.getElementById('do_code_div').style.display = "";
+                        }
+                    else
+                        {
+                            document.getElementById('do_code_div').style.display = "none";
+                        }
+                }
+
+               else 
+                    {
+                    document.getElementById('do_code_div').style.display = "none";
+                    }             
+
+            if(manachk == 'Government' && manachk1 == 'School Education Department School') 
+                {
+                    document.getElementById('clus').style.display = "";
+                }
+            else if(manachk == 'Aided' && manachk1 == 'School Education Department School')
+                {
+                    document.getElementById('clus').style.display = "";
+                    document.getElementById('do_code_div').style.display = "none";
+                }
+            else
+                {
+                    document.getElementById('clus').style.display = "none";
+
+                }
+
+            if(manachk == 'Government') 
+            {
+                document.getElementById('prekg_div').style.display = "none"; 
+                document.getElementById('kg_div').style.display = "none";
+                document.getElementById('psm1').style.display = "none";
+                document.getElementById('psm2').style.display = "none";
+                document.getElementById('psm3').style.display = "none";
+                document.getElementById('psm4').style.display = "none";
+                document.getElementById('psm5').style.display = "none";
+                document.getElementById('psm6').style.display = "none";
+                document.getElementById('psm7').style.display = "none";
+            } 
+            else
+            {
+                
+                document.getElementById('psm1').style.display = "";
+                document.getElementById('psm2').style.display = "";
+                document.getElementById('psm3').style.display = "";
+                document.getElementById('psm4').style.display = "";
+                document.getElementById('psm5').style.display = "";
+                document.getElementById('psm6').style.display = "";
+                document.getElementById('psm7').style.display = "";
+                var sch_cat_chk= $("#school_cate option:selected").text()
+
+                if(sch_cat_chk == 'High Schools (I-X)' || sch_cat_chk == 'Hr.Sec School (I-XII)' || sch_cat_chk == 'Matriculation Hr.Sec School (I-XII)' || sch_cat_chk == 'Matriculation School (I-X)' || sch_cat_chk == 'Matriculation School (I-VIII)' || sch_cat_chk == 'Middle School (I-VIII)' || sch_cat_chk == 'Primary School (I-V)' || sch_cat_chk == 'Primary School (I-V) with Nursery')
+                {
+                    document.getElementById('prekg_div').style.display = "";
+                    lkg_chk();  
+                }     
+                else
+                {
+                    document.getElementById('prekg_div').style.display = "none";
+                    document.getElementById('kg_div').style.display = "none";
+                }                                          
+
+            }
+        }
+
+
+    </script>
+
+
+       <script type="text/javascript">
+           $(function() {
+               //Datemask dd/mm/yyyy
+               $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+               //Datemask2 mm/dd/yyyy
+
+               $("[data-mask]").inputmask();
+
+               //Date range as a button
+
+           });
+       </script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    pta();
+    lkg_chk();
+    prekg_chk();
+    document.getElementById('municipal_div').style.display = "none";
+    document.getElementById('municipal_ward_div').style.display = "none";       
+    document.getElementById('tpanchayat_div').style.display = "none";
+    document.getElementById('tpward_div').style.display = "none"; 
+    document.getElementById('vpanchayat_div').style.display = "none";
+    document.getElementById('vpanhabitation_div').style.display = "none";    
+    document.getElementById('corpn_div').style.display = "none";
+    document.getElementById('corpn_zone_div').style.display = "none";   
+    document.getElementById('corpn_ward_div').style.display = "none";
+    document.getElementById('cantonment_div').style.display = "none";
+    document.getElementById('cantonment_ward_div').style.display = "none"; 
+    document.getElementById('township_div').style.display = "none";
+    document.getElementById('township_ward_div').style.display = "none"; 
+       
+});
+
+</script>
+
+
+<script type="text/javascript">
+function date_future_chk(inpid)
+{
+   var go_date = document.getElementById(inpid).value;
+   var today = new Date(); 
+      
+
+   if(go_date != "" )
+   {
+      
+       var record_day1=go_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       // var record_day2=prob_date.split("/");  
+       // var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+       var go_dt=new Date(sum1);    
+       // var probation_date=new Date(sum2); 
+       
+      
+       
+       if(go_dt > today)
+       {
+           alert("Pl. Enter correct G.O. date, future date can not be entered ");
+           document.getElementById(inpid).focus();
+           document.getElementById(inpid).value="";
+           inpid.style.backgroundColor = "MistyRose";
+           
+       }
+        else
+       {document.getElementById(inpid).style.background = 'none';}
+   }
+   return false; 
+}
+
+
+</script>
+ <SCRIPT language=Javascript>
+      <!--
+      function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+      //-->
+   </SCRIPT>
+
+<table>
+
+</table>   
+
+<form id="form3" method='post' enctype="multipart/form-data" name="frm">
+
+
+   <h3>BASIC INFORMATION</h3> 
+     <fieldset>
+        {% csrf_token %}
+
+        <div class="form-group"> <b>{% trans "Name of the School:" %}</b><input id="id_school_name" name="school_name" type="text" value= "{{school_name}}" class="form-control mandatory" style="text-transform:uppercase" data-toggle="tooltip" data-placement="top" title="Enter the School name in detail (Don't use PUPS, PUMS etc.,)" maxlength="200" /></div><span class="error_message">{{form.school_name.errors}}</span>
+        <div class="form-group"> <b>{% trans "Name of the School (in tamil):" %}</b></div><span class="error_message">{{form.school_name_tamil.errors}}</span> 
+      <textarea class="form-control mandatory"  onkeypress="return isNumberKey(event)"  id="word" name='word' value='' rows=1 cols=80 title="பள்ளியின் பெயரினை கற்பனை தமிழ் விசைப்பலகை மூலம் தமிழில் தட்டச்சு செய்யவும்/Type your school Name in Tamil Language with the help of Virtual Tamil Keyboard" style="background-color:LightBlue ;font-size:14pt;">{{word}}</textarea>
+ 
+      <br><br>
+        <div class="form-group"> <b>{% trans "Udise code:" %}</b><input id="id_udise_code" name="udise_code" type="number" class="form-control" value= "{{user.account.get_user_info.school_code}}" readonly /></div><span class="error_message">{{form.udise_code.errors}}</span>
+
+        <input id="school_id" name="school_id" type="hidden" class="form-control" value= "{{basic_det.school_id}}" readonly="readonly" />
+
+        <div class="form-group" id="id_dist" name="dist">  <b>{% trans "Revenue District:" %}</b>{{form.district|add_class:"mandatory" }}</div><span class="error_message">{{form.district.errors}}</span> 
+
+        <div class="form-group" id="block_div" name='block'> <b>{% trans "Block:" %}</b>{{form.block|add_class:"mandatory"}} <br></div><span class="error_message">{{form.block.errors}}</span>   
+
+        <div class="form-group" id="edn_dist_div1" ><b>{% trans "Educational District:" %}</b>{{form.edu_district|add_class:"mandatory"}}  <br></div><span class="error_message">{{form.edu_district.errors}}</span>
+
+        <div class="form-group" id="id_area" name="area" onblur="showHide_localbody()" onchange="showHide_localbody()"><b>{% trans "Type of Local Body Administration:" %}</b>{{form.local_body_type|add_class:"mandatory" }}</div><span class="error_message">{{form.local_body_type.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="vpanchayat_div"> <strong style="color:red;">*</strong> <b>{% trans "Village Panchayat:" %}</b>{{form.village_panchayat|add_class:"mandatory" }} <br></div><span class="error_message">{{form.village_panchayat.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="vpanhabitation_div" > <strong style="color:red;">*</strong> <b>{% trans "Village Habitation:" %}</b>{{form.vill_habitation|add_class:"mandatory" }} <br></div><span class="error_message">{{form.habitation.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="tpanchayat_div"> <strong style="color:red;">*</strong> <b>{% trans "Town Panchayat:" %}<br></b>{{form.town_panchayat|add_class:"mandatory" }} </div><span class="error_message">{{form.town_panchayat.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="tpward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Town Panchayat Ward:" %}</b>{{form.town_panchayat_ward|add_class:"mandatory" }} <br></div><span class="error_message">{{form.town_panchayat_ward.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="cantonment_div"> <strong style="color:red;">*</strong> <b>{% trans "Cantonment:" %}</b>{{form.cantonment|add_class:"mandatory" }}<br> </div><span class="error_message">{{form.cantonment.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="cantonment_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Cantonment Ward:" %}</b>{{form.cantonment_ward|add_class:"mandatory" }}<br> </div><span class="error_message">{{form.cantonment_ward.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="township_div"> <strong style="color:red;">*</strong> <b>{% trans "Township:" %}</b>{{form.township|add_class:"form-control" }}<br> </div><span class="error_message">{{form.township.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="township_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Township Ward:" %}</b>{{form.township_ward|add_class:"form-control" }}<br> </div><span class="error_message">{{form.township_ward.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="municipal_div"> <strong style="color:red;">*</strong> <b>{% trans "Municipality:" %}</b>{{form.municipality|add_class:"mandatory" }} </div><span class="error_message">{{form.municipality.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="municipal_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Municipality Ward:" %}</b>{{form.municipal_ward|add_class:"mandatory" }} </div><span class="error_message">{{form.municipal_ward.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_div"> <strong style="color:red;">*</strong> <b>{% trans "Corporation:" %}</b>{{form.corporation|add_class:"form-control" }} <br></div><span class="error_message">{{form.corporation.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_zone_div"  > <strong style="color:red;">*</strong> <b>{% trans "Corporation Zone:" %}</b>{{form.corpn_zone|add_class:"form-control" }} </div><span class="error_message">{{form.corpn_zone.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Corporatoin Ward:" %}</b>{{form.corpn_ward|add_class:"form-control" }}</div><span class="error_message">{{form.corpn_ward.errors}}</span>
+
+        <br> 
+        <div class="form-group"> <b>{% trans "Assembly Constituency where the School is Located:" %}</b>{{form.assembly|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.assembly.errors}}</span>
+        <br>
+
+        <div class="form-group"> <b>{% trans "Parliament Constituency where the School is Located:" %}</b>{{form.parliament|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.parliament.errors}}</span>
+        <br>        
+
+</fieldset>
+
+ <h3>BASIC INFORMATION</h3>
+     <fieldset>
+        
+
+        <div class="form-group"> <b>{% trans "Address of the School:" %}</b>{{form.address|add_class:"form-contro mandatory" |attr:'maxlength:200'}}<br></div><span class="error_message">{{form.address.errors}}</span>
+
+        {% if pincode %}
+        <div class="form-group"> <b>{% trans "Pincode :" %}</b>
+        <input id="pincode" name="pincode" value="{{pincode}}" class="form-control mandatory" maxlength="6"  ></div><span class="error_message">{{form.pincode.errors}}</span>         
+        {% else %}       
+        <div class="form-group"> <b>{% trans "Pincode :" %}</b>{{form.pincode|add_class:"form-control, mandatory"|attr:'max:699999'|attr:'min:600000'|attr:'maxlength:6' }}<br></div><span class="error_message">{{form.pincode.errors}}</span> 
+        {% endif %}         
+
+        {% if stdcode_chk %}
+        <div class="form-group"> <b>{% trans "STD code :" %}</b>
+        <input id="stdcode" name="stdcode" value="{{stdcode.std_code}}" class="form-control" type="text"></div><span class="error_message">{{form.stdcode.errors}}</span>         
+        {% else %}       
+       <div class="form-group"> <b>{% trans "STD code :" %}</b>{{form.stdcode|add_class:"form-control" |attr:'maxlength:10'}}</div><span class="error_message">{{form.stdcode.errors}}</span>
+
+        {% endif %}   
+       
+        {% if chk_lline %}
+
+        {% if chk_lline.landline1 %}
+        <div class="form-group"> <b>{% trans "Landline Number:" %}</b>
+        <input id="landline" name="landline" value="{{chk_lline.landline1}}" class="form-control" type="text" maxlength="8" ></div><span class="error_message">{{form.landline1.errors}}</span>
+        {% else %} 
+        <div class="form-group"> <b>{% trans "Landline Number:" %}</b>
+        <input id="landline" name="landline" maxlength="8" class="form-control" type="text" ></div><span class="error_message">{{form.landline1.errors}}</span>
+        {% endif %} 
+
+        <div class="form-group"> <b>{% trans "Another Landline Number (If exist):" %}</b>
+         {% if landline2 %}
+        <input id="landline2" name="landline2" value="{{landline2}}" class="form-control" type="text" maxlength="8"></div><span class="error_message">{{form.landline2.errors}}</span>
+        {% else %}
+        <input id="landline2" name="landline2" value='' class="form-control" type="text" maxlength="8"></div><span class="error_message">{{form.landline2.errors}}</span>
+        {% endif %}
+
+        {% if chk_lline.mobileno1 %}
+        <div class="form-group"> <b>{% trans "Headmaster's Mobile Number :" %}</b>
+        <input id="mobile" name="mobile" value="{{chk_lline.mobileno1}}"  class="form-control" onblur="validateMobNo(mobile.value)" type="text" maxlength="14"></div><span class="error_message">{{form.mobile.errors}}</span>
+        {% else %} 
+        <div class="form-group"> <b>{% trans "Headmaster's Mobile Number :" %}</b>
+        <input id="mobile" name="mobile" class="form-control" onblur="validateMobNo(mobile.value)" type="text"  maxlength="14"></div><span class="error_message">{{form.mobile.errors}}</span>
+        {% endif %} 
+
+        {% else %}
+
+        <div class="form-group"> <b>{% trans "Schools's Landline Phone No.:" %}</b>{{form.landline|attr:'max:99999999'|attr:'min:100000'|attr:'maxlength:8'|add_class:"form-control" }}</div><span class="error_message">{{form.Landline.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Another Landline No. (If exist):" %}</b>{{form.landline2|attr:'max:99999999'|attr:'min:100000'|attr:'maxlength:8'|add_class:"form-control" }}</div><span class="error_message">{{form.landline2.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Headmaster's Mobile Number :" %}</b>
+        <input id="mobile" name="mobile" value="{{mobile}}"class="form-control" onclick="validateMobNo(mobile.value);"  onblur="validateMobNo(mobile.value);" onclick="select()" type="text"></div><span class="error_message">{{form.mobile.errors}}</span>
+
+        {% endif %} 
+
+        <div class="form-group"> <b>{% trans "School's e-mail id :" %}</b>{{form.sch_email|add_class:"form-control" }}</div><span class="error_message">{{form.sch_email.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Website (if any):" %}</b>{{form.website|add_class:"form-control" }}</div><span class="error_message">{{form.website.errors}}</span>
+
+    </fieldset>
+<h3>BASIC INFORMATION</h3>
+     <fieldset>
+ 
+        <br>
+        <div class="form-group"><b>{% trans "Bank Details: " %}</b></div>
+
+        <div class="form-group"> <b>{% trans "Revenue District of the Bank:" %}</b>{{form.bank_dist|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.bank_dist.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Name of the Bank where School's account in operation (Account used for Special Fees):" %}</b>{{form.bank|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.bank.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Branch of the Bank:" %}</b>{{form.branch|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.branch.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Bank Account No.:" %}</b>
+        
+        {% if bankaccno %}
+        <input id="bankaccno" name="bankaccno" type="text" value= "{{bankaccno}}" class="form-control mandatory" maxlength="30" onclick="select()" />
+        {% else %}
+        <input id="bankaccno" name="bankaccno" type="text" value= '' class="form-control mandatory" maxlength="30" onclick="select()" />
+        {% endif %} 
+        </div><span class="error_message">{{form.bankaccno.errors}}</span>
+
+        <br>
+       
+        
+    </fieldset>
+<h3>BASIC INFORMATION</h3>
+     <fieldset>
+        <br>  <br>
+        <div class="form-group" id="id_sch_mana_cat" name="manage_cate" onblur="prekg_chk()" onchange="prekg_chk()"> <b>{% trans "School Management Major Category:" %}</b>{{form.manage_cate|add_class:"form-control mandatory"}}</div><span class="error_message">{{form.manage_cate.errors}}</span>
+        <br>  <br>
+        <div class="form-group" id="id_div_sch_management" name="div_sch_management" onchange="prekg_chk()" onfocus="call_map();" onblur="call_map();"><b>{% trans "School Management Sub Category:" %}</b>{{form.sch_management|add_class:"mandatory" }}</div><span class="error_message">{{form.sch_management.errors}}</span>
+
+        <br>  <br>
+        <div class="form-group" id='id_sch_direct' name='id_sch_direct' onblur="prekg_chk()" onchange="prekg_chk()"> <b>{% trans "Administrative Directorate / Department of the School:" %}</b>{{form.sch_directorate|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.sch_directorate.errors}}</span>
+
+        <br>  <br>
+        <div class="form-group" id="school_cate" onblur="prekg_chk()" onchange="prekg_chk()"> <b>{% trans "Category of the School:" %}</b>{{form.sch_cate|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.sch_cate.errors}}</span>
+        <br>  <br>                
+        <div class="form-group" style="visibility:hide" id="prekg_div" name="prekg_div"> <b>{% trans "Whether Pre-KG is available in the School:" %}</b><select id="prekg" value="{{prekg}}" name='prekg' class="form-control, mandatory" onblur="lkg_chk()" onchange="lkg_chk()">
+                {% if prekg == 'Yes' %}
+                <option value = 'Yes' selected="selected">Yes</option>
+                <option value  = 'No' >No</option> 
+                {% else %}             
+                {% if prekg == 'No' %}
+                <option value = "" selected="selected">Select</option>
+                <option value = 'Yes' >Yes</option>
+                <option value = 'No' >No</option>
+                {% else %}
+                <option value = 'No' selected="selected">No</option>
+                <option value = 'Yes' >Yes</option>
+                {% endif %}  
+                {% endif %}  
+                </select></div><span class="error_message">{{form.prekg.errors}}</span>
+<br>  <br>
+        <div class="form-group" style="visibility:hide"  id="kg_div" name="kg_div"> <b>{% trans "Whether LKG & UKG is available in the School:" %}</b><select id="kgsec" value="{{kgsec}}" name='kgsec' class="form-control mandatory">
+                {% if kgsec == 'Yes' %}
+                <option value = 'Yes' selected="selected">Yes</option>
+                <option value  = 'No' >No</option> 
+                {% else %}             
+                {% if kgsec == 'No' %}
+                <option value = "" selected="selected">Select</option>
+                <option value = 'Yes' >Yes</option>
+                <option value = 'No' >No</option>
+                {% else %}
+                <option value = 'No' selected="selected">No</option>
+                <option value = 'Yes' >Yes</option>
+                {% endif %}  
+                {% endif %} 
+
+                </select></div><span class="error_message">{{form.kgsec.errors}}</span>
+
+<br>
+<br>
+
+<div class="form-group" style="visibility:hide"  id="pta_div"> <b>{% trans "Whether Registered with State Parent Teachers Association (PTA):" %}</b><select id="id_pta" value="{{pta_esta}}" name='pta_esta' class="form-control mandatory" onblur="pta()" onchange="pta()">
+        {% if pta_esta == 'Yes' %}
+        <option value = 'Yes' selected="selected">Yes</option>
+        <option value = 'No' >No</option> 
+        {% else %}             
+        {% if pta_esta == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = 'Yes' >Yes</option>
+        <option value = 'No' >No</option>
+        {% else %}
+        <option value = 'No' selected="selected">No</option>
+        <option value = 'Yes' >Yes</option>
+        {% endif %}  
+        {% endif %}  
+        </select></div><span class="error_message">{{form.pta_esta.errors}}</span>
+
+    <div class="form-group" style="visibility:hide"  id="pta_no_div" name="pta_no_div"><b>{% trans "If Registered - Registration No. in State PTA:" %}</b>
+
+        {% if pta_no %}
+        <input id="id_ptano" name="pta_no" value="{{pta_no}}" class="form-control mandatory" type="text" maxlength="25" onclick="select()" >
+        {% else %}
+        <input id="id_ptano" name="pta_no" value='' class="form-control mandatory" type="text" maxlength="25" onclick="select()" >
+        {% endif %}
+
+    </div><span class="error_message">{{form.pta_no.errors}}</span>
+
+
+     <br>  
+<div class="form-group" id="pta_sub_div" style="visibility:hide" name="pta_sub_div"> <b>{% trans "Details of the Last Subscription Paid (Academic Year):" %}</b>
+    <select id='pta_sub_yr' name="pta_sub_yr"  class="form-control mandatory">
+            {% if pta_sub_yr %}
+            <option value="{{pta_sub_yr}}" selected="selected" >{{pta_sub_yr}} </option>
+            {% else %}
+            <option value="">Select</option>
+            {% endif %}
+    {% for i in acadyr_lst %}
+        <option value="{{i}}">{{i}}</option>
+    {% endfor %}  
+     </select></div><span class="error_message">{{form.pta_sub_yr.errors}}</span>
+   
+
+    <div class="form-group" style="visibility:hide"  id="do_code_div" name="do_code_div"><b>{% trans "Drawing Officer Code No.:" %}</b>
+
+        {% if draw_off_code %}
+        <input id="draw_off_code" name="draw_off_code" value="{{draw_off_code}}" class="form-control mandatory" type="text" maxlength="10" onclick="select()" >
+        {% else %}
+        <input id="draw_off_code" name="draw_off_code" value='' class="form-control mandatory" type="text" maxlength="10" onclick="select()" >
+        {% endif %}
+
+    </div><span class="error_message">{{form.draw_off_code.errors}}</span>
+
+
+</fieldset>
+
+<h3>BASIC INFORMATION</h3>
+     <fieldset>
+
+   <div class="form-group"> <b>{% trans "Geographical Information:" %}</b></div>
+
+        {% if latlong %}
+        <div class="form-group" > <b>{% trans "Latitude:" %}</b><input class="form-control" name="latitude" id="lat" type="number" onmousemove="call_map()" onclick="call_map()" ="call_map();" value="{{latitude}}" readonly="readonly"/></div><span class="error_message"></span>
+
+
+        <div class="form-group" > <b>{% trans "Longitude:" %}</b><input class="form-control" name="longitude" id="long" type="number" onmousemove="call_map()" onclick="call_map()" ="call_map();" value="{{longitude}}" readonly="readonly"/></div><span class="error_message"></span>
+
+        {% else %}   
+        <div class="form-group" > <b>{% trans "Latitude:" %}</b><input class="form-control" name="latitude" id="lat" type="number" onmousemove="call_map()" onclick="call_map()" ="call_map();" value="{{latlong_det.gis_lat}}" readonly="readonly"/></div><span class="error_message"></span>
+
+
+        <div class="form-group" > <b>{% trans "Longitude:" %}</b><input class="form-control" name="longitude" id="long" type="number" onmousemove="call_map()" onclick="call_map()" ="call_map();" value="{{latlong_det.gis_long}}" readonly="readonly"/></div><span class="error_message"></span>
+        {% endif %}
+        <div id="map_canvas" style="width: 800px; height: 250px;"></div>
+        Please Check School's Latitude & Logitude from the Map given above, if you want to correct the same, just place the PLACE ID FINDER in the appropriate place in map where your school is originally located.:    
+        <label> Private School Managment - Registration Informations:</label><br>
+<br>
+        <div class="form-group" id='clus'> <b>{% trans "Cluster of the School:" %}</b>{{form.cluster|add_class:"form-control mandatory" }}</div><span class="error_message">{{form.cluster.errors}}</span>
+
+
+        <div class="form-group" id='psm1'> <b>{% trans "Year of first opening of the Private School Management:" %}</b>{{form.mgt_opn_year|add_class:"form-control mandatory" |attr:'maxlength:25'  }}</div><span 
+        class="error_message">{{form.mgt_opn_year.errors}}</span>
+
+        <div class="form-group" id='psm2' name="pta_div"> <b>{% trans "Type of Private Management:" %}</b><select id="mgt_type" value="{{mgt_type}}" name='mgt_type' class="form-control mandatory">
+                {% if mgt_type == 'Trust' %}
+                <option value="Trust" selected="selected">Trust</option>
+                {% endif %}
+                {% if mgt_type == 'Society' %}
+                <option value="Society" selected="selected">Society</option>
+                {% endif %}                 
+                <option value="">------</option>                
+                <option value="Trust">Trust</option>
+                <option value="Society">Society</option>                
+                </select></div>
+
+
+        <div class="form-group" id='psm3'> <b>{% trans "Name of the Trust / Society:" %}</b>{{form.mgt_name|add_class:"form-control mandatory" |attr:'maxlength:50'}}</div><span class="error_message">{{form.mgt_name.errors}}</span>
+
+
+        <div class="form-group" id='psm4'> <b>{% trans "Full Postal Address of the Trust / Society: (Max: length:250)" %}</b>{{form.mgt_address|add_class:"form-control mandatory"  |attr:'maxlength:250'}}</div><span class="error_message">{{form.mgt_address.errors}}</span>
+
+
+        <div class="form-group" id='psm5'> <b>{% trans "Management Registration No.:" %}</b>{{form.mgt_regis_no|add_class:"form-control mandatory" | attr:'maxlength:20'}}</div><span class="error_message">{{form.mgt_regis_no.errors}}</span>
+
+
+<div class="form-group" id='psm6' > <b><strong style="color:red;">*</strong>{% trans "Management Registration Date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory" name="mgt_regis_dt" id="mgt_regis_dt"  value="{{form.mgt_regis_dt.value|date:"d/m/Y" }}"  onblur="date_future_chk('mgt_regis_dt')" maxlength="10"/></div><span class="error_message">{{form.mgt_regis_dt.errors}}</span>
+
+<div class="form-group" id='psm7'> <b>{% trans "Office in where Management is Registered:" %}</b>{{form.regis_by_office|add_class:"form-control mandatory" |attr:'maxlength:50' }}</div><span class="error_message">{{form.regis_by_office.errors}}</span>
+
+
+
+</fieldset>
+
+</form>
+
+{% endif %}
+
+{% endblock %}

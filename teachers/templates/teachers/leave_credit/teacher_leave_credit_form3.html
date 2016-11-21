@@ -1,0 +1,148 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %}  
+{% endblock %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+<style type="text/css">
+.my-error-class {
+color:red;
+}
+.my-valid-class {
+   color:green;
+}
+}
+</style>
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+<div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  {% if data_entry = 0 %}
+  <center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> DETAILS OF LEAVE CREDITED</h6></b><br></center>
+ <br> 
+<fieldset>
+{% csrf_token %}
+<input type="hidden" name="unique_id" id="unique_id" value="{{ tid }}">
+<input type="hidden" name="unique_name" id="unique_name" value="{{ unique_id.name }}">
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+ 
+
+<br>
+<html>
+
+<table  border="2" > 
+<tr > 
+<th style="text-align:center; ">{% trans "S. No." %}</th> 
+<th style="text-align:center; ">{% trans "Name" %}</th> 
+<th style="text-align:center; ">{% trans "Staff ID" %}</th>
+<th style="text-align:center; ">{% trans "Date of Effect" %}</th> 
+<th style="text-align:center; ">{% trans "No. of Days Credited" %}</th>
+                       
+  
+  </tr>
+
+{% if same_month = 0 %}
+
+
+{% if entry_flag = 0 %}
+{% for i in record %}
+<tr>
+
+ <td>{{forloop.counter}}</td>  
+<td> <input type="hidden" style="text-transform: uppercase" id="emp_id" name="emp_id"  value="{{i.id }}" onclick="select()" placeholder="NONE" maxlength="50"   />{{ i.name | upper }}</td>
+        <td>{{ i.count }}
+         </td>
+        <td> <input type="hidden" style="text-transform: uppercase" id="emp_cat" name="emp_cat"  value="{{i.stafs }}" onclick="select()" placeholder="NONE" maxlength="50"   />
+        <input type="hidden" style="text-transform: uppercase" id="emp_desig" name="emp_desig"  value="{{i.designation }}" onclick="select()" placeholder="NONE" maxlength="50"   />
+
+        <input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="effective_date" name="effective_date"  value="{{effective_date|date:"d/m/Y" }}" maxlength="10" /> 
+
+
+
+        </td> 
+        <td> <input type="number" style="text-transform: uppercase"    id="no_of_days_credit" name="no_of_days_credit"  value="{{no_of_days_credit.value}}" onclick="select()" placeholder="17" maxlength="50" onchange="bal_calc(document.getElementById('no_of_days_credit').value,document.getElementById('previous_balance').value,'current_balance')" /></td> 
+</tr>
+<tr>
+{{rec1}}
+{% if rec1 %}
+<input type="hidden" style="text-transform: uppercase" id="a" name="a"  value="hm" onclick="select()" placeholder="NONE" maxlength="50"   />
+ <td>{{forloop.counter}}</td>  
+<td> <input type="hidden" style="text-transform: uppercase" id="b" name="b"  value="{{rec1.id }}" onclick="select()" placeholder="NONE" maxlength="50"   />{{ rec1.name | upper }}</td>
+        <td>{{ rec1.count }}
+         </td>
+        <td> <input type="hidden" style="text-transform: uppercase" id="aemp_cat" name="aemp_cat"  value="{{i.stafs }}" onclick="select()" placeholder="NONE" maxlength="50"   />
+        <input type="hidden" style="text-transform: uppercase" id="c" name="c"  value="{{rec1.designation }}" onclick="select()" placeholder="NONE" maxlength="50"   />
+
+        <input type="date" id="aeffective_date" name="aeffective_date"  value="{{aeffective_date.value}}"  maxlength="10" /></td> 
+        <td> <input type="number" style="text-transform: uppercase"    id="ano_of_days_credit" name="ano_of_days_credit"  value="{{ano_of_days_credit.value}}" onclick="select()" placeholder="17" maxlength="50"  /></td> 
+</tr>
+{% endif %}
+
+{% endfor %}
+{% else %}
+ {% if entry_flag = 1 %}
+
+{% for i in record %}
+<tr>
+
+ <td>{{forloop.counter}}</td>  
+
+
+
+
+<td>{{ i.teacherid.name | upper }}</td>
+<td>{{ i.teacherid.count }}</td>
+<td> {{i.effective_date}}</td> 
+<td> {{i.no_of_days_credit }}</td> 
+</tr>
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% if same_month = 1 %}
+<tr>
+ {% for i in record %}
+               
+ <td>{{forloop.counter}}</td>  
+<td>{{ i.teacherid.name | upper }}</td>
+<td>{{ i.teacherid.count }}</td>
+<td> {{i.effective_date}}</td> 
+<td> {{i.no_of_days_credit }}</td> 
+</tr>
+
+
+{% endfor %}
+{% endif %}
+
+ </table><br>
+ 
+
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button>
+      </fieldset>
+</center>
+    {% endif %}      
+
+ </form>
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

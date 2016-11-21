@@ -1,0 +1,195 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extrahead %} 
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+  
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+ {% endblock %}
+
+{% block content %}
+
+
+
+        <script type="text/javascript">
+            $(function() {                
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+<script type="text/javascript">
+function enableControl() {
+
+  var tr_type=document.getElementById('reason').value;
+   
+  if (tr_type==4)
+  {
+        document.getElementById('Designation_after_transfer').disabled = false;
+        document.getElementById('subject_after_promotion').disabled = false;
+   }   
+  else
+  {
+            document.getElementById('Designation_after_transfer').disabled = true;
+             document.getElementById('subject_after_promotion').disabled = true;
+        
+}
+      }
+</script>
+
+<script type="text/javascript">
+function AfterDate(val) 
+{     
+    var regis_date = document.getElementById('releiving_order_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Date of  Releiving Order"); 
+        releiving_order_date.style.backgroundColor = "MistyRose";
+        releiving_order_date.focus();
+        document.getElementById('releiving_order_date').value="";
+        return false; 
+      }  
+    } }
+</script>
+
+
+
+
+<style type="text/css">
+  h3 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+</style>
+
+<div class="row">
+  <div  >
+  <div class="content">
+<center>
+<h3>TRANSFER TO COMMON POOL</h3>
+<br>
+<h1><font color='white'> Staff-ID : {{ transfer_data.count }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{transfer_data.name|upper }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Designation : {{transfer_data.designation|upper }}</font></h1><br>
+
+
+
+
+
+
+    <fieldset style="width:1000px" align="center">
+  <form  action='' method='post' enctype="multipart/form-data" name="frm">
+
+  
+  {% csrf_token %}
+<input type="hidden" name="previous_designation" id="previous_designation" value="{{transfer_data.designation_id}}">
+
+<input type="hidden" name="old_school_id" id="old_school_id" value="{{transfer_data.school_id}}">
+<input type="hidden" name="prev_subject" id="prev_subject" value="{{transfer_data.subject_id}}">
+
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+ 
+  
+
+ <div class="form-group"> <b>{% trans "Mode of Transfer" %}</b>
+<select name="reason" class="form-control" id="reason" |add_class:"mandatory" onchange="enableControl()">
+                  
+<option value="" >------------</option>
+<option value="0">Administrative Transfer</option>
+<option value="1">Deployment Transfer</option>
+<option value="2">General Transfer By Counselling</option>
+<option value="3">Mutual Transfer</option>
+<option value="4">Promotion Transfer</option>
+<option value="5">Punishment Transfer</option>
+<option value="6">Transfer on Request</option>
+  </select>
+ </div><span class="error_message">{{form1.reason.errors}}</span>
+<div class="form-group"> <b>{% trans "New Designation" %}</b>
+
+ <select name="Designation_after_transfer" class="form-control" id="Designation_after_transfer" |add_class:"mandatory" >
+ <option value="" >------------</option>
+{% for i in designations %}
+<option value="{{i.id}}">{{i.user_desig}}</option>
+{% endfor %}
+</select>
+
+
+  </div><span class="error_message">{{form1.Designation_after_transfer.errors}}</span>
+ 
+
+
+
+<div class="form-group"> <b>{% trans "Subject" %}</b>
+
+ <select class="form-control" class="mandatory"  id='subject_after_promotion' name="subject_after_promotion">
+    <option value="" >------------</option>
+        {% for i in  subjects %}
+        {% for j in designations %}
+        {% if i.desig_id == j.id %}
+    <option value="{{i.id}}" >{{ j.user_desig }} - {{ i.desig_sub_name}} </option>
+    {% endif %}
+        {% endfor %}{% endfor %}
+
+     </select> 
+
+ </div><span class="error_message">{{form1.subject_after_promotion.errors}}</span>
+
+  <div class="form-group"  >  
+    <b>{% trans "Relieving Date " %}</b>
+    <input  class="form-control" name="releiving_order_date" id="releiving_order_date" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  onblur="AfterDate(new Date(this.value))">
+    </div>
+    <span class="error_message">{{form1.releiving_order_date.errors}}</span>
+  
+
+
+  <div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="releiving_order_no" name="releiving_order_no"  value="{{form.releiving_order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.releiving_order_no.errors}}</span>
+  </fieldset>
+   <br><br>
+   
+
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'">  
+            {% trans "Transfer" %}
+          
+        </button>
+
+  </form>
+  </center></center>
+{% endblock %}
+
+

@@ -1,0 +1,160 @@
+{% extends "baseapp/master_base.html"|pjax:request %}
+
+{% load i18n %}
+{% block contentmenu %}
+                 
+    <style type="text/css">
+    a.mainLink:link { color : black; } //this order is important
+    a.mainLink:visited { color : black; } // "L" o "V" e, "H" "A" t e
+    a.mainLink:hover { color : white; } // is an easy way to remember.
+    a.mainLink:active { color : black; }
+
+    li.mainList { background : }
+</style>
+
+<script>
+function checkShortcut()
+{
+        // $('*').off('keyup keydown keypress');
+        if(event.keyCode==8 || event.keyCode==13 || event.keyCode == 46)
+        {
+              return false;
+        }
+}
+
+</script>
+<ul id="nav">
+
+
+{% if request.user.account.user_category_id >= 18 %}
+{% if abstract_page == 1 %}
+{% else %}
+  <li class="mainList" >
+                    <a  href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff  List" %}
+                    </a>
+                  </li>
+                  <li class="mainList" >
+                    <a  href='/teachers/teacher_entry_details/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Entry Status" %}
+                    </a>
+                  </li>
+                  
+                  <li class="mainList" >
+                   <a  href='/teachers/teacher_leave_credit_create1/{{ basic_det.udise_code }}/'>
+                     {% trans "Credit of Earned Leave (EL) " %}
+                   </a>
+                 </li>
+                  
+                  <li class="mainList">
+                    <a href='/teachers/Teacher_transfer/{{ basic_det.udise_code }}'>
+                      {% trans "Staff Common Pool" %}
+                    </a>
+                  </li>
+  {% endif %}
+  {% endif %}
+
+{% if school_entry == 0 %}
+{% else %}
+{% if request.user.account.user_category.user_category == 'block' %}
+  <li class="mainList" >
+                    <a  href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff  List" %}
+                    </a>
+                  </li>
+                  <li class="mainList" >
+                    <a  href='/teachers/teacher_entry_details/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Entry Status" %}
+                    </a>
+                  </li>
+                  
+                  <li class="mainList" >
+                   <a  href='/teachers/teacher_leave_credit_create1/{{ basic_det.udise_code }}/'>
+                     {% trans "Credit of Earned Leave (EL) " %}
+                   </a>
+                 </li>
+                  
+                  <li class="mainList">
+                    <a href='/teachers/Teacher_transfer/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Common Pool" %}
+                    </a>
+                  </li>
+  {% endif %}
+
+
+{% if request.user.account.user_category.user_category == 'district' %}
+  <li class="mainList" >
+                    <a  href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff  List" %}
+                    </a>
+                  </li>
+                  <li class="mainList" >
+                    <a  href='/teachers/teacher_entry_details/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Entry Status" %}
+                    </a>
+                  </li>
+                  
+                 
+  {% endif %}
+
+
+
+    {% if request.user.account.user_category.user_category == 'school' %}
+        
+
+
+
+
+                 
+{% if  private_mgnt == 3 %}
+ <li class="mainList" >
+                    <a  href='/teachers/private_teachers_create/'>
+                      {% trans "New Staff Entry " %}
+                    </a>
+                  </li>
+ <li class="mainList" >
+                    <a  href='/teachers/private_teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff's  List" %}
+                    </a>
+                  </li>
+{% else %}                 
+                   {% if AEOENTRY == 0 %}
+          
+                  
+                  <li class="mainList" >
+                    <a  href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff  List" %}
+                    </a>
+                  </li>
+                  <li class="mainList" >
+                    <a  href='/teachers/teacher_entry_details/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Entry Status" %}
+                    </a> 
+                  </li>
+                  
+                  <li class="mainList" >
+                   <a  href='/teachers/teacher_leave_credit_create1/{{ basic_det.udise_code }}/'>
+                     {% trans "Credit of Earned Leave (EL) " %}
+                   </a>
+                 </li>
+                  
+                  <li class="mainList">
+                    <a href='/teachers/Teacher_transfer/{{ basic_det.udise_code }}/'>
+                      {% trans "Staff Common Pool" %}
+                    </a>
+                  </li>
+
+                {% else %}
+
+    <li class="mainList" >
+                    <a  href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>
+                      {% trans "Staff List" %}
+                    </a>
+                  </li>
+              {% endif %} 
+
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% endblock %}

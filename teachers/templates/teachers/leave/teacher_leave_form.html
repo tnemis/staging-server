@@ -1,0 +1,430 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %} 
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    Tipped.create('#leave_from',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after : " + app_date;
+     });
+      Tipped.create('#leave_to',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date  after  : " + app_date;
+     });
+        Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after : " + app_date;
+     });
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+}
+
+}
+</style>
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   leave_type: {
+
+                       required:true
+
+                    },
+
+                   relation1: {
+
+                       required:true
+
+                   },
+
+                   leave_from: {
+
+                       required:true
+
+                   },
+
+                   leave_to: {
+
+                       required:true
+
+                   },
+
+                   order_no: {
+
+                       required:true
+
+                   },
+
+                   order_date: {
+
+                       required:true,
+
+                       minlength:5
+
+                   }
+
+               },
+
+               messages: {
+
+                   leave_type: {
+
+                       required: "Select the Type of Leave"
+
+                   },
+
+                   relation1: {
+
+                       required: "Select the Type of Special Leave"
+                   },
+
+                   leave_from: {
+
+                       required: "Enter the Date"
+
+                   },
+
+                   leave_to: {
+
+                       required: "Enter the Date"
+
+                   },
+
+                   order_no: {
+
+                       required: "Enter the Order Number"
+
+                   },
+
+                   order_date: {
+
+                       required: "Enter the Date of Order"                                         
+                   }
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+      } );
+
+   </script>
+
+ 
+ {% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+        <script type="text/javascript">
+
+function dob_regular(val)
+{
+    var app_date = document.getElementById('dojgovt').value;    
+    var prob_date = document.getElementById('leave_from').value;    
+    var today = new Date();    
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2);        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Check the Date ");
+            document.getElementById('leave_from').focus();
+            document.getElementById('leave_from').value="";
+            leave_from.style.backgroundColor = "MistyRose";            
+        }
+         else
+        {document.getElementById('leave_from').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+<script type="text/javascript">
+
+function dob_regularto(val)
+{
+ 
+       
+   var app_date = document.getElementById('leave_from').value;    
+   var prob_date = document.getElementById('leave_to').value;    
+   var today = new Date();    
+   if(prob_date != "" )
+   {   
+       var record_day1=app_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       var record_day2=prob_date.split("/");  
+       var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+       var leave_from=new Date(sum1);    
+       var leave_to=new Date(sum2);        
+      
+       
+       if(leave_from > leave_to || leave_to > today)
+       {
+           alert("Check the Date ");
+                      
+           document.getElementById('leave_to').focus();
+           document.getElementById('leave_to').value="";
+           leave_to.style.backgroundColor = "MistyRose";
+           return false;         
+       }
+      }
+}
+</script>
+
+
+<script type="text/javascript">
+
+function ToDate(val) 
+{     
+    
+    var regis_date = document.getElementById('leave_from').value; 
+    
+    var regis_validity = document.getElementById('leave_to').value;
+     
+    var today = new Date(); 
+    
+
+     if(regis_validity != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var record5 = new Date(regis_date);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date1_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+
+        if(enterdate < future || enterdate <= 0 ) 
+        {
+        alert("Check the Date"); 
+        leave_to.style.backgroundColor = "MistyRose";
+        leave_to.focus();
+        document.getElementById('leave_to').value="";
+     
+        }  
+        else{leave_to.style.backgroundColor = "white";
+        }return false;
+}   }
+</script>
+
+<script type="text/javascript">
+function bal_calc()
+{
+        
+    if (!(document.getElementById("leave_to").value))
+       {
+ document.getElementById("leave_to").value   =document.getElementById("leave_from").value;
+}
+
+}
+function show_sl()
+{
+    
+if ((document.getElementById("leave_type").value)==7)
+{
+ document.getElementById("relation1").disabled=false;
+}
+
+}
+</script> 
+
+<div class="content">
+<form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  
+ <fieldset>
+     {% csrf_token %}
+
+<center><h5 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF STAFF LEAVE</h5></center> 
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+<br> 
+ <h1><font color='white'> Staff-ID : 
+{{ unique_id.count }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{unique_id.name |upper }}</font></h1>
+
+<br>
+<input type="hidden" name="unique_id" id="unique_id" value="{{ tid }}">
+<input type="hidden" name="unique_name" id="unique_name" value="{{ unique_id.name }}">
+<input type="hidden" name="dojgovt" id="dojgovt" value="{{ validated }}">
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Type of the Leave Availed" %}</b>
+    <select id='leave_type' name="leave_type"  class="form-control" class="mandatory"  onchange="show_sl()">
+            {% if leave_type %}
+    <option value="{{leave_type.id}}" >{{ leave_type.leave_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  leave_code %}
+    <option value="{{i.id}}" >{{ i.leave_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.leave_type.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Reason for Special Leave" %}</b>
+    <select id='relation1' name="relation1"  class="form-control" class="mandatory" disabled ><option value="" >SELECT</option>
+           <option value="infectious disease" >Infectious Disease </option>
+    <option value="participating in sporting events" >Participating in sporting events </option>
+    <option value="family planning" >Family Planning</option>
+    </select></div>
+    <b> {% trans "Leave Availed:" %}</b>
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "From" %}<strong><font face='arial' color='blue'> ( Exclude before / after Permission Dates )</font></strong></b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="leave_from" name="leave_from"  value="{{form.leave_from.value|date:"d/m/Y" }}"  onblur= "dob_regular(this.value)"
+maxlength="10"  /></div>
+<span class="error_message">{{form.leave_from.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "To" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="leave_to" name="leave_to"  value="{{form.leave_to.value|date:"d/m/Y" }}"  onblur= "dob_regularto(this.value)"
+maxlength="10"  /></div>
+<span class="error_message">{{form.leave_to.errors}}</span>
+
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Sanction Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="order_no" name="order_no"  value="{{form.order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" onchange="bal_calc()" /></div>
+<span class="error_message">{{form.order_no.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Order Date of Sanction" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="order_date" name="order_date"  value="{{form.order_date.value|date:"d/m/Y" }}"  onblur= "dob_regular(this.value)"
+maxlength="10"  /></div>
+<span class="error_message">{{form.order_date.errors}}</span>
+<br>
+<button class='btn btn-large btn-success' type='submit'>
+{% trans "Submit" %}
+</button>
+</form>
+
+<form action="" method="POST"> 
+ <br>
+<table  border="2" > 
+
+<tr> 
+            <th style="text-align:center; ">{% trans "S. No." %}</th> 
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th> 
+            <th style="text-align:center; ">{% trans "Type of Leave" %}</th>
+            <th style="text-align:center; ">{% trans "Leave From" %}</th>
+            <th style="text-align:center; ">{% trans "Leave To" %}</th>
+            <th style="text-align:center; ">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center; ">{% trans "Date of Sanction Order" %}</th>
+            
+             <!-- <th >Update</th>  -->
+ 
+  </tr> 
+</tr> 
+ 
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ unique_id.name | upper }} </td> 
+
+        <td> {{ i.leave_type }}</td> 
+        <td> {{ i.leave_from }}</td> 
+        <td> {{ i.leave_to }}</td> 
+        <td> {{ i.order_no }}</td> 
+        <td> {{ i.order_date }}</td> 
+     
+
+         <td><a href="/teachers/teacher_leave_update/{{tid}}/{{i.id}}"><!-- <button type="button" class="btn btn-warning">Update</button></a></td>
+        -->
+      
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+</form>
+</div>
+</div>
+</div>
+  
+{% endblock %}
+   
+

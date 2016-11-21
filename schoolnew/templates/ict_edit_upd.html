@@ -1,0 +1,237 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+
+    
+</style>
+
+
+
+<meta charset="utf-8">     
+<script src="jquery.js"></script>
+
+<!-- -Tamil- -->
+
+    <!--  (C) 2013-2015, Muthiah Annamalai <UrbanTamil.com>  -->
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<script type="text/javascript">
+function get_donor()
+{
+    var supp_typ = $("#supplied_by option:selected").text()
+     if(supp_typ == 'Donors') 
+            {
+              document.getElementById('donor_div').style.display = "";
+            } 
+
+            else 
+
+            {   
+              document.getElementById('donor_div').style.display = "none";
+            }
+}
+
+</script>
+
+ <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                ict_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#ict_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    working_no: {
+                        required:true,
+                        min:0
+                    },
+                    not_working_no: {
+                        required:true,
+                        min:0
+                    },
+                    supplied_by: {
+                        required:true
+                    },
+                },
+                messages: {
+
+                    // working_no: {
+                    //     required: "ICT working condition should not be blank"
+                    // },
+                    // not_working_no: {
+                    //     required: "Not working is required",
+                    //     minlength: "Pl. select the Play Ground facilities available for the school"                        
+                    // },
+                    // stair_case_no: {
+                    //     required: "No. of stair cases required.. at least 0 has to be entered"
+                    // },
+             
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+<script type="text/javascript">
+$(document).ready(function(){
+    get_donor();      
+   });
+</script>
+
+
+<form id="ict_edit" method="post" class="form-horizontal" action="">
+      {% csrf_token %}
+
+<div class="form-group" type="hidden"><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}"></div>
+
+<center><h2 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> Details of ICT Equipments </h2></center>
+<legend align="center" style="color:#3C8DBC;font-size:100%;">(Additional rows may be created after saving the information)</legend>
+<div class="form-group"> <b>{% trans "Name of the ICT Equipment:" %}</b>
+    <select id='ict_type' name="ict_type"  class="form-control mandatory" >
+            {% if ict_type %}
+    <option value="{{ict_type}}" >{{ict_type}} </option>
+
+        {% endif %}
+     <option value="">SELECT AN ICT EQUIPMENT</option>
+    {% for i in ict_lst %}
+        <option value="{{i}}">{{i}}</option>
+    {% endfor %}  
+     </select></div><span class="error_message">{{form.ict_type.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "No. of Equipments in working Condition:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="working_no" name="working_no" value="{{working_no}}" maxlength="3" /></div><span class="error_message">{{form.working_no.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "No. of Equipments not in working Condition:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="not_working_no" name="not_working_no" value="{{not_working_no}}"  maxlength="3"/></div><span class="error_message">{{form.not_working_no.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "ICT Equipment Supplied by:" %}</b>
+    <select id='supplied_by' name="supplied_by"  class="form-control mandatory" onchange="get_donor();" onblur="get_donor()"; >
+            {% if supplied_by %}
+    <option value="{{supplied_by}}">{{supplied_by}} </option>
+        {% endif %}
+        <option value ="">SELECT THE DONOR</option>
+    {% for i in ict_suply %}
+        <option value="{{i}}">{{i}}</option>
+    {% endfor %}     
+     </select></div><span class="error_message">{{form.supplied_by.errors}}</span>
+
+<div class="form-group" style="visibility:hide"  id="donor_div" name="donor_div"><b>{% trans "Name of the Donor:" %}</b><input id="donor_ict" name="donor_ict" value="{{donor_ict}}" class="form-control mandatory" type="text" maxlength="100" ></div><span class="error_message">{{form.donor_ict.errors}}</span>
+
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+   <br> 
+  </form>
+
+
+<form id="ict_edit_upd" action="" method="POST">
+
+<table  border="2" >
+<tr>
+
+            <th style="text-align:center; ">{% trans "Name of the ICT Equipment " %}</th>       
+            <th style="text-align:center;" >{% trans "In Working (No.)" %}</th>
+            <th style="text-align:center; ">{% trans "Not in Working (No.)" %}</th>
+            <th style="text-align:center; ">{% trans "Supplied by" %}</th>                  
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>            
+  </tr>
+ 
+{% for i in ict_det %}
+
+        <tr>
+        <td > {{ i.ict_type}}</td>
+        <td > {{ i.working_no}}</td>
+        <td > {{ i.not_working_no}}</td>
+        <td > {{ i.supplied_by}}</td>
+        <td style="text-align:center;"><a href="/schoolnew/ict_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/ict_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br>
+{% if office_chk == 'Yes' %}
+    <center> <a href="/schoolnew/office_registration">HOME</a></center>
+{% else %}
+    <center> <a href="/schoolnew/school_registration">HOME</a></center>
+{% endif %}      
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

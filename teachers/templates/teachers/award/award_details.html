@@ -1,0 +1,315 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %}  
+{% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+ 
+  Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Order Date after the Date of Appointment : " + app_date;
+    });
+  Tipped.create('#date_of_clearance',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date of Completion of Probation after the Date of Appointment : " + app_date;
+    });
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   award_name: {
+
+                       required:true
+
+                   },
+
+                   level: {
+
+                       required:true,
+
+                    },
+
+                   year: {
+
+                       required:true
+
+                   }
+
+               },
+
+               messages: {
+
+                   award_name: {
+
+                       required: "Select the Award Name"
+
+                   },
+
+                   level: {
+
+                       required:"Select the Award Level",
+
+                   },
+
+                   year: {
+
+                       required:"Enter the Year"
+
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+      } );
+
+   </script>
+
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+
+
+<script type="text/javascript">
+function AfterDate1(val) 
+{  
+    var regis_validity = document.getElementById('dategovt').value;
+    var record2 = new Date(regis_validity);
+    var x=record2.getFullYear();
+    var today = new Date();
+    var current_year = today.getFullYear();
+    if(val == 0 || val < x  || val > current_year)
+    {
+      alert('Check the year');
+      document.getElementById('year').focus();
+      document.getElementById('year').value='';
+      document.getElementById('year').style.background = 'pink';
+
+    }
+    else
+    {
+        document.getElementById('year').style.background = 'none';
+        document.getElementById('remarks').focus();
+        return false;
+    }
+ return false;
+}    
+</script>
+
+
+
+  <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  <fieldset>
+      {% csrf_token %}
+         <input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+
+<center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+AWARD RECEIVED DETAILS </h6></b></center> 
+
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+
+<h1><font color='white'> Staff-ID : {{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1><br>
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+
+
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Name of the Award" %}</b>
+    <select id='award_name' name="award_name"  class="form-control" class="mandatory" >
+            {% if award_name %}
+    <option value="{{award_name.id}}" >{{ award_name.Awards_name}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  exams %}
+    <option value="{{i.id}}" >{{ i.Awards_name}} </option>
+        {% endfor %}
+        
+     </select></div>
+     <span class="error_message">{{form.award_name.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "State / National Level " %}</b>
+    <select id='level' name="level"  class="form-control" class="mandatory" >
+            {% if level %}
+    <option value="{{level.id}}" >{{ level.Award_Level_position}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  camps %}
+    <option value="{{i.id}}" >{{ i.Award_Level_position}} </option>
+        {% endfor %}
+
+     </select></div>
+     <span class="error_message">{{form.level.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Year" %}</b><input type="number" class="form-control" class="mandatory" id="year" name="year"  value="{{form.year.value}}" onblur="AfterDate1(this.value)"  /></div>
+<span class="error_message">{{form.year.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Remarks" %}</b><input type="text" class="form-control" class="mandatory" id="remarks" name="remarks"  value="{{form.remarks.value}}" onclick="select()"  /></div>
+<span class="error_message">{{form.remarks.errors}}</span>
+
+
+
+ </fieldset>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+</button>
+</center>
+          
+ </form>
+ </div>
+
+
+
+
+
+
+
+
+<form action="" method="POST">
+<table  border="2" >
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            
+             
+            <th style="text-align:center;">{% trans "Name of the Award" %}</th>
+            <th style="text-align:center;">{% trans "National / State Level" %}</th>
+             <th style="text-align:center;">{% trans "Year " %}</th>
+            <th style="text-align:center;">{% trans "Remarks" %}</th>
+      </th>           
+        
+  <th >Update</th>
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <!-- <td> {{ i.count }}</td>   -->    
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none"> {{ i.teacherid.name|upper}} </td>
+        <td>{{i.award_name}}</td>
+
+        <td> {{ i.level }}</td>        
+        <td> {{ i.year }}</td>
+        <td> {{ i.remarks }}</td>
+     
+        
+        <td><a href="/teachers/award_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+
+

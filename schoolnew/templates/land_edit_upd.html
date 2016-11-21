@@ -1,0 +1,480 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+</style>
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+</script>
+
+<script type="text/javascript">
+
+</script>   
+
+<script type="text/javascript">
+function toyear() 
+{     
+    var regis_date = document.getElementById('ec_cer_fm').value;  
+    var regis_validity = document.getElementById('ec_cer_to').value;
+    var today = new Date(); 
+   if(regis_date != "") 
+   {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+(record_day3[0]);
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date2_ms - date1_ms)-1;
+        var difference_ms2 = (date3_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        if (Math.floor((future+1)/365)>0)
+        {
+            var ec_yrs=document.getElementById("ec_period");
+            ec_yrs.value=parseInt(Math.round(future+1)/365);
+        }
+        else if (Math.floor((future+1)/365)<0)
+        {
+            alert('Please Enter Correct Dates in From & To places');
+
+        }
+        // var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+
+    }   
+}
+</script>
+
+
+    <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                land_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#land_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    name: {
+                        required:true
+                    },
+                    own_type: {
+                        required:true
+                    },                    
+                    area: {
+                        required:true
+                    },  
+                    tot_area: {
+                        required:true
+                    },                                            
+                    tot_area_type: {
+                        required:true
+                    }, 
+                    patta_no: {
+                        required:true                     
+                    },
+                    survey_no: {
+                        required:true                   
+                    }, 
+                    land_type: {
+                        required:true                   
+                    },
+
+                },
+                messages: {
+
+                    name: {
+                        required: "Land registered name should not be blank"
+                    },
+                    own_type: {
+                        required: "Land ownership type is mandatory..."
+                    },                    
+                    area: {
+                        required: "Land area of the school in Cents is mandatory..."
+                    },
+                    tot_area: {
+                        required: "Total area is mandatory..."
+                    },                                      
+                    tot_area_type: {
+                        required: "Pl select a measurement type..."
+                    },                  
+                    patta_no: {
+                        required: "Patta details for the land should not be blank"
+                    },  
+                    survey_no: {
+                        required: "Survey number for the land should not be blank"
+                    }, 
+                    land_type: {
+                        required: "Type of Land is required"
+                    },
+
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+
+
+
+<script type="text/javascript">
+function chk1()
+{
+    // var ownstat=document.getElementById('id_own_type').value
+    // alert(ownstat);
+    var ownstat= $("#id_own_type option:selected").text()
+    if(ownstat == 'Leased') 
+    {
+        document.getElementById('lease_div1').style.display = ""; 
+        document.getElementById('lease_div2').style.display = "";
+
+    } 
+    else
+    {
+        document.getElementById('lease_div1').style.display = "none"; 
+        document.getElementById('lease_div2').style.display = "none";
+    }
+
+}
+</script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    chk1();      
+});
+
+</script>
+
+
+<script type="text/javascript">
+
+function tot_area_type()
+{
+ 
+    var tot_lan=parseInt(document.getElementById("tot_area").value);
+    var mes_typ= $("#area_mes_type option:selected").text()
+    var lcent=document.getElementById('area_cent');
+    var lground=document.getElementById('area_ground');
+   
+    if(mes_typ=='Ground')
+        {
+            lcent.value = Math.round(tot_lan*5.5)
+            lground.value = Math.round(tot_lan)
+        }
+    else
+        {
+            lcent.value = Math.round(tot_lan)
+            lground.value = Math.round(tot_lan/5.5)
+        }
+
+   }
+
+</script>
+
+
+<script type="text/javascript">
+function date_future_chk(inpid)
+{
+   var go_date = document.getElementById(inpid).value;
+   var today = new Date(); 
+      
+
+   if(go_date != "" )
+   {
+      
+       var record_day1=go_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       // var record_day2=prob_date.split("/");  
+       // var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+       var go_dt=new Date(sum1);    
+       // var probation_date=new Date(sum2); 
+       
+      
+       
+       if(go_dt > today)
+       {
+           alert("Pl. Enter correct G.O. date, future date can not be entered ");
+           document.getElementById(inpid).focus();
+           document.getElementById(inpid).value="";
+           inpid.style.backgroundColor = "MistyRose";
+           
+       }
+        else
+       {document.getElementById(inpid).style.background = 'none';}
+   }
+   return false; 
+}
+</script>
+<!-- <br>
+<label><strong style="color:#3C8DBC;font-size:100%; " ><center>Additional rows may be created after saving the information</center> </strong></label><br>
+ -->
+<form id="land_edit" name='frmlnd' method="post" class="form-horizontal" action="">
+  
+      {% csrf_token %}
+<center><h3 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+Details of school land </h3></center>      
+<legend align="center" style="color:#3C8DBC;font-size:100%; " >(Additional rows may be created after saving the information)</legend>
+
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+<div class="form-group"> <b>{% trans "The Land Registration in the Name of:" %}</b><input type="text" class="form-control" class="form-control, mandatory" id="name" name="name" value="{{name}}" maxlength="100" /></div>
+<span class="error_message">{{form.name.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Type of Land Ownership of the School :" %}</b>
+    <select id='id_own_type' onchange="chk1();" name="own_type"  class="form-control">
+                {% if own_type%}
+                <option value="{{own_type}}" selected="selected">{{ own_type }}</option> 
+                {% endif %} 
+        <option value="">SELECT</option>  
+        <option value="Owned">Owned</option>  
+        <option value="Leased">Leased</option>  
+
+     </select></div><span class="error_message">{{form.own_type.errors}}</span>
+
+<div class="form-group" type="hidden" id='lease_div1'> <b>{% trans "Lease Agreed in Years:" %}</b><input type="number" class="form-control" class="form-control" id="lease_yrs" name="lease_yrs" value="{{lease_yrs}}" maxlength="3" /></div>
+<span class="error_message">{{form.lease_yrs.errors}}</span>
+
+<div class="form-group" type="hidden" id='lease_div2'> <b>{% trans "Lease Agreement Executed in the Name of:" %}</b>
+    <select id='lease_name' onblur="lease_yrs();" onchange="lease_yrs();" name="lease_name"  class="form-control" class="mandatory" >
+                {% if lease_name%}
+                <option value="{{lease_name}}" selected="selected">{{ lease_name }}</option> 
+                {% endif %} 
+        <option value="">SELECT</option> 
+        <option value="School Name">School Name</option>  
+        <option value="Society/Trust Name">Trust / Society Name</option>  
+
+     </select></div><span class="error_message">{{form.lease_name.errors}}</span>
+
+
+
+<div class="form-group"> <b>{% trans "Total Area:" %}</b><input type="number" class="form-control" class="form-control" id="tot_area" min='1' name="tot_area" value="{{tot_area}}" maxlength="8" /></div>
+<span class="error_message">{{form.tot_area.errors}}</span>     
+
+
+<div class="form-group"> <b>{% trans " Type of Measurement:" %}</b>
+<select id='area_mes_type' name="area_mes_type" onclick="tot_area_type();" onblur="tot_area_type();" onchange="tot_area_type();"  class="form-control" class="mandatory" >
+        {% if area_mes_type %}
+        <option value="{{area_mes_type}}" >{{area_mes_type}} </option>
+        {% endif %}
+        <option value="">Select Measurement Type</option> 
+        <option value="Ground">Ground</option>  
+        <option value="Cent">Cent</option>  
+     </select>
+</div>
+<span class="error_message">{{form.area_mes_type.errors}}</span>  
+
+<div class="form-group"> <b>{% trans "Area in Ground:" %}</b><input type="number" class="form-control" class="form-control" id="area_ground" min=2 name="area_ground" value="{{area_ground}}" maxlength="5" readonly/></div>
+<span class="error_message">{{form.area_ground.errors}}</span>     
+
+<div class="form-group"> <b>{% trans "Area in Cents:" %}</b><input type="number" class="form-control" class="form-control" id="area_cent" min=2 name="area_cent" value="{{area_cent}}"  maxlength="8" readonly/></div>
+<span class="error_message">{{form.area_cent.errors}}</span>     
+
+
+
+<div class="form-group"> <b>{% trans "Patta No.:" %}</b><input type="text" class="form-control" class="form-control" id="patta_no" name="patta_no" value="{{patta_no}}" maxlength="50"/></div>
+<span class="error_message">{{form.patta_no.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Survey No. :" %}</b><input type="text" class="form-control" class="form-control" id="survey_no" name="survey_no" value="{{survey_no}}"  maxlength="50"/></div>
+<span class="error_message">{{form.survey_no.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Subdivision No. :" %}</b><input type="text" class="form-control" class="form-control" id="subdiv_no" name="subdiv_no" value="{{subdiv_no}}" maxlength="50"/></div>
+<span class="error_message">{{form.subdiv_no.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Type of Land:" %}</b>
+    <select id='land_type' name="land_type"  class="form-control" class="mandatory" required>
+            {% if land_type %}
+    <option value="{{land_type}}" >{{ land_type }} </option>
+        {% endif %}
+        <option value=''>SELECT A LAND TYPE</option>  
+        <option value="Patta Land">Patta Land</option>  
+        <option value="Grama Natham">Grama Natham</option>  
+        <option value="Natham">Natham Poramboku</option>
+        <option value="Poramboku">Poramboku</option> 
+
+     </select></div><span class="error_message">{{form.land_type.errors}}</span>
+
+
+
+
+{% if gov_chk %}
+{% else %}
+
+<div class="form-group"> <b>{% trans "Document No.:" %}</b><input type="text" class="form-control" class="form-control" id="doc_no" name="doc_no" value="{{doc_no}}" maxlength="50" /></div>
+<span class="error_message">{{form.doc_no.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Document Registed Date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="doc_regn_dt" name="doc_regn_dt"  value="{{form.doc_regn_dt.value|date:"d/m/Y" }}"  onblur="date_future_chk('doc_regn_dt')" maxlength="10"/></div>
+<span class="error_message">{{form.doc_regn_dt.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Document Registed at (Place):" %}</b><input type="text" class="form-control" class="form-control" id="place_regn" name="place_regn" value="{{place_regn}}" maxlength="50" /></div>
+<span class="error_message">{{form.place_regn.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Encumbrance Certificate No.:" %}</b><input type="text" class="form-control" class="form-control" id="ec_cer_no" name="ec_cer_no" value="{{ec_cer_no}}" maxlength="20"  /></div>
+<span class="error_message">{{form.ec_cer_no.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Encumbrance Certificate Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="ec_cer_dt" id="ec_cer_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.ec_cer_dt.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.ec_cer_dt.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Encumbrance Certificate Issued From:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="ec_cer_fm" id="ec_cer_fm" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.ec_cer_fm.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.ec_cer_fm.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Encumbrance Certificate Valid upto:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+       <!-- getec(frmlnd.ec_cer_fm,frmlnd.ec_cer_to); -->
+<input class="form-control"   name="ec_cer_to" id="ec_cer_to" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.ec_cer_to.value|date:"d/m/Y"  }}" onblur="toyear();" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.ec_cer_to.errors}}</span>  
+
+<div class="form-group"> <b>{% trans "No. Years covered in E.C.:" %}</b><input type="text" class="form-control" class="form-control" id="ec_period" name="ec_period" value="{{ec_period}}" readonly="readonly"  /></div>
+<span class="error_message">{{form.ec_period.errors}}</span>
+
+    
+      
+{% endif %}
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+
+  </form>
+
+<br>
+<form action="" method="POST">
+
+<table  border="2" >
+<tr>
+            <th style="text-align:center; ">{% trans "Land Registration in the Name of " %}</th>
+            <th style="text-align:center; ">{% trans "School Rights in the Land" %}</th>       
+            <th style="text-align:center;" >{% trans "Area in Cents" %}</th>
+            <th style="text-align:center;" >{% trans "Patta No." %}</th> 
+            <th style="text-align:center;" >{% trans "Survey No." %}</th> 
+            <th style="text-align:center;" >{% trans "Subdivision No." %}</th> 
+            <th style="text-align:center;" >{% trans "Type of Land" %}</th>
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>            
+  </tr>
+     
+{% for i in land_det %}
+
+        <tr>
+        <td > {{ i.name |upper}}</td>
+        <td > {{ i.own_type |upper}}</td>
+        <td > {{ i.area_cent |upper}}</td>
+        <td > {{ i.patta_no |upper }}</td>
+        <td > {{ i.survey_no |upper}}</td>
+        <td > {{ i.subdiv_no |upper}}</td>
+         <td > {{ i.land_type |upper}}</td>
+        
+        <td style="text-align:center;"><a href="/schoolnew/land_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/land_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,533 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %}  
+ {% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  Tipped.create('#nom_dt',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Date should be greater than Date of Joining : " + app_date;
+    });
+ 
+});
+</script>
+
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   fund_name: {
+
+                       required:true
+                   },
+
+                   nominee_name: {
+
+                       required:false
+
+                   },
+
+                   percentage: {
+
+                       required:true
+
+                   },
+
+                   nom_dt: {
+
+                       required:true
+
+                   }
+
+               },
+
+               messages: {
+
+                   fund_name: {
+                       required: "Select Fund Name"
+                   },
+
+                   nominee_name: {
+                       required: "Select Your Nominee Name"
+                   },
+
+                   percentage: {
+
+                       required: "Enter the Percentage"
+                       min:1
+                       max:100
+
+                   },
+
+                   nom_dt: {
+
+                       required: "Enter the Nomination Date"
+
+                   }
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+      } );
+
+   </script>
+
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+</script> 
+     
+
+<script type="text/javascript">
+
+function dob_regular(val)
+{
+    var app_date = document.getElementById('dategovt').value;    
+    // alert(app_date);
+    var prob_date = document.getElementById('nom_dt').value;    
+    var today = new Date();    
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2);        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Re - Enter The Nomini  Date OR  Future date can not be entered ");
+            document.getElementById('nom_dt').focus();
+            document.getElementById('nom_dt').value="";
+            nom_dt.style.backgroundConom_dtlor = "MistyRose";            
+        }
+         else
+        {document.getElementById('nom_dt').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+<script type="text/javascript">
+
+function relation_check(flag)
+
+{      
+    if (flag == '' )
+    {
+        document.getElementById("spou_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("spou_div").style.display = 'none';
+
+    }
+}
+function nominee_check(flag)
+{
+ 
+  relation_check(flag);
+  var b=document.getElementById("fund_name").value;
+  
+  var a=flag;
+  
+  {% for j in edu_list %} 
+  var nominee = {{j.nominee_name_id}};
+  var fund = {{j.fund_name_id}};
+    
+  if (fund == b){
+     
+  if (nominee == a){
+  
+  alert("This Fund is already alloted for this nominee");
+  document.getElementById('nominee_name').value="none" ;
+    }
+  
+  }
+  {% endfor %}
+ 
+
+
+ return false;  
+
+}
+
+
+function fund_check(flag)
+
+{      
+  document.getElementById('percentage').value="";
+
+  
+  var cps = {{cps}};
+  
+  var dcrg = {{dcrg}};
+  
+  var fbf = {{fbf}};
+  
+  var gpf = {{gpf}};
+  
+  var spf = {{spf}};
+  
+  var pension = {{pension}};
+  
+  var spf2000 = {{spf2000}};
+  
+  var tpf = {{tpf}};
+  
+  if(flag==1){
+  if (cps >= 100)
+  {
+    alert("CPS Alloted 100%");
+    document.getElementById('fund_name').value="none"
+  }}
+  else if(flag==2){
+    if (dcrg >= 100) {
+      alert("DCRG Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==3){
+    if (fbf >= 100){
+      alert("FBF Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==4){
+    if (gpf >= 100){
+      alert("GPF Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==6){
+    if (spf >= 100){
+      alert("SPF Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==5){
+    if (pension >= 100) {
+      alert("PENSION Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==7){
+    if (spf2000 >= 100){
+      alert("SPF2000 Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+  else if (flag==8){
+    if (tpf >= 100){
+      alert("TPF Alloted 100%");
+   document.getElementById('fund_name').value="none" 
+  }}
+return false;
+}
+
+function percent_check(value)
+
+{    val=parseInt(value);
+   flag=document.getElementById('fund_name').value; 
+  
+  var cps = {{cps}};
+
+  
+  var dcrg = {{dcrg}};
+  
+  var fbf = {{fbf}};
+  
+  var gpf = {{gpf}};
+  
+  var spf = {{spf}};
+    
+  var pension = {{pension}};
+  
+  var spf2000 = {{spf2000}};
+  
+  var tpf = {{tpf}};
+  
+  if(flag==1){
+    cps=cps+val;
+    
+  if (cps > 100)
+  {
+    alert("CPS ADDUP TO MORE THAN 100%");
+    document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus();
+  }}
+  else if(flag==2){
+    dcrg=dcrg+val;
+    if (dcrg > 100) {
+      alert("DCRG ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+  else if (flag==3){
+    fbf=fbf+val;
+    if (fbf > 100){
+      alert("FBF ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+  else if (flag==4){
+    gpf=gpf+val;
+    if (gpf > 100){
+      alert("GPF ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus();
+  }}
+  else if (flag==6){
+    spf=spf+val;
+    if (spf > 100){
+      alert("SPF ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+  else if (flag==5){
+    pension=pension+val;
+    if (pension > 100) {
+      alert("PENSION ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+  else if (flag==7){
+    spf2000=spf2000+val;
+    if (spf2000 > 100){
+      alert("SPF2000 ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+  else if (flag==8){
+    tpf=tpf+val;
+    if (tpf > 100){
+      alert("TPF ADDUP TO MORE THAN 100%");
+   document.getElementById('percentage').value="";
+    percentage.style.backgroundColor = "MistyRose";
+    document.getElementById('percentage').focus(); 
+  }}
+return false;
+}
+</script>
+
+  <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+    <fieldset>
+      {% csrf_token %}
+    
+<center><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF FINANCIAL NOMINATION</h6></center> 
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+<br> <br> 
+ <h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<br>
+
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}" >
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Name of the Fund" %}</b>
+   <select id='fund_name' name="fund_name"  class="form-control" class="mandatory" onchange="fund_check(this.value)" >
+
+            {% if fund_name %}
+          
+    <option value="{{fund_name.id}}">{{ fund_name.fund_name }} </option>
+    {% endif %}
+    
+    
+        
+    <option value="" >SELECT</option>
+        {% for i in  fund %}
+    <option value="{{i.id}}" >{{ i.fund_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.fund_name.errors}}</span>
+
+     <div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Name of the Family Member--Relationship--Age" %}</b>
+    
+           
+<select id='nominee_name' name="nominee_name"  class="form-control" class="mandatory"  onchange="nominee_check(this.value)" >
+        
+            {% if nominee_name %}
+            
+            
+    <option value="{{nominee_name.id}}" >{{ nominee_name.name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{nominee_name.relation}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{nominee_name.age}} </option>
+      {% endif %}
+        
+    <option value="" >SELECT</option>
+         {% for i in  family %}
+    <option value="{{i.id}}" >{{  i.name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ i.relation }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.age}}  </option> 
+          
+    {% endfor %}
+     <option value=""  >Others</option>
+     </select>    
+        
+    </div>
+     <span class="error_message">{{form.nominee_name.errors}}</span>
+
+
+<div class="form-group" id="spou_div" hidden> <b>{% trans "Name of the Nomini (Format: Name-Relationship-Age " %}</b>
+<input type="text"   class="form-control"  id="other_nominee" name="other_nominee"  value="{{form.other_nominee.value}}" onclick="select()" placeholder="NONE"  /></div>
+<span class="error_message">{{form.other_nominee.errors}}</span>
+
+
+    
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Percentage" %}</b><input type="number" min="1" max="100"  class="form-control" class="mandatory" id="percentage" name="percentage"  value="{{form.percentage.value}}" onclick="select()" placeholder="NONE" maxlength="3" onchange="percent_check(this.value)"/></div>
+<span class="error_message">{{form.percentage.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Registration Date of Nomini" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="nom_dt" name="nom_dt"  value="{{form.nom_dt.value|date:"d/m/Y" }}" onblur="dob_regular()"  maxlength="10"/></div>
+<span class="error_message">{{form.nom_dt.errors}}</span>
+
+
+        
+ </fieldset>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button>
+</center>
+          
+ </form>
+<br>
+ <form action="" method="POST"> 
+
+<table  border="2" > 
+
+<tr> 
+            <th style="text-align:center; ">{% trans "Sl. No." %}</th> 
+            <th style="text-align:center; ">{% trans "Name" %}</th> 
+            <th style="text-align:center; ">{% trans "Name of the Fund" %}</th>
+            <th style="text-align:center;">{% trans "Name of the Family Member &&  Relationship && Age" %}</th>
+           
+            <th style="text-align:center;">{% trans "Percentage" %}</th>
+            <th style="text-align:center;">{% trans "Registration Date of Nomini" %}</th>
+             <th style="text-align:center;">{% trans "Update" %}</th>
+              
+                                  
+  
+  </tr> 
+</tr> 
+ 
+  {{ edu_list.other_nominee }}
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ i.teacherid.name|upper }} </td> 
+        <td>{{ i.fund_name|upper }}</td> 
+      {% if i.nominee_name_id == None %}
+        <td> {{ i.other_nominee}}</td>
+        {% else %}
+        <td> {{ i.nominee_name.name|upper}}-{{i.nominee_name.relation|upper}}-{{i.nominee_name.dob}}</td> 
+        {% endif %}
+       
+        <td> {{ i.percentage }}</td> 
+        <td> {{ i.nom_dt }}</td>     
+        <td><center><a href="/teachers/teacher_nomini_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></center></td>
+
+
+        
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+</form>
+
+
+  </div>
+  </div>
+</div>
+
+{% endblock %}
+

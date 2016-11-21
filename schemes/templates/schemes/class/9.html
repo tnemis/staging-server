@@ -1,0 +1,1069 @@
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+<html>
+<head>
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<style>
+   /* Begin Navigation Bar Styling */
+   #nav {
+      width: 100%;
+      float: left;
+      margin: 0 0 3em 0;
+      padding: 0;
+      list-style: none;
+      background-color: #f2f2f2;
+      border-bottom: 1px solid #ccc; 
+      border-top: 1px solid #ccc; }
+   #nav li {
+      float: left; }
+   #nav li a {
+      display: block;
+      padding: 8px 15px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #069;
+      border-right: 1px solid #ccc; }
+   #nav li a:hover {
+      color: #c00;
+      background-color: #fff; }
+   /* End navigation bar styling. */
+   
+   /* This is just styling for this specific page. */
+   body {
+      background-color: ; 
+      font: small/1.3 Arial, Helvetica, sans-serif; }
+   #wrap {
+      width: 750px;
+      margin: 0 auto;
+      background-color: #fff; }
+   h1 {
+      font-size: 1.5em;
+      padding: 1em 8px;
+      color: #333;
+      background-color: #069;
+      margin: 0; }
+   #content {
+      padding: 0 50px 50px; }
+   .table-striped1 {
+      width: 60%;
+   }   
+   .table-striped2 {
+      width: 80%;
+   }
+   th {
+      width:1000px; 
+      background-color:#3C8DBC; 
+      color:#fff;
+   }   
+   .table-striped3 {
+      width: 70%;
+   }
+   .table-striped4 {
+      width: 30%;
+   }
+</style>
+
+<script type="text/javascript">
+
+window.onload = function(){
+    $('.checkbox1').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall1').disabled = true; };
+
+            });
+    $('.checkbox2').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall2').disabled = true; };
+
+            });
+    $('.checkbox3').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall3').disabled = true; };
+
+            });
+    $('.checkbox4').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall4').disabled = true; };
+
+            });
+    $('.checkbox5').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall5').disabled = true; };
+
+            });
+    $('.checkbox6').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall6').disabled = true; };
+
+            });
+    $('.checkbox7').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall7').disabled = true; };
+
+            });
+
+    $('.checkbox8').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall8').disabled = true; };
+
+            });
+
+    $('.checkbox9').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall9').disabled = true; };
+
+            });
+
+    $('.checkbox10').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall10').disabled = true; };
+
+            });
+
+    $('.checkbox11').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall11').disabled = true; };
+
+            });
+
+    $('.checkbox12').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall12').disabled = true; };
+
+            });
+    $('.checkbox13').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall13').disabled = true; };
+
+            });
+    $('.checkbox14').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall14').disabled = true; };
+
+            });
+    $('.checkbox15').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall15').disabled = true; };
+
+            });
+    $('.checkbox16').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall16').disabled = true; };
+
+            });
+    $('.checkbox17').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall17').disabled = true; };
+
+            });
+    $('.checkbox18').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall18').disabled = true; };
+
+            });
+    $('.checkbox19').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall19').disabled = true; };
+
+            });
+    $('.checkbox20').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall20').disabled = true; };
+
+            });
+    $('.checkbox21').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall21').disabled = true; };
+
+            });
+    $('.checkbox22').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall22').disabled = true; };
+
+            });
+    $('.checkbox23').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall23').disabled = true; };
+
+            });
+    $('.checkbox24').each(function() { 
+                if (this.checked ){
+                
+                document.getElementById('selectall24').disabled = true; };
+
+            });
+}
+
+
+</script>
+
+
+<SCRIPT LANGUAGE="JavaScript">
+$(document).ready(function() {
+    $('#selectall1').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall2').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall3').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox3').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox3').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall4').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox4').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox4').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall5').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox5').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox5').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#selectall6').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox6').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox6').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall7').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox7').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox7').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall8').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox8').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox8').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall9').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox9').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox9').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall10').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox10').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox10').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall11').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox11').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox11').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall12').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox12').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox12').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall13').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox13').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox13').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall14').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox14').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox14').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall15').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox15').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox15').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall16').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox16').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox16').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+$(document).ready(function() {
+    $('#selectall17').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox17').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox17').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall18').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox18').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox18').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall19').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox19').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox19').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+$(document).ready(function() {
+    $('#selectall20').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox20').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox20').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+$(document).ready(function() {
+    $('#selectall21').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox21').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox21').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+$(document).ready(function() {
+    $('#selectall22').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox22').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox22').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+$(document).ready(function() {
+    $('#selectall23').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox23').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox23').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+{ 
+if(document.getElementById("testName").checked)
+{
+  document.getElementById('testNameHidden').disabled = true;
+}
+    
+}
+
+$('#A').click(function() {
+   // alert($(this).prop('checked'));
+    if ($(this).is(':checked') == true) {
+        $('.cb').prop('checked', true);
+    }else{
+        $('.cb').prop('checked', false);
+    }
+});
+
+
+// $('#changeValue').change(function(){
+
+//     if($(this).attr('checked')){
+//           $(this).val('TRUE');
+//      }else{
+//           $(this).val('FALSE');
+//      }
+    
+// });
+
+// function changeValueCheckbox(element){
+//    if(element.checked){
+//     element.value='Yes';
+//   }else {
+//     element.value='No';
+//   }
+// }
+// </script>
+<script>
+function chk(x){
+var a = document.getElementById(x);
+
+if (a.checked) {a.value = "True";} else{a.value = "False";} 
+
+// alert(a.name +":" + a.value);
+
+}
+</script>
+
+
+
+        <script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+        </script>
+
+
+
+	
+</head>
+<body>
+<center>
+
+
+            <table>
+            <tr>
+            <td><h4 style="color:#3C8DBC;"><b>Block :</b></h4></td>
+            <td><h4 style="color:#00A65A;">{{ user.account.get_user_info.block.block_name }} </h4> </td>
+            <td width="30px"></td>
+            <td><h4 style="color:#3C8DBC;"><b>School Name : </b></h4></td>
+            <td><h4 style="color:#00A65A;">{{ user.account.get_user_info.school_name }} ( {{ user.account.get_user_info.school_code }} ) </h4></td>
+            <td width="30px"></td>
+            <td><h4 style="color:#3C8DBC;"><b>Class</b></h4></td>
+            <td><h4 style="color:#00A65A;"> - {{ class_id }} </h4> </td>
+            </tr></table>
+
+
+
+{% if class_id == '9' %}
+
+<form  action="" method="post"  > 
+ {% csrf_token %}
+
+<table class='table table-bordered table-striped2' border="2" align="center">
+	<tr>
+    <th rowspan=2>slno</th>
+    <th rowspan=2>Name</th>
+    <th colspan=3>Books</th> 
+    <th colspan=3>Note Book</th> 
+    <!-- <th colspan=4>Uniform</th> -->
+    <!-- <th rowspan=2>Crayons</th> -->
+    <!-- <th rowspan=2>Colour Pencils</th> -->
+    <th rowspan=2>Geometry Box</th>
+    <th rowspan=2>Atlas</th>
+    <!-- <th rowspan=2>Woollen Sweater</th> -->
+    <th rowspan=2>Bag</th>
+    <th rowspan=2>Footwear</th>
+    <!-- <th rowspan=2>Bicycle</th>
+    <th rowspan=2>Laptop</th> -->
+    <th rowspan=2>Breed Winner</th>
+    <!-- <th rowspan=2>Special Cash Incentive</th> -->
+    <!-- <th rowspan=2>Text Book</th> -->
+    <!-- <th rowspan=2>Note book</th> -->
+</tr>
+
+	<tr>
+    <td style="color:#00A65A;">Term1</td>
+    <td style="color:#00A65A;">Term2</td>
+    <td style="color:#00A65A;">Term3</td>
+    <td style="color:#00A65A;">Term1</td>
+    <td style="color:#00A65A;">Term2</td>
+    <td style="color:#00A65A;">Term3</td>
+    <!-- <td style="color:#00A65A;">Set1</td>
+    <td style="color:#00A65A;">Set2</td>
+    <td style="color:#00A65A;">Set3</td>
+    <td style="color:#00A65A;">Set4</td> -->
+    </tr>
+
+
+<tr> 
+<th></th>
+<th></th>
+<th><input type='checkbox'id="selectall1"/>All</th>
+<th><input type='checkbox'id="selectall2"/>All</th>
+<th><input type='checkbox'id="selectall3"/>All</th>
+<th><input type='checkbox'id="selectall17"/>All</th> 
+<th><input type='checkbox'id="selectall18"/>All</th>
+<th><input type='checkbox'id="selectall19"/>All</th>
+<!-- <th><input type='checkbox'id="selectall4"/>All</th>
+<th><input type='checkbox'id="selectall5"/>All</th>
+<th><input type='checkbox'id="selectall6"/>All</th>
+<th><input type='checkbox'id="selectall7"/>All</th> -->
+<!-- <th><input type='checkbox'id="selectall8"/>All</th> -->
+<!-- <th><input type='checkbox'id="selectall9"/>All</th> -->
+<th><input type='checkbox'id="selectall10"/>All</th>
+<th><input type='checkbox'id="selectall11"/>All</th>
+<!-- <th><input type='checkbox'id="selectall12"/>All</th> -->
+<th><input type='checkbox'id="selectall13"/>All</th>
+<th><input type='checkbox'id="selectall14"/>All</th>
+<!-- <th><input type='checkbox'id="selectall15"/>All</th>
+<th><input type='checkbox'id="selectall16"/>All</th> -->
+<th><input type='checkbox'id="selectall20"/>All</th>
+<!-- <th><input type='checkbox'id="selectall21"/>All</th> -->
+<!-- <th><input type='checkbox'id="selectall22"/>All</th>
+<th><input type='checkbox'id="selectall23"/>All</th>
+ -->
+</tr>
+
+
+
+{% if student_schemes_list %}
+{% for k in student_schemes_list %}
+
+
+<tr>
+<td><input type="hidden" value="{{forloop.counter}}"  >{{forloop.counter}}</td>
+<td>{{ k.student.name }}</td>
+
+<td>
+<input type="hidden" name='textbook_1_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox1" name='textbook_1_{{forloop.counter}}'  {% if k.textbook_1 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y">
+</td>
+
+<td>
+<input type="hidden" name='textbook_2_{{forloop.counter}}'   value="N">
+<input type='checkbox' class="checkbox2" name='textbook_2_{{forloop.counter}}' {% if k.textbook_2 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+
+<td>
+<input type="hidden" name='textbook_3_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox3" name='textbook_3_{{forloop.counter}}' {% if k.textbook_3 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y">
+</td>
+
+
+
+<td>
+<input type="hidden" name='notebook_1_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox17" name='notebook_1_{{forloop.counter}}' {% if k.notebook_1 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+<td>
+<input type="hidden" name='notebook_2_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox18" name='notebook_2_{{forloop.counter}}' {% if k.notebook_2 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+<td>
+<input type="hidden" name='notebook_3_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox19" name='notebook_3_{{forloop.counter}}' {% if k.notebook_3 == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+
+
+<!-- <td> -->
+<input type="hidden" name='uniform_1_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox4" name='uniform_1_{{forloop.counter}}' value="Y">
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='uniform_2_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox5" name='uniform_2_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='uniform_3_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox6" name='uniform_3_{{forloop.counter}}' value="Y">
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='uniform_4_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox7" name='uniform_4_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='crayon_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox8" name='crayon_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='colorpencil_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox9" name='colorpencil_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<td>
+<input type="hidden" name='geometrybox_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox10" name='geometrybox_{{forloop.counter}}' {% if k.geometrybox == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+
+<td>
+<input type="hidden" name='atlas_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox11" name='atlas_{{forloop.counter}}' {% if k.atlas == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+
+<!-- <td> -->
+<input type="hidden" name='sweater_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox12" name='sweater_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<td><input type="hidden" name='bag_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox13" name='bag_{{forloop.counter}}' {% if k.bag == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+<td><input type="hidden" name='footware_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox14" name='footware_{{forloop.counter}}' {% if k.footware == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %}  value="Y" >
+</td>  
+
+<!-- <td> -->
+<input type="hidden" name='cycle_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox15" name='cycle_{{forloop.counter}}' value="Y" > 
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='laptop_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox16" name='laptop_{{forloop.counter}}' value="Y" > 
+</td>
+ -->
+
+<td><input type="hidden" name='bw_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox20" name='bw_{{forloop.counter}}' {% if k.bw == 'Y' %} checked="checked" onclick='this.checked = true;'  {% endif %} value="Y" >
+</td>
+
+<!-- <td> -->
+<input type="hidden" name='sci_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox21" name='sci_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='textbook_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox22" name='textbook_{{forloop.counter}}' value="Y" >
+</td> -->
+
+
+
+<!-- <td> -->
+<input type="hidden" name='notebook_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox23" name='notebook_{{forloop.counter}}' value="Y" >
+</td> -->
+
+<input type="hidden" name="school_{{forloop.counter}}"  value="{{ user.account.get_user_info.id }}">
+<input type="hidden" name="child_{{forloop.counter}}" value="{{ k.student.id }}">
+<input type="hidden" name="academic_year_{{forloop.counter}}"  value="2013-14">
+<input type="hidden" name="cls_{{forloop.counter}}"  value="{{ k.student.cls }}"> 
+</tr>
+
+
+
+{% endfor %}
+{% else %}
+
+
+
+
+
+
+
+{% for i in classwise_detail %}
+<tr>
+<td><input type="hidden" value="{{forloop.counter}}"  >{{forloop.counter}}</td>
+<td>{{ i.name }}</td>
+
+<td>
+<input type="hidden" name='textbook_1_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox1" name='textbook_1_{{forloop.counter}}'  value="Y">
+</td>
+
+<td>
+<input type="hidden" name='textbook_2_{{forloop.counter}}'   value="N">
+<input type='checkbox' class="checkbox2" name='textbook_2_{{forloop.counter}}' value="Y" >
+</td>
+
+
+<td>
+<input type="hidden" name='textbook_3_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox3" name='textbook_3_{{forloop.counter}}' value="Y">
+</td>
+
+
+
+<td>
+<input type="hidden" name='notebook_1_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox17" name='notebook_1_{{forloop.counter}}' value="Y" >
+</td>
+
+<td>
+<input type="hidden" name='notebook_2_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox18" name='notebook_2_{{forloop.counter}}' value="Y" >
+</td>
+
+<td>
+<input type="hidden" name='notebook_3_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox19" name='notebook_3_{{forloop.counter}}' value="Y" >
+</td>
+
+
+
+<!-- <td> -->
+<input type="hidden" name='uniform_1_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox4" name='uniform_1_{{forloop.counter}}' value="Y">
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='uniform_2_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox5" name='uniform_2_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='uniform_3_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox6" name='uniform_3_{{forloop.counter}}' value="Y">
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='uniform_4_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox7" name='uniform_4_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='crayon_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox8" name='crayon_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='colorpencil_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox9" name='colorpencil_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<td>
+<input type="hidden" name='geometrybox_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox10" name='geometrybox_{{forloop.counter}}' value="Y" >
+</td>
+
+
+<td>
+<input type="hidden" name='atlas_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox11" name='atlas_{{forloop.counter}}' value="Y" >
+</td>
+
+
+<!-- <td> -->
+<input type="hidden" name='sweater_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox12" name='sweater_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<td><input type="hidden" name='bag_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox13" name='bag_{{forloop.counter}}' value="Y" >
+</td>
+
+<td><input type="hidden" name='footware_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox14" name='footware_{{forloop.counter}}' value="Y" >
+</td>  
+
+<!-- <td> -->
+<input type="hidden" name='cycle_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox15" name='cycle_{{forloop.counter}}' value="Y" > 
+</td>
+ -->
+<!-- <td> -->
+<input type="hidden" name='laptop_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox16" name='laptop_{{forloop.counter}}' value="Y" > 
+</td>
+ -->
+
+<td><input type="hidden" name='bw_{{forloop.counter}}'  value="N">
+<input type='checkbox' class="checkbox20" name='bw_{{forloop.counter}}' value="Y" >
+</td>
+
+<!-- <td> -->
+<input type="hidden" name='sci_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox21" name='sci_{{forloop.counter}}' value="Y" >
+</td>
+ -->
+
+<!-- <td> -->
+<input type="hidden" name='textbook_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox22" name='textbook_{{forloop.counter}}' value="Y" >
+</td> -->
+
+
+
+<!-- <td> -->
+<input type="hidden" name='notebook_{{forloop.counter}}'  value="N">
+<!-- <input type='checkbox' class="checkbox23" name='notebook_{{forloop.counter}}' value="Y" >
+</td> -->
+
+<input type="hidden" name="school_{{forloop.counter}}"  value="{{ user.account.get_user_info.id }}">
+<input type="hidden" name="child_{{forloop.counter}}" value="{{ i.id }}">
+<input type="hidden" name="academic_year_{{forloop.counter}}"  value="2013-14">
+<input type="hidden" name="cls_{{forloop.counter}}"  value="{{ i.class_studying_id }}"> 
+</tr>
+
+{% endfor %}
+{% endif %}
+
+</table>
+
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'">  
+{% trans "Submit" %}
+</button>
+
+</form>
+
+{% endif %}
+
+
+
+
+
+</body>
+</html>

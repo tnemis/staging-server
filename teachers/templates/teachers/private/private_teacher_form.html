@@ -1,0 +1,426 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %}  
+{% endblock %} 
+{% block content %}
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+</style>
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   name: {
+                       required:true
+                   },
+                   dob: {
+                       required:true,
+                   },
+                   gender: {
+                       required:true
+                   },
+                   father_name: {
+                       required:true
+                   },
+                   doa: {
+                       required:true
+                   },
+                   designation_typeno: {
+                       required:true
+                  },
+
+                   designation: {
+                       required:true
+                   },
+                   subject: {
+                       required:true
+                   },
+                  class_assigned: {
+                       required:true
+                   },
+                   train_untrain: {
+                       required:true
+                   },
+                   grossofpay: {
+                  required:true
+                   }
+              },
+
+
+
+               messages: {
+                   name: {
+                     required: "Enter Name" },
+                    dob: {
+                     required: "Enter Date of Birth" },
+                     gender: {
+                     required: "Select the Gender" },
+                     father_name: {
+                     required: "Enter the Father's Name / Spouse Name" },
+                     doa: {
+                     required: "Enter the Date of Appointment" },
+                     designation_typeno: {
+                     required: "Select the Designation Type" },
+                     designation: {
+                     required: "Select the Designation" },
+                     subject: {
+                     required: "Select the Subject" },
+                     class_assigned: {
+                     required: "Select the Class Assigned" },
+                     train_untrain: {
+                     required: "Select the Trained / Untrained Staff" },
+                     grossofpay: {
+                     required: "Enter the Gross of Pay" }
+                  
+                   
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+
+
+      } );
+
+   </script>
+
+<script type="text/javascript">  
+  $( document ).ready( function (){   
+   
+    var flag = document.getElementById("whethertet").value;
+   
+    wtet(flag);
+ 
+}
+);
+</script>
+
+
+<script type="text/javascript"> 
+function wtet(flag)
+{
+            
+    if (flag == "True" )
+    {
+        document.getElementById("uta_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("uta_div").style.display = 'none';
+        document.getElementById("date_of_pass").value = "";
+        document.getElementById("reg_no").value = "";
+         }    
+
+}
+</script>
+
+
+<script type="text/javascript">
+function dobcheck(val)
+{
+    var regis_validity = document.getElementById('dob').value;
+    var regis_date = document.getElementById('date_of_pass').value; 
+    var today = new Date(); 
+    if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+        var enterdays=Math.ceil(date1_ms/ONE_DAY);
+        var days=Math.ceil(date2_ms/ONE_DAY);
+        var dobdays=days+6574;
+        
+
+        if(govt < enterdate || enterdate <=1 || dobdays > enterdays  ) 
+        {   alert("Check the Date of TET Passing  ");
+            document.getElementById('date_of_pass').blur();
+            document.getElementById('date_of_pass').value="";
+            document.getElementById('date_of_pass').focus();
+            dofags.style.backgroundColor = "MistyRose";
+        }
+        else
+        {document.getElementById('date_of_pass').style.background = 'none';}
+        return false; 
+      }  
+
+}
+</script>
+
+
+<script type="text/javascript">
+function dobcheck1(val)
+{
+    var regis_validity = document.getElementById('dob').value;
+    var regis_date = document.getElementById('doa').value; 
+    var today = new Date(); 
+    if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+        var enterdays=Math.ceil(date1_ms/ONE_DAY);
+        var days=Math.ceil(date2_ms/ONE_DAY);
+        var dobdays=days+6574;
+        
+
+        if(govt < enterdate || enterdate <=1 || dobdays > enterdays  ) 
+        {   alert("Check the Date of Appointment");
+            document.getElementById('doa').blur();
+            document.getElementById('doa').value="";
+            document.getElementById('doa').focus();
+            dofags.style.backgroundColor = "MistyRose";
+        }
+        else
+        {document.getElementById('doa').style.background = 'none';}
+        return false; 
+      }  
+
+}
+</script>
+
+
+ <script type="text/javascript">
+            $(function() {
+            $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            $("[data-mask]").inputmask();
+            });
+        </script>
+
+<p align="right" >  <a  class="btn btn-small btn-warning" href='/teachers/private_teachers_school_level_name_list'>HOME</a></p>
+
+<center><b><h3 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+Staff Entry </h3></b></center> 
+
+<div class="content">
+<form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm" >
+  <fieldset>
+      {% csrf_token %}<br> 
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Staff Name ( Initials At End)" %}</b><input type="text" style="text-transform:uppercase" class="form-control" class="mandatory" value="{{form.name.value}}" id="name" name="name" maxlength="40" 
+ /></div>
+<span class="error_message">{{form.name.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Birth" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="dob" name="dob"  value="{{form.dob.value|date:"d/m/Y" }}" maxlength="10"    /></div>
+<span class="error_message">{{form.dob.errors}}</span>
+
+
+<div class="form-group"> <b> {% trans "Gender" %}</b>
+    <select name="gender" id="gender" class="form-control"  >
+        {% if gender %}
+        <option value="{{gender}}" selected="selected">{{gender}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="Male" >Male </option>
+        <option value="Female" >Female</option>
+        <option value="Transgender" id="transgen">Transgender</option>
+      </select>
+    </div><span class="error_message">{{form.gender.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Father's Name / Spouse's Name" %}</b>
+    <input type="text" class="form-control" style="text-transform:uppercase" value="{{form.father_name.value|default:''}}" id="father_name" name="father_name" onkeyup="AllowAlphabetF()" maxlength="50" /></div><span class="error_message">{{form.father_name.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Appointment" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="doa" name="doa"  value="{{form.doa.value|date:"d/m/Y" }}" maxlength="10"  onblur="dobcheck1(this.value)"  /></div>
+<span class="error_message">{{form.doa.errors}}</span>
+
+
+<div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Staff Category" %}</b>{{ form.designation_typeno|add_class:"mandatory" }}</div><span class="error_message">{{form.designation_typeno.errors}}</span>
+<!-- 12 -->
+
+    <div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Designation" %}</b>{{ form.designation|add_class:"form-control" }}</div><span class="error_message">{{form.designation.errors}}</span>
+
+
+<div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Subject" %}</b><select class="form-control"   id='subject' name="subject"   >
+            {% if subject %}
+    <option value="{{subject}}" >{{ subject }}  </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  subjects %}
+    <option value="{{i.subject_name}}" >{{ i.subject_name}} </option>
+        {% endfor %}
+
+     </select> </div>
+     <span class="error_message">{{form.subject.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "ESI No." %}</b>
+    <input type="text" class="form-control" style="text-transform:uppercase" value="{{form.esino.value|default:''}}" id="esino" name="esino" onkeyup="AllowAlphabetF()"  maxlength="20" /></div><span class="error_message">{{form.esino.errors}}</span>
+
+    <div class="form-group"> <b>{% trans "EPF No." %}</b>
+    <input type="text" class="form-control" style="text-transform:uppercase" value="{{form.epfno.value|default:''}}" id="epfno" name="epfno" onkeyup="AllowAlphabetF()" maxlength="20" /></div><span class="error_message">{{form.epfno.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Class Assigned" %}</b>
+    <select id='class_assigned' name="class_assigned"  class="form-control" class="mandatory" >
+            {% if class_assigned %}
+    <option value="{{class_assigned.id}}" >{{ class_assigned.class_ass}}  </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  classes %}
+    <option value="{{i.id}}" >{{ i.class_ass}} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.class_assigned.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Teaching Experience" %}</b><input type="number" class="form-control" id="teaching_experience" name="teaching_experience"  value="{{form.teaching_experience.value}}" onclick="select()" placeholder="In years Only" maxlength="2" /></div>
+<span class="error_message">{{form.teaching_experience.errors}}</span>
+
+
+<div class="form-group" ng-init="train_untrain='No'"> <b>{% trans "Trained Staff" %}</b>
+
+    <select name="train_untrain" id="train_untrain" class="form-control"  >
+      {% if train_untrain %}
+    <option value="{{train_untrain}}" >{{ train_untrain }}  </option>
+        {% endif %}
+      <option value="Yes"  >Yes </option>
+      <option value="No" selected="selected">No</option>
+      </select></div>
+      <span class="error_message">{{form.train_untrain.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Scale of Pay" %}</b><input type="number" class="form-control" class="mandatory" id="scaleofpay" name="scaleofpay"  value="{{form.scaleofpay.value}}" onclick="select()" placeholder="NONE"  maxlength="5" /></div>
+<span class="error_message">{{form.scaleofpay.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Gross of Pay" %}</b><input type="number" class="form-control" class="mandatory" id="grossofpay" name="grossofpay"  value="{{form.grossofpay.value}}" onclick="select()" placeholder="NONE" maxlength="5" /></div>
+<span class="error_message">{{form.grossofpay.errors}}</span>
+
+<div class="form-group" ng-init="whethertet='No'"> <b>{% trans "Whether TET Passed" %}</b>
+    <select name="whethertet" id="whethertet" class="form-control"  onblur="wtet(this.value)" onclick="wtet(this.value)" onfocus="wtet(this.value)"  value="{{whethertet}}" >
+    {% if whethertet == True %}
+    <option value="True" selected='selected' >Yes </option>
+
+     <option value=""  >------------------ </option>
+   {% else %}
+   <option value="False" selected='selected' >No </option>
+      <option value=""  >------------------ </option>   
+    {% endif %}
+      <option value="True">Yes </option>
+      <option value="False" >No</option>  
+      </select></div>
+      <span class="error_message">{{form.whethertet.errors}}</span>
+
+    <div class="form-group"  id ="uta_div" hidden>  <div class="form-group">   <b>{% trans "Date" %}</b>
+
+     <input  class="form-control" name="date_of_pass" id="date_of_pass" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.date_of_pass.value|date:"d/m/Y"  }}"  onblur="dobcheck(this.value)"></div>
+    <span class="error_message">{{form.date_of_pass.errors}}</span>
+    
+   <div class="form-group"> <b>{% trans " Reg No." %}</b>
+   <input type="text"  class="form-control" value="{{form.reg_no.value}}" id="reg_no" name="reg_no" /> </div>
+    
+    <span class="error_message">{{form.reg_no.errors}}</span>
+</div>
+ </fieldset>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+</button>
+</center>
+          
+ </form>
+ </div>
+{% endblock %}

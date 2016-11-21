@@ -1,0 +1,222 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% block extrahead %}  
+{% endblock %}
+{% block content %}
+<script type="text/javascript">
+function bal_calc(op,taken,bal)
+{
+ document.getElementById(bal).value   =op-taken;
+
+ if((op-taken)<0)
+
+  document.getElementById(bal).value =0;
+}
+
+</script> 
+ 
+<div class="content">
+  <form id="form-3" action='#' method='post' enctype="multipart/form-data" name="frm">
+    <fieldset>
+      {% csrf_token %}
+    
+<center><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+LEAVE MASTER</h6>
+[One Time Entry]
+</center><br> 
+
+<input type="hidden" name="unique_id" id="unique_id" value="{{ tid }}">
+
+<input type="hidden" name="unique_name" id="unique_name" value="{{ unique_id.name }}">
+
+<br> <br> 
+ <h1><font color='white'> Staff-ID : {{unique_id.count}}
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{unique_id.name |upper }}</font></h1>
+<br> 
+
+<table width="100%" border="2" cellpadding="5" cellspacing="2"><tr bgcolor="gray"><td>Type of Leave</td><td>Opening Balance</td><td>Leave Availed</td><td>Closing Balance</td></tr>
+
+
+<tr><td>
+
+     <div class="form-group"  ><b> Earned Leave (EL)</b></td><td>
+
+     <div class="form-group">
+{% if el_ob %}
+      <input type="number" id="el_ob" name="el_ob"  value="{{form.el_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('el_ob').value,document.getElementById('el_taken').value,'el_bal')" readonly/>
+      {% else %}
+
+ <input type="number" id="el_ob" name="el_ob"  value="{{form.el_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('el_ob').value,document.getElementById('el_taken').value,'el_bal')"/>
+ {% endif %}
+
+      </div>
+<span class="error_message">{{form.el_ob.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="el_taken" name="el_taken"  value="{{form.el_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('el_ob').value,document.getElementById('el_taken').value,'el_bal')" readonly/></div>
+<span class="error_message">{{form.el_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="el_bal" name="el_bal"  value="{{form.el_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.el_bal.errors}}</span></td>
+</div></td></tr>
+<br>
+<br>
+
+<tr bgcolor="gray"><td>Type of Leave</td><td>Maximum No. of the Days Allowed</td><td>Leave Availed</td><td>Closing Balance</td></tr>
+<tr>
+<td>
+
+    <div class="form-group"><b> Unearned Leave on Medical Grounds</b></td><td>
+     <div class="form-group">{% if uel_mc_ob %}
+
+      <input type="number" id="uel_mc_ob" name="uel_mc_ob"  value="{{form.uel_mc_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('uel_mc_ob').value,document.getElementById('uel_mc_taken').value,'uel_mc_bal')" readonly/>
+      {% else %}
+       <input type="number" id="uel_mc_ob" name="uel_mc_ob"  value="{{uel_mc_ob1}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('uel_mc_ob').value,document.getElementById('uel_mc_taken').value,'uel_mc_bal')" readonly/>
+     {% endif %}
+      </div>
+
+<span class="error_message">{{form.uel_mc_ob.errors}}</span></td><td>
+<div class="form-group"  > 
+{% if uel_mc_taken %}
+<input type="number" class="form-control" class="mandatory" id="uel_mc_taken" name="uel_mc_taken"  value="{{form.uel_mc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('uel_mc_ob').value,document.getElementById('uel_mc_taken').value,'uel_mc_bal')" readonly/>
+{% else %}
+<input type="number" class="form-control" class="mandatory" id="uel_mc_taken" name="uel_mc_taken"  value="{{form.uel_mc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('uel_mc_ob').value,document.getElementById('uel_mc_taken').value,'uel_mc_bal')" />
+{% endif %}
+</div>
+<span class="error_message">{{form.uel_mc_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="uel_mc_bal" name="uel_mc_bal"  value="{{form.uel_mc_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.uel_mc_bal.errors}}</span></td>
+</div></td></tr>
+<tr><td>
+     <div class="form-group"  ><b>Leave on Loss of Pay(LLP)</b></td><td>
+
+     <div class="form-group"  > <input type="number" id="llp_mc_ob" name="llp_mc_ob"  value="{{form.llp_mc_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('llp_mc_ob').value,document.getElementById('llp_mc_taken').value,'llp_mc_bal')" readonly/></div>
+<span class="error_message">{{form.llp_mc_ob.errors}}</span></td><td>
+<div class="form-group"  > 
+
+{% if llp_mc_taken %}
+<input type="number" class="form-control" class="mandatory" id="llp_mc_taken" name="llp_mc_taken"  value="{{form.llp_mc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('llp_mc_ob').value,document.getElementById('llp_mc_taken').value,'llp_mc_bal')" readonly/>
+
+{% else %}
+<input type="number" class="form-control" class="mandatory" id="llp_mc_taken" name="llp_mc_taken"  value="{{form.llp_mc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('llp_mc_ob').value,document.getElementById('llp_mc_taken').value,'llp_mc_bal')"/>
+{% endif %}
+</div>
+<span class="error_message">{{form.llp_mc_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="llp_mc_bal" name="llp_mc_bal"  value="{{form.llp_mc_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.llp_mc_bal.errors}}</span></td>
+</div></td></tr>
+
+
+<tr><td>
+
+     <div class="form-group"  ><b> Unearned Leave for Private Affairs</b></td><td>
+
+     <div class="form-group"  > 
+{% if uel_pa_ob %}
+     <input type="number" id="uel_pa_ob" name="uel_pa_ob"  value="{{form.uel_pa_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('uel_pa_ob').value,document.getElementById('uel_pa_taken').value,'uel_pa_bal')"  readonly/>
+
+{%  else %}
+<input type="number" id="uel_pa_ob" name="uel_pa_ob"  value="{{uel_pa_ob1}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('uel_pa_ob').value,document.getElementById('uel_pa_taken').value,'uel_pa_bal')"  readonly/>
+{% endif %}
+     </div>
+<span class="error_message">{{form.uel_pa_ob.errors}}</span></td><td>
+<div class="form-group"  > 
+{% if uel_pa_taken %}
+
+<input type="number" class="form-control" class="mandatory" id="uel_pa_taken" name="uel_pa_taken"  value="{{form.uel_pa_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('uel_pa_ob').value,document.getElementById('uel_pa_taken').value,'uel_pa_bal')" readonly/>
+{% else %}
+<input type="number" class="form-control" class="mandatory" id="uel_pa_taken" name="uel_pa_taken"  value="{{form.uel_pa_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('uel_pa_ob').value,document.getElementById('uel_pa_taken').value,'uel_pa_bal')" />
+{% endif %}
+
+</div>
+<span class="error_message">{{form.uel_pa_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="uel_pa_bal" name="uel_pa_bal"  value="{{form.uel_pa_bal.value|default:0}}" onclick="select()" placeholder="0" readonly /></div>
+<span class="error_message">{{form.uel_pa_bal.errors}}</span></td>
+</div></td></tr>
+
+<tr><td>
+
+     <div class="form-group"  ><b> Unearned Leave without Medical Grounds</b></td><td>
+
+     <div class="form-group"  > 
+
+{% if llp_womc_ob %}
+     <input type="number" id="llp_womc_ob" name="llp_womc_ob"  value="{{form.llp_womc_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('llp_womc_ob').value,document.getElementById('llp_womc_taken').value,'llp_womc_bal')"  readonly/>
+{% else %}
+<input type="number" id="llp_womc_ob" name="llp_womc_ob"  value="{{llp_womc_ob1}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('llp_womc_ob').value,document.getElementById('llp_womc_taken').value,'llp_womc_bal')"  readonly/>
+{% endif %}
+     </div>
+<span class="error_message">{{form.llp_womc_ob.errors}}</span></td><td>
+<div class="form-group"  > 
+
+{% if llp_womc_taken %}
+
+<input type="number" class="form-control" class="mandatory" id="llp_womc_taken" name="llp_womc_taken"  value="{{form.llp_womc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('llp_womc_ob').value,document.getElementById('llp_womc_taken').value,'llp_womc_bal')" readonly/>
+
+{% else %}
+<input type="number" class="form-control" class="mandatory" id="llp_womc_taken" name="llp_womc_taken"  value="{{form.llp_womc_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('llp_womc_ob').value,document.getElementById('llp_womc_taken').value,'llp_womc_bal')" />
+{% endif %}</div>
+<span class="error_message">{{form.llp_womc_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="llp_womc_bal" name="llp_womc_bal"  value="{{form.llp_womc_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.llp_womc_bal.errors}}</span></td>
+</div></td></tr>
+
+<tr><td>
+
+     <div class="form-group"  ><b>Special Leave</b></td><td>
+
+     <div class="form-group"  > <input type="number" id="spl_leave_ob" name="spl_leave_ob"  value="{{form.spl_leave_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('spl_leave_ob').value,document.getElementById('spl_leave_taken').value,'spl_leave_bal')" readonly/></div>
+<span class="error_message">{{form.spl_leave_ob.errors}}</span></td><td>
+<div class="form-group"  > 
+{% if spl_leave_taken %}
+<input type="number" class="form-control" class="mandatory" id="spl_leave_taken" name="spl_leave_taken"  value="{{form.spl_leave_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('spl_leave_ob').value,document.getElementById('spl_leave_taken').value,'spl_leave_bal')" readonly/>
+
+{% else %}
+<input type="number" class="form-control" class="mandatory" id="spl_leave_taken" name="spl_leave_taken"  value="{{form.spl_leave_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('spl_leave_ob').value,document.getElementById('spl_leave_taken').value,'spl_leave_bal')"/>
+
+{% endif %}
+</div>
+<span class="error_message">{{form.spl_leave_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="spl_leave_bal" name="spl_leave_bal"  value="{{form.spl_leave_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.spl_leave_bal.errors}}</span></td>
+</div></td></tr>
+
+
+
+<tr><td>
+
+     <div class="form-group"  ><b>Maternity Leave (No. of Childs )</b></td><td>
+
+     <div class="form-group"  > 
+     {% if maternity_leave_ob %}
+     <input type="number" id="maternity_leave_ob" name="maternity_leave_ob"  value="{{form.maternity_leave_ob.value|default:0}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('maternity_leave_ob').value,document.getElementById('maternity_leave_taken').value,'maternity_leave_bal')" readonly/>
+
+{% else %}
+<input type="number" id="maternity_leave_ob" name="maternity_leave_ob"  value="{{maternity_leave_ob1}}" onclick="select()" placeholder="0" class="form-control" class="mandatory" onchange="bal_calc(document.getElementById('maternity_leave_ob').value,document.getElementById('maternity_leave_taken').value,'maternity_leave_bal')" readonly/>
+{% endif %}
+     </div>
+<span class="error_message">{{form.maternity_leave_ob.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="maternity_leave_taken" name="maternity_leave_taken"  value="{{form.maternity_leave_taken.value|default:0}}" onclick="select()" placeholder="0" onchange="bal_calc(document.getElementById('maternity_leave_ob').value,document.getElementById('maternity_leave_taken').value,'maternity_leave_bal')" readonly /></div>
+<span class="error_message">{{form.maternity_leave_taken.errors}}</span></td><td>
+<div class="form-group"  > <input type="number" class="form-control" class="mandatory" id="maternity_leave_bal" name="maternity_leave_bal"  value="{{form.maternity_leave_bal.value|default:0}}" onclick="select()" placeholder="0"  readonly/></div>
+<span class="error_message">{{form.maternity_leave_bal.errors}}</span></td>
+</div></td></tr>
+</table>
+</div>
+
+{% if process == 2 %}
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+{% else %}
+<p align="right">
+<button class='btn btn-large btn-success' type='submit'>
+            {% trans "Save" %}
+      </button></p>
+</div></p></a>
+
+{% endif %}
+</fieldset>  
+</form>
+  </div>
+  </div>
+</div>
+{% endblock %}

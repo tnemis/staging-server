@@ -1,0 +1,15 @@
+model manager 
+custom template tags and filters
+decorators
+reverse url
+asynchronous task(celery)
+jinga template engine
+django debugging
+logging
+performance measurement-profiling
+caching
+
+
+
+
+

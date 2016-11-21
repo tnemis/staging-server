@@ -1,0 +1,597 @@
+{% extends 'teachers/base.html' %}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load imagekit %}
+{% block content %}
+<table width="100%" border="2" align="center">
+  <tr><th style="width:750px;border:0px;">Personnel Information</th>
+      <th style="width:1000px;border:0px;"></th></tr>
+      <tr>
+        <td valign="TOP">
+        <table>
+          <tr>
+            <tr> <td style="width:230px">
+            <div style="margin-left:10px">
+                {% if teacher.uploadfile %}
+                <img src="{{MEDIA_URL}}{{teacher.uploadfile}}" width="200" height="250">
+                {%else%}
+                <img src="{{STATIC_URL}}img/student.png" width="200" height="250"/>
+                {%endif%}
+            <span ></span>
+        </td></tr> </table></td>
+
+                <td valign="TOP">
+        <table style="margin-left:10px;">
+        <tr> <td style="border:0px;padding-top:10px;" > Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.name |upper }} </td> </tr>
+       
+        <tr><td style="border:0px;padding-top:10px;" > ID No.</td><td style="border:0px;" > : </td> <td style="border:0px;" >{{ teacher.count }} </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Designation</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.designation |upper }} </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Subject</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >  {{ teacher.subject  |upper}}   &nbsp;&nbsp;&nbsp;   </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > School / Office Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ basic_det.school_name |upper }} </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Native District </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.native_district |upper}} </td> </tr></table></td></tr></table>
+
+            </br>
+   
+  </table>
+        <br>
+        <br>
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="6" font color='blue'>DETAILS OF STAFF LEAVE</center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S. No.</th>
+ <th style="text-align:center; ">{% trans "Type of Leave" %}</th>
+  <th style="text-align:center; ">{% trans "Leave From" %}</th>
+  <th style="text-align:center; ">{% trans "Leave To" %}</th>
+  <th style="text-align:center; ">{% trans "Order No. of Sanction" %}</th>
+  <th style="text-align:center; ">{% trans "Date of Sanction Order" %}</th>
+  </tr>
+  {% for i in leave_list %}
+  <tr>
+
+        <td> {{ i.leave_type |upper }}</td> 
+        <td> {{ i.leave_from |upper}}</td> 
+        <td> {{ i.leave_to |upper }}</td> 
+        <td> {{ i.order_no |upper }}</td> 
+        <td> {{ i.order_date |upper }}</td> 
+ 
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'>DETAILS OF LEAVE SURRENDERED</center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S. No.</th>
+   <th style="text-align:center; ">{% trans "Date of Surrender" %}</th>
+            <th style="text-align:center;">{% trans "EL Current Balance Days" %}</th>
+            <th style="text-align:center;">{% trans "No. of Days to be Surrendered" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Sanction Order" %}</th> 
+  </tr>
+  {% for i in gpfloan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  
+        <td> {{ i.surrender_date |upper}}</td> 
+        <td> {{ i.current_balance_days |upper}}</td> 
+        <td> {{ i.no_of_days |upper}}</td> 
+        <td> {{ i.order_no |upper}}</td> 
+        <td> {{ i.order_date |upper}}</td> 
+
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+
+
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF FINACIAL NOMINATION</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S.No.</th>               
+    <th style="text-align:center; ">{% trans "Name of the Fund" %}</th>
+            <th style="text-align:center;">{% trans "Name of the Family Member &&  Relationship && Age" %}</th>
+           
+            <th style="text-align:center;">{% trans "Percentage" %}</th>
+            <th style="text-align:center;">{% trans "Registration Date of Nomini" %}</th>
+  </tr>
+             
+  {% for i in nomini_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+   <td>{{ i.fund_name|upper }}</td> 
+
+     <td> {{ i.nominee_name.name|upper}}-{{i.nominee_name.relation|upper}}-{{i.nominee_name.dob}}</td> 
+      
+       
+        <td> {{ i.percentage }}</td> 
+        <td> {{ i.nom_dt |upper }}</td>    
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="9" font color='blue'>DETAILS OF LOAN</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>
+  <th style="text-align:center; ">{% trans "Category" %}</th>
+        <th style="text-align:center; ">{% trans "Purpose" %}</th>
+            <th style="text-align:center; ">{% trans "Amount Sanctioned" %}</th>
+            <th style="text-align:center; ">{% trans "Total No. of Instalments" %}</th>
+            <th style="text-align:center; ">{% trans "Monthly Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Date of First Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center; ">{% trans "Date of Sanction Order" %}</th>
+  </tr>
+  {% for i in loan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+     <td> {{ i.loan_category |upper }}</td> 
+        <td> {{ i.loan_purpose |upper }}</td> 
+        <td> {{ i.sanctioned_amt }}</td> 
+        <td> {{ i.installments }}</td>
+        <td> {{ i.monthly_installment }}</td>
+        <td> {{ i.first_insta_date |upper }}</td> 
+        <td> {{ i.sanctioned_order |upper}}</td> 
+        <td> {{ i.sanctioned_date |upper}}</td> 
+
+  </tr>
+  {% endfor %}
+   
+            </table>
+        <br>
+        <br>
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'>DETAILS OF STAFF GPF / TPF LOAN </center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S. No.</th>
+  <th style="text-align:center; ">{% trans "Amount Sanctioned" %}</th>
+            <th style="text-align:center; ">{% trans "Total No. of Instalments" %}</th>
+            <th style="text-align:center; ">{% trans " Monthly Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Date of First Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center; ">{% trans "Date of Sanction Order" %}</th> 
+  </tr>
+  {% for i in gpfloan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  <td> {{ i.sanctioned_amt }}</td> 
+        <td> {{ i.installments }}</td> 
+        <td> {{ i.monthly_installment }}</td> 
+        <td> {{ i.first_insta_date |upper}}</td> 
+        <td> {{ i.sanctioned_order |upper}}</td> 
+        <td> {{ i.sanctioned_date |upper}}</td> 
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="9" font color='blue'> DETAILS OF MOVABLE PROPERTY</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>               
+ <th style="text-align:center; ">{% trans "Description of the Property" %}</th>
+            <th style="text-align:center;">{% trans "Total Value of Purchase" %}</th>
+            <th style="text-align:center;">{% trans "Source of Income" %}</th>
+            <th style="text-align:center;">{% trans "Date of Purchase Document" %}</th>        
+            
+            <th style="text-align:center;">{% trans "Present Value" %}</th>       
+           <th style="text-align:center;">{% trans "Date of Intimation" %}</th>
+  </tr>
+             
+  {% for i in movable_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+ <td> {{ i.prop_description|upper }}</td>
+        <td> {{ i.purchase_value }}</td>
+        <td> {{ i.source|upper }}</td>        
+        <td> {{ i.purchase_doc_date |upper }}</td>
+        <td> {{ i.present_value }}</td>       
+        <td> {{ i.order_date |upper}}</td>
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="10" font color='blue'>DETAILS OF IMMOVABLE PROPERTY</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S.No.</th>               
+    <th style="text-align:center; ">{% trans "Description of the Property" %}</th>
+            <th style="text-align:center;">{% trans "Property Document No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Property Document" %}</th> 
+            <th style="text-align:center;">{% trans "Place" %}</th>
+            <th style="text-align:center;">{% trans "Source of Income" %}</th>
+            <th style="text-align:center;">{% trans "Purchase value" %}</th>
+           <th style="text-align:center;">{% trans "Present Value" %}</th>
+           <th style="text-align:center;">{% trans "Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Order" %}</th>       
+  </tr>
+             
+  {% for i in immovalble_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+    <td> {{ i.prop_description|upper }}</td>
+        <td> {{ i.doc_number |upper}}</td>
+        <td> {{ i.doc_date |upper}}</td>
+        <td> {{ i.place|upper }}</td>
+        <td> {{ i.acquired_source |upper}}</td>
+        <td> {{ i.purchase_value }}</td>
+        <td> {{ i.present_value }}</td>
+        <td> {{ i.order_no |upper}}</td>
+        <td> {{ i.order_date }}</td>
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="10" font color='blue'>DETAILS OF LEAVE TRAVEL CONCESSION (LTC)</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S. No.</th>               
+   
+            <th style="text-align:center; ">{% trans "Block Year" %}</th>
+            <th style="text-align:center;">{% trans "Leave From" %}</th>
+            <th style="text-align:center;">{% trans "Leave To" %}</th>
+            <th style="text-align:center;">{% trans "Destination" %}</th>
+            <th style="text-align:center;">{% trans "Type of Leave " %}</th>
+            <th style="text-align:center;">{% trans " Amount Sanctioned" %}</th>
+           <th style="text-align:center;">{% trans "Sanction Order No." %}</th>
+           <th style="text-align:center;">{% trans "Date of Sanction Order " %}</th>
+               
+  </tr>
+             
+  {% for i in ltc_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+ 
+         <td> {{ i.block_yeear }}</td>
+        <td> {{ i.leave_from |upper}}</td>
+        <td> {{ i.leave_to |upper }}</td>
+        <td> {{ i.destination_type |upper}}</td>
+        <td> {{ i.leave_type |upper }}</td>
+        <td> {{ i.sanction_amt }}</td>
+    <td> {{ i.sanction_order |upper}}</td>
+    <td> {{ i.sanction_date |upper }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+   
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="9" font color='blue'>DETAILS OF DISPLINARY ACTION TAKEN</center></th>
+  </tr>
+  <tr>
+   <th style="text-align:center">S.No</th>     
+  <th style="text-align:center; ">{% trans "Post In Which the  Charge committed" %}</th>
+            <th style="text-align:center;">{% trans "Gist of the Charge" %}</th>
+            <th style="text-align:center;">{% trans "Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Memo Order " %}</th>
+            <th style="text-align:center;">{% trans "Type of the Rule" %}</th> 
+  <th style="text-align:center">Final Order</th>
+               
+  </tr>
+             
+  {% for i in action_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  <td align="center"> {{ i.post_name_charge_committed.designation |upper}}</td>
+  <td align="center"> {{ i.gist |upper}}</td>
+  <td align="center"> {{ i.charge_memo_number |upper }}</td>
+  <td align="center"> {{ i.charge_memo_date |upper}}</td>
+ 
+  <td align="center"> {{ i.type_charge_memo }}</td>
+   <td align="center">
+     {% if i.a_final_status %}
+
+    {% if i.a_final_status = '1' %} CENSURE  {% endif %}
+    {% if i.a_final_status = '2' %}  INCREMENT CUT WITHOUT CUMMULATIVE EFFECT
+ {% endif %}
+    {% if i.a_final_status = '3' %} CHARGES DROPPED {% endif %}
+
+     {% else %}
+    {% if i.b_punishment_type %}
+     {{ i.b_punishment_type |upper }}
+      {% else %}
+    {% if i.b_punishment_type_appeal %}
+     {{ i.b_punishment_type_appeal |upper }}
+     {% endif %}
+    {% endif %}
+    {% endif %}
+</td>
+</tr>
+{% endfor %}
+  </table>
+
+
+
+  <br>
+
+<table  border="2" >
+<tr>
+  <th colspan="9" font color='blue'>DETAILS OF EXAM DUTY / RESULT</center></th>
+  </tr>
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+           
+             
+            <th style="text-align:center;">{% trans "Month" %}</th>
+            <th style="text-align:center;">{% trans "Year" %}</th>
+          
+            <th style="text-align:center;">{% trans "Subject" %}</th>
+            <th style="text-align:center;">{% trans "Appeared" %}</th>  
+             <th style="text-align:center;">{% trans "Passed" %}</th>  
+              <th style="text-align:center;">{% trans "Percentage" %}</th>  
+            <th style="text-align:center;">{% trans "Exam Duty" %}</th>
+            <th style="text-align:center;">{% trans "Valuation Duty" %}</th>           
+        
+ 
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in exam_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+    
+        
+        <td>{{i.month |upper}}</td>
+
+        <td> {{ i.year }}</td>        
+
+        <td> {{ i.subject  |upper}}</td>
+         <td> {{ i.appeared  |upper}}</td>
+          <td> {{ i.passed  |upper}}</td>
+        <td> {{ i.percentage }}</td>
+        <td> {{ i.exam_duty |upper }}</td>        
+        <td> {{ i.val_camp |upper }}</td>
+        
+      
+        {% endfor %}
+        </tr>
+        
+</table>
+
+  <br>
+
+<table  border="2" >
+<tr>
+  <th colspan="5" font color='blue'>DETAILS OF AWARDS</center></th>
+  </tr>
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+      
+            <th style="text-align:center;">{% trans "Name of the Award" %}</th>
+            <th style="text-align:center;">{% trans "National / State Level" %}</th>
+             <th style="text-align:center;">{% trans "Year " %}</th>
+            <th style="text-align:center;">{% trans "Remarks" %}</th>
+      </th>           
+        
+  
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in award_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+       
+        <td>{{i.award_name |upper}}</td>
+
+        <td> {{ i.level |upper }}</td>        
+        <td> {{ i.year }}</td>
+        <td> {{ i.remarks |upper }}</td>
+     
+        
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+
+  <br>
+ 
+<p align="right"> <a   class="btn btn-small btn-success" href='/teachers/teacher_full_detail_more/{{teacher.id}}'>Back</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+.mytable {
+margin:0px;padding:0px;
+width:100%; box-shadow: 10px 10px 5px #888888;
+border:1px solid #000000;
+
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}.mytable table{
+width:100%;
+height:100%;
+margin:0px;padding:0px;
+}.mytable tr:last-child td:last-child {
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+}
+.mytable table tr:first-child td:first-child {
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}
+.mytable table tr:first-child td:last-child {
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+}.mytable tr:last-child td:first-child{
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+}.mytable tr:hover td{
+background-color:red;
+}
+.mytable td{
+vertical-align:middle;
+    background:-o-linear-gradient(bottom, #ffffff 5%, gray 100%);   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, gray) );   background:-moz-linear-gradient( center top, #ffffff 5%, gray 100% );   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="gray"); background: -o-linear-gradient(top,#ffffff,d3e9ff);
+background-color:red;
+border:1px solid #000000;
+border-width:0px 1px 1px 0px;
+text-align:left;
+padding:7px;
+font-size:18px;
+font-weight:normal;
+color:;
+}.mytable tr:last-child td{
+border-width:0px 1px 0px 0px;
+}.mytable tr td:last-child{
+border-width:0px 0px 1px 0px;
+}.mytable tr:last-child td:last-child{
+border-width:0px 0px 0px 0px;
+}
+.mytable tr:first-child td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+border:0px solid #000000;
+text-align:center;
+border-width:0px 0px 1px 1px;
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+}
+.mytable tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+}
+.mytable tr:first-child td:first-child{
+border-width:0px 0px 1px 0px;
+}
+.mytable tr:first-child td:last-child{
+border-width:0px 0px 1px 1px;
+}
+
+
+
+.s_button {
+    display: block;
+    height: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 30px;
+    width: 100px;
+    margin: 20px;
+
+    color: #FFF;
+    text-align: center;
+    border: solid #427AA8 1px;
+    
+    text-decoration: none;
+    border-radius: 5px;
+    /* Gradient */
+    background: #0088cc;    
+    
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 rgba(255,255,255, 0.3), inset 0 1px 0 rgba(255,255,255, 0.3);
+}
+
+.s_button:hover {
+    background: #59A3E0;
+    text-decoration: none;
+    filter: none;
+}​
+
+
+</style>
+<style type="text/css">
+.button {
+    background: #25A6E1;
+    background: -moz-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#25A6E1),color-stop(100%,#188BC0));
+    background: -webkit-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -o-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -ms-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+    padding:8px 13px;
+    color:#fff;
+    font-family:'Helvetica Neue',sans-serif;
+    font-size:17px;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:1px solid #1A87B9
+}                
+</style>
+    
+
+{% endblock %}

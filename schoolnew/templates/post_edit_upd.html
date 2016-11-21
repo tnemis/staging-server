@@ -1,0 +1,605 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }   
+</style>
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<script type="text/javascript">
+function chk_subname(chk_sub)
+{
+
+    var post_no= document.getElementById("post_sanc");
+    var post_fill= document.getElementById("post_filled");
+    var sub_old= document.getElementById("sub_old");
+    var sub_name = document.getElementById('id_post_sub');
+    if(post_fill.value>0) 
+    {
+        if(sub_old.value!=chk_sub)
+        {
+        alert("Already "+post_fill.value+" post filled in the category.  Hence, subject should not changed");
+        for (i = 0; i < sub_name.options.length; ++i) 
+        {
+                if (sub_name.options[i].value != sub_old.value) 
+                {
+                    sub_name.options[i].disabled = true;
+                }
+        };
+            sub_name.value = sub_old.value;        
+        }           
+    }  
+}
+
+</script>
+
+<script type="text/javascript">
+function chk_post(chk_pid)
+{
+    var post_no= document.getElementById("post_sanc");
+    var post_fill= document.getElementById("post_filled");
+
+    post_name=(chk_pid.options[chk_pid.selectedIndex].value);
+    var sub_old= document.getElementById("sub_old");
+    var sub_new= $("#id_post_sub option:selected") 
+    // alert(sub_old.value);
+    // alert(sub_new.value);
+
+    if(post_name == '51'|| post_name == '50' || post_name == '70'|| post_name == '85') 
+    {
+        post_no.value = 1            
+    } 
+
+    else 
+
+    {
+        // document.getElementById('post_name').readOnly = false;
+
+    }
+
+    if(post_no.value < post_fill.value) 
+    {
+        alert("Already "+post_fill.value+" post filled in the category.  Hence, it should not reduced below"+post_fill.value);
+        post_no.value = post_fill.value            
+    }
+
+ 
+
+}
+</script>
+
+<script type="text/javascript">
+$(function() {
+  $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+  $("[data-mask]").inputmask();
+});
+</script> 
+
+<script type="text/javascript">
+function date_future_chk(inpid)
+{
+   var go_date = document.getElementById(inpid).value;
+   var today = new Date(); 
+   if(go_date != "" )
+   {
+      
+       var record_day1=go_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       // var record_day2=prob_date.split("/");  
+       // var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+       var go_dt=new Date(sum1);    
+       // var probation_date=new Date(sum2); 
+       
+      
+       
+       if(go_dt > today)
+       {
+           alert("Pl. Enter correct G.O. date, future date can not be entered ");
+           document.getElementById(inpid).focus();
+           document.getElementById(inpid).value="";
+           inpid.style.backgroundColor = "MistyRose";
+           
+       }
+        else
+       {document.getElementById(inpid).style.background = 'none';}
+   }
+   return false; 
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var godate=document.getElementById('go_dt').value
+    document.getElementById("post_GO_dt_id").defaultValue = godate;  
+});
+</script>
+
+
+
+<script type="text/javascript">
+    function tem_post_cont() 
+            { 
+                var go_status= $("#post_mode option:selected").text()
+                if(go_status == 'Temporary') 
+                {
+                    document.getElementById('tem_post_div1').style.display = "";
+                    document.getElementById('tem_post_div2').style.display = "";
+                    document.getElementById('tem_post_div3').style.display = "";                                 
+                } 
+
+                else 
+                {   
+                    document.getElementById('tem_post_div1').style.display = "none";
+                    document.getElementById('tem_post_div2').style.display = "none";
+                    document.getElementById('tem_post_div3').style.display = "none";
+                                               
+                }                
+          }
+         
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    tem_post_cont();
+
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+        //<![CDATA[
+        (function($) {
+            function fireEvent(element,event){
+                if (document.createEventObject){
+                var evt = document.createEventObject();
+                return element.fireEvent('on'+event,evt)
+                }
+                else{
+                // dispatch for firefox + others
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+                return !element.dispatchEvent(evt);
+                }
+            }
+
+            function dismissRelatedLookupPopup(win, chosenId) {
+                var name = windowname_to_id(win.name);
+                var elem = document.getElementById(name);
+                if (elem.className.indexOf('vManyToManyRawIdAdminField') != -1 && elem.value) {
+                    elem.value += ',' + chosenId;
+                } else {
+                    elem.value = chosenId;
+                }
+                fireEvent(elem, 'change');
+                win.close();
+            }
+
+            $(document).ready(function(){
+                function fill_field(val, init_value){
+                    if (!val || val==''){
+                        options = '<option value="">---------<'+'/option>';
+                        $("#id_post_sub").html(options);
+                        $('#id_post_sub option:first').attr('selected', 'selected');
+                        $("#id_post_sub").trigger('change');
+                        return;
+                    }
+                    $.getJSON("/chaining/filter/schoolnew/Desig_subjects/desig/"+val+"/", function(j){
+                         var options = '<option value="">---------<'+'/option>'; 
+
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' + j[i].value + '">' + j[i].display + '<'+'/option>';  
+                        }
+
+
+                        var width = $("#id_post_sub").outerWidth();
+                        $("#id_post_sub").html(options);
+                        if (navigator.appVersion.indexOf("MSIE") != -1)
+                            $("#id_post_sub").width(width + 'px');
+                        $('#id_post_sub option:first').attr('selected', 'selected');
+                        var auto_choose = true;
+
+                        if(init_value){
+                            $('#id_post_sub option[value="'+ init_value +'"]').attr('selected', 'selected');
+                        }
+                        if(auto_choose && j.length == 1){
+
+                            $('#id_post_sub option[value="'+ j[0].value +'"]').attr('selected', 'selected');
+                        }
+
+
+                        $("#id_post_sub").trigger('change');
+
+                    })
+                }
+
+                if(!$("#post_name").hasClass("chained")){
+                    var val = $("#post_name").val();
+                    // fill_field(val,'none'); 
+                    var sub_val=document.getElementById('sub_val')                 
+                    fill_field(val,sub_val.value);
+                }
+
+                $("#post_name").change(function(){
+                    var start_value = $("#id_post_sub").val();
+                    var val = $(this).val();                 
+                    fill_field(val, start_value);
+
+                })
+            })
+            if (typeof(dismissAddAnotherPopup) !== 'undefined') {
+                var oldDismissAddAnotherPopup = dismissAddAnotherPopup;
+                dismissAddAnotherPopup = function(win, newId, newRepr) {
+                    oldDismissAddAnotherPopup(win, newId, newRepr);
+                    if (windowname_to_id(win.name) == "post_name") {
+                        $("#post_name").change();
+                    }
+
+                }
+            }
+        })(jQuery || django.jQuery);
+        //]]>
+        </script>
+
+
+
+
+    <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                teach_post.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#teach_post" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                ignore: "disabled",
+                rules: {
+                    post_name: {
+                        required:true
+                    },                     
+                    post_sub: {
+                        required:true
+                    },                    
+                    post_sanc: {
+                        required:true,
+                        min: 1,
+                    },   
+                    post_GO: {
+                        required:true,
+                        minlength: 10,                        
+                    },                                      
+                    post_GO_dt: {
+                        required:true,                      
+                    }, 
+                    post_mode: {
+                        required:true,                      
+                    },                     
+                    
+                },
+                messages: {
+
+                    post_name: {
+                        required: "Select a Post from the drop down list"
+                    },
+                    post_sub: {
+                        required: "Subject should not be blank"
+                    },  
+
+                    post_sanc: {
+                        required: "No. post sanctioned should not be blank",
+                        min: "Minimum is 1 post "
+                    },                                      
+                    post_GO: {
+                        required: "G.O. details should not be blank",
+                        minlength: "G.O.- minimum details required"
+                    },  
+                    post_GO_dt: {
+                        required: "G.O. date should not be blank"
+                    }, 
+                    post_mode: {
+                        required:"Select the type of Post Sanctioned from the drop down"
+                    },                                         
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+
+<script type="text/javascript">
+function chk_fmto_Date() 
+{    
+
+    var dt1 = document.getElementById('temgofm_dt').value;  
+    var dt2 = document.getElementById('temgoto_dt').value;
+    var today = new Date(); 
+   if(dt1 != "") 
+   {  
+
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=dt1.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=dt2.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+(record_day3[0]);
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();
+        var date2_ms = record4.getTime();
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date2_ms - date1_ms)-1;
+        var difference_ms2 = (date3_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        if (Math.floor((future+1)/365)>0)
+        {
+
+        }
+        else if (Math.floor((future+1)/365)<0)
+        {
+            alert('Please Enter Correct Dates in From & To places');
+            document.getElementById('temgofm_dt').focus();
+            document.getElementById('temgofm_dt').value="";
+            document.getElementById('temgoto_dt').value="";
+        }
+
+
+    }   
+}
+</script>
+
+
+<form id="teach_post" method="post" class="form-horizontal" action="">
+  
+{% csrf_token %} 
+
+
+
+<div class="form-group" type="hidden"> <input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+<div class="form-group" type="hidden"> <input type="hidden" id="post_filled" name="post_filled" value="{{post_filled}}" /></div>
+<div class="form-group" type="hidden"> <input type="hidden" name="go_dt" id="go_dt" value="{{go_dt}}"></div>
+<div class="form-group" type="hidden"> <input type="hidden" id="sub_val" name="sub_val" value="{{post_sub.id}}" /></div>
+
+<center><h2 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+{{pg_head}} Post Sanctioned Details</h2></center>
+
+
+ <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+
+{% if post_filled %}
+
+<div class="form-group"> <b>Name of the Sanctioned Post :</b>
+    <select class="form-control mandatory" id="post_name" name="post_name" onfocus="dismissRelatedLookupPopup();" onchange="chk_post(this);" onblur="chk_post(this);" >
+    {% if post_name %}
+    <option value="{{post_name.id}}" >{{post_name }} </option>
+    {% endif %}       
+     </select></div>
+     <span class="error_message">{{form.post_name.errors}}</span>
+
+    <div class="form-group" > <b>Subject of the Sanctioned Post:</b>
+    <select class="form-control mandatory chained" readonly id="id_post_sub" name="post_sub" value="{{post_sub.id}}" onchange="chk_subname(id_post_sub.value);" >
+    </select>
+    <!-- onchange="chk_subname(id_post_sub.value);" onblur="chk_subname(id_post_sub.value);" -->
+    <!-- onchange="alert(id_post_sub.value);" onblur="alert(id_post_sub.value);" -->
+    
+    <input id='sub_old' name="post_sub" type="hidden" class="form-control" value= "{{post_sub.id}}" readonly="readonly" />
+    </div><span class="error_message">{{form.post_sub.errors}}</span>     
+
+{% else %}
+
+<div class="form-group"> <b>Name of the Sanctioned Post :</b>
+    <select class="form-control mandatory" id="post_name" name="post_name" onfocus="dismissRelatedLookupPopup();" onchange="chk_post(this);" onblur="chk_post(this);" >
+    {% if post_name %}
+    <option value="{{post_name.id}}" >{{post_name }} </option>
+    {% endif %}
+     <option value="">SELECT A POST</option>
+    {% for i in desig_det %}
+        <option value="{{i.id}}">{{i.user_desig}}</option>
+    {% endfor %}        
+     </select></div>
+     <span class="error_message">{{form.post_name.errors}}</span>
+
+    <div class="form-group" > <b>Subject of the Sanctioned Post:</b>
+    <select class="form-control mandatory chained" id="id_post_sub" name="post_sub" value="{{post_sub.id}}">
+    </select></div><span class="error_message">{{form.post_sub.errors}}</span>
+
+{% endif %}
+
+
+
+
+
+<div class="form-group"> <b>{% trans "No. of Post Sanctined:" %}</b><input type="number" class="form-control" class="form-control mandatory" onblur="chk_post(post_name);" id="post_sanc" min=1 name="post_sanc" value="{{post_sanc}}" maxlength="3" /></div>
+<span class="error_message">{{form.post_sanc.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Whether Post Sanctioned is Permanent / Temporary:" %}</b>
+    <select id='post_mode' name="post_mode"  class="form-control" class="mandatory" onchange="tem_post_cont();" onblur="tem_post_cont();" >
+        {% if post_mode == 'Permanent' %}
+        <option value="Permanent" selected="selected">Permanent</option>
+        <option value='Temporary'>Temporary</option>
+        {% else %}
+        {% if post_mode == 'Temporary' %}
+        <option value="Temporary" selected="selected">Temporary</option>
+        <option value='Permanent'>Permanent</option>         
+        {% else %} 
+        <option value=''>Select Post Sanction Type</option> 
+        <option value='Permanent'>Permanent</option> 
+        <option value='Temporary'>Temporary</option>        
+        {% endif %} 
+           {% endif %}       
+
+
+        </select></div>
+
+
+
+<div class="form-group"> <b>{% trans "Post Sanctioned G.O. No.:" %}</b><input type="text" class="form-control" class="form-control, mandatory" id="post_GO" name="post_GO" value="{{post_GO}}" maxlength="30" /></div>
+<span class="error_message">{{form.post_GO.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Post Sanctioned G.O. Date :" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory" id="post_GO_dt_id" name="post_GO_dt"  value="{{form.post_GO_dt.value|date:"d/m/Y" }}"  onblur="date_future_chk('post_GO_dt_id')" maxlength="10"/></div>
+<span class="error_message">{{form.post_GO_dt.errors}}</span>
+
+
+
+<div class="form-group" style="visibility:hide" id="tem_post_div1"> 
+
+<div class="form>-group"><strong style="color:red;">*</strong> <b>{% trans "If Temporary Post, Continuance orders details:" %}</b>{{form.post_GO_pd|add_class:"form-control"|attr:'maxlength:200' }} <br></div>
+<span class="error_message">{{form.post_GO_pd.errors}}</span>
+
+</div>
+
+<div class="form-group" style="visibility:hide" id="tem_post_div2"> <b><strong style="color:red;">*</strong>{% trans "Post Continuance From Date :" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="temgofm_dt" name="temgofm_dt"  value="{{form.temgofm_dt.value|date:"d/m/Y" }}"  onblur="date_future_chk('temgofm_dt')" maxlength="10"/></div>
+<span class="error_message">{{form.temgofm_dt.errors}}</span>
+
+
+
+<div class="form-group" style="visibility:hide" id="tem_post_div3"> <b>{% trans "Post Continuance To Date :" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="temgoto_dt" id="temgoto_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.temgoto_dt.value|date:"d/m/Y"  }}" onblur="chk_fmto_Date();" maxlength="10">
+      
+    </div></div>
+    <span class="error_message">{{form.temgoto_dt.errors}}</span>
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+
+</form>
+  
+<br>
+<br>
+
+<form action="" method="POST" id="form_teach_upd" method='post' enctype="multipart/form-data" action="" name="form_teach_upd">
+
+<table  border="2" >
+<tr>
+            <th rowspan="2" style="text-align:center; ">{% trans "Sl.No." %}</th>
+            <th rowspan="2" style="text-align:center; ">{% trans "Name of the Sanctioned Post" %}</th>       
+            <th rowspan="2" style="text-align:center;" >{% trans "Subject" %}</th>
+            <th rowspan="2" style="text-align:center;" >{% trans "Mode of Sanctioned" %}</th>
+            <th rowspan="2" style="text-align:center; ">{% trans "G.O. No." %}</th>       
+            <th rowspan="2" style="text-align:center;" >{% trans "G.O. Date" %}</th>
+            <th colspan="3" style="text-align:center; ">{% trans "Number of Post" %}</th>
+         
+            <th rowspan="2" style="text-align:center;" >{% trans "Post Continuance Details (If temporary)" %}</th>
+            <th rowspan="2" style="text-align:center;" >{% trans "Update" %}</th>
+            <th rowspan="2" style="text-align:center;" >{% trans "Delete" %}</th>            
+  </tr>
+<tr>    
+              <th style="text-align:center; ">{% trans "Sanctioned" %}</th>
+            <th style="text-align:center; ">{% trans "Filled" %}</th>
+            <th style="text-align:center; ">{% trans "Vacant" %}</th>
+  </tr>    
+{% for i in post_det %}
+        <tr>
+        <td > {{forloop.counter}}</td>
+        <td > {{ i.post_name |upper}}</td>
+        <td > {{ i.post_sub |upper}}</td>
+        <td > {{ i.post_mode |upper}}</td>
+        <td > {{ i.post_GO |upper}}</td>
+        <td > {{ i.post_GO_dt |upper}}</td>
+        <td > {{ i.post_sanc |upper}}</td>
+        <td > {{ i.post_filled |upper}}</td>        
+        <td > {{ i.post_vac |upper}}</td>        
+        <td > {{ i.post_GO_pd |upper}}</td>
+        <td style="text-align:center;">
+        {% if pg_head == 'Teaching' %} 
+        <a href="/schoolnew/teaching_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a>
+        {% elif pg_head == 'Non-Teaching' %}
+        <a href="/schoolnew/nonteaching_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a>
+        {% else %}      
+        <a href="/schoolnew/offnonteaching_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a>
+        {% endif %}</td>
+
+        <td style="text-align:center;">
+        {% if pg_head == 'Teaching' %} 
+      
+            {% if i.post_filled == 0 %}
+                <a href="/schoolnew/teaching_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a>
+               {% else %}
+                <p class="text-danger">Can not Delete, Already Postings made. </p>
+            {% endif %}              
+
+        {% elif pg_head == 'Non-Teaching' %}
+            {% if i.post_filled == 0 %}       
+                <a href="/schoolnew/nonteaching_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a>
+                  {% else %}
+                <p class="text-danger">Can not Delete , Already Posted. </p>
+            {% endif %}              
+
+        {% else %}      
+            {% if i.post_filled == 0 %}       
+                <a href="/schoolnew/offnonteaching_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a>
+                  {% else %}
+                <p class="text-danger">Can not Delete , Already Posted. </p>
+            {% endif %} 
+
+
+
+        {% endif %}</td>
+
+
+    
+
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+  
+{% endblock %}

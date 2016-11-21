@@ -1,0 +1,280 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+{% block extrahead %}   
+ 
+ 
+{% endblock %}{% block content %}
+ <script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+   
+
+    Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+
+});
+</script>
+
+
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}   }
+</style>
+<script type="text/javascript">
+       $.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+       $( document ).ready( function () {
+           $( "#form3" ).validate( {
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                   prop_description: {
+                       required:true
+                   },
+                   doc_number: {
+                       required:true
+                   },
+                   doc_date: {
+                       required:true
+                    },
+                   place: {
+                       required:true
+                    },
+                   acquired_source: {
+                       required:false   
+                   },
+                   purchase_value: {
+                       required:true,
+                   },
+                   present_value:{
+                        required:true,
+                   },
+                   order_no: {
+                       required:false,                
+                   },
+                   order_date: {
+                       required:false, 
+                   }
+                   },
+               messages: {
+                   prop_description: {
+                       required: "Enter the Description of the Property"
+                   },
+                   doc_number: {
+                       required: "Enter the Document Number of Property"      
+                   },
+                   doc_date: {
+                       required: "Enter the Document Date of the Property"   
+                   },
+                   place: {
+                       required: "Enter the Place where the Property is Located"
+                   },
+                   acquired_source: {
+                       required: "Enter the Source of Income"  
+                   },
+                   purchase_value: {
+                       required: "Enter the Total Value of Purchase"
+                   },
+                   present_value:{
+                        required:"Enter the Present Value"
+                   },
+                   order_no: {
+                       required: "Enter the Order Number"
+                  },
+                  order_date: {
+                       required: "Enter the Date of Order"
+                  }
+               },
+               errorElement: "em",
+               errorPlacement: function ( error, element ) {
+                   // Add the `help-block` class to the error element
+                   error.addClass( "help-block" );
+                   if ( element.prop( "type" ) === "checkbox" ) {
+                       error.insertAfter( element.parent( "label" ) );
+                   } else {
+                       error.insertAfter( element );
+                   }
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+               }
+           } );
+      } );
+   </script>
+
+  <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+
+
+<script type="text/javascript">
+
+function dob_regular(val)
+{
+    var doc_date = document.getElementById('doc_date').value;   
+    var dategovt = document.getElementById('dategovt').value;   
+    var order_date = document.getElementById('order_date').value;    
+    var today = new Date();    
+    if(doc_date != ""  )
+    {   
+        var record_day1=doc_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=dategovt.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=order_date.split("/");  
+        var sum3=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var doc_date=new Date(sum1);    
+        var dategovt=new Date(sum2);  
+        var order_date=new Date(sum3);  
+
+        if ( doc_date  < dategovt )
+        {
+            document.getElementById("order_div").style.display = 'none';
+        }  
+        else
+          {
+            document.getElementById("order_div").style.display = 'block';
+        } 
+       
+        if(order_date < doc_date || doc_date > today )
+        {
+            alert("Enter the Date after the Date of Appointment ");
+            document.getElementById('doc_date').focus();
+            document.getElementById('doc_date').value="";
+            doc_date.style.backgroundColor = "MistyRose"; 
+            }
+           
+        if ( order_date < dategovt || order_date > today)
+
+        {   alert("Enter the Date after the Date of Appointment");
+            document.getElementById('order_date').focus();
+            document.getElementById('order_date').value="";
+            order_date.style.backgroundColor = "MistyRose";   
+        }   
+        }
+        return false; 
+        }
+        </script>
+
+ <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+ <fieldset>
+     {% csrf_token %}
+
+<center><h5 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF IMMOVABLE PROPERTY</h5></center> 
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+ <h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<br>
+<br>
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Description of the Property" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="prop_description" name="prop_description"  value="{{form.prop_description.value}}" onclick="select()" placeholder="NONE" maxlength="100" /></div>
+<span class="error_message">{{form.prop_description.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Document No. of the Property " %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="doc_number" name="doc_number"  value="{{form.doc_number.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.doc_number.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Document Date of Property" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory" id="doc_date" name="doc_date"  value="{{form.doc_date.value|date:"d/m/Y" }}" onchange= "dob_regular(this.value)" maxlength="10" /></div>
+<span class="error_message">{{form.doc_date.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Place Where the Property is Located" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="place" name="place"  value="{{form.place.value}}" onclick="select()" placeholder="NONE" maxlength="100" /></div>
+<span class="error_message">{{form.place.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Source of Income" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="acquired_source" name="acquired_source"  value="{{form.acquired_source.value}}" onclick="select()" placeholder="NONE" maxlength="100" /></div><span class="error_message">{{form.acquired_source.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Total Value of Purchase" %}</b><input type="number" class="form-control" class="mandatory" id="purchase_value" name="purchase_value"  value="{{form.purchase_value.value}}" onclick="select()" placeholder="NONE"  /></div><span class="error_message">{{form.purchase_value.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Present Value" %}</b><input type="number" class="form-control" class="mandatory" id="present_value" name="present_value"  value="{{form.present_value.value}}" onclick="select()" placeholder="NONE"  /></div><span class="error_message">{{form.present_value.errors}}</span>
+
+
+<div class="form-group" id="order_div" >
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Purchase Order Number" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="order_no" name="order_no"  value="{{form.order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.order_no.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Purchase Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory" id="order_date" name="order_date"  value="{{form.order_date.value|date:"d/m/Y" }}" maxlength="10" onchange = "dob_regular(this.value)" /></div>
+<span class="error_message">{{form.order_date.errors}}</span>
+</div>
+
+<tr><button class='btn btn-large btn-success' type='submit'>{% trans "Submit" %}
+    </button></tr></form><br>
+    <form action='' method="POST">
+<table  border="2" >
+
+<tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "Description of the Property" %}</th>
+            <th style="text-align:center;">{% trans "Property Document No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Property Document" %}</th> 
+            <th style="text-align:center;">{% trans "Place" %}</th>
+            <th style="text-align:center;">{% trans "Source of Income" %}</th>
+            <th style="text-align:center;">{% trans "Purchase value" %}</th>
+           <th style="text-align:center;">{% trans "Present Value" %}</th>
+           <th style="text-align:center;">{% trans "Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Order" %}</th>
+            <th style="text-align:center;">{% trans "Update" %}</th>
+            
+  </tr>
+ 
+        
+{% for i in edu_list %}
+        <tr><td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ staff_name|upper }} </td>
+        <td> {{ i.prop_description|upper }}</td>
+        <td> {{ i.doc_number |upper}}</td>
+        <td> {{ i.doc_date }}</td>
+        <td> {{ i.place|upper }}</td>
+        <td> {{ i.acquired_source |upper}}</td>
+        <td> {{ i.purchase_value }}</td>
+        <td> {{ i.present_value }}</td>
+        <td> {{ i.order_no |upper}}</td>
+        <td> {{ i.order_date }}</td>
+        <td><a  href="/teachers/teacher_immovable_update/{{tid}}/{{i.id}}/"><button type="button" class="btn btn-warning">Update</button></a></td>
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+
+    </div>
+    </div>
+    </div>
+    
+    {% endblock %}
+
+
+
+

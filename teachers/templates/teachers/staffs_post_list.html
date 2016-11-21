@@ -1,0 +1,160 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% block content %}
+{% load url from future %}
+
+
+
+<style type="text/css">
+
+#k{
+      
+      border: 1px solid blue;
+      padding: 8px ; 
+      color:#069;    
+      text-align: center;  
+
+}
+#m{
+      
+      border: 1px solid blue;
+      padding: 8px ; 
+      color:#069;
+      width:10;
+      text-align: center;
+
+      
+}
+
+</style>
+
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+
+{% if request.user.account.user_category.user_category == 'district' %}
+
+
+
+<table id="k" cellspacing="5"  align="center" width="700" >
+<th colspan="5" align="center"><p align='center'> NON-TEACHING STAFF</th></p></tr>
+<tr id="k" >
+<th id="m" style="color: white;"><p> S. No.</p></th>
+<th id="k" style="text-align: center;color: white;" > Designation </th>
+<!-- <th id="m" style="color: white;"> Subjects </th> -->
+<th id="m"style="color: white;"> Sanctioned Post</th>
+<th id="m" style="color: white;"> Filled Post</th>
+</tr>
+<tr id="k" >
+
+
+{% for i in nonteaching_rec %}
+<tr id="k">
+    <td id="k">{{forloop.counter}}</td>  
+    <td id="k" style="text-align: left;">{{ i.post_desig}}</td>
+    <!--   <td id="k">{{i.subject}}</td>   -->
+    <td id="k">{{i.post_sanc }}</td>    
+    <td id="k" >   {{i.post_filled }}   </td>
+
+
+
+</tr>    
+
+{% endfor %}
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="2" style="color: white;"> Total Number of Non-Teaching Staff</td>
+  <td id="k"  style="color: white;">{{nteaching_count|default:0}}</td> <td id="k" style="color: white;">{{b|default:0}}</td>
+</tr>
+</table>
+
+{% else %}
+
+
+<table id="k" cellspacing="5"  align="center" width="1000" >
+ 
+
+<th colspan="10" align="center"><p align='center'> NON-TEACHING STAFF</th></p></tr>
+
+<tr id="k" >
+<th id="m" style="color: white;"><p> Sl.No</p></th>
+
+<th id="k" style="color: white;"> Name of the Sanctioned Post</th>
+
+<th id="m" style="color: white;"> Mode of Sanction </th>
+<th id="m" style="color: white;"> G.O. Number</th>
+<th id="k" style="color: white;"> G.O. Date</th>
+<th id="m"style="color: white;"> Number of Post Sanctioned</th>
+
+<th id="m" style="color: white;"> Filled Post</th>
+<th id="m" style="color: white;"> Vacant Post</th>
+
+<th id="m" style="color: white;"> Click To </th>
+
+</tr>
+<tr id="k" >
+
+
+{% for i in nonteaching_rec %}
+<tr id="k">
+    <td id="k">{{forloop.counter}}</td>  
+
+
+    
+        <td id="k"> {{ i.post_name}}</td>
+       
+        <td id="k"> {{ i.post_mode}}</td>
+         <td id="k"> {{ i.post_GO}}</td>
+        <td id="k"> {{ i.post_GO_dt}}</td>
+        <td id="k"> {{ i.post_sanc}}</td>
+       
+   
+    <td id="k">   {{i.post_filled }}  </td>
+    <td id="k">     {{i.post_vac}} </td>
+
+{% if i.post_vac > 0  %}
+   
+     <td id="m"><a href='/teachers/teacher_new_entry/{{i.id}}/2'>Make Entry</a>         </td>
+     {% else %}
+     <td id="m"><a href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>List Entry</a>        </td>        </td>
+    
+     
+     {% endif %}
+
+
+
+
+
+
+</tr>    
+
+{% endfor %}
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="5" style="color: white;"> Total Number of Non-Teaching Staff</td>
+  <td id="k"  style="color: white;">{{nteaching_sanc|default:0}}</td> <td id="k" style="color: white;">{{nteaching_filled|default:0}}</td>   <td id="k" style="color: white;">
+  {{nteaching_vac|default:0}}</td>  <td></td>
+</tr>
+<script type="text/javascript">
+  document.getready.funtion
+</script>
+
+
+
+
+</table>
+
+ 
+
+
+
+
+
+{% endif %}
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,2325 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+{% block extrahead %} 
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="/site_media/static/js/jquery.steps.js"></script>
+<script src="/site_media/static/js/stepExample.js"></script>
+     
+
+
+<script src="/site_media/static/js/jquery-ui.min.js"></script> 
+<script src="/site_media/static/js/Verhoeff.js"></script> 
+
+
+{% endblock %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}
+}
+</style>
+
+<style type="text/css">
+.checkbxinput {
+  color: green;
+  background-color: green;
+  }
+
+ .sectiondiv {
+            height: 300px;
+            overflow-y: scroll;
+
+        }
+</style>
+
+
+
+<script type="text/javascript">
+       $.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+
+       $( document ).ready( function () {
+          $( "#form3" ).validate( {
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                   name: {
+                       required:true
+                   },
+                   dob: {
+                       required:true
+                   },
+                   gender: {
+                       required:true
+                   },
+                   teacher_differently_abled: {
+                       required:true
+                   },
+                   father_name: {
+                       required:true
+                   },
+                   marital: {
+                       required:true
+                   },
+                   religion: {
+                       required:true
+                   },
+                   community: {
+                       required:true
+                   },
+                   sub_caste: {
+                       required:false
+                   },
+                   mothertongue: {
+                       required:true
+                   },
+                   native_district: {
+                       required:true
+                   },
+                   imark1: {
+                       required:true
+                   },
+                   imark2: {
+                       required:true
+                   },
+                   blood_group: {
+                       required:true
+                   },
+                   height: {
+                       required:true,
+                        min:120,
+                        max:200,
+                   },
+                   weight: {
+                       required:true,
+                       min:40,
+                       max:200
+                   },
+                   phone_number: {
+                       required:true,
+                       min:7000000000,
+                       max:9999999999
+                   },
+                   pan_number: {
+                       required:true
+                   },
+                   aadhaar_number: {
+                       required:true
+                   },
+                   bank_dist: {
+                       required:true
+                   },
+                   bank: {
+                       required:true
+                   },
+                   branch: {
+                       required:true
+                   },
+                   bank_account_no: {
+                       required:true,
+                       min:1000,
+                       maxlength:16
+                   },
+                   pres_add_flatno: {
+                       required:true
+                   },
+                   pres_add_street: {
+                       required:true
+                   },
+                   pres_add_area: {
+                       required:true
+                   },
+                   pres_add_city: {
+                       required:true
+                   },
+                   present_pincode: {
+                       required:true,
+                       min:600000
+                   },
+                   present_district: {
+                       required:true
+                   },
+                   perm_add_flatno: {
+                       required:true
+                   },
+                   perm_add_street: {
+                       required:true
+                   },
+                   perm_add_area: {
+                       required:true
+                   },
+                   perm_add_city: {
+                       required:true
+                   },
+                   permanent_pincode: {
+                       required:true,
+                       min:600000
+
+                   },
+                   permanent_district: {
+                       required:true
+                   },
+                   pension_name: {
+                       required:true
+                   },
+                  doregu: {
+                       required:true
+                   },
+                   pension_number: {
+                       required:true
+                   },
+                   dofags: {
+                       required:true
+                   },
+                   designation_fags: {
+                       required:true
+                   },
+                   dofsed: {
+                       required:true
+                   },
+                   designation_fased: {
+                       required:true
+                   },
+                   typewite_skill_level: {
+                       required:true
+                   },
+                   employment_status: {
+                       required:true
+                   },
+                   pay_drawing_officer: {
+                       required:true
+                   },
+                   increment_month: {
+                       required:true
+                   },
+                   uploadfile: {
+                       required:false
+                   },
+                   email:{
+                    required:true,
+                    email:true
+                   },
+                    passport: {
+                       required:true             
+
+                   },
+                   uta: {
+                       required:true
+                   },
+                   appointed_aided: {
+                       required:true
+                   },
+                      language_test: {
+                         required:true
+                     },
+
+                     dojocs_session: {
+                         required:true
+                     },
+                      doregu_session: {
+                         required:true
+                     },
+
+                      evaluation: {
+                       required:true
+
+
+                   }
+    
+               },
+               messages: {
+
+                   name: {
+                       required:"Enter Name"
+                   },
+                   dob: {
+                       required:"Enter the Date of Birth"
+                   },
+                   gender: {
+                       required:"Select the Gender"
+                   },
+                   teacher_differently_abled: {
+                       required:"Select the Required Field"
+                   },
+                   father_name: {
+                       required:"Enter Name of the Father"
+                   },
+                   marital: {
+                       required:"Select the Marital Status"
+                   },
+                   doregu: {
+                       required:"Enter the Date of Regularisation "
+                   },
+                   dojocs_session: {
+                       required:"Enter the Session "
+                   },
+                    doregu_session: {
+                       required:"Enter the Session "
+                   },
+                   religion: {
+                       required:"Select the Religion"
+                   },
+                   community: {
+                       required:"Select the Community"
+                   },
+                   sub_caste: {
+                       required:"Select the SubCaste"
+                   },
+                   mothertongue: {
+                       required:"Select the Mothertongue"
+                   },
+                   native_district: {
+                       required:"Select the Native District"
+                   },
+                   imark1: {
+                       required:"Enter the Identification Mark-1"
+                   },
+                   imark2: {
+                       required:"Enter the Identification Mark-2"
+                   },
+                   blood_group: {
+                       required:"Select the Blood Group"
+                   },
+                   height: {
+                       required:"Enter the Height"
+                   },
+                   weight: {
+                       required:"Enter the Weight"
+                   },
+                   phone_number: {
+                       required:"Enter the Mobile Number"
+                   },
+                   pan_number: {
+                       required:"Enter Pan Number"
+                   },
+                   aadhaar_number: {
+                       required:"Enter Aadhaar Number"
+                   },
+                   bank_dist: {
+                       required:"Select the District"
+                   },
+                   bank: {
+                       required:"Select the Bank"
+                   },
+                   branch: {
+                       required:"Select the Branch Name"
+                   },
+                   bank_account_no: {
+                       required:"Enter Bank Account Number"
+                   },
+                   pres_add_flatno: {
+                       required:"Enter Door / Flat number"
+                   },
+                   pres_add_street: {
+                       required:"Enter Name of the Street"
+                   },
+                   pres_add_area: {
+                       required:"Enter Name of the Area"
+                   },
+                   pres_add_city: {
+                       required:"Enter Name of the City / Town / Village"
+                   },
+                   present_pincode: {
+                       required:"Enter the Pincode"
+                   },
+                   present_district: {
+                       required:"Select the Residential District"
+                   },
+                   perm_add_flatno: {
+                       required:"Enter Flat / Door Number"
+                   },
+                   perm_add_street: {
+                       required:"Enter the Name of the Street"
+                   },
+                   perm_add_area: {
+                       required:"Enter the Name of the Area"
+                   },
+                   perm_add_city: {
+                       required:"Enter Name of the City / Town / Village"
+                   },
+                   permanent_pincode: {
+                       required:"Enter the Pincode"
+                   },
+                   permanent_district: {
+                       required:"Select the Permanent District"
+                   },
+                   pension_name: {
+                       required:"Select the Penstion Type"
+                   },
+                   pension_number: {
+                       required:"Enter the Pension Number"
+                   },
+                   dofags: {
+                       required:"Enter First Government Service Entry Date"
+                   },
+                   designation_fags: {
+                       required:"Enter First Government Service Designation"
+                   },
+                   dofsed: {
+                       required:"Enter the Date of Appointment in Government Service"
+                   },
+                   designation_fased: {
+                       required:"Select the Designation in School Education Department"
+                   },
+
+                   typewite_skill_level: {
+                       required:"Select the Typing skill "
+                   },
+                   employment_status: {
+                       required:"Select the Employment Status"
+                   },
+                   pay_drawing_officer: {
+                       required:"Select the Pay Drawing Officer"
+                   },
+                   increment_month: {
+                       required:"Select the  Month of Increment"
+                   },
+                   uploadfile: {
+                       required:"Upload Photo(format .jpeg or .jpg only)"
+                   },
+                   email:{
+                    required:"Enter valid Email "
+                   },
+                     passport: {
+                       required:"Select Yes/No"
+                   },
+                   uta: {
+                       required:"Select Yes/No"
+                   },
+                   appointed_aided: {
+                       required:"Select Yes/No"
+                   },
+                      language_test: {
+                         required:"Select Yes/No"
+                     },
+
+                      evaluation: {
+                       required:"Select Yes/No"
+                   }
+                   
+                  
+               },
+               errorElement: "em",
+               errorPlacement: function ( error, element ) {
+                   // Add the `help-block` class to the error element
+                   error.addClass( "help-block" );
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+                       error.insertAfter( element.parent( "label" ) );
+                   } else {
+                       error.insertAfter( element );
+                   }
+               },
+               highlight: function ( element, errorClass, validClass ) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+               },
+               unhighlight: function (element, errorClass, validClass) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+               }
+           } );
+
+      } );
+   </script>
+
+
+<script type="text/javascript">
+function validate_photo()
+{   
+   var fileUpload = document.getElementById("uploadfile").value;   
+   var ext = fileUpload.split('.').pop();
+   if(String(ext) != "jpg" && String(ext) != "jpeg")
+       { alert("Upload the File with JPG or JPEG format Only");
+         document.getElementById("uploadfile").focus();
+         document.getElementById("uploadfile").value = '';
+         return false;}
+   var filename= fileUpload.replace(/^.*[\\\/]/, '');
+   var fileUploads = document.getElementById("uploadfile");
+    if (typeof (fileUploads.files) != "undefined") {
+           var size = parseFloat(fileUploads.files[0].size / 1024).toFixed(2);
+           if (size > 50) {
+               alert("Upload the File with size less than 50 KB");
+               document.getElementById("uploadfile").focus();
+               document.getElementById("uploadfile").value = '';
+               return false;
+           }}
+        else {
+           alert("This browser does not support HTML5.");
+       }
+}
+</script>
+
+<script>
+
+    $.validator.addMethod('notNone', function(value, element) {
+        return (value != 'none' && value != "Please select");
+    }, 'Please select an option.');
+
+    $(function ()
+    {
+        $("#lefthand-nav").affix({
+            offset: {
+                top: function ()
+                {
+                    return $("#topbar").outerHeight() + $("#banner").outerHeight();
+                }
+            }
+        });
+
+        prettyPrint();
+
+        function errorPlacement(error, element)
+        {
+            element.before(error);
+
+        }
+
+
+        $("#form3").steps({
+            headerTag: "h3",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            autoFocus: "true",
+            onStepChanging: function (event, currentIndex, newIndex)
+            {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex)
+                {
+                    return true;
+                }
+
+                // Forbid next action on "Warning" step if the user is to young
+                // if (newIndex === 3 && Number($("#age-2").val()) < 18)
+                // {
+                //     return false;
+                // }
+
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex)
+                {
+                    // To remove error styles
+                    $("#form3 .body:eq(" + newIndex + ") label.error").remove();
+                    $("#form3 .body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+
+                $("#form3").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form3").valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex)
+            {
+                // Used to skip the "Warning" step if the user is old enough.
+                // if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
+                // {
+                //     $("#form-3").steps("next");
+                // }
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                // if (currentIndex === 2 && priorIndex === 3)
+                // {
+                //     $("#form-3").steps("previous");
+                // }
+            },
+            onFinishing: function (event, currentIndex)
+            {
+                $("#form3").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form3").valid();
+            },
+            onFinished: function (event, currentIndex)
+            {
+                var form = $(this);
+                form.submit();
+            }
+        }).validate({
+                    errorPlacement: errorPlacement,
+                    rules: {
+                                            height:{
+                            digits:true,
+                            min:100,
+                            max:200,
+                        },
+                        
+                      
+                    }
+                });
+
+
+    });
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+   
+    
+
+    var x = document.getElementById('appointed_aided_date').value;
+    var dif=document.getElementById('teacher_differently_abled').value;
+    diff_able(dif);
+    
+    var flag = document.getElementById("passport").value;
+    passport1(flag);
+
+    var flag1 = document.getElementById("uta").value;
+    uta1(flag1);
+
+    var flag2 = document.getElementById("appointed_aided").value;
+    aided1(flag2);
+
+    var flag3 = document.getElementById("evaluation").value;
+    evaluation1(flag3);
+
+    var flag4 = document.getElementById("teacher_differently_abled").value;
+    diff_able(flag4);
+   
+    });
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function dob_prob(val)
+{
+    
+    
+    var app_date = document.getElementById('doregu').value;    
+    var prob_date = document.getElementById('doprob').value;
+    var today = new Date(); 
+    
+    if(prob_date != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+
+        var appoint_date=new Date(sum1);  
+        var b=appoint_date.setDate(appoint_date.getDate() + 365);   
+        var probation_date=new Date(sum2); 
+   
+       
+        
+        if(appoint_date > probation_date || probation_date < b || probation_date > today)
+        {
+            alert("Check the Date of Probation  OR  Future date can not be Entered ");
+            document.getElementById('doprob').focus();
+            document.getElementById('doprob').value="";
+            doprob.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('doprob').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function dob_dosfed(val)
+{   var app_date = document.getElementById('dofags').value;    
+    var prob_date = document.getElementById('dofsed').value;
+    var today = new Date();     
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var dofags=new Date(sum1);    
+        var dofsed=new Date(sum2); 
+
+
+        
+        if(dofsed < dofags  || dofsed > today)
+        {
+            alert("Check the Date ");            
+            document.getElementById('dofsed').value="";
+            document.getElementById('dofsed').focus();
+
+            dofsed.style.backgroundColor = "MistyRose";
+            
+        }
+        else
+        {document.getElementById('dofsed').style.background = 'none';}
+
+    } 
+    return false;
+}
+</script>
+
+
+
+<script type="text/javascript">
+function calcAge(val) {
+  
+
+    var val = document.getElementById('dob').value; 
+
+     
+
+     var record_day2=val.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record5 = new Date(sum1);
+        
+     var ageDifMs = Date.now() - record5.getTime();
+     
+     var ageDate = new Date(ageDifMs);
+     var age=ageDate.getFullYear() - 1970;
+     if( age>=18 && age<=60)
+        {
+            
+        document.getElementById('dob').style.background = 'none';
+        var dob=document.getElementById("dob").value;
+    var design=$("#design option:selected").text()
+
+ser_type = {{service_type}}
+
+if(ser_type==0)
+  {var res = dob.split("/");
+day=Number(res[0]);
+
+month=Number(res[1]);
+
+year=Number(res[2]);
+
+   
+       if ((day==1)&&(month==1))
+       {
+           r_month=12;
+           r_year=(year+60)-1;
+       }
+       else if(day==1)
+       {
+           r_month=month-1;
+           r_year=year+60;
+       }
+       else
+       {
+           r_month=month;
+           r_year=year+60;
+       }
+
+if (r_month==1 || r_month==3 || r_month==5 || r_month==7 || r_month==8 || r_month==10 || r_month==12)
+       {
+           r_day=31;
+       }
+       else if (r_month!=2)
+       {
+           r_day=30;
+       }
+       else
+       {
+           if (r_year%400==0 || r_year%100==0 || r_year%4==0)
+               r_day=29;
+           else
+               r_day=28;
+       }}
+
+       else
+       {
+        var res = dob.split("/");
+day=Number(res[0]);
+
+month=Number(res[1]);
+
+year=Number(res[2]);
+
+   
+       if ((day==1)&&(month==1))
+       {
+           r_month=12;
+           r_year=(year+58)-1;
+       }
+       else if(day==1)
+       {
+           r_month=month-1;
+           r_year=year+58;
+       }
+       else
+       {
+           r_month=month;
+           r_year=year+58;
+       }
+
+if (r_month==1 || r_month==3 || r_month==5 || r_month==7 || r_month==8 || r_month==10 || r_month==12)
+       {
+           r_day=31;
+       }
+       else if (r_month!=2)
+       {
+           r_day=30;
+       }
+       else
+       {
+           if (r_year%400==0 || r_year%100==0 || r_year%4==0)
+               r_day=29;
+           else
+               r_day=28;
+       }
+       }
+document.getElementById("dor").value=r_day + "/" +r_month+ "/" +r_year;
+    }
+     else
+        {
+            alert('Check the Date of Birth');
+        document.getElementById('dob').value = "";
+        document.getElementById('dob').style.background = 'pink';
+        document.getElementById('dob').focus(); 
+ }
+ return false;
+}
+</script>
+
+<script type="text/javascript">
+function dob_regular(val)
+{
+    
+    
+    var app_date = document.getElementById('dofsed').value;
+    
+    var prob_date = document.getElementById('doregu').value;
+    var today = new Date(); 
+    
+    if(prob_date != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Check the Date of  Regularisation  OR  Future Date can not be Entered ");
+            document.getElementById('doregu').focus();
+            document.getElementById('doregu').value="";
+            doregu.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('doregu').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+<script type="text/javascript">
+function dob_post(val)
+{
+    var app_date = document.getElementById('dofsed').value;    
+    var prob_date = document.getElementById('dojocs').value;
+    var today = new Date(); 
+    if(prob_date != "" )
+    {
+
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Check the Date of  Joining in the present school  OR  Future Date can not be Entered ");
+            document.getElementById('dojocs').focus();
+            document.getElementById('dojocs').value="";
+            dojocs.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('dojocs').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+<script type="text/javascript">
+function dob_uta(val)
+{
+    
+    
+    var app_date = document.getElementById('dofsed').value;
+    
+    var uta_date = document.getElementById('uta_date').value;
+    var today = new Date(); 
+    
+    if(uta_date != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=uta_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var uta_date=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > uta_date || uta_date > today)
+        {
+            alert("Check the Date of Unit Transfer OR  Future date can not be entered ");
+            document.getElementById('uta_date').focus();
+            document.getElementById('uta_date').value="";
+            uta_date.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('uta_date').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+<script type="text/javascript">
+function dob_passport_from(val)
+{
+    
+    
+    var app_date = document.getElementById('dob').value;
+    
+    var passport_date_from = document.getElementById('passport_date_from').value;
+    var today = new Date(); 
+    
+    if(passport_date_from != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=passport_date_from.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var passport_date_from=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > passport_date_from || passport_date_from > today)
+        {
+            alert("Check the Date of Issue of the Passport OR  Future date can not be entered ");
+            document.getElementById('passport_date_from').focus();
+            document.getElementById('passport_date_from').value="";
+            passport_date_from.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('passport_date_from').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+<script type="text/javascript">
+function dob_appointed_aided_date(val)
+{    
+    
+    var app_date = document.getElementById('dofsed').value;
+    var appointed_aided_date = document.getElementById('appointed_aided_date').value;
+    var dob = document.getElementById('dob').value;
+    var today = new Date(); 
+        if(appointed_aided_date != "" )
+    {   
+       
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var appoint_date=new Date(sum1);
+        
+        
+        var record_day2=appointed_aided_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appointed_aided_date1=new Date(sum2); 
+               
+       
+        var dobirth=dob.split("/");  
+        var sum3=dobirth[2]+'/'+dobirth[1]+'/'+dobirth[0];
+        var dob1=new Date(sum3);  
+        var timeDiff = Math.abs(appointed_aided_date1.getTime() - dob1.getTime());
+        var b = Math.ceil(timeDiff / (1000 * 3600 * 24));
+       
+        
+        // var b=dob1.setDate(dob1.getDate() + 6574);
+             
+               
+        if(appointed_aided_date1 > appoint_date || appointed_aided_date1 > today || b < 6574)
+        {
+            alert("Check the Date OR  Future date can not be entered ");
+            document.getElementById('appointed_aided_date').focus();
+            document.getElementById('appointed_aided_date').value="";
+            appointed_aided_date.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('appointed_aided_date').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+<script type="text/javascript">
+function dob_approval_aided_date(val)
+{
+    var app_date = document.getElementById('appointed_aided_date').value;
+    var approval_aided_date = document.getElementById('approval_aided_date').value;
+    var today = new Date(); 
+    
+    if(approval_aided_date != "" )
+    {        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=approval_aided_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var approval_aided_date=new Date(sum2); 
+        
+       
+        
+        if(appoint_date < approval_aided_date || approval_aided_date > today)
+        {
+            alert("Check the Date of  Approval OR  Future date can not be entered ");
+            document.getElementById('approval_aided_date').focus();
+            document.getElementById('approval_aided_date').value="";
+            approval_aided_date.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('approval_aided_date').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+
+<script type="text/javascript">
+function dob_evaluation_date(val)
+{
+    
+    
+    var app_date = document.getElementById('dofsed').value;
+    
+    var evaluation_date = document.getElementById('evaluation_date').value;
+    var today = new Date(); 
+    
+    if(evaluation_date != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=evaluation_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var evaluation_date=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > evaluation_date || evaluation_date > today)
+        {
+            alert("Check the Date of  Evaluation OR  Future date can not be entered ");
+            document.getElementById('evaluation_date').focus();
+            document.getElementById('evaluation_date').value="";
+            evaluation_date.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('evaluation_date').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+<script type="text/javascript">
+function dob_passport_to(val)
+{
+    
+    
+    var app_date = document.getElementById('passport_date_from').value;
+    
+    var passport_date_to = document.getElementById('passport_date_to').value;
+    
+    
+    if(passport_date_to != "" )
+    {
+
+        
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=passport_date_to.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var passport_date_to=new Date(sum2); 
+        
+       
+        
+        if(appoint_date > passport_date_to)
+        {
+            alert("Check the passport Date of Expiry ");
+            document.getElementById('passport_date_to').focus();
+            document.getElementById('passport_date_to').value="";
+            passport_date_to.style.backgroundColor = "MistyRose";
+            
+        }
+         else
+        {document.getElementById('passport_date_to').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+<script type="text/javascript">
+function dobcheck(val)
+{
+    
+
+    var regis_validity = document.getElementById('dob').value;
+    // alert(regis_validity);    
+    var regis_date = document.getElementById('dofags').value; 
+    // alert(regis_date);    
+    var today = new Date(); 
+    // alert(today);
+
+
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=regis_validity.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        // var record2 = new Date(regis_validity);
+        // var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        // var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        // alert(record5);
+        var record4 = new Date(sum2); 
+        // alert(record4);
+        var record3 = new Date(today);
+        // alert(record3);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+        var enterdays=Math.ceil(date1_ms/ONE_DAY);
+       
+        var days=Math.ceil(date2_ms/ONE_DAY);
+        var dobdays=days+6574;
+        
+
+        if(govt < enterdate || enterdate <=1 || dobdays > enterdays  ) 
+        {   alert("Check the Date");
+            document.getElementById('dofags').blur();
+            document.getElementById('dofags').value="";
+            document.getElementById('dofags').focus();
+            dofags.style.backgroundColor = "MistyRose";
+        }
+        else
+        {document.getElementById('dofags').style.background = 'none';}
+        return false; 
+      }  
+
+}
+</script>
+
+ 
+        <script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+        </script>
+ 
+
+<script type="text/javascript">
+function AllowAlphabet(){
+if (!frm.name.value.match(/^[a-zA-Z\.\ ]+$/) && frm.name.value !="")
+{
+frm.name.value="";
+frm.name.focus();
+// alert("Please Enter only alphabets in text");
+}
+}
+function AllowAlphabetM(){
+if (!frm.mother_name.value.match(/^[a-zA-Z\.\ ]+$/) && frm.mother_name.value !="")
+{
+frm.mother_name.value="";
+frm.mother_name.focus();
+}
+}
+function AllowAlphabetF(){
+if (!frm.father_name.value.match(/^[a-zA-Z\.\ ]+$/) && frm.father_name.value !="")
+{
+frm.father_name.value="";
+frm.father_name.focus();
+}
+}
+function AllowAlphabetS(){
+if (!frm.spouse_name.value.match(/^[a-zA-Z\.\ ]+$/) && frm.spouse_name.value !="")
+{
+frm.spouse_name.value="";
+frm.spouse_name.focus();
+}
+}
+
+function leapyear(year)
+{
+    return((year % 4 == 0 ) && ( year % 100 != 0 )) || ( year % 400 == 0 );
+}
+
+function abled()
+       { 
+            var result= $("#teach_diff_able_deci option:selected").text()
+            if(result == 'Yes') 
+            {
+
+                document.getElementById('teach_diff_abled_type_div1').style.display = "";
+                document.getElementById('teach_diff_abled_type_div2').style.display = "";
+
+            } 
+
+            else {   
+
+                document.getElementById('teach_diff_abled_type_div1').style.display = "none";
+                document.getElementById('teach_diff_abled_type_div2').style.display = "none";
+            }
+        }
+</script>
+
+
+<script> $(function() { $( "#calendar" ).datepicker(); }); </script>
+
+<script type="text/javascript">
+function passport1(flag)
+{
+    if (flag == "True" )
+    {
+        document.getElementById("passport_div").style.display = 'block';
+    
+    }
+    else
+    {
+        document.getElementById("passport_div").style.display = 'none';
+        document.getElementById("passport_no").value = '';
+        document.getElementById("passport_date_from").value ="Null" ;
+        document.getElementById("passport_date_to").value = "Null";
+
+    }
+}
+
+function aided1(flag)
+{
+    if (flag == "True" )
+    {
+        document.getElementById("appointed_aided_div").style.display = 'block';
+        
+    }
+    else{
+        document.getElementById("appointed_aided_div").style.display = 'none';
+        document.getElementById("appointed_aided_date").value = 'Null';
+        document.getElementById("approval_aided_date").value = 'Null';
+        document.getElementById("aided_order_no").value = '';
+
+    }
+    
+}
+
+function evaluation1(flag)
+{
+    if (flag == "True" )
+    {
+        document.getElementById("evaluation_div").style.display = 'block';
+        
+    }
+    else{
+        document.getElementById("evaluation_div").style.display = 'none';
+        document.getElementById("evaluation_date").value = 'Null';
+        document.getElementById("eval_order_no").value = '';
+        document.getElementById("evaluation_auth").value = '';
+    }
+    
+}
+
+function uta1(flag)
+{
+    if (flag == "True" )
+    {
+        document.getElementById("uta_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("uta_div").style.display = 'none';
+        document.getElementById("uta_order_no").value = "";
+        document.getElementById("uta_date").value = "Null";
+     
+    }
+    
+}
+
+
+
+// $(document).ready(function() 
+
+ function typewriting(flag)
+{ 
+  if (flag == 'No' )
+    {
+        document.getElementById("typelang_div").style.display = 'none';
+        document.getElementById("tamil_jr").checked = false;
+        document.getElementById("tamil_sr").checked = false;
+        document.getElementById("eng_jr").checked = false;
+        document.getElementById("eng_sr").checked = false;
+    }
+    else{
+        document.getElementById("typelang_div").style.display = 'block';
+}
+}
+</script>
+
+
+<script type="text/javascript">
+    function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+ }
+</script>
+
+
+<script = "text/javascript">
+
+    
+function mar_div(flag)
+{
+    if (flag == 'Married' )
+    {
+        document.getElementById("spouse_name_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div").style.display = 'none';
+
+    }
+
+
+    
+}
+
+
+function fmg_validate()
+{
+    
+    father = document.getElementById("father_name").value;
+    mother = document.getElementById("mother_name").value;
+    obj = document.getElementById("fmg_status");
+    if((father == "") && (mother == "") )
+    {
+       alert(" Enter atleast any one of these : Father/Mother Name");
+       document.getElementById("father_name").focus();
+    }
+    
+}
+
+function validate_aadhaar(aadhaar)
+{
+    var strVal = aadhaar;
+    obj = document.getElementById("aadhaar_status");
+    if ((strVal.length == 12) && (strVal.verhoeffCheck() == true))
+    {
+        obj.innerHTML = "Aadhaar number is valid.";
+    }
+    else
+    {
+        obj.innerHTML = "Aadhaar number is not valid.";
+    }
+}
+
+
+function addressclick(flag)
+{
+    if (flag == "Yes" )
+    {
+        document.getElementById("perm_add_flatno").value = document.getElementById("pres_add_flatno").value;
+       document.getElementById("perm_add_street").value = document.getElementById("pres_add_street").value;
+       document.getElementById("perm_add_area").value = document.getElementById("pres_add_area").value;
+       document.getElementById("perm_add_city").value = document.getElementById("pres_add_city").value;
+       document.getElementById("permanent_pincode").value = document.getElementById("present_pincode").value;
+       document.getElementById("permanent_district").value = document.getElementById("present_district").value;
+       
+    }
+    else{
+        document.getElementById("perm_add_flatno").value = "";
+       document.getElementById("perm_add_street").value ="";
+       document.getElementById("perm_add_area").value = "";
+       document.getElementById("perm_add_city").value = "";
+       document.getElementById("permanent_pincode").value = "";
+       document.getElementById("permanent_district").value = "";
+       
+
+    }
+}
+
+function diff_able(dif)
+{ 
+    
+   
+
+    if (dif == 'Yes' )
+    {      
+    
+    document.getElementById('diff_abled_div').style.display='block';
+     
+    } 
+    else 
+    {
+         
+    document.getElementById('diff_abled_div').style.display = "none"; 
+    document.getElementById('differently_abled_type').value = ""; 
+    }
+}
+
+</script>
+
+
+<script type="text/javascript">
+
+function readURL(input) {
+  validate_photo();
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
+<table border="0" cellpadding="10" cellspacing="10"><tr><th align="center">Designation :{{desig}}</th><th>Subject: {{sub_staff}} -
+{% if staffs_type == 1 %}
+Teaching Staff
+{% else %}
+Non - Teaching Staff 
+{% endif %}</th></tr></table>
+<br><br>
+<div class="row">
+  <div>
+  <div class="container" size="500">
+
+  <form id="form3" action='' method='post' enctype="multipart/form-data" name="frm"  >
+ {% csrf_token %}
+<input name="udise_code" type="hidden" id="udise_code" value="{{udise_code}}">
+<input name="school_id" type="hidden" id="school_id" value="{{sch_code}}">
+<input name="school_office" type="hidden" id="school_office" value="{{school_office}}">
+
+<input type="hidden" name="sf_id" id="staff_id" value="{{ user }}">
+<input type="hidden" name="post_go_id" id="post_go_id" value="{{ post_go_id }}">
+
+
+     <h3>STEP</h3><section >
+
+
+<!-- Form Fileds -->
+<!-- 1 -->
+{% if count %}
+<div class="form-group"> <b>{% trans "Unique ID of the Staff" %}</b><input type="text" class="mandatory" value="{{count}}" id="count" name="count" readonly/></div><span class="error_message">{{form.count.errors}}</span>
+
+{% endif %}
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name (Initials at the End)" %}</b><input type="text" style="text-transform:uppercase" class="mandatory" value="{{form.name.value}}" id="name" name="name" onkeyup="AllowAlphabet()" /></div>
+<span class="error_message">{{form.name.errors}}</span>
+
+{{photo}}
+<div class="form-group"><b>{% trans "Photograph" %}</b>    
+<strong style="color:blue;"><input type='file' id='uploadfile' name='uploadfile' value="{{photo}}" onbrowse="validate_photo()" onchange="readURL(this);" > [Allowed Photo Size – 200 x 200 (Upto 50 KB), Allowed File format – jpg, jpeg]</strong>
+
+
+{% if photo %}<br>
+
+ <img src="{{MEDIA_URL}}{{instance.uploadfile}}" height="200" width="200"/>
+ <input type="checkbox" name="clear_photo" id="clear_photo" value="True" >Clear
+ <img id="blah" src="#" alt="Image" />
+ {%else%}
+    <img id="blah" src="#" alt="Image" />
+ {% endif %}
+
+
+</div>
+
+{% for field in form %}
+{{ field.errors|striptags }}
+{% endfor %}
+
+<!-- 2 -->
+
+
+<div class="form-group">  <strong style="color:red;">*</strong><b> {% trans "Type of Provident Fund / Pension" %}</b>    
+            
+                <select name="pension_name" class="form-control" id="pension_name">
+                    {% if p_name %}
+                <option value="{{p_name}}">{{p_name}}</option>
+                  {% endif %}
+                <option value="" >---------</option>
+                <option value="GPF">GPF</option>
+                <option value="TPF">TPF</option>
+                <option value="CPS">CPS</option>
+                </select>
+
+        </div>
+        <span class="error_message">{{form.pension_name.errors}}</span>     
+
+
+<div class="form-group"><b><strong style="color:red;">*</strong> {% trans "GPF / TPF / CPS Number " %}</b>
+           
+{% if pension_number %}
+<input type="text" class="mandatory" value="{{pension_number}}" id="pension_number" name="pension_number" maxlength="11">
+{% else %}
+ <input type="text" class="mandatory" value="{{form.pension_number.value}}" id="pension_number" name="pension_number" maxlength="11">
+         {% endif %} 
+</div>
+<div class="form-group"><b><strong style="color:red;">*</strong> {% trans "Select the Suffix" %}</b>
+        <select name="suf_name" id="suf_name">
+            {% if suf_name %}
+            <option value="{{suf_name}}">{{suf_name}}</option> 
+            {% endif %}
+            <option>--Select Suffix--</option> 
+<option value="AGRI">AGRI</option> 
+<option value="COOP">COOP</option> 
+<option value="CT">CT</option> 
+<option value="EDN">EDN</option> 
+<option value="FOREST">FOREST</option> 
+<option value="GA">GA</option> 
+<option value="IND">IND</option> 
+<option value="JAILS">JAILS</option> 
+<option value="JUDL">JUDL</option> 
+<option value="LR">LR</option> 
+<option value="MEDL">MEDL</option> 
+<option value="MISC">MISC</option> 
+<option value="PH">PH</option> 
+<option value="POLICE">POLICE</option> 
+<option value="PWD">PWD</option> 
+ <option value="REGN">REGN</option> 
+<option value="S &amp; P">S &amp; P</option> 
+<option value="SCI">SCI</option> 
+<option value="VETY">VETY</option> 
+<option value="TPF">TPF</option> 
+<option value="PORTS">PORTS</option> 
+<option value="NEW">NEW</option> 
+<option value="AIS">AIS</option> 
+<option value="AGRIP">AGRIP</option> 
+<option value="CTP">CTP</option> 
+<option value="COOPP">COOPP</option> 
+<option value="CVD">CVD</option> 
+<option value="EDNP">EDNP</option> 
+<option value="FORP">FORP</option> 
+<option value="GAP">GAP</option> 
+<option value="INDP">INDP</option> 
+<option value="JUDLP">JUDLP</option> 
+<option value="LRP">LRP</option> 
+<option value="MEDLP">MEDLP</option> 
+<option value="MISCP">MISCP</option> 
+<option value="PHP">PHP</option> 
+<option value="POLP">POLP</option> 
+<option value="PWP">PWP</option> 
+<option value="SCIP">SCIP</option> 
+<option value="S&amp;PP">S&amp;PP</option> 
+<option value="VETYP">VETYP</option> 
+<option value="WC">WC</option> 
+<option value="CCBE">CCBE</option> 
+<option value="CCHN">CCHN</option> 
+<option value="CERD">CERD</option> 
+<option value="CMDU">CMDU</option> 
+<option value="CSLM">CSLM</option> 
+<option value="CTPR">CTPR</option> 
+<option value="CTUT">CTUT</option> 
+<option value="CTNV">CTNV</option> 
+<option value="CTRY">CTRY</option> 
+<option value="CVLR">CVLR</option> 
+<option value="CHC">CHC</option> 
+<option value="AWW">AWW</option> 
+<option value="ICDS">ICDS</option> 
+<option value="NMP">NMP</option> 
+</select> 
+        </div>
+        <span class="error_message">{{form.pension_number.errors}}</span>
+
+ <!-- 3a --> 
+
+<div class="form-group"><b><strong style="color:red;">*</strong> {% trans "Type of Management" %}</b>
+{% if management %}
+            <input type="text" class="mandatory" value="{{form.management.value}}" id="management" name="management" maxlength="100" readonly />
+    {% else %}
+              <input type="text" class="mandatory" value="{{management_type}}" id="management" name="management" maxlength="100" readonly />
+
+    {% endif %}
+        </div>
+        <span class="error_message">{{form.management.errors}}</span>
+
+{% if school_office %}
+<input type="hidden" class="mandatory" value="{{school_office}}" id="school_office" name="school_office" maxlength="100" hidden />
+{% else %}
+<input type="hidden" class="mandatory" value="{{flag}}" id="school_office" name="school_office" maxlength="100" hidden />
+{% endif %}
+{% if stafs %}
+<input type="hidden" class="mandatory" value="{{stafs}}" id="stafs" name="stafs" maxlength="100" hidden />
+
+{% else %}
+<input type="hidden" class="mandatory" value="{{staffs_type}}" id="stafs" name="stafs" maxlength="100" hidden />
+{% endif %}
+{% if designation %}
+<input type="hidden" class="mandatory" value="{{designation.id}}" id="designation" name="designation" maxlength="100" hidden />
+{% else %}
+<input type="hidden" class="mandatory" value="{{teaching_entry.post_name.id}}" id="designation" name="designation" maxlength="100" hidden />
+{% endif %}
+{% if subject %}
+<input type="hidden" class="mandatory" value="{{subject.id}}" id="subject" name="subject" maxlength="100" readonly />
+{% else %}
+<input type="hidden" class="mandatory" value="{{teaching_entry.post_sub.id}}" id="subject" name="subject" maxlength="100" readonly />
+
+{% endif %}
+<div class="form-group"> <b>{% trans "Date of Birth" %}</b>
+      <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+<input class="form-control"   name="dob" id="dob" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.dob.value|date:"d/m/Y"  }}" onblur="calcAge(this.value)" >
+       
+     </div></div>
+     <span class="error_message">{{form.dob.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Date of Retirement" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+      <input class="form-control" name="dor" id="dor" type="text" data-mask="" value="{{form.dor.value|date:"d/m/Y"   }}"  readonly>
+       
+     </div></div>
+     <span class="error_message">{{form.dor.errors}}</span>
+
+     <div class="form-group"> <b> {% trans "Gender" %}</b>
+    <select name="gender" id="gender" class="form-control"  >
+        {% if gender %}
+        <option value="{{gender}}" selected="selected">{{gender}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="Male" >Male </option>
+        <option value="Female" >Female</option>
+        <option value="Transgender" id="transgen">Transgender</option>
+      </select>
+    </div><span class="error_message">{{form.gender.errors}}</span>
+
+    <div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Religion" %}</b>{{ form.religion|add_class:"mandatory" }}</div><span class="error_message">{{form.religion.errors}}</span>
+
+<!-- 11 -->
+
+
+<div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Community" %}</b>{{ form.community|add_class:"mandatory" }}</div><span class="error_message">{{form.community.errors}}</span>
+<!-- 12 -->
+
+
+    <div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Sub-Caste" %}</b>{{ form.sub_caste|add_class:"form-control" }}</div><span class="error_message">{{form.sub_caste.errors}}</span>
+
+  
+ <!-- 13 --> 
+ 
+</section>
+      
+     <h3>STEP</h3> <section>
+
+     <div class="form-group"> <b> {% trans "Mother Tongue" %}</b>
+    <select id='mothertongue' name="mothertongue"  class="form-control" >
+    {% if mothertongue %}
+        <option value="{{mothertongue.id}}">{{mothertongue.language_name}}</option>
+    {% endif %}
+    <option value="" >---------</option>
+      {% for lang in language_list %}
+        <option value="{{lang.id}}" >{{lang.language_name}}</option>
+      {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.mothertongue.errors}}</span>
+
+
+     <div class="form-group"> <b> {% trans "Marital Status" %}</b>
+    <select name="marital" id="marital"  class="form-control" onchange="mar_div(this.value)" onfocus="mar_div(this.value)" onblur="mar_div(this.value)" >
+        {% if marital %}
+        <option value="{{marital}}" selected="selected">{{marital}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="Single" >Single </option>
+        <option value="Married" >Married</option>
+        <option value="Divorcee" >Divorcee</option>
+        <option value="Widower" >Widower/Widow</option>
+      </select>
+    </div>
+    <span class="error_message">{{form.marital.errors}}</span>
+
+
+    <div class="form-group"> <b>{% trans "Name of the Father" %}</b>
+    <input type="text" class="form-control" style="text-transform:uppercase" value="{{form.father_name.value|default:''}}" id="father_name" name="father_name" onkeyup="AllowAlphabetF()" /></div><span class="error_message">{{form.father_name.errors}}</span>
+
+<!-- 9a -->
+    <div class="form-group"> <b>{% trans "Name of the Mother" %}</b>
+    <input type="text" style="text-transform:uppercase" class="form-control" value="{{form.mother_name.value|default:''}}" id="mother_name" name="mother_name" onkeyup="AllowAlphabetM()" onblur="fmg_validate()"/></div>
+    <span class="error_message">{{form.mother_name.errors}}</span>
+
+
+<!-- 10 -->
+
+<div class="form-group" id="spouse_name_div" hidden > <b>{% trans "Name of the Spouse" %}</b>
+    <input type="text" class="form-control" style="text-transform:uppercase" value="{{form.spouse_name.value|default:''}}" id="spouse_name" name="spouse_name" onkeyup="AllowAlphabetS()" /></div>
+    <span class="error_message">{{form.spouse_name.errors}}</span>
+
+ <!-- 14 -->
+ <div class="form-group"> <b>{% trans "Date of Appointment in Government Service " %}</b>
+    <div class="input-group">
+    <div class="input-group-addon">
+    <i class="fa fa-calendar"></i>
+    </div>
+    <input class="form-control" name="dofags" id="dofags" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" onblur="dobcheck(this.value)" value="{{form.dofags.value|date:"d/m/Y"  }}">
+    </div></div>
+    <span class="error_message">{{form.dofags.errors}}</span>
+
+    <div class="form-group"><b> {% trans "Designation during Appointment in Government service " %}</b>
+    <input class="form-control" name="designation_fags" style="text-transform:uppercase"id="designation_fags" type="text" value="{{form.designation_fags.value}}" /></div>
+        <span class="error_message">{{form.name.errors}}</span>
+
+        <!-- 18 -->
+    <div class="form-group"> <b>{% trans "Date of Appointment in the Department of School Education" %}</b>
+      <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input class="form-control" name="dofsed" id="dofsed" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.dofsed.value|date:"d/m/Y"  }}" onblur="dob_dosfed(this.value)">
+      </div></div><span class="error_message">{{form.dofsed.errors}}</span>
+
+      
+
+      <!-- 19 -->
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Designation during Appointment in the Department of School Education" %}</b>    <select id='designation_fased' name="designation_fased"  class="form-control" class="mandatory" >
+      {% if designation_fased_value_text %}
+    <option value="{{designation_fased_value}}" >{{ designation_fased_value_text}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  posting_desg %}
+    <option value="{{i.id}}" >{{ i.user_desig }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.designation_fased.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Date of Joining in the Present School / Office" %}</b>
+    <div class="input-group">
+    <div class="input-group-addon">
+    <i class="fa fa-calendar"></i>
+    </div>
+    <input class="form-control" name="dojocs" id="dojocs" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" onblur="dob_post(this.value)" value="{{form.dojocs.value|date:"d/m/Y"  }}">
+    </div></div>
+    <span class="error_message">{{form.dojocs.errors}}</span>
+
+
+
+ <div class="form-group"> <b>{% trans " Session of Joining in the present School / Office" %}</b>
+      <select name="dojocs_session" id="dojocs_session" class="form-control">
+        {% if dojocs_session %}
+        <option value="{{dojocs_session}}">{{dojocs_session}}</option>
+        {% endif %}
+        <option value="" >SELECT</option>
+        <option value="FN">FN</option>
+        <option value="AN">AN</option>
+        </select></div>
+        <span class="error_message">{{form.dojocs_session.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Mode of Entry in the Present School / Office" %}</b>
+    <select id='topocs' name="topocs"  class="form-control" class="mandatory" >
+            {% if topocs %}
+    <option value="{{topocs.id}}" >{{ topocs.posting_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  post %}
+    <option value="{{i.id}}" >{{ i.posting_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.topocs.errors}}</span>
+      
+
+      <div class="form-group"> <b>{% trans "Date of Regularisation for the Present Post" %}</b>
+      <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input class="form-control" name="doregu" id="doregu" type="text" data-mask="" onblur="dob_regular(this.value)"  onfocusout="dob_regular(this.value)" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.doregu.value|date:"d/m/Y"  }}">
+      </div></div><span class="error_message">{{form.doregu.errors}}</span>
+
+
+      <div class="form-group"> <b>{% trans "Regularisation Session" %}</b>
+      <select name="doregu_session" id="doregu_session" class="form-control">
+        {% if doregu_session %}
+        <option value="{{doregu_session}}">{{doregu_session}}</option>
+        {% endif %}
+        <option value="" >SELECT</option>
+        <option value="FN">FN</option>
+        <option value="AN">AN</option>
+        </select></div>
+        <span class="error_message">{{form.doregu_session.errors}}</span>
+
+
+
+</section>
+     <h3>STEP</h3>
+     <section>
+     <div class="form-group"> <b>{% trans "Date of Completion of Probation" %}</b>
+      <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input class="form-control" name="doprob" id="doprob" type="text" data-mask="" onblur="dob_prob(this.value)"data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.doprob.value|date:"d/m/Y"  }}">
+      </div></div><span class="error_message">{{form.doprob.errors}}</span>
+
+      <div class="form-group"> <b>{% trans "Probation Session" %}</b>
+      <select name="doprob_session" id="doprob_session" class="form-control">
+        {% if doprob_session %}
+        <option value="{{doprob_session}}">{{doprob_session}}</option>
+        {% endif %}
+        <option value="" >SELECT</option>
+        <option value="FN">FN</option>
+        <option value="AN">AN</option>
+        </select></div>
+        <span class="error_message">{{form.doprob_session.errors}}</span>
+        
+         <div class="form-group"> <b> {% trans "Employment Status" %}</b>
+    <select name="employment_status" id="employment_status"  class="form-control">
+        {% if emp_status %}
+        <option value="{{emp_status}}" selected="selected">{{emp_status}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="Temporary" >Temporary </option>
+        <option value="Approved Probation" >Approved Probation</option>
+        <option value="Probationer" >Probationer</option>
+        
+      </select>
+    </div>
+    <span class="error_message">{{form.employment_status.errors}}</span>
+
+ 
+
+<div class="form-group"> 
+    <b><u>{% trans "Current Residential Address" %}</u> </b>
+    <br>
+     <b>{% trans "House / Flat / Door No. " %}</b> 
+   <input type="text"  value="{{form.pres_add_flatno.value}}" style="text-transform:uppercase" id="pres_add_flatno" name="pres_add_flatno" class="form-control"  />
+     <b>{% trans "Name of the Street" %}</b> 
+    <input type="text"  value="{{form.pres_add_street.value}}" style="text-transform:uppercase" id="pres_add_street" name="pres_add_street" class="form-control" />
+     <b>{% trans "Area" %}</b> 
+    <input type="text"  value="{{form.pres_add_area.value}}" style="text-transform:uppercase" id="pres_add_area" name="pres_add_area" class="form-control" />
+     <b>{% trans "City / Town / Village" %}</b> 
+    <input type="text"  value="{{form.pres_add_city.value}}" style="text-transform:uppercase"id="pres_add_city" name="pres_add_city" class="form-control" />   
+
+     <b>{% trans "PIN Code" %}</b>
+    <input type="text" class="form-control" value="{{form.present_pincode.value|default:0}}" id="present_pincode" name="present_pincode" onkeypress="return isNumber(event)" onchange="chkchange(this.value)" maxlength="6"/>
+    </div>
+    <span class="error_message">{{form.present_pincode.errors}}</span>
+
+
+    <div class="form-group" id="present_district_div"> <b>{% trans "District" %} </b>
+        <select name="present_district" id="present_district" class="form-control">
+
+         {% if present_district %}
+                <option value="{{present_district.id}}" selected="selected">{{present_district.district_name}}</option>
+                  {% endif %}
+            
+        <option value="" >---------</option>
+          {% for dist in present_district_list %}
+              <option value="{{dist.id}}" >{{dist.district_name}} </option>
+          {% endfor %}
+
+        </select>
+    </div>
+    <span class="error_message">{{form.present_district.errors}}</span>
+
+<!-- 27 -->
+
+<div class="form-group"> 
+<label>
+
+<em>Select 'Yes' if Residential Address and the Permanent Residential Address are the same</em>
+<select name="sameaddress" id="sameaddress" class="form-control"  onblur="addressclick(this.value)"  onfocus="addressclick(this.value)"  onclick="addressclick(this.value)">
+    
+<option value="Yes"  >Yes </option>
+<option value="No" selected="selected">No</option>
+</select></div>
+<span class="error_message">{{form.sameaddress.errors}}</span>
+
+<div class="form-group"> 
+    <b><u>{% trans "Permanent Address" %}</u></b>
+    <br>
+    <b>{% trans "House / Flat / Door No. " %}</b> 
+   <input type="text"  value="{{form.perm_add_flatno.value}}" style="text-transform:uppercase"id="perm_add_flatno" name="perm_add_flatno" class="form-control" />
+     <b>{% trans "Name of the Street" %}</b> 
+    <input type="text"  value="{{form.perm_add_street.value}}" style="text-transform:uppercase"id="perm_add_street" name="perm_add_street" class="form-control" />
+     <b>{% trans "Area" %}</b> 
+    <input type="text"  value="{{form.perm_add_area.value}}" style="text-transform:uppercase" id="perm_add_area" name="perm_add_area"  class="form-control" />
+     <b>{% trans "City / Town / Village" %}</b> 
+    <input type="text"  value="{{form.perm_add_city.value}}" style="text-transform:uppercase" id="perm_add_city" name="perm_add_city" class="form-control" /> 
+   
+  <b>{% trans "PIN Code" %}</b>
+    <input type="text" class="form-control" value="{{form.permanent_pincode.value|default:0}}" id="permanent_pincode" name="permanent_pincode" onkeypress="return isNumber(event)"  maxlength="6"/>
+    </div>
+    <span class="error_message">{{form.permanent_pincode.errors}}</span>
+
+<!-- 27a -->
+
+<div class="form-group" id="native_district_div"> <b>{% trans "Native District" %}</b>
+        <select name="native_district" id="permanent_district" class="form-control">
+
+         {% if native_district %}
+                <option value="{{native_district.id}}">{{native_district.district_name}}</option>
+                  {% endif %}
+            
+
+        <option value="" >---------</option>
+          {% for dist in permanent_district_list %}
+              <option value="{{dist.id}}" >{{dist.district_name}} </option>
+          {% endfor %}
+
+        </select>
+    </div>
+    <span class="error_message">{{form.native_district.errors}}</span>
+   
+   
+</section>
+     <h3>STEP</h3>
+     <section>
+
+     <div class="form-group">   <b>{% trans "E-mail" %}</b>
+    <input type="text" class="form-control" value="{{form.email.value|default:'email'}}" id="email" name="email" />
+    </div>
+    <span class="error_message">{{form.email.errors}}</span>
+
+<!-- 29 -->
+    <span id="mobile_status" style="color:red;" ></span>
+<div class="form-group">   <b>{% trans "Mobile Number" %}</b>
+<input type="text" class="form-control" value="{{form.phone_number.value}}" id="phone_number" name="phone_number" onkeypress="return isNumber(event)" maxlength="10" placeholder="0" />
+</div><span class="error_message">{{form.phone_number.errors}}</span>
+
+
+<div class="form-group">   <b>{% trans "Landline Number (with STD code)" %}</b>
+<input type="number" class="form-control" value="{{form.landline.value}}" id="landline" name="landline" onkeypress="return isNumber(event)" maxlength="15" placeholder="0"  max="9999999999999999"/>
+</div><span class="error_message">{{form.landline.errors}}</span>
+
+
+
+<!-- 30 -->
+    <span id="pan_status" style="color:red;" ></span>
+<div class="form-group">   <b>{% trans "PAN Number" %}</b>
+<input type="text" class="form-control" value="{{form.pan_number.value|default:''}}" style="text-transform:uppercase" id="pan_number" name="pan_number"  maxlength="10"  onkeyup="pan_validate(this.value)" onblur="pan_validate(this.value)" onchange="pan_validate(this.value)"/>
+</div>
+<span class="error_message">{{form.pan_number.errors}}</span>
+<!-- 31 -->
+<div class="form-group"  >
+      <span  style="color:red;" id="aadhaar_status"></span><br> <b>{% trans "Aadhaar Number" %}</b>
+<input type="text" value="{{form.aadhaar_number.value|default:'' }}" name="aadhaar_number" id="aadhaar_number" class="form-control" onkeyup="validate_aadhaar(this.value)" onblur="validate_aadhaar(this.value)" maxlength="12" onfocus="validate_aadhaar(this.value)" onkeypress="return isNumber(event)" /></div>
+<span class="error_message">{{form.aadhaar_number.errors}}</span>
+<!-- 33 -->
+<div class="form-group" >
+      <span  style="color:red;" id="health_status"></span><br> <b>{% trans "Health Insurance Number" %}</b>
+<input type="text" value="{{form.health_number.value|default:'' }}" name="health_number" id="health_number" class="form-control" onkeyup="validate_health(this.value)" onblur="validate_health(this.value)" maxlength="50" onfocus="validate_health(this.value)"  /></div>
+
+
+<span class="error_message">{{form.health_number.errors}}</span>
+
+<div class="form-group" ng-init="passport='Yes'"> <b>{% trans "Possession of Passport" %}</b>
+    <select name="passport" id="passport" class="form-control" ng-model="passport" onblur="passport1(this.value)" onfocus="passport1(this.value)" onclick="passport1(this.value)" value="{{passport}}">
+    {% if passport == "True" %}
+      <option value="True" selected="selected" >Yes </option>
+      <option value=""  >------------------ </option>
+   {% else %}
+      <option value="False" selected='selected' >No </option>
+      <option value=""  >------------------ </option>   
+    {% endif %}
+      <option value="True">Yes </option>
+      <option value="False" >No</option>
+      </select></div>
+      <span class="error_message">{{form.passport.errors}}</span>
+
+ 
+
+    <div class="form-group"  id ="passport_div" hidden> <div class="form-group" > <b>{% trans "Passport Number" %}</b> </b>
+    <input  class="form-control" name="passport_no" id="passport_no" type="text"  value="{{form.passport_no.value}}" maxlength="10">
+    </div>
+    <span class="error_message">{{form.passport_no.errors}}</span>
+
+    <div class="form-group"  >  <b>{% trans "Date of Issue" %}</b>
+    <input  class="form-control" name="passport_date_from" id="passport_date_from" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.passport_date_from.value|date:"d/m/Y"  }}"  onblur="dob_passport_from(this.value)">
+    </div>
+    <span class="error_message">{{form.passport_date_from.errors}}</span>
+
+
+    <div class="form-group" >  <b>{% trans "Date of Expiry" %}</b>
+    <input  class="form-control" name="passport_date_to" id="passport_date_to" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.passport_date_to.value|date:"d/m/Y"  }}" onblur="dob_passport_to(this.value)">
+    </div>
+    <span class="error_message">{{form.passport_date_to.errors}}</span>
+</div>
+
+    <h4><b><u>{% trans "Bank Details" %}</u></b></h4>
+<div class="form-group"> <b>{% trans "District" %}</b>{{form.bank_dist|add_class:"form-control" }}</div><span class="error_message">{{form.bank_dist.errors}}</span>
+        <div class="form-group"> <b>{% trans "Name of the Bank" %}</b>{{form.bank|add_class:"form-control" }}</div><span class="error_message">{{form.bank.errors}}</span>
+        <div class="form-group"> <b>{% trans "Branch (IFSC code & MICR code) "  %}</b>{{form.branch|add_class:"form-control" }}</div><span class="error_message">{{form.branch.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Savings Bank Account No. " %}</b>
+    <input type="text"  class="form-control" value="{{form.bank_account_no.value|default:0}}" id="bank_account_no" name="bank_account_no"   onkeypress="return isNumber(event)"  maxlength="16"/></div>
+    <span class="error_message">{{form.bank_account_no.errors}}</span>
+
+
+
+
+<!--33a-->
+
+
+
+     </section>
+
+     <h3>STEP</h3>
+     <section>
+     <div class="form-group" >   <strong> {% trans "Month of Increment" %} </strong></br></br>
+     <select id='increment_month' name="increment_month"  class="form-control" >
+     {% if increment %}
+        <option value="{{increment}}">{{increment}}</option>
+    {% endif %}
+      <option value="" >---------</option>
+      <option value="January">January</option>
+        <option value="April" >April</option>
+        <option value="July" >July</option>   
+        <option value="October" >October</option>
+     </select></div>
+     <span class="error_message">{{form.increment_month.errors}}</span>
+<!-- 25a -->
+
+<div class="form-group"><b> {% trans "Pay Drawing Officer" %}</b>
+
+        <select id='pay_drawing_officer' name="pay_drawing_officer"  class="form-control" >
+ {% if pay %}       
+ <option value="{{pay.id}}">{{pay.designation_name}}</option>
+   
+   {% endif %}
+      <option value="" >--Select--</option>
+   
+    {% for pay in pay_drawing_officer_list %}
+ 
+        <option value="{{pay.id}}">{{pay.designation_name}}</option>
+   
+    {% endfor %}
+    </select>
+    </div>
+     <!-- <span class="error_message">{{form.pay_drawing_officer.errors}}</span> -->
+      <div class="form-group"> <b>{% trans "Identification Mark-1" %}</b>
+    <input type="text" class="form-control" value= "{{form.imark1.value|default:''}}" style="text-transform:uppercase" id="imark1" name="imark1" onkeyup="AllowAlphabet()" />
+    </div>
+    <span class="error_message">{{form.imark1.errors}}</span>
+
+<!-- 34 -->
+<div class="form-group"> <b>{% trans "Identification Mark-2" %}</b>
+    <input type="text" class="form-control"  value= "{{form.imark2.value|default:''}}" style="text-transform:uppercase" id="imark2" name="imark2" onkeyup="AllowAlphabet()" /></div>
+    <span class="error_message">{{form.imark2.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Blood Group" %}</b>
+      <select name="blood_group" id="blood_group" class="form-control">
+        {% if bg %}
+        <option value="{{bg}}">{{bg}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="A+">A+</option>
+        <option value="A1+">A1+</option>
+        <option value="A2+">A2+</option>
+        <option value="B+">B+</option>
+        <option value="A1B+">A1B+</option>
+        <option value="A2B+">A2B+</option>
+        <option value="AB+">AB+</option>
+        <option value="O+">O+</option>
+        <option value="A-">A-</option>
+        <option value="A1-">A1-</option>
+        <option value="A2-">A2-</option>
+        <option value="B-">B-</option>
+        <option value="A1B-">A1B-</option>
+        <option value="A2B-">A2B-</option>
+        <option value="AB-">AB-</option>
+        <option value="O-">O-</option>
+      </select></div><span class="error_message">{{form.blood_group.errors}}</span>
+     <div class="form-group"> <b>{% trans "Height" %} (in cm)</b>
+    <input type="text" class="form-control" value="{{form.height.value}}" id="height" name="height" onkeypress="return isNumber(event)" maxlength="3" placeholder="0" /></div>
+    <span class="error_message">{{form.height.errors}}</span>
+
+<!-- 36 -->
+<div class="form-group"> <b>{% trans "Weight" %} (in kg)</b>
+    <input type="text" class="form-control" value="{{form.weight.value}}" id="weight" name="weight" onkeypress="return isNumber(event)" maxlength="3" placeholder="0" /></div>
+    <span class="error_message">{{form.weight.errors}}</span>
+
+ 
+<div class="form-group" id="dif_des_div" > <b> {% trans "Differently Abled" %}</b>
+    <select name="teacher_differently_abled" id="teacher_differently_abled"  class="form-control" onchange ="diff_able(this.value)" >
+        {% if teacher_differently_abled %}
+        <option value="{{teacher_differently_abled}}" selected="selected">{{teacher_differently_abled}}</option>
+        <option value="" >---------</option>
+        <option value="Yes" >Yes</option>
+        <option value="No">No</option>
+        {% else %}
+        <option value="Yes" >Yes</option>
+        <option value="No">No</option>
+        {% endif %}       
+      </select>
+    </div>
+    <span class="error_message">{{form.teacher_differently_abled.errors}}</span>
+
+
+<!-- 36b -->
+<div class="form-group" style="visibility:hide" id="diff_abled_div"> <b> {% trans "Type of Differently Abled" %}</b>
+
+<select name="differently_abled_type" id="differently_abled_type"  class="form-control">
+        {% if differently_abled_type %}
+        <option value="{{differently_abled_type}}" selected="selected">{{differently_abled_type}}</option>
+        <option value="" >---------</option>
+        <option value="Physically Differently abled" >Physically Differently abled </option>
+        <option value="Visually Differently abled" >Visually Differently abled</option>
+        <option value="Speech and Hearing Impairment" >Speech and Hearing Impairment</option>
+        {% else %}
+        <option value="" selected="selected">---------</option>
+        <option value="Physically Differently abled" >Physically Differently abled </option>
+        <option value="Visually Differently abled" >Visually Differently abled</option>
+        <option value="Speech and Hearing Impairment" >Speech and Hearing Impairment</option>
+        {% endif %}             
+      </select>
+    </div>
+    <span class="error_message">{{form.differently_abled_type.errors}}</span>
+
+
+
+<div class="form-group" ng-init="uta='No'"> <b>{% trans "Whether transfered from other Unit" %}</b>
+<select name="uta" id="uta" class="form-control" ng-model="appointed_aided" onblur="uta1(this.value)"  onfocus="uta1(this.value)"  onclick="uta1(this.value)">
+
+
+    {% if uta == "True" %}
+      <option value="True" selected="selected" >Yes </option>
+      <option value=""  >------------------ </option>
+   {% else %}
+      <option value="False" selected='selected' >No </option>
+      <option value=""  >------------------ </option>   
+    {% endif %}
+      <option value="True">Yes </option>
+      <option value="False" >No</option>
+      </select></div>
+      <span class="error_message">{{form.uta.errors}}</span>
+
+    <div class="form-group"  id ="uta_div" hidden>  <div class="form-group" >   <b>{% trans "Unit Transfer Order No." %}</b>
+    <input type="text"  class="form-control" value="{{form.uta_order_no.value}}" id="uta_order_no" name="uta_order_no" /> 
+    
+    <span class="error_message">{{form.uta_order_no.errors}}</span>
+
+      <b>{% trans "Date of Unit Transfer" %}</b>
+      <div class="form-group" > 
+    <input  class="form-control" name="uta_date" id="uta_date" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.uta_date.value|date:"d/m/Y"  }}"  onblur="dob_uta(this.value)"></div>
+    <span class="error_message">{{form.uta_date.errors}}</span>
+    </div>
+ 
+
+   </section>
+     <h3>STEP</h3>
+     <section>
+
+
+<div class="form-group"> <b> {% trans "Certification in  Typewriting" %}</b>
+     <select name="typewite_skill_level" id="typewite_skill_level"  class="form-control"  onfocus ="typewriting(this.value)"  onchange ="typewriting(this.value)" >
+        {% if typewite_skill_level  %}
+        <option value="{{typewite_skill_level}}" >{{typewite_skill_level}}</option>
+        {% endif %}
+        {% if typewite_skill_level == "Yes"  %}
+        <option value="{{typewite_skill_level}}" >{{typewite_skill_level}}</option>
+        {% endif %}
+        <option value="" >---------</option>
+        <option value="No" >No </option>
+        <option value="Yes" >Yes</option>
+       </select>
+    </div>
+    <span class="error_message">{{form.typewite_skill_level.errors}}</span>
+
+<div class="form-group" id="typelang_div"  ><br>
+<div>
+        <b>{% trans "1.Tamil Junior" %}</b>
+                {% if tamil_jr %}
+                <input type="checkbox" checked value="tamil_jr" id="tamil_jr" name="tamil_jr" />
+                {% else %} 
+                <input type="checkbox" value="tamil_jr" id="tamil_jr" name="tamil_jr" />
+                {% endif %} 
+    <b>{% trans "2.Tamil Senior" %}</b>
+                {% if tamil_sr %}
+                <input  type="checkbox" checked value="tamil_sr" id="tamil_sr" name="tamil_sr" />
+                {% else %} 
+                <input type="checkbox" colour="red" value="tamil_sr" id="tamil_sr" name="tamil_sr"  />
+                {% endif %} 
+
+      <b>{% trans "3.English Junior" %}</b>
+                {% if eng_jr %}
+                <input type="checkbox" checked value="eng_jr" id="eng_jr" name="eng_jr"  />
+                {% else %} 
+                <input type="checkbox" value="eng_jr" id="eng_jr" name="eng_jr"  /> 
+                {% endif %} 
+    <b>{% trans "4.English Senior" %}</b>
+                {% if eng_sr %}
+                <input type="checkbox" checked value="eng_sr" id="eng_sr" name="eng_sr"  />
+                {% else %}
+                <input type="checkbox" value="eng_sr" id="eng_sr" name="eng_sr" />
+                {% endif %} 
+               </div>
+               </div>
+
+
+      <div class="form-group" ng-init="appointed_aided='No'"> <b>{% trans "Whether Appointed in Government-Aided School" %}</b>
+    <select name="appointed_aided" id="appointed_aided" class="form-control" ng-model="appointed_aided" onblur="aided1(this.value)"  onfocus="aided1(this.value)"  onclick="aided1(this.value)">
+      {% if appointed_aided == "True" %}
+      <option value="True" selected="selected" >Yes </option>
+      <option value=""  >------------------ </option>
+   {% else %}
+      <option value="False" selected='selected' >No </option>
+      <option value=""  >------------------ </option>   
+    {% endif %}
+      <option value="True">Yes </option>
+      <option value="False" >No</option>
+      </select></div>
+      <span class="error_message">{{form.appointed_aided.errors}}</span>
+ 
+    <div class="form-group"  id ="appointed_aided_div" hidden> 
+    <div class="form-group" > 
+    <b>{% trans "Date of Appointment " %}</b>
+    <input  class="form-control" name="appointed_aided_date" id="appointed_aided_date" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.appointed_aided_date.value|date:"d/m/Y"  }}" onblur="dob_appointed_aided_date(this.value)">
+    
+    <span class="error_message">{{form.appointed_aided_date.errors}}</span>
+    <div class="form-group" >
+
+    <b>{% trans "Date of Approval " %}</b>
+    <input  class="form-control" name="approval_aided_date" id="approval_aided_date" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.approval_aided_date.value|date:"d/m/Y"  }}" onblur="dob_approval_aided_date(this.value)">
+    
+    <span class="error_message">{{form.approval_aided_date.errors}}</span>
+    
+   <div class="form-group" >
+    <b>{% trans "Order Number" %}</b>
+    <input  class="form-control" name="aided_order_no" id="aided_order_no" type="text"  value="{{form.aided_order_no.value }}">
+    </div>
+    <span class="error_message">{{form.aided_order_no.errors}}</span>
+    </div></div></div>
+
+
+<div class="form-group" > <b>{% trans "In the Case of Minority Language Staff, Whether Passed TNPSC-Second Language Test" %}</b>
+    <select name="language_test" id="language_test" class="form-control" >
+        {% if language_test %}
+        <option value="{{language_test}}" >{{language_test}}</option>
+        {% else %}
+        <option value="Yes" >Yes</option>
+        <option value="No" selected="selected">No</option>
+        {% endif %}  
+        <option value="Yes" >Yes</option>
+        <option value="No" selected="selected">No</option>
+      </select>
+     </div>
+     <span class="error_message">{{form.language_test.errors}}</span>
+
+
+
+
+
+ <div class="form-group" ng-init="evaluation='No'"> <b>{% trans "If Studied in a state other than TamilNadu, Whether Certificate Evaluation has been Done" %}</b>
+    <select name="evaluation" id="evaluation" class="form-control" ng-model="evaluation" onblur="evaluation1(this.value)"  onfocus="evaluation1(this.value)"  onclick="evaluation1(this.value)">
+    {% if evaluation == "True" %}
+      <option value="True" selected="selected" >Yes </option>
+      <option value=""  >------------------ </option>
+   {% else %}
+      <option value="False" selected='selected' >No </option>
+      <option value=""  >------------------ </option>   
+    {% endif %}
+      <option value="True">Yes </option>
+      <option value="False" >No</option>
+      </select></div>
+      
+<span class="error_message">{{form.evaluation.errors}}</span>
+ 
+<div class="form-group"  id ="evaluation_div" hidden>  
+<div class="form-group" > 
+ <b>{% trans " Date of Evaluvation" %}</b>
+    <input  class="form-control" name="evaluation_date" id="evaluation_date" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.evaluation_date.value|date:"d/m/Y"}}" onblur="dob_evaluation_date(this.value)"  >
+
+    <span class="error_message">{{form.evaluation_date.errors}}</span>
+
+    <div class="form-group" > 
+<b>{% trans "Evaluation Order Number" %}</b>{{ form.evaluation_no }} 
+    <input  class="form-control" name="eval_order_no" id="eval_order_no" type="text"  value="{{form.eval_order_no.value }}">
+    
+    <span class="error_message">{{form.eval_order_no.errors}}</span>
+
+     <div class="form-group" > 
+<b>{% trans "Designation of the Authority who Evaluated the Certificates" %}</b>
+     <select class="form-control"  value= "{{form.evaluation_auth.value}}" id="evaluation_auth" name="evaluation_auth" >
+     <option value="DEO">DEO </option></select>
+     </div>
+
+    <span class="error_message">{{form.evaluation_auth.errors}}</span>
+    </div></div></div>
+</section>
+</form>
+</div>
+</div>
+</div>
+</body>
+{% endblock %}
+
+

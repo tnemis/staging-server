@@ -1,0 +1,401 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+
+    
+</style>
+
+
+
+
+{% endblock %}
+
+
+{% block content %}
+       <script type="text/javascript">
+           $(function() {
+               //Datemask dd/mm/yyyy
+               $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+               //Datemask2 mm/dd/yyyy
+
+               $("[data-mask]").inputmask();
+
+               //Date range as a button
+
+           });
+       </script>
+
+    <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                buildabs_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#buildabs_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    building_name: {
+                        required:true
+                    },
+                    no_of_floors: {
+                        required:true,
+                        min:0
+                    },
+                    stair_case_no: {
+                        required:true,
+                        min:0
+                    },
+                    stair_case_width: {
+                        required:true,
+                        min:0
+                    },                                        
+                    building_funded: {
+                        required:true
+                    },
+                    stab_cer_no: {
+                        required:true                     
+                    },
+                    stab_cer_date: {
+                        required:true                   
+                    },                                             
+                },
+                messages: {
+
+                    building_name: {
+                        required: "Building name should not be blank"
+                    },
+                    no_of_floors: {
+                        required: "No. of floors required.. at least 0 has to be entered"
+                    },
+                    stair_case_no: {
+                        required: "No. of stair cases required.. at least 0 has to be entered"
+                    },
+                    stair_case_width: {
+                        required: "Width of stair case is required.. at least 0 has to be entered"
+                    },
+                    building_funded: {
+                        required: "Building construction fund details required."
+                    },
+ 
+                    stab_cer_no: {
+                        required: "Stability certificate details required. (Govt. School pl. give as Govt. building)"
+                    },  
+                    stab_cer_date: {
+                        required: "Stability certificate date required."
+                    },             
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+    <script type="text/javascript">
+   function build_fund_div()
+        { 
+            var build_cho= $("#building_funded option:selected").text()
+
+            if(build_cho == 'NABARD Scheme') 
+            {
+                document.getElementById('id_nabard_phase').style.display = "";
+                document.getElementById('id_donor').style.display = "none";
+            } 
+
+            else if (build_cho == 'BY DONOR')
+            {
+                document.getElementById('id_donor').style.display = "";
+            }
+            else 
+            {   
+
+                document.getElementById('id_nabard_phase').style.display = "none";
+                document.getElementById('id_donor').style.display = "none";
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    build_fund_div();      
+});
+
+</script>    
+<form id="buildabs_edit" method="post" class="form-horizontal" action="">
+
+      {% csrf_token %}
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+<center><h3 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+Details of Building Abstract </h3></center>
+<legend align="center" style="color:#3C8DBC;font-size:100%;">(Additional rows may be created after saving the information in each category)</legend>
+
+<div class="form-group"> <b>{% trans "Name of the Block / Building :" %}</b><input type="text" class="form-control" class="form-control mandatory" id="building_name" name="building_name" value="{{building_name}}" maxlength="50" /></div>
+<span class="error_message">{{form.building_name.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. of Floors:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="no_of_floors" name="no_of_floors" value="{{no_of_floors}}" min="0" max="10" /></div>
+<span class="error_message">{{form.no_of_floors.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. of Stair Cases:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="stair_case_no" name="stair_case_no" value="{{stair_case_no}}" min="1" max="999"/></div><span class="error_message">{{form.stair_case_no.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Width of Stair Cases (in feet):" %}</b><input type="number" class="form-control" class="form-control mandatory" id="stair_case_width" name="stair_case_width" value="{{stair_case_width}}" min="0"  max="15"/></div><span class="error_message">{{form.stair_case_width.errors}}</span>
+
+{% if gov_chk %}
+
+<div class="form-group"> <b>{% trans "Expenditure for Construction of the Building Funded by:" %}</b>
+<select id="building_funded" class="form-control mandatory" name="building_funded" value="building_funded" class="form-control mandatory" onblur="build_fund_div();" onchange="build_fund_div();">
+            {% if building_funded %}
+                <option value="{{building_funded}}" selected="selected">{{building_funded}}</option>
+            {% endif %}
+            <option Value=''>Select</option><option>SSA Fund</option><option>RMSA Fund</option><option>MLA Fund</option><option>MP Fund</option><option>Part-II Scheme</option><option>Centrally Sponsored Scheme</option><option>NABARD Scheme</option><option>PTA Funds</option><option>School Management</option><option>BY DONOR</option></select>
+</div>
+<span class="error_message">{{form.building_funded.errors}}</span>
+
+{% else %}
+
+<div class="form-group"> <b>{% trans "Expenditure for Construction of Building Funded by:" %}</b>
+<select id="building_funded" class="form-control" name="building_funded" value="building_funded" class="form-control mandatory" onblur="build_fund_div();" onchange="build_fund_div();">
+            {% if building_funded %}
+                <option value="{{building_funded}}" selected="selected">{{building_funded}}</option>
+            {% endif %}
+            <option>------</option><option>School Management</option><option>BY DONOR</option></select>
+</div>
+<span class="error_message">{{form.building_funded.errors}}</span>
+{% endif %}
+<div class="form-group" style="visibility:hide" id="id_donor"> <b>{% trans "Name the Donor who donated  the School Building (Max 100 Characters):" %}</b><input id="donor_name" name="donor_name" value="{{donor_name}}" class="form-control mandatory" type="text" maxlength="100"></div><span class="error_message">{{form.donor_name.errors}}</span> 
+
+<div class="form-group" style="visibility:hide" id="id_nabard_phase"> <b>{% trans "Please give the Phase details for the NABARD Scheme:" %}</b>
+<select id="nabard_phase" class="form-control" name="nabard_phase" value="nabard_phase" class="form-control mandatory">
+            {% if nabard_phase %}
+                <option value="{{nabard_phase}}" selected="selected">{{nabard_phase}}</option>
+            {% endif %}
+            <option>------</option><option>Phase-I</option><option>Phase-II</option><option>Phase-III</option><option>Phase-IV</option><option>Phase-V</option><option>Phase-VI</option><option>Phase-VII</option><option>Phase-VIII</option><option>Phase-IX</option><option>Phase-X</option><option>Phase-XI</option><option>Phase-XII</option><option>Phase-XIII</option><option>Phase-XIV</option></select>
+</div>
+<span class="error_message">{{form.nabard_phase.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Year of Construction:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="build_cons_yr" name="build_cons_yr" value="{{build_cons_yr}}" maxlength="10" /></div>
+<span class="error_message">{{form.build_cons_yr.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Present Condition of the Building:" %}</b><select id="build_pres_cond" class="form-control" name="build_pres_cond" value="build_pres_cond">
+            {% if build_pres_cond %}
+                <option value="{{build_pres_cond}}" selected="selected">{{build_pres_cond}}</option>
+            {% endif %}
+            <option>------</option>
+            <option>In Good Condition</option>
+            <option>Minor Repair - Building in use</option>
+            <option>Major Repair - Building in use</option>
+            <option>Major Repair - Building not in use</option>
+            <option>Demolish order issued by Authority</option>
+            </select></div>
+            <span class="error_message">{{form.build_pres_cond.errors}}</span>
+
+
+{% if gov_chk %}
+
+{% else %}
+<div class="form-group"> <b>{% trans "Details of Building Stability Certificate No.:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="stab_cer_no" name="stab_cer_no" value="{{stab_cer_no}}" maxlength="20" /></div>
+<span class="error_message">{{form.stab_cer_no.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Stability Certificate Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="stab_cer_dt" id="stab_cer_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.stab_cer_dt.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.stab_cer_dt.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Stability Certificate Issued From:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="stab_fm_dt" id="stab_fm_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.stab_fm_dt.value|date:"d/m/Y"  }}"  maxlength="10"> 
+    </div></div>
+    <span class="error_message">{{form.stab_fm_dt.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Stability Certificate Expiry:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="stab_to_dt" id="stab_to_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.stab_to_dt.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.stab_to_dt.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Name / Designation of the Officer issued Stability Certificate:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="stab_iss_auth" name="stab_iss_auth" value="{{stab_iss_auth}}" maxlength="100" /></div>
+<span class="error_message">{{form.stab_iss_auth.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "No. Students to be Accommodated:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="no_stud" name="no_stud" value="{{no_stud}}" maxlength="4" /></div><span class="error_messageno_stud" >{{form.no_person.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Building license Certificate No.:"  %}</b><input type="text" class="form-control" class="form-control mandatory" id="lic_cer" name="lic_cer" value="{{lic_cer}}" maxlength="20" /></div>
+<span class="error_message">{{form.lic_cer.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Building license Certificate Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="lic_cer_dt" id="lic_cer_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.lic_cer_dt.value|date:"d/m/Y"  }}"  maxlength="10"> 
+    </div></div>
+    <span class="error_message">{{form.lic_cer_dt.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Name / Designation of the Officer issued Building License Certificate:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="lic_iss_auth" name="lic_iss_auth" value="{{lic_iss_auth}}" maxlength="100" /></div>
+<span class="error_message">{{form.lic_iss_auth.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Sanitary Certificate No.:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="san_cer_no" name="san_cer_no" value="{{san_cer_no}}" maxlength="20" /></div>
+<span class="error_message">{{form.san_cer_no.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Sanitary Certificate Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="san_cer_dt" id="san_cer_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.san_cer_dt.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.san_cer_dt.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Name / Designation of the Officer issued Sanitary Certificate:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="san_iss_auth" name="san_iss_auth" value="{{san_iss_auth}}" maxlength="100" /></div>
+<span class="error_message">{{form.san_iss_auth.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Fire & Recue Dept. Certificate No.:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="fire_cer_no" name="fire_cer_no" value="{{fire_cer_no}}" maxlength="20" /></div>
+<span class="error_message">{{form.fire_cer_no.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Fire & Recue Dept. Certificate Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="fire_cer_dt" id="fire_cer_dt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.fire_cer_dt.value|date:"d/m/Y"  }}" maxlength="10" > 
+    </div></div>
+    <span class="error_message">{{form.fire_cer_dt.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "Name / Designation of the Officer issued the   Fire Certificate:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="fire_iss_auth" name="fire_iss_auth" value="{{fire_iss_auth}}" maxlength="100" /></div>
+<span class="error_message" >{{form.fire_iss_auth.errors}}</span>
+    
+{% endif %}
+<!-- 
+<label><strong style="color:#3C8DBC;font-size:100%;" >Additional rows may be created after saving the information in each category</strong></label><br> -->
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+
+  </form>
+
+
+<form action="" method="POST">
+
+<table  border="2" >
+<tr>
+
+            <th style="text-align:center; ">{% trans "Building Name / No." %}</th>       
+            <th style="text-align:center;" >{% trans "No of Floors" %}</th>
+            <th style="text-align:center; ">{% trans "No. of Stair Cases" %}</th>
+            <th style="text-align:center; ">{% trans "Width of Stair Case" %}</th>       
+            <th style="text-align:center;" >{% trans "Construction Cost Funded by" %}</th>
+{% if gov_chk %}
+{% else %}             
+            <th style="text-align:center;" >{% trans "Stability Certificate No." %}</th>
+            <th style="text-align:center;" >{% trans "Stability Certifiacte Date" %}</th>
+{% endif %}                          
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>            
+  </tr>
+     
+{% for i in buildabs_det %}
+
+        <tr>
+        <td > {{ i.building_name |upper}}</td>
+        <td > {{ i.no_of_floors |upper}}</td>
+        <td > {{ i.stair_case_no |upper }}</td>
+        <td > {{ i.stair_case_width |upper}}</td>
+        <td > {{ i.building_funded |upper}}</td>
+
+
+{% if gov_chk %}
+{% else %}        
+        <td > {{ i.stab_cer_no |upper}}</td>
+        <td > {{ i.stab_cer_date |upper}}</td>
+
+{% endif %}        
+        <td style="text-align:center;"><a href="/schoolnew/buildabs_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/buildabs_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

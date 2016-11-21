@@ -1,0 +1,188 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+   
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                part_post.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#part_post" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {   
+                    part_instr_sub: {
+                        required:true,
+                    },                   
+                    part_instr: {
+                        required:true,
+                    },
+
+                },
+                messages: {
+                    part_instr_sub: {
+                        required: "Pl. select a post from the drop down ",
+                    },
+                    part_instr: {
+                        required: "Part-time teacher name should not be blank...",
+                    },
+                   
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+
+<script type="text/javascript">
+function AllowAlphabet(){
+if (!frm.part_instr.value.match(/^[a-zA-Z\.\ ]+$/) && frm.part_instr.value !="")
+{
+frm.part_instr.value="";
+frm.part_instr.focus();
+}
+}
+</script>
+
+
+
+<form id="part_post" method="post" class="form-horizontal" action="" name="frm">
+      {% csrf_token %}
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+<center><h3 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+Details of Part-Time Teachers</h3></center>
+<legend align="center" style="color:#3C8DBC;font-size:100%;">(Additional rows may be created after saving the information)</legend>
+
+ 
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Part-time Post:" %}</b>
+    <select id='part_instr_sub' name="part_instr_sub"  class="form-control" class="mandatory" >
+    {% if part_instr_sub %}
+    <option value="{{part_instr_sub}}" >{{part_instr_sub}} </option>
+        {% endif %}
+        <option value="">SELECT THE POST</option>
+    {% for i in part_time_sub %}
+        <option value="{{i.subject}}">{{i.subject}}</option>
+    {% endfor %}        
+     </select></div>
+     <span class="error_message">{{form.part_instr_sub.errors}}</span>
+
+<!-- 
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Teacher Working in the Post:" %}</b>{{form.part_instr|add_class:"form-control mandatory "}}</div>
+<span class="error_message">{{form.part_instr.errors}}</span> -->
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Teacher Working in the Above Post:" %}</b><input type="text" class="mandatory" value="{{part_instr}}" id="part_instr" name="part_instr" onkeyup="AllowAlphabet()" maxlength="70" /></div><span class="error_message">{{form.part_instr.errors}}</span>
+
+
+
+<!-- <div class="form-group"> <b>{% trans "Name of the Teacher Working in the Post:" %}</b><input type="text" class="form-control" class="form-control, mandatory" id="part_instr" name="part_instr" value="{{part_instr}}" /></div>
+<span class="error_message">{{form.part_instr.errors}}</span> -->
+
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+
+</form>
+<br>
+
+<form action="" method="POST" id="part_teach_upd" method='post' enctype="multipart/form-data" action="" name="form_teach_upd">
+
+<table  border="2" >
+<tr>
+
+<!--             <th style="text-align:center; ">{% trans "Sl.No." %}</th> -->
+            <th style="text-align:center; ">{% trans "Name of the Part-time Post" %}</th>       
+            <th style="text-align:center;" >{% trans "Name of the Teacher " %}</th>
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th> 
+              
+  </tr>
+     
+{% for i in parttime_det %}
+        <tr>
+        <td style="text-align:center;"> {{ i.part_instr_sub |upper}}</td>
+        <td style="text-align:center;"> {{ i.part_instr |upper}}</td>
+        <td style="text-align:center;"><a href="/schoolnew/parttime_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/parttime_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

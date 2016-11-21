@@ -1,0 +1,447 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+{% block extrahead %}  
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+  <link href="site_media/static/css/jquery-ui-1.8.18.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>  
+  <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" /> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+ {% endblock %}
+
+{% block content %}
+
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {  
+  
+  Tipped.create('#school_name1', 'Enter the Name of the School or UDISE code ');  
+  Tipped.create('#period_from',function() {
+      var app_date = document.getElementById('dofsed').value;
+      return "Enter the Period From date after the Appointment Date : " + app_date;
+    });
+
+  Tipped.create('#period_to', 'Enter the date after Period From Date');
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+       
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   designation: {
+
+                       required:true
+
+                   },
+                   district: {
+
+                       required:true,
+                       
+                   },
+
+                   school_name1: {
+
+                       required:true,
+                  
+                   },
+                   block: {
+
+                       required:true
+
+                   },
+
+                   type_of_posting: {
+
+                       required:true
+                   },
+                   period_from: {
+
+                       required:true,
+                       
+                   },
+                   period_to: {
+
+                       required:true,
+                   }
+
+               },
+
+               messages: {
+
+                   designation: {
+
+                       required: "Select the Designation"
+                                },
+
+                   district: {
+
+                       required: "Select the District "
+
+                              },
+
+                   block: {
+
+                       required: "Select the Block"
+
+                   },
+                   school_name1: {
+
+                       required: "Enter the School Name"
+
+                   },
+
+                   type_of_posting: {
+
+                       required: "Select the Mode of Entry"
+
+                   },
+                   period_from: {
+
+                       required: "Enter the from date"
+
+                   },
+                   period_to: {
+
+                       required: "Enter the to date"
+
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+
+
+      } );
+
+   </script>
+
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+  
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+src = 'school_search2/';
+$("#school_name1").autocomplete({
+    source: function(request, response) {
+        $.ajax({
+            url: src,
+            dataType: "json",
+            data: {
+                term : request.term,
+                district :$("#block option:selected").text()
+            },
+            success: function(data) {
+                    response(data);
+                    
+            } });
+    },
+    selectFirst: true,
+    min_length: 3,
+    delay:300,
+    autoFocus: true,    
+});
+});
+
+</script>
+
+
+
+
+
+<script type="text/javascript">
+
+function dob_regular(val)
+{
+    var app_date = document.getElementById('dofsed').value;    
+    var prob_date = document.getElementById('period_from').value;    
+    var today = new Date();    
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2);        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Re - Enter the Period From Date OR  Future Date can not be entered ");
+            document.getElementById('period_from').focus();
+            document.getElementById('period_from').value="";
+            period_from.style.backgroundColor = "MistyRose";            
+        }
+         else
+        {document.getElementById('period_from').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+<script type="text/javascript">
+
+function dob_regular1(val)
+{
+    
+
+    var app_date = document.getElementById('dofsed').value;
+    var from_date = document.getElementById('period_from').value;
+    var to_date = document.getElementById('period_to').value;
+   
+    var today = new Date(); 
+   
+    if(to_date != "" )
+    {
+      
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=from_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2); 
+        var record_day3=to_date.split("/");  
+        var sum3=record_day3[2]+'/'+record_day3[1]+'/'+record_day3[0];
+        var too_date=new Date(sum3);
+       
+       
+        if( probation_date < appoint_date || today <probation_date || too_date < appoint_date || too_date < probation_date )
+        {
+            alert("Re - Enter The period to Date OR  Future date can not be entered ");
+
+            document.getElementById('period_to').focus();
+            
+            document.getElementById('period_to').value="";
+            period_to.style.backgroundColor = "MistyRose";
+            
+        }
+        else
+        {document.getElementById('period_to').style.background = 'none';}
+    }
+     var dob = document.getElementById('period_to').value;   
+     var today = new Date();    
+    if( dob != ""  )
+    {   
+        var record_day1=dob.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var dob=new Date(sum1);    
+               
+        if( dob > today )
+        {
+            alert("Re-Enter  date of birth or Future date cannot be entered");
+            document.getElementById('period_to').focus();
+            document.getElementById('period_to').value="";
+            period_to.style.backgroundColor = "MistyRose"; 
+            }
+           
+         
+        }   
+    return false; 
+}
+</script>
+
+
+
+<div class="content">
+<form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+      {% csrf_token %}
+
+<center><b><h2 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF APPOINTMENT, PROMOTION AND PREVIOUS EMPLOYMENT</h2></b><br></center> 
+<center><h3>(Additional rows can be created after saving each post)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+ <h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+
+<fieldset>
+
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Designation" %}</b>    <select id='designation' name="designation"  class="form-control" class="mandatory" >
+            {% if designation %}
+    <option value="{{designation.id}}" >{{ designation }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  posting_desg %}
+    <option value="{{i.id}}" >{{ i.user_desig }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.designation.errors}}</span>
+
+
+  <div class="form-group" id="district"><b>{% trans "District" %}</b>
+  {{ form.district|add_class:"form-control" }}</div>
+  <span class="error_message">{{form.district.errors}}</span>
+ 
+
+<div class="form-group" id="block">
+
+ <b>{% trans "Block" %}</b>{{ form.block|add_class:"form-control" }}</div>
+  
+<div class="ui-widget"> <b><strong style="color:red;">*</strong>{% trans "Name of the School (Enter First 3 letters of School Name or 2 digits of UDISE code)" %}</b><input type="text" class="form-control" class="mandatory" id="school_name1" name="school_name1" value="{{form.school_name1.value}}"  placeholder="NONE"  /></div>
+<span class="error_message">{{form.school_name1.errors}}</span>
+
+ <br>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Mode of Entry" %}</b>
+    <select id='type_of_posting' name="type_of_posting"  class="form-control" class="mandatory" >
+            {% if type_of_posting %}
+    <option value="{{type_of_posting.id}}" >{{ type_of_posting.posting_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  post %}
+    <option value="{{i.id}}" >{{ i.posting_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.type_of_posting.errors}}</span>
+
+<div class="form-group" hidden  >
+    <input type="text" id="dofsed" value="{{dategovt|date:"d/m/Y" }}" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" ></div>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Period From " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="period_from" name="period_from"  value="{{form.period_from.value|date:"d/m/Y" }}"  onblur= "dob_regular(this.value)"
+maxlength="10"  /></div>
+<span class="error_message">{{form.period_from.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Period To " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="period_to" name="period_to"  value="{{form.period_to.value|date:"d/m/Y" }}" maxlength="10" onchange= "dob_regular1(this.value)"   /></div>
+<span class="error_message">{{form.period_to.errors}}</span>
+</fieldset>
+
+<button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+</button>
+</center>          
+</form>
+
+<form action="" method="POST">
+<table  border="2" >
+<tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "Designation" %}</th>
+            <th style="text-align:center;">{% trans "Name of the School" %}</th>
+            <th style="text-align:center;">{% trans "District" %}</th>
+            <th style="text-align:center;">{% trans "Mode of Entry" %}</th>
+            <th style="text-align:center;">{% trans "Period From" %}</th>
+            <th style="text-align:center;">{% trans "Period To" %}</th>
+            <th style="text-align:center;">{% trans "Update" %}</th>
+</tr>        
+{% for i in edu_list %}
+    <tr>
+        <td>{{forloop.counter}}</td>          
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ i.teacherid.name|upper }} </td>
+        <td> {{ i.designation|upper}}</td>
+        <td> {{ i.school_name1|upper}}</td>
+        <td> {{ i.district|upper }}</td>
+        <td> {{ i.type_of_posting }}</td>
+        <td> {{ i.period_from }}</td>
+        <td> {{ i.period_to }}</td>
+        <td><a href="/teachers/teacher_posting_update/{{tid}}/{{i.id}}/"><button type="button" class="btn btn-warning">Update</button></a></td>    
+        {% endfor %}
+     </tr>
+</table>
+</form>
+
+
+<br>
+<br>
+
+
+
+{% endblock %}
+
+

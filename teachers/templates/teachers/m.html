@@ -1,0 +1,38 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% block content %}
+{% load static %}
+
+
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+  
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  
+
+   <fieldset style="width:800px" align="center">
+  <form  action='' method='post' enctype="multipart/form-data" name="frm">
+
+  
+ 
+  {% csrf_token %}
+ 
+  
+{% if request.user.account.user_category_id == 18 %}
+<div class="alert alert-success">
+  <strong>Staff's Data Successfully Transferred..........
+</div>
+{% if request.user.account.user_category_id == 18 %}
+<a style='text-align:center;display:block;font-size:20px;' href='/teachers/teacher_detailListView/{{sch}}'><u>Home</u></a>{% else %}
+<a style='text-align:center;display:block;font-size:20px;' href='/'><u>Home</u></a>{% endif %}
+
+
+
+
+{% endblock %}

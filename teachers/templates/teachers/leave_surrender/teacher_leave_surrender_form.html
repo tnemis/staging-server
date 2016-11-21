@@ -1,0 +1,204 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+
+
+{% block extrahead %} 
+
+  
+ {% endblock %}
+
+{% block content %}
+   <script type="text/javascript">
+    
+           function addFmdetailRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+
+            var cell1 = row.insertCell(0);
+            var element = document.createElement("input");
+            element.type = "checkbox";
+            element.className = "form-control";
+            cell1.appendChild(element);
+
+            var cell2 = row.insertCell(1);
+            // cell2.innerHTML = rowCount;
+            var element1 = document.createElement("input");
+            element1.type = "hidden";
+            element1.name = "fmdetail_no";
+            element1.size = "2";
+            element1.maxLength = "2";
+            element1.value = rowCount;
+            cell2.appendChild(element1);
+
+             var cell3 = row.insertCell(2);
+            var element2 = document.createElement("input");
+            element2.type = "date";
+            // element2.text-transform= "uppercase";
+            element2.className = "form-control";
+            element2.name = "surrender_date";
+            element2.size = "10";
+            element2.maxLength = "10";
+            cell3.appendChild(element2);
+            
+          
+
+            var cell4 = row.insertCell(3);
+            var element3 = document.createElement("input");
+            element3.type = "int";
+            element3.className = "form-control";
+            element3.name = "current_balance_days";
+            element3.size = "4";
+            element3.maxLength = "4";
+            cell4.appendChild(element3);
+        
+            var cell5 = row.insertCell(4);
+            var element4 = document.createElement("select")
+            element4.className = "form-control";
+            element4.name = "no_of_days";
+            element4.id = "no_of_days";
+            var option0 = document.createElement("option")
+            option0.text = "-----"
+            option0.value = "-----"
+            element4.add(option0);
+            var option1 = document.createElement("option")
+            option1.text = "15 days"
+            option1.value = "15"
+            element4.add(option1);
+            var option2 = document.createElement("option")
+            option2.text = "30 days"
+            option2.value = "30"
+            element4.add(option2);            
+            cell5.appendChild(element4);  
+
+            var cell6 = row.insertCell(5);
+            var element5 = document.createElement("input");
+            element5.type = "int";
+            element5.className = "form-control";
+            element5.name = "order_no";
+            element5.size = "10";
+            element5.maxLength = "10";
+            cell6.appendChild(element5);
+
+            var cell7 = row.insertCell(6);
+            var element6 = document.createElement("input");
+            element6.type = "date";
+            element6.className = "form-control";
+            element6.name = "order_date";
+            element6.size = "10";
+            element6.maxLength = "10";
+            cell7.appendChild(element6);        
+
+        }
+        
+        function deleteRow(tableID) {
+            try {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+
+            for(var i=0; i<rowCount; i++) {
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+                if(null != chkbox && true == chkbox.checked) {
+                    table.deleteRow(i);
+                    rowCount--;
+                    i--;
+                }
+
+            }
+            }catch(e) {
+                alert(e);
+            }
+        }
+
+
+ </script>
+
+
+
+<form action='#' method='post' encoding='utf-8'>
+    <fieldset>
+      {% csrf_token %}
+    <!--   {{ form }} -->
+<center><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+LEAVE SURRENDER ENTRY</h6></center> 
+<br> <br> 
+ <h1><font color='white'> Unique-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+
+
+     <div id="familydetails" class="form-group">
+    <label for="surrender"><strong></span>  <br /></strong></label>
+    <input type="button" value="Add Row" class="submit" onclick="addFmdetailRow('surrender')" />
+    <input type="button" value="Delete Row" class="delete" onclick="deleteRow('surrender')" />
+    <table id="surrender" >
+        <tr>
+            <th> <th style="width:20px;">&#10003;</th> 
+            <th style="text-align:center; ">{% trans "Surrender Date" %}</th>
+            <th style="text-align:center;">{% trans "Current Balance Days" %}</th>
+            <th style="text-align:center;">{% trans "Number of Days" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order Number" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order Date" %}</th>               
+            
+            
+        </tr>
+
+        
+        </table>
+        </div>     
+ </fieldset>
+ <center>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button></center>
+</center>
+          
+ </form>
+<br>
+ <form action="" method="POST"> 
+
+<table  border="2" > 
+
+<tr> 
+            <th style="text-align:center; ">{% trans "Sl.No" %}</th> 
+            <th style="text-align:center; ">{% trans "Teacher-ID" %}</th> 
+            <th style="text-align:center; ">{% trans "Surrender Date" %}</th>
+            <th style="text-align:center;">{% trans "Current Balance Days" %}</th>
+            <th style="text-align:center;">{% trans "Number of Days" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order Number" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order Date" %}</th> 
+  <th >Delete</th> 
+  </tr> 
+</tr> 
+ 
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ staff_name }} </td> 
+
+        <td> {{ i.surrender_date }}</td> 
+        <td> {{ i.current_balance_days }}</td> 
+        <td> {{ i.no_of_days }}</td> 
+        <td> {{ i.order_no }}</td> 
+        <td> {{ i.order_date }}</td> 
+
+        <td><a href="/teachers/teacher_leave_surrender_delete/{{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a></td> 
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+</form>
+
+ 
+  </div>
+  </div>
+</div>
+
+{% endblock %}
+
+        </button>
+

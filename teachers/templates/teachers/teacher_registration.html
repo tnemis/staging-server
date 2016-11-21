@@ -1,0 +1,205 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+
+
+ {% endblock %}
+
+{% block content %}
+
+
+<h4 style="color:red">Name of Staff : {{data.name |upper}}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Staff Id : {{data.count}}
+</h4><br>
+
+<center>
+<table class="mytable" border="1">
+<tr>
+    <td colspan="6">Click the Links Below and Enter the Details</td>
+</tr>
+<tr>
+    <td><a href="/teachers/teacher_posting_create/{{tid}}/">Posting Details</td></a>
+    <td><a href="/teachers/teacher_regularisation_create/{{tid}}/">Regularisation Details</td></a>
+    <td><a href="/teachers/teacher_probation_create/{{tid}}/">Probation Details</td></a>
+    <td><a href="/teachers/teacher_relinquis_create/{{tid}}/">Relinquishment</td></a>
+    <td><a href="/teachers/teacher_education_create/{{tid}}/">Educational Qualification</td></a>
+    <td><a href="/teachers/teacher_training_create/{{tid}}/">Inservice Training Attended</td></a>
+</tr>
+<tr>
+        <td><a href="/teachers/teacher_test_create/{{tid}}">Department Test Passed</td></a>
+       
+    <td><a href="/teachers/teacher_family_create/{{tid}}/">Family / Relationship</td></a>
+     <td><a href="/teachers/leave_master_view/{{tid}}/">Leave Master
+</a> </td>
+    <td><a href="/teachers/teacher_leave_entry_create/{{tid}}">Leave Entry</td></a>
+   
+    <td><a href="/teachers/teacher_leave_surrender_create/{{tid}}">Leave Surrendered </td></a>
+
+     <td><a href="/teachers/teacher_nomini_create/{{tid}}/">Financial Nomination</td></a>
+    
+</tr>
+
+<tr>
+    
+   <td><a href="/teachers/teacher_loan_create/{{tid}}/">Loan</td></a>  
+ <td><a href="/teachers/teacher_tpf_loan_create/{{tid}}">GPF / TPF Loan</td></a>
+
+ 
+    <td><a href="/teachers/teacher_movable_property_create/{{tid}}/">Movable Property</td></a>
+   <td><a href="/teachers/teacher_immovable_property_create/{{tid}}/">Immovable Property</td></a>
+
+    
+    <td><a href="/teachers/teacher_ltc_create/{{tid}}/">LTC </td></a>
+    <td><a href="/teachers/teacher_action_create/{{tid}}">Disciplinary Action Taken</td></a>
+</tr>
+<tr align="center"><td colspan="3" ><p align="center">
+<a href="/teachers/exam_camp_duty_create/{{tid}}/">Examination & Result Details</a></p> </td><td colspan="3" ><p align="center">
+<a href="/teachers/award_create/{{tid}}/">Awards Received</a></p> </td></tr>
+
+</table>
+</center>
+<br>
+<br>
+
+<style type="text/css">
+.mytable {
+margin:0px;padding:0px;
+width:100%;	box-shadow: 10px 10px 5px #F3F5FC;
+border:1px solid #000000;
+
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}.mytable table{
+width:100%;
+height:100%;
+margin:0px;padding:0px;
+}.mytable tr:last-child td:last-child {
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+}
+.mytable table tr:first-child td:first-child {
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}
+.mytable table tr:first-child td:last-child {
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+}.mytable tr:last-child td:first-child{
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+}.mytable tr:hover td{
+background-color:red;
+}
+.mytable td{
+vertical-align:middle;
+	background:-o-linear-gradient(bottom, #ffffff 5%, lightgrey 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, lightgrey) ); 	background:-moz-linear-gradient( center top, #ffffff 5%, lightgrey 100% );	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="lightgrey");	background: -o-linear-gradient(top,#ffffff,d3e9ff);
+background-color:red;
+border:1px solid #000000;
+border-width:0px 1px 1px 0px;
+text-align:left;
+padding:5px;
+font-size:18px;
+font-weight:normal;
+font-color:;
+}.mytable tr:last-child td{lightgrey
+border-width:0px 1px 0px 0px;
+}.mytable tr td:last-child{
+border-width:0px 0px 1px 0px;
+}.mytable tr:last-child td:last-child{
+border-width:0px 0px 0px 0px;
+}
+.mytable tr:first-child td{
+	background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );	background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");	background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+border:0px solid #000000;
+text-align:center;
+border-width:0px 0px 1px 1px;
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+}
+.mytable tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );	background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");	background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+}
+.mytable tr:first-child td:first-child{
+border-width:0px 0px 1px 0px;
+}
+.mytable tr:first-child td:last-child{
+border-width:0px 0px 1px 1px;
+}
+
+
+
+.s_button {
+    display: block;
+    height: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 30px;
+    width: 100px;
+    margin: 20px;
+
+    color: #FFF;
+    text-align: center;
+    border: solid #427AA8 1px;
+    
+    text-decoration: none;
+    border-radius: 5px;
+    /* Gradient */
+    background: #0088cc;    
+    
+    text-shadow: 1px 1px 0 rgba(255,0,0,0.25);
+    box-shadow: 0 1px 0 rgba(255,255,255, 0.3), inset 0 1px 0 rgba(255,255,255, 0.3);
+}
+
+.s_button:hover {
+    background: #59A3E0;
+    text-decoration: none;
+    filter: none;
+}​
+
+
+</style>
+<style type="text/css">
+.button {
+    background: #25A6E1;
+    background: -moz-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#25A6E1),color-stop(100%,#188BC0));
+    background: -webkit-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -o-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -ms-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+    padding:8px 13px;
+    color:#fff;
+    font-family:'Helvetica Neue',sans-serif;
+    font-size:17px;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:1px solid #1A87B9
+}                
+</style>
+    {% endblock %}

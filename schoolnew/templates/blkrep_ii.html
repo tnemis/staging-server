@@ -1,0 +1,561 @@
+{% extends "baseapp/master_base_new.html"|pjax:request %}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+ <div  class="form-group" style="visibility:hide" id="dept_div" name="dept_div"><b>{% trans "Select Department for the Report:" %}</b><select id="dept_choi" class="form-control" name='dept_choi' onselect="dept_rep();" onchange="dept_rep();" >
+            {% if dept_opt == 1 %}
+                <option value = '1' selected="selected" >D.S.E. Report</option>
+            {% else %} 
+            {% if dept_opt == 2 %}
+                <option value = '2' selected="selected" >D.E.E. Report</option>
+            {% else %}
+            {% if dept_opt == 3 %}
+                <option value = '3' selected="selected" >D.M.S. Report</option>        
+            {% else %} 
+            {% if dept_opt == 4 %}
+                <option value='4' selected="selected">All Directorate Report</option>        
+            {% else %}
+                <option value="" selected="selected">Select</option>
+                <option value = 'D.S.E. Report' >D.S.E. Report</option>                
+                <option value = 'D.E.E. Report' >D.E.E. Report</option>
+                <option value = 'D.M.S. Report' >D.M.S. Report</option>
+                <option value = 'All Directorate Report' >All Directorate Report</option> 
+            {% endif %}             
+            {% endif %}
+            {% endif %}                  
+            {% endif %}
+       </select></div>
+
+ <div id="dse_rep" name="dse_rep" class="form-group" style="visibility:hide">
+
+<center><h2> School Profile - Basic Information Entry - Status Report</h2></center>
+
+
+                  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+                 
+                      <tr>
+                        
+                        <th width=15% rowspan="2" style="vertical-align:middle;" class="text-center">DISTRICT</th>
+                        <th width=5% rowspan="2"  style="vertical-align:middle;" class="text-center">D.S.E. - No. of Schools</th>
+                        <th width=5% colspan="4"  style="vertical-align:middle;" class="text-center">No. of Schools Entered Basic Information (Management-wise)</th>
+                      </tr>
+                      <tr>  
+                        <th width=5% style="vertical-align:middle;" class="text-center">Government</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Un-Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Total</th>
+</tr>
+    {% for i in bl %}
+                      <tr>
+                        
+                        <td><a href="/schoolnew/sch_rep/{{i.id}}/1">{{i.block_name}}</a></td>
+                         <!-- <td><a href="/bus_pass/block_report/{{i.id}}">{{i.block_name}}</a></td> -->
+                        <!-- <td>{{i.district_name}}</td> -->
+                        <td align="right"> 
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 1 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+
+
+                        <td align="right">                        
+                        {% for j in  dsemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 1 %}
+                                    {{ j.dsemdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in dsemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 2 %}
+                                    {{ j.dsemdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in  dsemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 3 %}
+                                    {{ j.dsemdet}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+
+                        <td align="right"> 
+                        {% for j in  dsemansubtot %}
+                                {% if j.block == i.id%}
+                                    {{ j.dsemantot}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+<th> TOTAL</th>
+
+
+                        <td align="right">
+                        {% for k in schgrtot %}
+                                {% if k.chk_dept == 1 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+
+                        <td align="right"> 
+                        {% for l in dsemangrtot %}
+                                {% if l.manage_cate == 1 %}
+                                    {{ l.dsemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for l in dsemangrtot %}
+                                {% if l.manage_cate == 2 %}
+                                    {{ l.dsemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for l in dsemangrtot %}
+                                {% if l.manage_cate == 3 %}
+                                    {{ l.dsemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                            {{dsemantotal}}
+                        </td>
+
+
+
+</tr>
+</table>
+</div>    
+
+<div id="all_rep" name="all_rep" class="form-group" style="visibility:hide"> 
+<center><h2> School Profile - Basic Information Entry - Status Report</h2></center>
+
+
+                  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+                 
+
+                      <tr>
+                        
+                        <th width=15% rowspan="2" style="vertical-align:middle;" class="text-center">DISTRICT</th>
+                        <th width=5% rowspan="2" style="vertical-align:middle;" class="text-center">DSE Schools</th>
+                        <th width=5% rowspan="2" style="vertical-align:middle;" class="text-center">DEE Schools</th>
+                        <th width=5% rowspan="2" style="vertical-align:middle;" class="text-center">DMS Schools</th>
+                        <th width=5% rowspan="2" style="vertical-align:middle;" class="text-center">Total Schools</th>
+                        <th width=5% colspan="4"  style="vertical-align:middle;" class="text-center">No. of Schools Entered Basic Information (Management-wise)</th>
+                      </tr>
+                      <tr> 
+                        <th width=5% style="vertical-align:middle;" class="text-center">Government</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Un-Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Total</th>
+</tr>
+    {% for i in bl %}
+                      <tr>
+                        
+                        <td><a href="/schoolnew/sch_rep/{{i.id}}/4">{{i.block_name}}</a></td>
+                        <td align="right"> 
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 1 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                                                </td>
+                        <td align="right">
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 2 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right">
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 3 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right">
+                        {% for j in  blktot %}
+                        {% if j.block == i.id %}
+                            {{ j.schsubtot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+
+                        <td align="right">                        
+                        {% for j in  mandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 1 %}
+                                    {{ j.mdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in mandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 2 %}
+                                    {{ j.mdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in  mandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 3 %}
+                                    {{ j.mdet}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+
+                        <td align="right"> 
+                        {% for j in  mansubtot %}
+                                {% if j.block == i.id%}
+                                    {{ j.mantot}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+<th> TOTAL</th>
+
+
+                        <td align="right"> {% for k in schgrtot %}
+                                {% if k.chk_dept == 1 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for k in schgrtot %}
+                                {% if k.chk_dept == 2 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for k in schgrtot %}
+                                {% if k.chk_dept == 3 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                            {{schtotal}}
+                        </td>
+
+                        <td align="right"> {% for l in mangrtot %}
+                                {% if l.manage_cate == 1 %}
+                                    {{ l.mangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in mangrtot %}
+                                {% if l.manage_cate == 2 %}
+                                    {{ l.mangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in mangrtot %}
+                                {% if l.manage_cate == 3 %}
+                                    {{ l.mangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                            {{mantotal}}
+                        </td>
+
+
+
+</tr>
+</table>
+</div>
+
+<div id="dee_rep" name="dee_rep" class="form-group" style="visibility:hide"> 
+<center><h2> School Profile - Basic Information Entry - Status Report</h2></center>
+
+
+                  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+                 
+                      <tr>
+                        
+                        <th width=15% rowspan="2" style="vertical-align:middle;" class="text-center">DISTRICT</th>
+                        <th width=5% rowspan="2"  style="vertical-align:middle;" class="text-center">D.E.E. - No. of Schools</th>
+                        <th width=5% colspan="4"  style="vertical-align:middle;" class="text-center">No. of Schools Entered Basic Information (Management-wise)</th>
+                      </tr>
+                      <tr>  
+                        <th width=5% style="vertical-align:middle;" class="text-center">Government</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Un-Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Total</th>
+</tr>
+    {% for i in bl %}
+                      <tr>
+                        
+                        <td><a href="/schoolnew/sch_rep/{{i.id}}/2">{{i.block_name}}</a></td>
+                        <td align="right"> 
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 2 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+
+
+                        <td align="right">                        
+                        {% for j in  deemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 1 %}
+                                    {{ j.deemdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in deemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 2 %}
+                                    {{ j.deemdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in  deemandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 3 %}
+                                    {{ j.deemdet}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+
+                        <td align="right"> 
+                        {% for j in  deemansubtot %}
+                                {% if j.block == i.id%}
+                                    {{ j.deemantot}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+<th> TOTAL</th>
+
+
+                        <td align="right"> {% for k in schgrtot %}
+                                {% if k.chk_dept == 2 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+
+                        <td align="right"> {% for l in deemangrtot %}
+                                {% if l.manage_cate == 1 %}
+                                    {{ l.deemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in deemangrtot %}
+                                {% if l.manage_cate == 2 %}
+                                    {{ l.deemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in deemangrtot %}
+                                {% if l.manage_cate == 3 %}
+                                    {{ l.deemangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                            {{deemantotal}}
+                        </td>
+
+</tr>
+</table>
+</div>
+
+ <div id="dms_rep" name="dms_rep" class="form-group" style="visibility:hide">
+
+<center><h2> School Profile - Basic Information Entry - Status Report</h2></center>
+
+
+                  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+                 
+                      <tr>
+                        
+                        <th width=15% rowspan="2" style="vertical-align:middle;" class="text-center">DISTRICT</th>
+                        <th width=5% rowspan="2"  style="vertical-align:middle;" class="text-center">D.M.S. - No. of Schools</th>
+                        <th width=5% colspan="4"  style="vertical-align:middle;" class="text-center">No. of Schools Entered Basic Information (Management-wise)</th>
+                      </tr>
+                      <tr>  
+                        <th width=5% style="vertical-align:middle;" class="text-center">Government</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Un-Aided</th>
+                        <th width=5% style="vertical-align:middle;" class="text-center">Total</th>
+</tr>
+    {% for i in bl %}
+                      <tr>
+                        
+                        <td><a href="/schoolnew/sch_rep/{{i.id}}/3">{{i.block_name}}</a></td>
+                        <td align="right"> 
+                        {% for j in  schlst %}
+                        {% if j.block == i.id and j.chk_dept == 3 %}
+                            {{ j.schblktot }}
+                        {% endif %}
+                        {% endfor %}
+                        </td>
+
+
+                        <td align="right">                        
+                        {% for j in  dmsmandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 1 %}
+                                    {{ j.dmsmdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in dmsmandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 2 %}
+                                    {{ j.dmsmdet }}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td align="right"> 
+                        {% for j in  dmsmandet %}
+                                {% if j.block == i.id and j.manage_cate_id == 3 %}
+                                    {{ j.dmsmdet}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+
+                        <td align="right"> 
+                        {% for j in  dmsmansubtot %}
+                                {% if j.block == i.id%}
+                                    {{ j.dmsmantot}}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+<th> TOTAL</th>
+
+
+                        <td align="right"> {% for k in schgrtot %}
+                                {% if k.chk_dept == 3 %}
+                                    {{ k.schgtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+
+                        <td align="right"> {% for l in dmsmangrtot %}
+                                {% if l.manage_cate == 1 %}
+                                    {{ l.dmsmangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in dmsmangrtot %}
+                                {% if l.manage_cate == 2 %}
+                                    {{ l.dmsmangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> {% for l in dmsmangrtot %}
+                                {% if l.manage_cate == 3 %}
+                                    {{ l.dmsmangtot }}
+                                {% endif %}
+                              {% endfor %}
+                        </td>
+                        <td align="right"> 
+                            {{dmsmantotal}}
+                        </td>
+
+
+
+</tr>
+</table>
+</div>  
+<center>
+
+{% if dept_opt == 1 %}
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_srep_ii/'>Back</a>
+{% else %} 
+{% if dept_opt == 2 %}
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_srep_ii/'>Back</a>
+{% else %}
+{% if dept_opt == 3 %}
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_srep_ii/'>Back</a>
+{% else %} 
+{% if dept_opt == 4 %}
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_srep_ii/'>Back</a>
+{% else %} 
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_dist_abs/{{basic_det.district_id}}'>Back</a>
+{% endif %} 
+{% endif %} 
+{% endif %} 
+{% endif %} 
+</center>
+
+<script type="text/javascript">
+function dept_rep()
+        { 
+            var repo_cho=$("#dept_choi option:selected").text()
+            if(repo_cho == 'All Directorate Report')
+            {
+                document.getElementById('dms_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "";
+                
+            } 
+            else if(repo_cho == 'D.S.E. Report')
+            {   
+
+                document.getElementById('dse_rep').style.display = "";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";
+                document.getElementById('dms_rep').style.display = "none";  
+            }
+            else if(repo_cho == 'D.E.E. Report')
+            {   
+                document.getElementById('dee_rep').style.display = "";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";
+                document.getElementById('dms_rep').style.display = "none"; 
+            }  
+            else if(repo_cho == 'D.M.S. Report')
+            {   
+                document.getElementById('dms_rep').style.display = "";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";  
+            }  
+
+            else 
+            {   
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none"; 
+                document.getElementById('dms_rep').style.display = "none";
+            }                        
+        }
+window.onload=dept_rep();
+window.stop();
+</script>
+
+{% endblock %}
+
+

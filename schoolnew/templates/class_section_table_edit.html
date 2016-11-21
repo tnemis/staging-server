@@ -1,0 +1,241 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }    
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+
+ 
+    <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                form_class_sec.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#form_class_sec" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    sections: {
+                        required:true,
+                        min: 0,                    
+                    },
+                    tam_stud: {
+                        required:true,
+                    },  
+                    eng_stud: {
+                        required:true,
+                    },
+                    oth_stud: {
+                        required:true,
+                    },                                                           
+
+                },
+                messages: {
+
+                    sections: {
+                        required: "No. of Sections in the Class can not be blank...",
+                        min: "Minimum classes in the section should be 0",
+                    },
+
+                    tam_stud: {
+                        required: "No. of Students in Tamil medium is required..."
+                    }, 
+                    eng_stud: {
+                        required: "No. of Students in English medium is required..."
+                    },
+                    oth_stud: {
+                        required: "No. of Students in English medium is required..."
+                    },                                                           
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+
+<script type="text/javascript">
+// function chkstudtot(this.vale)
+// {
+
+
+// }
+
+function chkstudtot(tam_id,eng_id,oth_id,tot_id)
+    {
+      var tam_stu=document.getElementById('tam').value
+      var eng_stu=document.getElementById('eng').value
+      var oth_stu=document.getElementById('oth').value
+      var tot_val =document.getElementById(tot_id);
+      if (tam_stu == 'True')
+      {
+        var tam_val =parseInt(document.getElementById(tam_id).value);
+      }
+      else
+      {
+        var tam_val=0
+      }
+
+      if (eng_stu == 'True')
+      {
+        var eng_val =parseInt(document.getElementById(eng_id).value);
+      }
+      else
+      {
+        var eng_val=0
+      } 
+
+      if (oth_stu == 'True')
+      {
+        var oth_val =parseInt(document.getElementById(oth_id).value);
+      }
+      else
+      {
+        var oth_val =0
+      }  
+
+
+      tot_val.value=tam_val+eng_val+oth_val;
+    }
+
+</script>
+
+
+
+<form id="form_class_sec" method="post" class="form-horizontal" action="">
+{% csrf_token %}
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+<br>
+<input type="hidden" name="tam" id="tam" value="{{acade_det.tamil_med}}">
+<input type="hidden" name="eng" id="eng" value="{{acade_det.eng_med}}">
+<input type="hidden" name="oth" id="oth" value="{{acade_det.oth_med_stren}}">
+<center><h2 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+Details of class wise number of Sections </h2></center>
+<table  border="2" >
+<tr>
+            <th style="text-align:center; ">{% trans "Standard" %}</th>
+            <th style="text-align:center; ">{% trans "No. of Sections" %}</th>
+
+            <th style="text-align:center; ">{% trans "No. of Sections Aided by Government" %}</th>
+
+            <th style="text-align:center; ">{% trans "No. of Students in Tamil Medium" %}</th>
+
+            <th style="text-align:center; ">{% trans "No. of Students in English Medium" %}</th>
+
+            <th style="text-align:center; ">{% trans "No. of Students in Other Mediums (Studying in Telugu / Kannada / Malayalam / Other Medium)" %}</th>            
+            <th style="text-align:center;" >{% trans "Total No. of Students" %}</th>
+            <th style="text-align:center;" >{% trans "No. of CWSN Children in the Class" %}</th>
+
+  </tr>
+
+{% for i in class_det %}
+<tr>
+
+<td style="text-align:center;">     <div class="form-group" id="chk_class1" name="chk_class1"><input id="class_id" name="class_id" value="{{i.class_id}}" type="text" readonly="readonly" size="6" ></div><span class="error_message">{{i.errors}}</span>
+</td>
+<td style="text-align:center;">     <div class="form-group" id="chk_class2" name="chk_class2"><input id="sections" name="sections" value="{{i.sections}}" type="number" min='0' size="6" max='99'></div><span class="error_message">{{i.errors}}</span></td>
+{% if aid_chk%}
+<td style="text-align:center;">     <div class="form-group" id="chk_class3" name="chk_class3"><input id="no_sec_aided" name="no_sec_aided" value="{{i.no_sec_aided}}" type="number" min='0' max="99"></div><span class="error_message">{{i.errors}}</span></td>
+<!-- <td style="text-align:center;"> {{ i.no_sec_aided}}</td> -->
+{% else %}
+<td style="text-align:center;">     <div class="form-group" ><input id="no_sec_aided{{forloop.counter}}" name="no_sec_aided" value="{{i.no_sec_aided}}" type="hidden" type="number" min='0' max="99"size="6" ></div><span class="error_message">{{i.errors}}</span></td>
+{% endif %}
+
+{% if acade_det.tamil_med %}
+<td style="text-align:center;">     <div class="form-group" ><input id="tam_stud{{forloop.counter}}" name="tam_stud" value="{{i.tam_stud}}" onblur="chkstudtot('tam_stud{{forloop.counter}}','eng_stud{{forloop.counter}}','oth_stud{{forloop.counter}}','no_stud{{forloop.counter}}');" type="number" min='0'  size="6" max="9999"></div><span class="error_message">{{i.errors}}</span></td>
+{% else %}
+<td style="text-align:center;">     <div class="form-group" ><input id="no_sec_aided{{forloop.counter}}" name="tam_stud" value="{{i.tam_stud}}" type="hidden" type="number" min='0' size="6"  max="9999"></div><span class="error_message">{{i.errors}}</span></td>
+{% endif %}
+
+{% if acade_det.eng_med %}
+<td style="text-align:center;">     <div class="form-group" ><input id="eng_stud{{forloop.counter}}" name="eng_stud" value="{{i.eng_stud}}" onblur="chkstudtot('tam_stud{{forloop.counter}}','eng_stud{{forloop.counter}}','oth_stud{{forloop.counter}}','no_stud{{forloop.counter}}');" type="number" min='0' size="6"  max="9999" ></div><span class="error_message">{{i.errors}}</span></td>
+{% else %}
+<td style="text-align:center;">     <div class="form-group" ><input id="no_sec_aided{{forloop.counter}}" name="eng_stud" value="{{i.eng_stud}}" type="hidden" type="number" min='0' size="6"  max="9999"></div><span class="error_message">{{i.errors}}</span></td>
+{% endif %}
+
+{% if oth_med_stren %}
+<td style="text-align:center;">     <div class="form-group" ><input id="oth_stud{{forloop.counter}}" name="oth_stud" value="{{i.oth_stud}}" onblur="chkstudtot('tam_stud{{forloop.counter}}','eng_stud{{forloop.counter}}','oth_stud{{forloop.counter}}','no_stud{{forloop.counter}}');" type="number" min='0' size="6"  max="9999" ></div><span class="error_message">{{i.errors}}</span></td>
+{% else %}
+<td style="text-align:center;">     <div class="form-group" ><input id="oth_stud{{forloop.counter}}" name="oth_stud" value="{{i.oth_stud}}" type="hidden" type="number" min='0' size="6"  max="9999" ></div><span class="error_message">{{i.errors}}</span></td>
+{% endif %}
+
+<td style="text-align:center;">     <div class="form-group" id="chk_class4" name="chk_class4"><input id="no_stud{{forloop.counter}}" name="no_stud" readonly value="{{i.no_stud}}" type="number" min='0' size="6"  max="9999"></div><span class="error_message">{{i.errors}}</span></td>
+
+<td style="text-align:center;">     <div class="form-group" id="chk_class4" name="chk_class4"><input id="cwsn_stud_no" name="cwsn_stud_no" value="{{i.cwsn_stud_no}}" type="number" min='0' size="6"  max="9999"></div><span class="error_message">{{i.errors}}</span></td>
+
+<!-- <td style="text-align:center;"><a href="/schoolnew/sch_class_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+<td style="text-align:center;"><a href="/schoolnew/sch_class_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td> -->
+   </tr>
+{% endfor %}       
+</table>
+<br>
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save">Save</button>
+</div>
+
+</form>
+
+
+<form action="" method="POST" id="form_class_sec_upd" method='post' enctype="multipart/form-data" action="" name="form_class_sec_upd">
+
+
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+
+ 
+
+</fieldset>
+
+</form>
+
+
+
+
+{% endblock %}
+
+

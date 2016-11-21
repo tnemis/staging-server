@@ -1,0 +1,143 @@
+<!-- {% extends 'teachers/base.html' %} -->
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+
+
+{% block extrahead %} 
+
+  
+
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+<script type="text/javascript">
+function AfterDate(val) 
+{     
+    var regis_date = document.getElementById('ofs_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+      
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check Your Order Date"); 
+        ofs_date.style.backgroundColor = "MistyRose";
+        ofs_date.focus();
+        return false; 
+      }  
+    } }
+</script>
+
+
+ <script type="text/javascript">
+   $(document).ready(function() 
+
+    { 
+    
+
+    if (document.getElementById('retirement').checked )
+    { 
+    document.getElementById('retiretype').disabled = false;}
+    else{document.getElementById('retiretype').disabled =true;
+    }
+       
+     } );  
+function change(val){
+
+document.getElementById('retiretype').disabled =false;
+if (document.getElementById('death').checked || document.getElementById('dismissal').checked || document.getElementById('absconding').checked || document.getElementById('legal').checked) 
+    
+    { 
+    document.getElementById('retiretype').disabled = true;}
+
+   
+
+}
+   </script>
+
+  
+ {% endblock %}
+{% block content %}
+
+
+
+
+ <div class="content">
+  <form id="form-3" action='#' method='post' enctype="multipart/form-data" name="frm">
+
+<div class="form-group"> <center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> OUT OF SERVICE DETAILS</h6></b><br></center> <br> 
+
+{% csrf_token %}
+ <h1><font color='white'> Staff-ID :{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1><br>
+
+ <input type="hidden" name="staff_id" id="staff_id" value="{{ staff_id }}">
+
+  <input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+
+
+
+ <div> <label class="btn btn-default"><input  onclick="change(this.value)" type="radio" name="type_outofservice" value="retirement"><b><strong style="color:blue;"> {% trans "SERVICE RETIREMENT" %}</b></strong> </label>
+ <select  class="form-control" name="type_outofservice" id="retiretype" disabled="disabled">
+               <option>Select</option>
+               <option>Voluntary Retirement</option>
+               <option>Retirement on Super Annuation</option>
+               <option>Retirement after Extenstion of Service</option> 
+ </select></div>
+
+  <br>
+
+  <div><label class="btn btn-default"><input onclick="change(this.value)" type="radio" name="type_outofservice" value="death" id="death" ><b> <strong style="color:blue;">{% trans "DEATH IN SERVICE " %}</b></strong></label></div>
+<br>
+
+ <div><label class="btn btn-default active"> <input onclick="change(this.value)" type="radio" name="type_outofservice" value="dismissal"    id="dismissal" checked=""><b><strong style="color:blue;">{% trans "DISMISSAL FROM SERVICE " %}</b></strong></label></div>
+<br>
+
+  <div><label class="btn btn-default active"> <input onclick="change(this.value)" type="radio" name="type_outofservice" value="absconding"    id="absconding" checked=""><b><strong style="color:blue;">{% trans "ABSCONDING FROM THE SERVICE " %}</b></strong></lable></div>
+
+
+<br>
+ 
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date on Out of Service" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="ofs_date" name="ofs_date"  value="{{ofs_date|date:"d/m/Y" }}" maxlength="10" onchange= "AfterDate(this.value)"   /></div>
+<span class="error_message">{{form.ofs_date.errors}}</span>
+  
+    
+   <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button>
+
+
+ 
+
+    </div>
+    </div>
+
+{% endblock %}
+
+ 
+
+
+ 

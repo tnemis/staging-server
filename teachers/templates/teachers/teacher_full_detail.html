@@ -1,0 +1,324 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load imagekit %}
+{% block content %}
+
+
+        <style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+
+<table width="100%" border="2" align="center">
+  <tr><th style="width:750px;border:0px; text-align:center;">Photo</th>
+      <th style="width:1000px;border:0px; text-align:center;">Basic Information</th></tr>
+      <tr>
+        <td valign="TOP">
+        <table>
+          <tr>
+            <tr> <td style="width:230px">
+            <div style="margin-left:10px">
+                {% if teacher.uploadfile %}
+                <img src="{{MEDIA_URL}}{{teacher.uploadfile}}" width="200" height="250">
+                {%else%}
+                <img src="{{STATIC_URL}}img/student.png" width="200" height="200"/>
+                {%endif%}
+            <span ></span>
+            </div>
+        </td></tr> </table></td>
+
+                <td valign="TOP">
+        <table style="margin-left:10px;">
+        <tr> <td style="border:0px;padding-top:10px;" > Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.name |upper }} </td> </tr>
+        
+        <tr><td style="border:0px;padding-top:10px;" > ID No. </td><td style="border:0px;" > : </td> <td style="border:0px;" >{{ teacher.count }} </td> </tr>
+
+        <tr> <td style="border:0px;padding-top:10px;" > Designation</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.stafs |upper }}/{{ teacher.designation  |upper}} </td> </tr>
+        
+        <tr> <td style="border:0px;padding-top:10px;" > Subject</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >  {{ teacher.subject |upper}}   &nbsp;&nbsp;&nbsp;   </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > School / Office Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ school_info.school_name  |upper}} </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Native District </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.native_district |upper }} </td> </tr></td></tr>
+
+        <tr> <td style="border:0px;padding-top:10px;" > Pension Type </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.pension_name |upper}} </td> </tr></td></tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Pension Number </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.pension_number |upper}} </td> </tr>
+        <tr> <td style="border:0px;padding-top:10px;" > Health Insurance No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.health_number %} {{ teacher.health_number |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} 
+         <tr> <td style="border:0px;padding-top:10px;" > Employment Status </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.employment_status %} {{ teacher.employment_status |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+        </table></td></tr></table>
+        
+            </br>
+<table  border="2" align="center">
+  <tr><th>School / Office Information</th>
+      <th>Bank Details</th></tr>
+      <tr>
+        <td valign="TOP">
+        <table style="margin-left:10px">
+            <tr> <td style="border:0px;padding-top:10px;" > School / Office Code </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ school_info.school_code }} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > School / Office </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ school_info.school_name |upper }} </td> </tr>
+            
+            <tr> <td style="border:0px;padding-top:10px;" > District </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ school_info.district |upper }} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Block </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ school_info.block |upper }} </td> </tr>
+           
+               <tr> <td style="border:0px;padding-top:10px;" >Type of Management  </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.management %} {{ teacher.management |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+             </table></td>
+            <td valign="TOP">
+        <table style="margin-left:10px">
+        
+         <tr> <td style="border:0px;" >District</td><td style="border:0px;" > : </td> <td style="border:0px;" >{% if teacher.bank_dist %} {{ teacher.bank_dist |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" >
+        <tr> <td style="border:0px;" > Name of the Bank </td><td style="border:0px;" > : </td> <td style="border:0px;" >{% if teacher.bank %} {{ teacher.bank |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Bank Account No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.bank_account_no %} {{ teacher.bank_account_no |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Bank IFSC Code </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.branch.ifsc_code %} {{ teacher.branch.ifsc_code |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+           
+            <tr> <td style="border:0px;padding-top:10px;" > Aadhaar UID No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.aadhaar_number %} {{ teacher.aadhaar_number |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}    </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > PAN No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.pan_number %} {{ teacher.pan_number |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}    </td> </tr>
+                    
+             </td> </tr> </table></td>
+ 
+            </tr></table>
+
+            </br>
+
+
+            <table  border="2" align="center">
+  <tr><th>Personal Information</th>
+      <th>Additional Information</th></tr>
+      <tr>
+      <td valign="TOP">
+        <table style="margin-left:10px"><tr> <td style="border:0px;" > Gender </td><td style="border:0px;" > : </td> <td style="border:0px;" >{{ teacher.gender |upper }} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Birth </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.dob |upper }} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Retirement </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{{ teacher.dor |upper }} </td> </tr>
+            
+             
+
+
+            <tr> <td style="border:0px;padding-top:10px;" > Mother Tongue </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.mothertongue %} {{ teacher.mothertongue |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Religion </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.religion %} {{ teacher.religion |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Community </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.community %} {{ teacher.community |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+         
+            <tr> <td style="border:0px;padding-top:10px;" > Sub Caste </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.sub_caste %} {{ teacher.sub_caste |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            
+            <tr> <td style="border:0px;padding-top:10px;" > House Address </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.pres_add_flatno %} {{ teacher.pres_add_flatno |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} ,
+            {% if teacher.pres_add_street %} {{ teacher.pres_add_street |upper }}{% endif %} ,
+            {% if teacher.pres_add_area %} {{ teacher.pres_add_area |upper }}{% endif %} ,
+            {% if teacher.pres_add_city %} {{ teacher.pres_add_city |upper }}{% endif %} .
+
+  </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > PIN Code </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.present_pincode %} {{ teacher.present_pincode }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Phone No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.phone_number %} {{ teacher.phone_number }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" >E-mail</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.email %} {{ teacher.email }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Marital Status </td><td style="border:0px;padding-top:10px;" > : </td>
+            <td style="border:0px;padding-top:10px;" > {% if teacher.marital %} {{ teacher.marital |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Mother's Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.mother_name %} {{ teacher.mother_name |upper}} {% else %}&nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Father's Name </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" >{% if teacher.father_name %} {{ teacher.father_name |upper }} {% else %}&nbsp;&nbsp;&nbsp;- {% endif %}  </td> 
+            </tr>
+            <tr> <td style="border:0px;padding-top:10px;" >Name of the Spouse</td><td style="border:0px;padding-top:10px;" > : </td>
+            <td style="border:0px;padding-top:10px;" > {% if teacher.spouse_name  %} {{ teacher.spouse_name |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Blood Group </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.blood_group %}  {{ teacher.blood_group |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Identification Mark 1 </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.imark1 %}  {{ teacher.imark1 |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Identification Mark 2 </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.imark2 %}  {{ teacher.imark2 |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Height </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.height %} {{ teacher.height }} cm  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Weight </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.weight %} {{ teacher.weight }} kg  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr></table></td>
+                   
+                <td valign="TOP">
+        <table style="margin-left:10px">
+
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Appointment in Service / Designation </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.dofags  %} {{ teacher.dofags |upper }}/ {{ teacher.designation_fags  |upper}}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            
+
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Appointment in School Education Departmment </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.dofsed %} {{ teacher.dofsed |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;" > Date of Joining in the Present School / Office</td><td style="border:0px;" > : </td> <td style="border:0px;" >{{ teacher.dojocs |upper}} / {{teacher.dojocs_session | upper}} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" >Date of Regularisation </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.doregu %} {{ teacher.doregu |upper }}/ {{teacher.doregu_session}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Probation </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.doprob %} {{ teacher.doprob |upper }} / {{teacher.doprob_session}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Month of Increment </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.increment_month %} {{ teacher.increment_month |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Passport No. </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.passport_no %} {{ teacher.passport_no |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Issue</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.passport_date_from %} {{ teacher.passport_date_from |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Expiry</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.passport_date_to %} {{ teacher.passport_date_to |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Differently Abled </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.differently_abled_type %} {{ teacher.differently_abled_type }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Appointment in Aided School  </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.appointed_aided_date %} {{ teacher.appointed_aided_date |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Minority Language </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.language_test %} {{ teacher.language_test |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" >Date of Certificate Evaluation </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.evaluation_date %} {{ teacher.evaluation_date |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Date of Unit Transfer </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.uta_date %} {{ teacher.uta_date }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td style="border:0px;padding-top:10px;" > Typing Tamil Junior</td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.tamil_jr %} Yes  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" >  Typing English Junior </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.eng_jr %}  Yes   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;padding-top:10px;" > Typing Tamil Senior  </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.tamil_sr %}  Yes    {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+             <tr> <td style="border:0px;padding-top:10px;" > Typing English Senior </td><td style="border:0px;padding-top:10px;" > : </td> <td style="border:0px;padding-top:10px;" > {% if teacher.eng_sr %} Yes    {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+                     </table></td></tr></table>
+
+            </br>
+             
+         
+
+<p align="right"> <a   class="btn btn-small btn-success" href='/teachers/teacher_full_detail_more/{{teacher.id}}'>More...</a></p>
+<br>
+<br>
+<br>  
+{% if entry == 1 %}
+<a  class="btn btn-large btn-success" href='/teachers/teacher_update/{{teacher.id}}'>Update</a>
+<a class="btn btn-large btn-success" href='/teachers/Teacher_transfer_parent/{{teacher.id}}' >{% trans "Transfer" %}</a>
+<a class="btn btn-large btn-success" href='/teachers/teacher_promotion/{{teacher.id}}' ><b>{% trans "Promotion Within Same School" %}</b></a>
+{% endif %}
+
+<a  class="btn btn-large btn-success" href='/teachers/printpdf/{{teacher.id}}'>Print PDF</a>
+<br><br>
+<style type="text/css">
+.mytable {
+margin:0px;padding:0px;
+width:100%; box-shadow: 10px 10px 5px #888888;
+border:1px solid #000000;
+
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}.mytable table{
+width:100%;
+height:100%;
+margin:0px;padding:0px;
+}.mytable tr:last-child td:last-child {
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+}
+.mytable table tr:first-child td:first-child {
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}
+.mytable table tr:first-child td:last-child {
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+}.mytable tr:last-child td:first-child{
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+}.mytable tr:hover td{
+background-color:red;
+}
+.mytable td{
+vertical-align:middle;
+    background:-o-linear-gradient(bottom, #ffffff 5%, gray 100%);   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, gray) );   background:-moz-linear-gradient( center top, #ffffff 5%, gray 100% );   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="gray"); background: -o-linear-gradient(top,#ffffff,d3e9ff);
+background-color:red;
+border:1px solid #000000;
+border-width:0px 1px 1px 0px;
+text-align:left;
+padding:7px;
+font-size:18px;
+font-weight:normal;
+color:;
+}.mytable tr:last-child td{
+border-width:0px 1px 0px 0px;
+}.mytable tr td:last-child{
+border-width:0px 0px 1px 0px;
+}.mytable tr:last-child td:last-child{
+border-width:0px 0px 0px 0px;
+}
+.mytable tr:first-child td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+border:0px solid #000000;
+text-align:center;
+border-width:0px 0px 1px 1px;
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+}
+.mytable tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+}
+.mytable tr:first-child td:first-child{
+border-width:0px 0px 1px 0px;
+}
+.mytable tr:first-child td:last-child{
+border-width:0px 0px 1px 1px;
+}
+
+
+
+.s_button {
+    display: block;
+    height: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 30px;
+    width: 100px;
+    margin: 20px;
+
+    color: #FFF;
+    text-align: center;
+    border: solid #427AA8 1px;
+    
+    text-decoration: none;
+    border-radius: 5px;
+    /* Gradient */
+    background: #0088cc;    
+    
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 rgba(255,255,255, 0.3), inset 0 1px 0 rgba(255,255,255, 0.3);
+}
+
+.s_button:hover {
+    background: #59A3E0;
+    text-decoration: none;
+    filter: none;
+}​
+
+
+</style>
+<style type="text/css">
+.button {
+    background: #25A6E1;
+    background: -moz-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#25A6E1),color-stop(100%,#188BC0));
+    background: -webkit-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -o-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -ms-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+    padding:8px 13px;
+    color:#fff;
+    font-family:'Helvetica Neue',sans-serif;
+    font-size:17px;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:1px solid #1A87B9
+}                
+</style>
+    
+
+{% endblock %}

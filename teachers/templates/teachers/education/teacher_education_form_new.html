@@ -1,0 +1,309 @@
+
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+  
+   
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}
+}
+</style>
+
+
+<script type="text/javascript">
+$.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+
+       $( document ).ready( function () {
+           $( "#form3" ).validate( {
+             
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                   qualification: {
+                       required:true
+                   
+                   },
+                   subject: {
+                       required:true
+                   
+                   },
+                   medium_of_instruction: {
+                       required:true
+                   
+                   },
+                   month: {
+                       required:true
+                      
+                   },
+                   year: {
+                       required:true
+                   
+                   },
+                   university: {
+                       required:true
+                      
+                   },
+                   remarks: {
+                       required:true
+                      
+                   }
+
+               },
+               messages: {
+
+                   qualification: {
+                       required: "Select the Qualification"
+                                      },
+                   subject: {
+                       required: "Select the Subject"
+                                      },
+                  medium_of_instruction: {
+                       required: "Select the Medium of Instruction"
+                                      },
+                   month: {
+                       required: "Enter the Month of Passing"
+                       
+                   },
+                   year: {
+                       required: "Enter the Year of Passing"
+                       
+                   },
+                   university: {
+                       required: "Enter the Board / University"
+                       
+                   },
+                   remarks: {
+                       required: "Enter the Grade in which passed"
+                       
+                   }
+                  
+               },
+               errorElement: "em",
+               errorPlacement: function ( error, element ) {
+                   // Add the `help-block` class to the error element
+                   error.addClass( "help-block" );
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+                       error.insertAfter( element.parent( "label" ) );
+                   } else {
+                       error.insertAfter( element );
+                   }
+               },
+               highlight: function ( element, errorClass, validClass ) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+               },
+               unhighlight: function (element, errorClass, validClass) {
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+               }
+           } );
+
+      } );
+
+   </script>
+
+
+<script type="text/javascript">
+function calcAge() {
+    var val = document.getElementById('dob').value;     
+   
+    var year1 = document.getElementById('year').value;
+   
+    var plustwo=$("#qualify option:selected").text();
+ 
+    var record_day2=val.split("/");  
+   
+    var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+   
+    var record5 = new Date(sum1);  
+   
+     var ageDifMs = Date.now() - record5.getTime();     
+     var ageDate = new Date(ageDifMs);
+     var age=year1 - record5.getFullYear() ;
+     var today1= new Date();
+     var thisyear=today1.getFullYear();
+     
+     if( age>=15 && age<=60 && year1<thisyear )
+        {
+            
+        document.getElementById('year').style.background = 'none';
+
+        if (plustwo=='Higher Secondary' && age<17)
+        {
+        alert('Enter Correct Year for Higher Secondary');
+        document.getElementById('year').focus();
+
+        document.getElementById('year').value = "";
+        document.getElementById('year').style.background = 'pink';
+        return false;
+      }
+       if(plustwo!='Higher Secondary' && plustwo!='SSLC')
+         {
+          if(age<=17)
+          {
+        alert('Enter Correct Year for Graduation');
+        document.getElementById('year').focus();
+
+        document.getElementById('year').value = "";
+        document.getElementById('year').style.background = 'pink';
+        return false;
+      }
+       else 
+      {
+        document.getElementById('year').style.background = 'none';
+      }
+    }
+    }
+     else
+        {
+        
+        alert('Enter the Correct Year of Passing');
+        document.getElementById('year').focus();
+        document.getElementById('year').value = "";
+        document.getElementById('year').style.background = 'pink';
+ }
+ return false;
+}
+</script>
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>  
+
+<div class="content">
+<form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+{% csrf_token %}
+
+ <center><b><h3 style="display:block;text-align:top;float:center;font-size:200%;color:red;">DETAILS OF EDUCATIONAL QUALIFICATION</h3></b></center> 
+ <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+ <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+ <h1><font color='white'> Staff-ID : {{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name | upper }}</font></h1>
+ 
+ <fieldset>
+ <input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+ <input data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="dob" name="dob"  value="{{dob|date:"d/m/Y" }}"  type="hidden" name="dob" id="dob" >
+
+<input type="hidden" class="form-control" class="mandatory" id="staff_uid" name="staff_uid" value="{{ staff_uid }}">
+
+<div class="form-group" id="qualify"> <strong style="color:red;">*</strong> <b>{% trans "Qualification" %}</b>{{ form.qualification|add_class:"mandatory" }}</div>
+<span  class="error_message">{{form.qualification.errors}}</span>
+
+<div class="form-group" id="subject"> <strong style="color:red;">*</strong> <b>{% trans "Subject" %}</b>{{ form.subject|add_class:"mandatory" }}</div>
+<span class="error_message">{{form.subject.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Medium of Instruction" %}</b>
+    <select id='medium_of_instruction' name="medium_of_instruction"  class="form-control" class="mandatory" >
+            {% if medium_of_instruction %}
+    <option value="{{medium_of_instruction.id}}" >{{ medium_of_instruction.medium_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  medium_value %}
+    <option value="{{i.id}}" >{{ i.medium_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.medium_of_instruction.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Month of Passing" %}</b>
+    <select id='month' name="month"  class="form-control" class="mandatory" >
+            {% if month %}
+    <option value="{{month.id}}" >{{ month.months_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  month_value %}
+    <option value="{{i.id}}" >{{ i.months_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.month.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Year of Passing" %}</b><input type="number" class="form-control" class="mandatory" id="year" name="year" maxlength="4" value="{{form.year.value}}"  onblur="calcAge()"  placeholder="yyyy"/></div><span class="error_message">{{form.year.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Name of the Board / University" %}</b><input type="text" class="form-control" class="mandatory" id="university" name="university"  value="{{form.university.value}}" maxlength="50" style="text-transform: uppercase" onclick="select()" /></div>
+<span class="error_message">{{form.university.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Grade in which passed" %}</b>
+    <select id='remarks' name="remarks"  class="form-control" class="mandatory" >
+            {% if remarks %}
+    <option value="{{remarks.id}}" >{{ remarks.class_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  class_value %}
+    <option value="{{i.id}}" >{{ i.class_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.remarks.errors}}</span>
+
+</fieldset>
+<button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button></form></div>
+
+<form action='' method="POST">
+
+<table  border="2"  align="center">
+        <tr>
+        <th
+        	 style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center;">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "Qualification" %}</th>
+            <th style="text-align:center;">{% trans "Subject" %}</th>
+            <th style="text-align:center;">{% trans "Medium of Instruction" %}</th>
+            <th style="text-align:center;">{% trans "Month of Passing" %}</th>
+            <th style="text-align:center;">{% trans "Year of Passing" %}</th>
+            <th style="text-align:center;">{% trans "Name of the University / Board" %}</th>
+           <th style="text-align:center;">{% trans "Grade in which Passed" %}</th>
+      
+  <th >Update</th> 
+  </tr>
+</tr>
+ 
+        
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ staff_name | upper}} </td>
+        <td> {{ i.qualification |upper}}</td>
+        <td> {{ i.subject |upper }}</td>
+    	<td> {{ i.medium_of_instruction |upper }}</td>
+   		<td> {{ i.month  |upper}}</td>
+        <td> {{ i.year }}</td>
+        <td> {{ i.university  |upper}}</td>
+    	<td> {{ i.remarks |upper }}</td>    
+        <td><a href="/teachers/teacher_edu_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>   
+        
+        {% endfor %}
+</tr>
+</table>
+</form>
+{% endblock %}

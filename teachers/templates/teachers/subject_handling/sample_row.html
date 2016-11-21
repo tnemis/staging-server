@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% load widget_tweaks %}
+
+{% block contentmenu %} 
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="/site_media/static/js/Verhoeff.js"></script>
+        <script src="/site_media/static/js/modernizr-2.6.2.min.js"></script>
+        <script src="/site_media/static/js/jquery-1.9.1.min.js"></script>
+        <script src="/site_media/static/js/jquery.cookie-1.3.1.js"></script>
+        <script src="/site_media/static/js/jquery.steps.js"></script>
+        <script src="/site_media/static/js/stepExample.js"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        
+<div class="row">
+  <div  >
+  <div class="content">
+
+  <form id="form-3" action='' method='post' enctype="multipart/form-data" name="frm"><center>
+  
+  <h4><b><legend><strong>
+ Classes Handling
+ </strong></legend></b></h4>
+</center>
+<fieldset>
+{% csrf_token %}
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Classes" %}</b><select class="mandatory" id="classes" name="classes" value="{{form.classes.value}}"  />
+<option value="SELECT" selected="selected">SELECT</option>
+<option value="I">I</option>
+<option value="II">II</option>
+<option value="III">III</option>
+<option value="IV">IV</option>
+<option value="V">V</option>
+<option value="VI">VI</option>
+<option value="VII">VII</option>
+<option value="VIII">VIII</option>
+<option value="IX">IX</option>
+<option value="X">X</option>
+<option value="XI">XI</option>
+<option value="XII">XII</option>
+
+</select>
+</div>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Subject Name" %}</b><select class="subject_name" id="subject_name" name="subject_name" value="{{form.subject_name.value}}"  />
+<option value="SELECT" selected="selected">SELECT</option>
+<option value="Tamil">Tamil</option>
+<option value="English">English</option>
+<option value="Maths">Maths</option>
+<option value="Science">Science</option>
+<option value="Social Science">Social Science</option>
+</select>
+</div>
+
+</fieldset>
+
+
+<p align="right">
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'"> Add </button> <a href='/buildingviews/'><button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'"> Go Next </button> </a>
+</p>
+
+<form action='' method="POST">
+
+<table  border="2"  align="center">
+
+ <tr>
+            <th style="text-align:center; ">{% trans "Sl.No" %}</th>
+            <th style="text-align:center; ">{% trans "Class" %}</th>
+            <!-- <th></th> -->
+            <th style="text-align:center; ">{% trans "Subject" %}</th>
+                  
+        
+ 
+  <th >DELETE</th>
+  </tr>
+</tr>
+ <tr><td colspan="6" align="center"><b>{{ messages1 }}</b></td></tr>
+        
+{% for i in infra %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+     
+        <td> {{ i.classes }}</td>
+        <td> {{ i.subject_name }}</td> 
+        
+       
+<td><a href="/row_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+
+
+
+
+
+
+
+{% endblock %}

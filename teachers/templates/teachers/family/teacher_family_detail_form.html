@@ -1,0 +1,505 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+{% block extrahead %} 
+{% endblock %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}
+}</style>
+
+<script type="text/javascript">
+       $.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+       $( document ).ready( function () {
+           $( "#form3" ).validate( {
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                   name: {
+                       required:true
+                   },
+                   dob: {
+                       required:true
+                   },                  
+                   relation: {
+                       required:true
+                   }   },
+               messages: {
+                   name: {
+                       required: "Enter the Name of the Family Member"
+                   },
+                   dob: {
+                       required: "Enter the Date of birth"
+                   }, 
+                   relation: {
+                       required: "Select the Relationship"
+                   }
+                   },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+      } );
+
+   </script>
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script> 
+
+<script type="text/javascript">
+function dob_regular(val)
+{
+    var dob = document.getElementById('dob').value;   
+    var today = new Date();    
+    if( dob != ""  )
+    {   
+        var record_day1=dob.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var dob=new Date(sum1);    
+               
+        if( dob > today )
+        {
+            alert("Enter Date of Birth or Future date cannot be Entered");
+            document.getElementById('dob').focus();
+            document.getElementById('dob').value="";
+            dob.style.backgroundColor = "MistyRose"; 
+            }
+           
+         
+        }   
+    return false; }
+</script>
+<script type="text/javascript">
+function GetAge(val)
+{
+
+  var dob = document.getElementById('dob').value;
+  
+  var record_day1=dob.split("/");  
+  var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+  var year=record_day1[2]
+  var month=record_day1[1]
+  var day=record_day1[0]
+  var now = new Date()  
+  var age = now.getFullYear() - year
+  var mdif = now.getMonth() - month + 1 //0=jan 
+  
+  if(mdif < 0)
+  {
+    --age
+  }
+  else if(mdif == 0)
+  {
+    var ddif = now.getDate() - day
+    
+    if(ddif < 0)
+    {
+      --age
+    }
+  }
+  document.getElementById('age').value=age;
+
+  return false
+}
+</script>
+<script type="text/javascript">
+    function showHide_localbody() 
+        {
+            var result= $("#id_area option:selected").text()
+            if(result == 'Village Panchayat') 
+            {
+
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";    
+                document.getElementById('vpanchayat_div').style.display = "";
+                document.getElementById('vpanhabitation_div').style.display = "";
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none"; 
+            } 
+            else if (result == 'Town Panchayat')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";   
+                document.getElementById('tpanchayat_div').style.display = "";
+                document.getElementById('tpward_div').style.display = "";     
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";
+            }
+            else if (result == 'Municipality')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";      
+                document.getElementById('municipal_div').style.display = "";
+                document.getElementById('municipal_ward_div').style.display = "";
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";                      
+
+            }
+            else if (result == 'Corporation')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "";
+                document.getElementById('corpn_zone_div').style.display = "";       
+                document.getElementById('corpn_ward_div').style.display = "";
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";                     
+
+            }
+            else if (result == 'Township')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none"; 
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "";
+                document.getElementById('township_ward_div').style.display = "";
+            }
+            else if (result == 'Contonment')
+            {
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none";   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";  
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";  
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none";
+                document.getElementById('contonment_div').style.display = "";
+                document.getElementById('contonment_ward_div').style.display = "";                
+            } 
+
+            else {   
+                document.getElementById('municipal_div').style.display = "none";
+                document.getElementById('municipal_ward_div').style.display = "none";       
+                document.getElementById('tpanchayat_div').style.display = "none";
+                document.getElementById('tpward_div').style.display = "none"; 
+                document.getElementById('vpanchayat_div').style.display = "none";
+                document.getElementById('vpanhabitation_div').style.display = "none";    
+                document.getElementById('corpn_div').style.display = "none";
+                document.getElementById('corpn_zone_div').style.display = "none";       
+                document.getElementById('corpn_ward_div').style.display = "none";
+                document.getElementById('contonment_div').style.display = "none";
+                document.getElementById('contonment_ward_div').style.display = "none"; 
+                document.getElementById('township_div').style.display = "none";
+                document.getElementById('township_ward_div').style.display = "none"; 
+
+            }
+        }
+</script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    
+    document.getElementById('municipal_div').style.display = "none";
+    document.getElementById('municipal_ward_div').style.display = "none";       
+    document.getElementById('tpanchayat_div').style.display = "none";
+    document.getElementById('tpward_div').style.display = "none"; 
+    document.getElementById('vpanchayat_div').style.display = "none";
+    document.getElementById('vpanhabitation_div').style.display = "none";    
+    document.getElementById('corpn_div').style.display = "none";
+    document.getElementById('corpn_zone_div').style.display = "none";   
+    document.getElementById('corpn_ward_div').style.display = "none";
+    document.getElementById('contonment_div').style.display = "none";
+    document.getElementById('contonment_ward_div').style.display = "none"; 
+    document.getElementById('township_div').style.display = "none";
+    document.getElementById('township_ward_div').style.display = "none"; 
+       
+
+ 
+  var flag = document.getElementById("relation").value;
+  relation_check(flag);
+  flag_govt=document.getElementById("spou_gov").value;
+
+  spou_govt(flag_govt);
+
+
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+
+function relation_check(flag)
+
+{     
+    if (flag == '1' )
+    {
+        document.getElementById("spou_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("spou_div").style.display = 'none';
+
+    }
+}
+
+function spou_govt(flag)
+
+{      
+    if (flag == 'Yes' )
+    {
+        document.getElementById("spouse").style.display = 'block';
+    }
+    else{
+      
+        document.getElementById("spouse").style.display = 'none';
+        
+
+    }
+}
+
+
+function validate_aadhaar(aadhaar)
+{
+    var strVal = aadhaar;
+    obj = document.getElementById("aadhaar_status");
+    if ((strVal.length == 12) && (strVal.verhoeffCheck() == true))
+    {
+        obj.innerHTML = "Aadhaar number is valid.";
+    }
+    else
+    {
+        obj.innerHTML = "Aadhaar number is not valid.";
+    }
+}
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+ }
+ 
+</script>
+
+
+<div class="content">
+  <form  id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+    <fieldset>
+      {% csrf_token %}
+   
+<center><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF STAFF'S FAMILY</h6></center> 
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+<br> <br> 
+ <h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{ staff_name |upper }}</font></h1>
+
+<br>
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Name of the Family Member" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="name" name="name"  value="{{form.name.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.name.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Birth" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="dob" name="dob"  value="{{form.dob.value|date:"d/m/Y" }}"  onblur="dob_regular(this.value)" maxlength="10" onchange="GetAge(this.value)"/></div>
+<span class="error_message">{{form.dob.errors}}</span>
+
+ <div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Age" %}</b><input type="number" min="1" max="100" class="form-control" class="mandatory" id="age" name="age"  value="{{form.age.value}}" onclick="select()" placeholder="NONE" maxlength="3" readonly/></div>
+<span class="error_message">{{form.age.errors}}</span>
+
+<div class="form-group" > <b><strong style="color:red;">*</strong> {% trans "Relationship" %}</b>
+    <select id='relation' onchange="relation_check(this.value)" name="relation"  class="form-control" class="mandatory" >
+            {% if relation %}
+    <option value="{{relation.id}}" >{{ relation.relationship_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  relation1 %}
+    <option value="{{i.id}}" >{{ i.relationship_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.relation.errors}}</span>
+
+<div class="form-group"  >
+      <span  style="color:red;" id="aadhaar_status"></span><br> <b>{% trans "Aadhaar Number" %}</b>
+<input type="text" value="{{form.aadhaar_number.value|default:'' }}" name="aadhaar_number" id="aadhaar_number" class="form-control" onkeyup="validate_aadhaar(this.value)" onblur="validate_aadhaar(this.value)" maxlength="12" onfocus="validate_aadhaar(this.value)" onkeypress="return isNumber(event)" /></div>
+<span class="error_message">{{form.aadhaar_number.errors}}</span>
+
+
+<div class="form-group" id="spou_div" hidden> <b>{% trans "Government Employee" %}</b>
+    <select name="spou_gov" id="spou_gov" class="form-control"   onchange="spou_govt(this.value)" >
+    {% if form.spou_gov.value == 'Yes' %}
+    <option value="{{form.spou_gov.value}}" selected="selected">{{form.spou_gov.value}} </option>
+   <option value="">-------------------------- </option>
+      <option value="No">No</option>
+   {% else %}
+
+
+
+      <option value="Yes"  >Yes </option>
+      <option value="No" selected="selected">No</option>
+       {% endif %}
+      </select> </div>
+      
+
+
+<div class="form-group" id="spouse" hidden >
+
+<div class="form-group" id="id_dist" name="dist" onblur="dist_validate(this.value)"><b>{% trans "Name of the District" %}</b>
+  {{ form.district|add_class:"form-control" }}</div>
+  <span class="error_message">{{form.district.errors}}</span>
+
+<div class="form-group" id="block_div" name='block'>
+<b>{% trans "Name of the Block" %}</b>{{ form.block|add_class:"form-control" }}</div>
+
+<div class="form-group" id="id_area" name="area" onblur="showHide_localbody()" onchange="showHide_localbody()"><b>{% trans "Type of the Local Body" %}</b>{{form.local_body_type|add_class:"form-control" }}</div><span class="error_message">{{form.local_body_type.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id="vpanchayat_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Village Panchayat:" %}</b>{{form.village_panchayat|add_class:"form-control" }} <br></div><span class="error_message">{{form.village_panchayat.errors}}</span>
+       <div class="form-group" style="visibility:hide" id="vpanhabitation_div" > <strong style="color:red;">*</strong> <b>{% trans "Name of the Village Habitation" %}</b>{{form.vill_habitation|add_class:"form-control" }} <br></div><span class="error_message">{{form.habitation.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="tpanchayat_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Town Panchayat" %}<br></b>{{form.town_panchayat|add_class:"form-control" }} </div><span class="error_message">{{form.town_panchayat.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="tpward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Town Panchayat Ward" %}</b>{{form.town_panchayat_ward|add_class:"form-control" }} <br></div><span class="error_message">{{form.town_panchayat_ward.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="contonment_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Contonment:" %}</b>{{form.contonment|add_class:"form-control" }}<br> </div><span class="error_message">{{form.contonment.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="contonment_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Contonment Ward" %}</b>{{form.contonment_ward|add_class:"form-control" }}<br> </div><span class="error_message">{{form.contonment_ward.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="township_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Township:" %}</b>{{form.township|add_class:"form-control" }}<br> </div><span class="error_message">{{form.township.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="township_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Township Ward:" %}</b>{{form.township_ward|add_class:"form-control" }}<br> </div><span class="error_message">{{form.township_ward.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="municipal_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Municipality:" %}</b>{{form.municipality|add_class:"form-control" }}<br> </div><span class="error_message">{{form.municipality.errors}}</span>
+
+
+        <div class="form-group" style="visibility:hide" id="municipal_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Municipality Ward:" %}</b>{{form.municipal_ward|add_class:"form-control" }}<br> </div><span class="error_message">{{form.municipal_ward.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_div"> <strong style="color:red;">*</strong> <b>{% trans "Name of the Corporation" %}</b>{{form.corporation|add_class:"form-control" }} <br></div><span class="error_message">{{form.corporation.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_zone_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Corporation Zone:" %}</b>{{form.corpn_zone|add_class:"form-control" }}<br> </div><span class="error_message">{{form.corpn_zone.errors}}</span>
+
+        <div class="form-group" style="visibility:hide" id="corpn_ward_div"  > <strong style="color:red;">*</strong> <b>{% trans "Name of the Corporatoin Ward:" %}</b>{{form.corpn_ward|add_class:"form-control" }} <br></div><span class="error_message">{{form.corpn_ward.errors}}</span>
+
+</div>
+</fieldset>
+<button class='btn btn-large btn-success' type='submit'>
+{% trans "Submit" %}
+</button>
+</form>
+
+<br>
+<form action="" method="POST"> 
+<table  border="2" > 
+<tr> 
+            <th style="text-align:center; ">{% trans "S. No." %}</th> 
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th> 
+            <th style="text-align:center; ">{% trans "Name of the Family Member" %}</th>
+            <th style="text-align:center;">{% trans "Date of Birth" %}</th>
+            <th style="text-align:center;">{% trans "Relationship" %}</th>
+            <th style="text-align:center;">{% trans "Aadhaar Number" %}</th>
+            <th style="text-align:center;">{% trans "Update" %}</th> 
+ <th style="text-align:center;">{% trans "Delete" %}</th> 
+                </tr></tr> 
+         
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ staff_name |upper}} </td> 
+        <td> {{ i.name |upper }}</td> 
+        <td> {{ i.dob }}</td> 
+        <td> {{ i.relation |upper}}</td>
+        <td> {{ i.aadhaar_number}}</td>
+        <td><center><a href="/teachers/teacher_family_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></center></td> 
+        <td><center><a href="/teachers/teacher_family_delete/{{tid}}/{{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a></center></td>
+
+                  {% endfor %} 
+        </tr>       
+</table> 
+</form> 
+</div>
+</div>
+</div>
+{% endblock %}

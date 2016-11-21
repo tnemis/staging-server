@@ -1,0 +1,175 @@
+<!-- {% extends 'teachers/base.html' %} -->
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+  <style type="text/css">
+  .table-header-rotated th.row-header{
+  width: auto;
+}
+
+.table-header-rotated td{
+  width: 40px;
+  border-top: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table-header-rotated th.rotate-30{
+  height: 80px;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: relative;
+  vertical-align: ;
+  padding: 0;
+  font-size: 15px;
+  line-height: 0.8;
+}
+
+.table-header-rotated  > div{
+  position: relative;
+  top: 0px;
+  left: 40px; /* 80 * tan(30) / 2 = 40 where 80 is the height on the cell and 30 is the transform angle*/
+  height: 100%;
+  -ms-transform:skew(-30deg,0deg);
+  -moz-transform:skew(-30deg,0deg);
+  -webkit-transform:skew(-30deg,0deg);
+  -o-transform:skew(-30deg,0deg);
+  transform:skew(-30deg,0deg);
+  overflow: hidden;
+  /*border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;*/
+}
+
+.table-header-rotated th.rotate-30 span {
+  -ms-transform:skew(30deg,0deg) rotate(315deg);
+  -moz-transform:skew(30deg,0deg) rotate(315deg);
+  -webkit-transform:skew(30deg,0deg) rotate(315deg);
+  -o-transform:skew(30deg,0deg) rotate(315deg);
+  transform:skew(30deg,0deg) rotate(315deg);
+  position: absolute;
+  bottom: 30px; /* 40 cos(30) = 28 with an additional 2px margin*/
+  left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+  display: inline-block;
+  // width: 100%;
+  width: 85px; /* 80 / cos(30) - 40 cos (30) = 85 where 80 is the height of the cell, 40 the width of the cell and 30 the transform angle*/
+  text-align: left;
+  // white-space: nowrap; /*whether to display in one line or not*/
+}
+p.capitalize{
+  text-transform: capitalize;
+  width : 120px;
+  height : 6px;
+
+}
+  </style> 
+
+
+ {% endblock %}
+
+{% block content %}
+
+ <center><h3 style="color:Blue">Staff Entry Status </h3></center>
+
+
+
+
+<div class="scrollable-table">
+  <table class="table table-striped table-header-rotated" border="1">
+    <thead>
+      <tr height="100">
+        <th><center>S. No.</center></th>
+        <!-- First column header is not rotated -->
+        <th><center>Name</center></th>
+        <!-- Following headers are rotated -->
+
+        <th class="rotate-30" ><font size="3" ><div><span>Posting Details</span></div></font></th>
+        <th class="rotate-30"><div><span>Regularisation Details </span></div></th>
+        <th class="rotate-30"><div><span>Probation Details </span></div></th>
+        <th class="rotate-30"><div><span>Relinquishment</span></div></th>
+        <th class="rotate-30"><div><span>Educational Qualification</span></div></th>
+        <th class="rotate-30"><div><span>Inservice Training</span></div></th>
+        <th class="rotate-30"><div><span>Department Test Passed</span></div></th>
+        <th class="rotate-30"><div><span>GPF / TPF Loan</span></div></th>
+       
+       <!--  <th class="rotate-30"><div><span>Leave Master</span></div></th> -->
+         <th class="rotate-30"><div><span>Leave Entry</span></div></th>
+        <th class="rotate-30"><div><span>Leave Surrendered</span></div></th>
+        <th class="rotate-30"><div><span>Loan</span></div></th>
+        <th class="rotate-30"><div><span>Family</span></div></th>        
+        <th class="rotate-30"><div><span>Financial Nomination</span></div></th>
+        <th class="rotate-30"><div><span>Movable Property</span></div></th>
+        <th class="rotate-30"><div><span>Immovable Property</span></div></th>
+        <th class="rotate-30"><div><span>LTC</span></div></th>
+        <th class="rotate-30"><div><span>Disciplinary Action Taken</span></div></th>
+        <th class="rotate-30"><div><span>Examination Duty / Result  </span></div></th>
+        <th class="rotate-30"><div><span>Awards</span></div></th>
+
+        </tr> 
+       
+    </thead>
+    <tbody>
+   {% for i in complete %}
+    <tr> 
+    <td>{{forloop.counter}}</td>
+    <td  style="text-transform:uppercase">{% for j in teachers %}
+    {% if i.teacherid_id == j.id %}
+       <a href="/teachers/teacher_full_detail/{{j.id}}"><font color='blue'> {{ j.name }}</font></a>
+       </td>
+    <td ><a href="/teachers/teacher_posting_create/{{j.id}}">{% if i.Teacher_posting == '1' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_regularisation_create/{{j.id}}">{% if i.Teacher_regularisation == '2' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_probation_create/{{j.id}}">{% if i.Teacher_probation == '3' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_relinquis_create/{{j.id}}">{% if i.Teacher_post_relinquish == '4' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    
+    <td><a href="/teachers/teacher_education_create/{{j.id}}">{% if i.Teacher_edu == '5' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_training_create/{{j.id}}">{% if i.Teacher_trainin == '6' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td>
+    <td><a href="/teachers/teacher_test_create/{{j.id}}">{% if i.Teacher_testpass == '7' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_tpf_loan_create/{{j.id}}">{% if i.Teacher_gpf == '8' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_leave_entry_create/{{j.id}}">{% if i.Teacher_leav == '9' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <!-- <td><a href="/teachers/teacher_leave_credit_create/{{j.id}}">{% if i.Teacher_leavcredit == '10' %}Yes{% else %}No{% endif %}</td></a> -->
+    <td><a href="/teachers/teacher_leave_surrender_create/{{j.id}}">{% if i.Teacher_leavsurr == '11' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_loan_create/{{j.id}}">{% if i.Teacher_lon == '12' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_family_create/{{j.id}}">{% if i.Teacher_familyrel == '13' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_nomini_create/{{j.id}}">{% if i.Teacher_financ == '14' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_movable_property_create/{{j.id}}">{% if i.Teacher_movabl == '15' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_immovable_property_create/{{j.id}}">{% if i.Teacher_immovabl == '16' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_ltc_create/{{j.id}}">{% if i.Teacher_ltcc == '17' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+    <td><a href="/teachers/teacher_action_create/{{j.id}}">{% if i.Teacher_disaction == '18' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+
+
+    <td><a href="/teachers/exam_camp_duty_create/{{j.id}}">{% if i.Teacher_result == '19' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+
+    <td><a href="/teachers/award_create/{{j.id}}">{% if i.Teacher_award == '20' %}Yes{% else %}<font color='red'>No</font>{% endif %}</td></a>
+
+    </tr>
+    {% endif %}
+       {% endfor %}
+
+    {% endfor %}
+
+    </tbody>
+    </table>
+    <br>
+    <br>
+    {% if request.user.account.user_category_id == 18 %}
+<p align="center">
+
+
+
+
+<a class="btn btn-small btn-warning" href='/teachers/block_teacher/'><u>Home</u></a></p>
+{% else %}
+    <a style='text-align:center;display:block;font-size:20px;' href='/teachers/teacher_detailListView'><u>Home</u></a>
+{% endif %}
+    {% endblock %}
+      <!-- 
+    <td>{% if i.Teacher_previousemp == '4' %}Yes{% else %}No{% endif %}</td> -->

@@ -1,0 +1,440 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+
+{% block extrahead %} 
+{% load static %}
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+  
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    
+{% endblock %}
+
+{% block content %}
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  Tipped.create('#first_insta_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+
+   Tipped.create('#sanctioned_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+ 
+});
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+   color:red;
+}
+
+.my-valid-class {
+   color:green;
+}
+}
+
+</style>
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+               form3.submit();
+
+           }
+
+       } );
+
+
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   loan_category: {
+
+                       required:true
+                
+
+                   },
+
+                   loan_purpose: {
+
+                       required:true
+
+                   },
+
+                   sanctioned_amt: {
+
+                       required:true
+                 
+                   },
+
+                   installments: {
+
+                       required:true
+                 
+
+                   },
+
+                   monthly_installment: {
+
+                       required:true
+
+                 
+
+                   },
+
+                   first_insta_date: {
+
+                       required:true,
+
+                       minlength:5
+
+                      
+
+                   }  ,
+                    sanctioned_order: {
+
+                       required:true
+                 
+
+                   },
+
+                   sanctioned_date: {
+
+                       required:true
+
+                 
+
+                   }                 
+
+               },
+
+               messages: {
+
+                   loan_category: {
+
+                       required: "Enter the Amount Sanctioned "
+
+                   },
+
+                   loan_purpose: {
+
+                       required: "Enter the Total No. of Instalments"
+                   
+
+                   },
+
+                   sanctioned_amt: {
+
+                       required: "Enter the Monthly Instalment Amount"
+
+                   },
+
+                   installments: {
+
+                       required: "Enter the First Instalment Date"
+
+                   },
+
+                   monthly_installment: {
+
+                       required: "Enter the Sanction Order"
+
+                   },
+                    installments: {
+
+                       required: "Enter the First Instalment Date"
+
+                   },
+
+                   first_insta_date: {
+
+                       required: "Enter the Sanction Order"
+
+                   },
+
+                   sanctioned_order: {
+
+                       required: "Enter the Date of Sanction"
+
+                   },
+                    sanctioned_date: {
+
+                       required: "Enter the Date of Sanction"
+
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+
+
+      } );
+
+   </script>
+
+
+
+<script type="text/javascript">
+function amount(val) 
+{     
+    var sanc_amount = document.getElementById('sanctioned_amt').value;  
+    var instalment = document.getElementById('installments').value;
+    if(sanc_amount > 0 && instalment > 0) 
+    {  
+        intal_amt=Math.round(sanc_amount/instalment);
+        document.getElementById('monthly_installment').value=intal_amt;
+    }
+    }
+</script>
+
+
+
+<script type="text/javascript">
+function SancDate(val) 
+{     
+    
+    var regis_date = document.getElementById('sanctioned_date').value; 
+    
+    var regis_validity = document.getElementById('dategovt').value;
+     
+    var today = new Date(); 
+    if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+
+        if(govt < enterdate || enterdate <= 0 ) 
+        {
+        alert("Enter the Date of Sanction Order after the Date of Appointment "); 
+        sanctioned_date.style.backgroundColor = "MistyRose";
+        sanctioned_date.focus();
+        document.getElementById('sanctioned_date').value="";
+       
+        }  
+        else
+        {
+            sanctioned_date.style.backgroundColor = "white";
+        }
+        return false;
+    }   
+}
+</script>
+
+<script type="text/javascript">
+function FirstInsta(val) 
+{     
+    
+    var regis_date = document.getElementById('sanctioned_date').value; 
+    
+    var insta_date = document.getElementById('first_insta_date').value; 
+    
+    var record_day2=regis_date.split("/");  
+    var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+    var sanc=new Date(sum1);
+    
+    var insta=new Date(insta_date);
+    
+    if(regis_date != "") 
+    {  
+        
+        if(insta<sanc) 
+        {
+        alert("Enter the Date of First Instalment after the Date of Sanction Order"); 
+        first_insta_date.style.backgroundColor = "MistyRose";
+        first_insta_date.focus();
+        document.getElementById('first_insta_date').value="";
+       
+        }  
+        else
+        {
+            first_insta_date.style.backgroundColor = "white";
+        }
+        return false;
+    }   
+}
+</script>
+
+
+<script type="text/javascript">
+          $(function() {
+             
+              $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+             
+
+              $("[data-mask]").inputmask();
+
+          });
+      </script>
+<div class="row">
+  <div>
+  <div class="content">
+  <form id="form3" action='' method='post' enctype="multipart/form-data" name="frm">
+  <center><h3 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> DETAILS OF LOAN</h3></center>
+  <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+  <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p> 
+
+{% csrf_token %}
+<h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<fieldset>
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Category" %}</b>
+    <select id='loan_category' name="loan_category"  class="form-control" class="mandatory" >
+            {% if loan_category %}
+    <option value="{{loan_category.id}}" >{{ loan_category.loan_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  teach_loan %}
+    <option value="{{i.id}}" >{{ i.loan_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.loan_category.errors}}</span>
+
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Purpose / Name of the Society" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory"      id="loan_purpose" name="loan_purpose"  value="{{form.loan_purpose.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.loan_purpose.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Sactioned Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="sanctioned_order" name="sanctioned_order"  value="{{form.sanctioned_order.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.sanctioned_order.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Sanction Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="sanctioned_date" name="sanctioned_date"  value="{{form.sanctioned_date.value|date:"d/m/Y" }}" onblur="SancDate(this.value)"  maxlength="10"/></div>
+<span class="error_message">{{form.sanctioned_date.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Amount Sanctioned" %}</b><input type="number" style="text-transform: uppercase" class="form-control" class="mandatory" id="sanctioned_amt" name="sanctioned_amt"  value="{{form.sanctioned_amt.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.sanctioned_amt.errors}}</span>
+
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Total No. of Instalments" %}</b><input type="number" style="text-transform: uppercase" class="form-control" class="mandatory" id="installments" name="installments"  value="{{form.installments.value}}" onclick="select()" onblur="amount(this.value)" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.installments.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Monthly Instalment" %}</b><input type="number" style="text-transform: uppercase" class="form-control" class="mandatory" id="monthly_installment" name="monthly_installment"  value="{{form.monthly_installment.value}}" onclick="select()" placeholder="NONE" maxlength="50" readonly/></div>
+<span class="error_message">{{form.monthly_installment.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of First Instalment" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="first_insta_date" name="first_insta_date"  value="{{form.first_insta_date.value|date:"d/m/Y" }}" onblur="FirstInsta()"  maxlength="10" /></div>
+<span class="error_message">{{form.first_insta_date.errors}}</span>
+
+
+</fieldset>
+
+
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'"> Submit </button> 
+
+<form action='' method="POST">
+<table  border="2" > 
+<tr> 
+        <th style="text-align:center; ">{% trans "S. No." %}</th> 
+        <th style="text-align:center; ">{% trans "Staff Name" %}</th> 
+        <th style="text-align:center; ">{% trans "Category" %}</th>
+        <th style="text-align:center; ">{% trans "Purpose" %}</th>
+            <th style="text-align:center; ">{% trans "Amount Sanctioned" %}</th>
+            <th style="text-align:center; ">{% trans "Total No. of Instalments" %}</th>
+            <th style="text-align:center; ">{% trans "Monthly Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Date of First Instalment" %}</th>
+            <th style="text-align:center; ">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center; ">{% trans "Date of Sanction Order" %}</th>
+            <th style="text-align:center; ">{% trans "Update" %}</th>
+              
+  </tr> </tr> 
+ 
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.id}}"style="text-decoration: none">{{ i.teacherid.name|upper }} </td> 
+        
+
+        <td> {{ i.loan_category |upper }}</td> 
+        <td> {{ i.loan_purpose |upper }}</td> 
+        <td> {{ i.sanctioned_amt }}</td> 
+        <td> {{ i.installments }}</td>
+        <td> {{ i.monthly_installment }}</td>
+        <td> {{ i.first_insta_date }}</td> 
+        <td> {{ i.sanctioned_order }}</td> 
+        <td> {{ i.sanctioned_date }}</td> 
+
+
+        <td><a href="/teachers/teacher_loan_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td> 
+
+        
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+</form>
+
+{% endblock %}

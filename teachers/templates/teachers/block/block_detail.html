@@ -1,0 +1,154 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% block content %}
+
+
+<center>
+ <h3  style="color:red">Name of the Block : {{ block_name_print }}</h3> 
+  <br>
+<table class='table table-bordered table-striped4' border="2">
+  <thead>
+    <tr>
+      <th rowspan="2">Total Number of Schools</th>
+      
+      <th colspan="3"> TEACHING STAFFS </th>
+      <th colspan="3">NON-TEACHING STAFFS</th>
+      </tr><tr>
+      <th>Sanctioned Post</th>
+      <th>Filled Post</th>
+      <th>Vaccant Post</th>
+      
+      <th>Sanctioned Post</th>
+      <th>Filled Post</th>
+      <th>Vaccant Post</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+         
+          <td>{{Number_of_schools_in_block|default:0}}</td>
+          <td>{{tsanctioned_post_total|default:0  }}</td>
+          <td>{{tfilled_post_total|default:0 }}</td>
+          <td>{{tvaccant_post_total|default:0  }}</td>
+             <td>{{nsanctioned_post_total|default:0}}</td>
+          <td>{{nfilled_post_total|default:0  }}</td>
+          <td>{{nvaccant_post_total|default:0 }}</td>
+        
+      </tr>
+  </tbody>
+</table>
+<table class='table table-bordered table-striped3' border="2">
+  <thead>
+    <tr>
+
+
+
+
+      
+   <th rowspan="2">Name of the School</th>
+      <th rowspan="2">UDISE Code</th>
+      <th colspan="3"> TEACHING STAFFS </th>
+      <th colspan="3">NON-TEACHING STAFFS</th>
+      </tr><tr>
+      <th>Sanctioned Post</th>
+      <th>Filled Post</th>
+      <th>Vaccant Post</th>
+      
+      <th>Sanctioned Post</th>
+      <th>Filled Post</th>
+      <th>Vaccant Post</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+
+
+
+
+
+
+
+
+
+
+    {% for schl in block_wise_records %}
+      <tr>
+          <td><a href="/teachers/teacher_detailListView/{{ schl.school_code }}">{{ schl.school_name }}</a></td>
+          <td><a href="/teachers/teacher_detailListView/{{ schl.school_code }}">{{ schl.udise_code }}</a></td>
+         
+          <td>{{ schl.tsanctioned_post|default:0 }}</td>
+      
+          <td>{{ schl.tfilled_post|default:0}}</td>
+          <td>{{ schl.tvaccant_post|default:0}}</td>
+           <td>{{ schl.ntsanctioned_post|default:0 }}</td>
+      
+          <td>{{ schl.ntfilled_post|default:0}}</td>
+          <td>{{ schl.ntvaccant_post|default:0}}</td>
+      </tr>
+      
+    {% endfor %}
+{% if request.user.account.user_category_id == 18 or request.user.account.user_category_id == 2 or request.user.account.user_category_id == 5 %}
+
+        <ul class="pagination pagination-centered">
+            {% if page_objs.has_previous %}
+                <li><a href="?page=1"><<</a></li>
+                <li><a href="?page={{ page_objs.previous_page_number }}"><</a></li>
+            {% endif %}
+
+            {% for i in page_objs.paginator.page_range %}
+                {% if page_objs.number == i %}
+                {% if page_objs.has_previous %}
+                    <li><a href="?page={{i|add:-1}}">{{i|add:-1}}</a></li>
+                {% endif %}
+                <li  class="active">
+
+                <a href="?page={{i}}">{{i}}</a></li>
+                {% if page_objs.has_next %}
+                <li><a href="?page={{i|add:1}}">{{i|add:1}}</a></li>
+                {% endif %}
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% if page_objs.has_next %}
+                <li><a href="?page={{ page_objs.next_page_number }}">></a></li>
+                <li><a href="?page={{ page_objs.paginator.num_pages }}">>></a></li>
+            {% endif %}
+        </ul>
+{% else %}
+        <ul class="pagination pagination-centered">
+            {% if page_objs.has_previous %}
+                <li><a href="?block_id={{block_id}}&page=1"><<</a></li>
+                <li><a href="?block_id={{block_id}}&page={{ page_objs.previous_page_number }}"><</a></li>
+            {% endif %}
+
+            {% for i in page_objs.paginator.page_range %}
+                {% if page_objs.number == i %}
+                {% if page_objs.has_previous %}
+                    <li><a href="?block_id={{block_id}}&page={{i|add:-1}}">{{i|add:-1}}</a></li>
+                {% endif %}
+                <li  class="active">
+
+                <a href="?block_id={{block_id}}&page={{i}}">{{i}}</a></li>
+                {% if page_objs.has_next %}
+                <li><a href="?block_id={{block_id}}&page={{i|add:1}}">{{i|add:1}}</a></li>
+                {% endif %}
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% if page_objs.has_next %}
+                <li><a href="?block_id={{block_id}}&page={{ page_objs.next_page_number }}">></a></li>
+                <li><a href="?block_id={{block_id}}&page={{ page_objs.paginator.num_pages }}">>></a></li>
+            {% endif %}
+        </ul>
+  {% endif %}
+</tbody>
+</table>
+
+</center>
+
+
+ {% endblock %}

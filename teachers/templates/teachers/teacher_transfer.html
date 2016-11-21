@@ -1,0 +1,135 @@
+{% extends 'teachers/base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block extrahead %} 
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+  
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+ {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+src = 'school_search10/';
+$("#school_name").autocomplete({
+    source: function(request, response) {
+        $.ajax({
+            url: src,
+            dataType: "json",
+            data: {
+                term : request.term,
+                district :$("#block option:selected").text()
+            },
+            success: function(data) {
+                response(data);
+            } });
+    },
+    selectFirst: true,
+    min_length: 2,
+    delay:300,
+    autoFocus: true,    
+});
+});
+ 
+</script>
+
+        <script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+        </script>
+
+
+
+<style type="text/css">
+  h3 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+</style>
+
+<div class="row">
+  <div  >
+  <div class="content">
+<center>
+
+<h3>TRANSFERRED FROM</h3>
+
+</center>
+
+<br><br><br>
+
+<div class="container">
+    
+  <form  action='' method='post' enctype="multipart/form-data" name="frm">
+
+  <fieldset >
+ 
+  {% csrf_token %}
+<input type="hidden" name="previous_designation" id="previous_designation" value="{{transfer_data.designation}}">
+<input type="hidden" name="new_school_id" id="new_school_id" value="{{New_school_id}}">
+
+
+  <div class="form-group" id="district"><b>{% trans "Name of the District" %}</b>
+  {{ form.district|add_class:"form-control" }}</div>
+  <div class="form-group" onclick="filter_school_trflag_yes()"> 
+
+<div class="form-group" id="block">
+
+
+  <b>{% trans "Name of the Block" %}</b>{{ form.block|add_class:"form-control" }}</div>
+
+  
+  <div class="ui-widget"> <b><strong style="color:red;">*</strong>{% trans "Name of the School (Enter First three letters of School Name)" %}</b><input type="text" class="form-control" class="mandatory" id="school_name" name="school_name"   placeholder="NONE"/></div>
+<span class="error_message">{{form.school_name.errors}}</span>
+
+  
+   <br><br>
+   </fieldset>
+
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'">  
+            {% trans "Transfer" %}
+          
+        </button>
+
+  </form>
+ {% if request.user.account.user_category_id == 18 %}
+<p align="center">
+
+
+
+
+<a class="btn btn-small btn-warning" href='/teachers/block_teacher/'><u>Home</u></a></p>
+{% else %}
+  <a style='text-align:center;display:block;font-size:20px;' href='/teachers/teacher_detailListView'><u>Home</u></a>
+{% endif %}
+{% endblock %}
+
+

@@ -1,0 +1,441 @@
+{% extends 'students/child_detail/base.html' %}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load imagekit %}
+{% block content %}
+
+
+<table class='table table-bordered table-striped2' border="2" align="center">
+{% if request.user.account.user_category.user_category == 'school' and school.category_id == 1 %}
+
+
+    <tr>
+      <th>{% trans "Total Students" %}</th>
+      <th  >I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      
+
+    </tr>
+           
+      
+<tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href='{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+            
+</tr>
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 2 %}
+
+ <tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      
+
+    </tr>
+          
+       
+<tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+           
+</tr>
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 3 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 4 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>           
+</tr>
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 5 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 6 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+           
+</tr>
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 7 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+         
+</tr>
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 8 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>IX</th>
+      <th>X</th>
+     
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+           
+</tr>
+
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 9 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+   
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 10 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 11 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+         
+</tr>
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 12 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+
+
+
+
+{% elif request.user.account.user_category.user_category == 'school' and school.category_id == 13 %}
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+
+ <tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1 %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2 %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3 %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4 %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5 %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6 %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7 %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8 %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9 %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10 %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11 %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12 %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
+
+<tr>
+      <th>{% trans "Total Students" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+      
+      
+
+    </tr>
+<tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "student_schemes_class" cl_id=1  %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=2  %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=3  %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=4  %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=5  %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=6  %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=7  %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=8  %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=9  %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=10  %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=11  %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "student_schemes_class" cl_id=12  %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+{% endif %}
+</table>
+
+
+ 
+
+
+
+<table>
+<tr>
+<b><center>{% trans "Note: Click on the respective number to get the class-wise student list." %}</center></b>
+</tr></table>
+
+
+{% endblock %}

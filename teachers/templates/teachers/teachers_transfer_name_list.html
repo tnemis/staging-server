@@ -1,0 +1,79 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% block content %}
+
+
+ 
+
+
+  <script type="text/javascript">
+function dob_regular(val)
+{
+
+    var dob = document.getElementById('joining_order_date').value; 
+    
+    var today = new Date();    
+    if( dob != ""  )
+    {   
+        var record_day1=dob.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var dob=new Date(sum1);    
+               
+        if( dob > today )
+        {
+            alert("Check the Date of Order");
+            document.getElementById('joining_order_date').focus();
+            document.getElementById('joining_order_date').value="";
+            joining_order_date.style.backgroundColor = "MistyRose"; 
+            }
+           
+         
+        }   
+    return false; }
+</script>
+
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+<center>
+<h3>TRANSFER TO</h3>
+    <fieldset style="width:800px" >
+  <form  action='' method='post' enctype="multipart/form-data" name="frm">
+
+  
+ 
+  {% csrf_token %}
+
+ 
+  <div class="form-group"  >  
+    <b>{% trans "Date of Joining"  %}</b>
+    <input  class="form-control" name="joining_order_date" id="joining_order_date" type="text" value="{{joining_order_date}}" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" onblur="dob_regular(this.value)"  >
+    </div>
+    <span class="error_message">{{joining_order_date.errors}}</span>
+  
+ <div class="form-group"> <b>{% trans "Order No." %}</b>
+
+
+ <input  class="form-control" name="oining_order_no" id="oining_order_no" type="text" value="{{oining_order_no}}"    />
+  <span class="error_message">{{oining_order_no.errors}}
+  </span>
+  </div>
+  </fieldset>
+   <br><br>
+   
+
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'">  
+            {% trans "Transfer" %}
+          
+        </button>
+
+  </form>
+ 
+  <br>
+  <br>
+  <a style='text-align:center;display:block;font-size:20px;' href='/teachers/teacher_detailListView'><u>Home</u></a>
+  </fieldset></center>
+{% endblock %}

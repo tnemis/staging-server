@@ -1,0 +1,191 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+
+    
+</style>
+
+
+
+{% endblock %}
+
+
+{% block content %}
+   <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                form_build_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#form_build_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    roof_type: {
+                        required:true
+                    },                    
+                    room_count: {
+                        required:true,
+                        min:1
+                    },
+                    
+                    builtup_area: {
+                        required:true,
+                        min:100
+                    },                         
+                },
+                messages: {
+                    roof_type: {
+                        required: "Roof type should not be blank",
+                    },
+                    room_count: {
+                        required: "No of Rooms in the school (includes all types of room) should not be blank",
+                        min:"No of Rooms in the school (includes all types of room) should be min. 1"
+                    },
+                    builtup_area: {
+                        required: "Build-up area (includes all types of room) should not be blank",
+                        min:"Total build-up area in the school (includes all types of room) should not be below 100 sq.ft."                      
+                    },             
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+<form id="form_build_edit" method="post" class="form-horizontal" action="">
+      {% csrf_token %}
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+
+<center><h3 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> Details of Buildings</h3></center>    
+<legend align="center" style="color:#3C8DBC;font-size:100%;">(Additional rows may be created after saving the information in each category)</legend>
+
+
+<div class="form-group"><strong style="color:red;">*</strong> <b>{% trans "Category of Room:" %}</b><select id="room_cat" name='room_cat' class="form-control">
+        {% if room_cat %}
+        <option value="{{room_cat}}" selected="selected">{{room_cat}}</option>
+        {% endif %}
+         <option value="" >SELECT THE ROOM </option>
+    {% for i in room_cat_chk %}
+    <option value="{{i}}" >{{ i }} </option>
+    {% endfor %}  
+</select></div><span class="error_message">{{form.room_cat.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. of Rooms:" %}</b><input type="number" class="form-control" class="form-control, mandatory" id="room_count" name="room_count" value="{{room_count}}" min="1" max="999" /></div>
+<span class="error_message">{{form.room_count.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Type of the Roof:" %}</b>
+    <select id='roof_type' name="roof_type"  class="form-control" class="mandatory" >
+            {% if roof_type %}
+    <option value="{{roof_type}}" selected="selected">{{roof_type }} </option>
+        {% endif %}
+         <option value="">SELECT A ROOF TYPE</option>  
+        <option value="RCC Roof">RCC Roof</option>  
+        <option value="Tiled Roof">Tiled Roof</option>    
+
+     </select></div><span class="error_message">{{form.roof_type.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Built-up Area (for All Rooms, in Sq. feet):" %}</b><input type="number" class="form-control" class="form-control, mandatory" id="builtup_area" name="builtup_area" value="{{builtup_area}}" maxlength="8" /></div>
+<span class="error_message">{{form.builtup_area.errors}}</span>     
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+  </form>
+
+
+<form id="build_edit_upd" action="" method="POST">
+
+<table  border="2" >
+<tr>
+
+
+            <th style="text-align:center; ">{% trans "Category of the Room " %}</th>
+            <th style="text-align:center; ">{% trans "No. of Rooms" %}</th>       
+            <th style="text-align:center;" >{% trans "Type of the Roof" %}</th>
+            <th style="text-align:center;" >{% trans "Built-up Area (for All)" %}</th> 
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>               
+           
+  </tr>
+     
+{% for i in build_det %}
+
+        <tr>
+        <td > {{ i.room_cat |upper}}</td>
+        <td > {{ i.room_count |upper}}</td>
+        <td > {{ i.roof_type |upper}}</td>
+        <td > {{ i.builtup_area |upper}}</td>
+
+        <td style="text-align:center;"><a href="/schoolnew/build_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/build_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

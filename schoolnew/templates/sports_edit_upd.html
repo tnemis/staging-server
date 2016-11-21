@@ -1,0 +1,272 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+</style>
+<style>
+  /* Tooltip */
+  .test + .tooltip > .tooltip-inner {
+      background-color: #73AD21; 
+      color: #FFFFFF; 
+      border: 1px solid green; 
+      padding: 15px;
+      font-size: 20px;
+  }
+  /* Tooltip on top */
+  .test + .tooltip.top > .tooltip-arrow {
+      border-top: 5px solid green;
+  }
+  /* Tooltip on bottom */
+  .test + .tooltip.bottom > .tooltip-arrow {
+      border-bottom: 5px solid blue;
+  }
+  /* Tooltip on left */
+  .test + .tooltip.left > .tooltip-arrow {
+      border-left: 5px solid red;
+  }
+  /* Tooltip on right */
+  .test + .tooltip.right > .tooltip-arrow {
+      border-right: 5px solid black;
+  }
+  </style>
+
+<script type="text/javascript">
+function chksports_equip()
+{
+  var sport_stat= document.getElementById("sports_equip");
+ 
+            if(sport_stat.value != 'Available') 
+            {
+                document.getElementById('sports_no_sets').style.display = "none"
+            } 
+
+            else 
+
+            {   
+                document.getElementById('sports_no_sets').style.display = ""
+            }
+}
+
+
+
+</script>
+
+<meta charset="utf-8">     
+<script src="jquery.js"></script>
+
+<!-- -Tamil- -->
+
+    <!--  (C) 2013-2015, Muthiah Annamalai <UrbanTamil.com>  -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+
+});
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+
+ <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                sports_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#sports_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                  
+                    sports_name: {
+                        required:true,
+                    },                  
+                    sports_no_sets: {
+                        required:true,
+                    },
+                    play_ground: {
+                        required:true
+                    },
+                    sports_equip: {
+                        required:true
+                    }
+                },
+                messages: {
+                    sports_name: {
+                        required: "Pl. Select a Sports name from the drop down"               
+                    },
+                    sports_no_sets: {
+                        required: "No. of Sports equipments ie. bat,ball,net etc has to be given"               
+                    },
+                    play_ground: {
+                        required: "Play ground facilities details should not be blank"
+                    },
+                    sports_equip: {
+                        required: "Sports equipments details should not be blank"
+                    }                                 
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+<form id="sports_edit" method="post" class="form-horizontal" action="">
+     {% csrf_token %}
+
+<center><h2 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> Details of Sports Equipments</h2></center>  
+<legend align="center" style="color:#3C8DBC;font-size:100%;">(Additional rows may be created after saving the information)</legend>
+
+
+<div class="form-group" type="hidden"> <input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}"></div>
+
+
+<div class="form-group"> <b>{% trans "Sports & Games Available in the School:" %}</b>
+    <select id='sports_name' name="sports_name"  class="form-control" class="mandatory">
+            {% if sports_name %}
+    <option value="{{sports_name}}" >{{sports_name}} </option>
+            {% else %}
+        {% endif %}
+        <option value=''>SELECT A GAME / SPORT</option>
+    {% for i in sport_lst %}
+        <option value="{{i}}">{{i}}</option>
+    {% endfor %}  
+     </select></div><span class="error_message">{{form.sports_name.errors}}</span>
+
+
+<div class="form-group"> <b>{% trans "The Play Ground is situated:" %}</b>
+    <select id='play_ground' name="play_ground"  class="form-control" class="mandatory" >
+            {% if play_ground %}
+    <option value="{{play_ground}}">{{play_ground }} </option>
+                {% else %}
+        {% endif %}
+          <option value=''>SELECT </option>
+        <option value="Within School Campus">Within School Campus</option>  
+        <option value="Not available">Out of School Campus</option>    
+     </select></div><span class="error_message">{{form.play_ground.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Availability of Sports Equipments:" %}</b>
+    <select id="sports_equip" name="sports_equip"  class="form-control, mandatory" onblur="chksports_equip();" onchange="chksports_equip();" >
+            {% if sports_equip %}
+    <option value="{{sports_equip}}">{{sports_equip }} </option>
+                {% else %}
+        {% endif %}
+         <option value=''>SELECT </option>
+        <option value="Available">Available</option>  
+        <option value="Not available">Not available</option>    
+        <option value="Not required">Not required</option>  
+     </select></div><span class="error_message">{{form.sports_equip.errors}}</span>
+
+
+
+<div class="form-group"> <b>{% trans "No. of Sports Equipments Sets Available: (Eg. Bat-2,Ball-1, etc.,)" %}</b><input type="text" class="form-control, mandatory" id="sports_no_sets" name="sports_no_sets" value="{{sports_no_sets}}" onblur="chksports_equip();" onchange="chksports_equip();" data-toggle="tooltip" data-placement="top" title="Eg. Cricket Bat-2,Cricket Ball-1, Badminton Racket-10, Shuttlecock-20 etc.,!" maxlength="100" /></div>
+<span class="error_message">{{form.sports_no_sets.errors}}</span>
+
+
+<div class="col-sm-9 col-sm-offset-4">
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+</div>
+
+  </form>
+
+
+<form action="" method="POST">
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center; ">{% trans "Name of the Sport / Game" %}</th>       
+            <th style="text-align:center;" >{% trans "Play Ground" %}</th>
+            <th style="text-align:center; ">{% trans "Availability of Sports Equipment" %}</th>
+            <th style="text-align:center; ">{% trans "No. of Equipments" %}</th>                  
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>            
+  </tr>
+     
+{% for i in sports_det %}
+
+        <tr>
+        <td > {{ i.sports_name |upper}}</td>
+        <td > {{ i.play_ground |upper}}</td>
+        <td > {{ i.sports_equip |upper}}</td>
+        <td > {{ i.sports_no_sets |upper}}</td>
+        <td style="text-align:center;"><a href="/schoolnew/sports_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+        <td style="text-align:center;"><a href="/schoolnew/sports_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

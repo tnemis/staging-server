@@ -1,0 +1,1226 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <script type="text/javascript">
+ </script>
+     <title style="display:block;text-align:top;float:center;font-size:150%;color:blue;">School Profile - School Education Deparment</title>
+
+     <style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+            }
+        </style>
+ </head>
+ <body>
+
+<h1 align="center" style="font-size:20px;">School Profile</h1>
+
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+BASIC INFORMATION</h3>
+<table width="100%"  border="1" align="center" cellpadding="5" style="margin-left:10px;" >
+
+<tr> <td> Name of the School / Office </td><td>:&nbsp;&nbsp;&nbsp;{{basic.school_name|upper}}</td></tr>   
+
+
+{% if basic.udise_code %}
+<tr><td> Udise code </td><td>:&nbsp;&nbsp;&nbsp;{{basic.udise_code|upper}}</td></tr>
+{% endif %} 
+
+{% if basic.district %} <tr><td> Revenue District </td><td>:&nbsp;&nbsp;&nbsp;{{basic.district|upper}}</td></tr>{% endif %} 
+
+{% if basic.block %} <tr><td> Block </td><td>:&nbsp;&nbsp;&nbsp;{{basic.block|upper}}</td></tr>{% endif %} 
+
+{% if basic.edu_district %} <tr><td> Educational District </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.edu_district|upper }}</td></tr>{% endif %} 
+
+{% if basic.local_body_type %} <tr><td> Type of Local Body Administration </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.local_body_type|upper }}</td></tr>{% endif %} 
+
+{% if basic.village_panchayat %} <tr><td> Village Panchayat </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.village_panchayat|upper }}</td></tr>{% endif %} 
+
+{% if basic.vill_habitation %} <tr><td>Village Habitation </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.vill_habitation|upper }}</td></tr>{% endif %} 
+
+{% if basic.town_panchayat %} <tr><td>Town Panchayat </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.town_panchayat|upper }}</td></tr>{% endif %} 
+
+{% if basic.town_panchayat_ward %} <tr><td>Town Panchayat Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.town_panchayat_ward|upper }}</td></tr>{% endif %} 
+
+{% if basic.cantonment  %}<tr><td>Cantonment</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.cantonment|upper }}</td></tr>{% endif %} 
+
+{% if basic.cantonment_ward %} <tr><td>Cantonment Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.cantonment_ward|upper }}</td></tr>{% endif %} 
+
+{% if basic.township %} <tr><td>Township</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.township|upper }}</td></tr>{% endif %} 
+
+{% if basic.township_ward %} <tr><td>Township Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.township_ward|upper }}</td></tr>{% endif %} 
+
+{% if basic.municipality %} <tr><td>Municipality</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.municipality|upper }}</td></tr>{% endif %} 
+
+{% if basic.municipal_ward  %}<tr><td>Municipality Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.municipal_ward|upper }}</td></tr>{% endif %} 
+
+{% if basic.corporation %} <tr><td>Corporation</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.corporation|upper }}</td></tr>{% endif %} 
+       
+{% if basic.corpn_zone  %}<tr><td>Corporation Zone</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.corpn_zone|upper }}</td></tr>{% endif %} 
+
+{% if basic.corpn_ward %} <tr><td>Corporatoin Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.corpn_ward|upper }}</td></tr>{% endif %} 
+      
+{% if basic.assembly %} <tr><td>Assembly Constituency</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.assembly|upper }}</td></tr>{% endif %} 
+
+{% if basic.parliament %} <tr><td>Parliament Constituency </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.parliament|upper }}</td></tr>{% endif %} 
+
+{% if basic.address %} <tr><td>Postal Address</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.address|upper }}</td></tr>{% endif %} 
+
+{% if basic.pincode %} <tr><td>Pincode</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.pincode|upper }}</td></tr>{% endif %} 
+
+{% if basic.stdcode %} <tr><td>STD code</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.stdcode|upper }}</td></tr>{% endif %} 
+
+{% if basic.landline1 %} <tr><td>Landline No.</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.landline1|upper }}</td></tr>{% endif %} 
+
+{% if basic.landline2 %} <tr><td>Another Landline No. </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.landline2|upper }}</td></tr>{% endif %} 
+
+{% if basic.mobileno1 %} <tr><td>Headmaster's Mobile No.  </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mobileno1|upper }}</td></tr>{% endif %} 
+
+{% if basic.sch_email %} <tr><td>e-mail </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.sch_email|upper }}</td></tr>{% endif %} 
+
+{% if basic.website  %}<tr><td>Website </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.website|upper }}</td></tr>{% endif %} 
+
+{% if basic.bank_dist %} <tr><td><u>Bank Details</u></td></tr>
+{% if basic.bank_dist %} <tr><td>District (Bank) </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.bank_dist|upper }}</td></tr>{% endif %} 
+{% if basic.bank %} <tr><td>Name of the Bank </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.bank|upper }}</td></tr>{% endif %} 
+{% if basic.branch  %}<tr><td>Name of the Branch </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.branch|upper }}</td></tr>{% endif %} 
+{% if basic.bankaccno  %}<tr><td>Account No. </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.bankaccno|upper }}</td></tr>{% endif %} 
+{% endif %}
+
+{% if basic.manage_cate  %}<tr><td>School Management Major Category </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.manage_cate|upper }}</td></tr>{% endif %}
+
+{% if basic.sch_management  %}<tr><td>School Management Sub Category </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.sch_management|upper }}</td></tr>{% endif %} 
+
+{% if basic.sch_directorate %} <tr><td>Administrative Directorate / Department of the School </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.sch_directorate|upper }}</td></tr>{% endif %} 
+
+{% if basic.sch_cate  %}<tr><td>Category of the School </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.sch_cate|upper }}</td></tr>{% endif %} 
+
+{% if basic.prekg %} <tr><td>Pre-KG Exist </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.prekg|upper }}</td></tr>{% endif %} 
+
+{% if basic.kgsec %} <tr><td>LKG & UKG Exist </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.kgsec|upper }}</td></tr>{% endif %} 
+
+
+
+{% if basic.pta_esta %} <tr><td>Registered with State Parent Teachers Association (PTA) </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.pta_esta|upper }}</td></tr>{% endif %} 
+{% if basic.pta_esta == 'Yes' %}
+<tr><td>Registration No. in State PTA </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.pta_no|upper }}</td></tr>
+<tr><td>Details of the Last Subscription Paid (Academic Year) </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.pta_sub_yr|upper }}</td></tr>
+{% else %} 
+
+<tr><td>Registration No. in State PTA </td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+
+{% if basic.draw_off_code %} <tr><td>Drawing Officer Code </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.draw_off_code|upper }}</td></tr>{% endif %} 
+
+{% if basic.latitude %}
+<tr><td colspan="2">Geographical Information</td></tr>
+<tr><td>Latitude </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.latitude|upper }}</td></tr>
+<tr><td>Longitude </td><td>:&nbsp;&nbsp;&nbsp;{{ basic.longitude|upper }}</td></tr>
+{% endif %}
+
+{% if basic.cluster %} <tr><td>Cluster of the School</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.cluster|upper }}</td></tr>{% endif %} 
+
+{% if basic.mgt_opn_year %} <tr><td>Year of first opening of the Private School Management</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_opn_year|upper }}</td></tr>{% endif %} 
+
+{% if basic.mgt_type  %}<tr><td>Type of Private Management</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_type|upper }}</td></tr>{% endif %} 
+                 
+{% if basic.mgt_name %} <tr><td>Name of the Trust / Society</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_name|upper }}</td></tr>{% endif %} 
+
+{% if basic.mgt_address %} <tr><td>Postal Address of the Trust / Society</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_address|upper }}</td></tr>{% endif %} 
+
+{% if basic.mgt_regis_no %} <tr><td>Management Registration No.</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_regis_no|upper }}</td></tr>{% endif %} 
+
+{% if basic.mgt_regis_dt %} <tr><td>Management Registration Date</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.mgt_regis_dt|upper }}</td></tr>{% endif %} 
+
+{% if basic.regis_by_office %} <tr><td>Office
+where Management Registered</td><td>:&nbsp;&nbsp;&nbsp;{{ basic.regis_by_office|upper }}</td></tr>{% endif %}
+       
+</table>
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+ADMINISTRATIVE INFORMATION</h3>
+<table width="100%"  border="1" align="center" cellpadding="5" style="margin-left:10px;" >
+
+{% if academic.schooltype %} <tr><td>Type of School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.schooltype |upper }}</td></tr>{% endif %} 
+{% if academic.board %}
+<tr><td>Board of Education Affiliated to (Upto X Std)</td><td>:&nbsp;&nbsp;&nbsp;{{academic.board |upper }}</td></tr>
+{% endif %} 
+{% if academic.tamil_med %} <tr><td>Tamil Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.tamil_med |upper }}</td></tr>
+
+{% else %} 
+<tr><td>Tamil Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.eng_med  %}<tr><td>English Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.eng_med |upper }}</td></tr>
+{% else %}
+<tr><td>English Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.tel_med %} <tr><td>Telugu Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.tel_med |upper }}</td></tr>
+{% else %}
+<tr><td>Telugu Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.mal_med  %}<tr><td>Malayala Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.mal_med |upper }}</td></tr>
+{% else %}
+<tr><td>Malayala Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.kan_med  %}<tr><td>Kannada Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.kan_med |upper }}</td></tr>
+{% else %} 
+<tr><td>Kannada Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+
+{% if academic.urdu_med  %}<tr><td>Urdu Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.urdu_med |upper }}</td></tr>
+{% else %} 
+<tr><td>Urdu Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.oth_med %} <tr><td>Other Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.oth_med |upper }}</td></tr>
+{% if academic.other_med  %}<tr><td>Other Medium Language</td><td>:&nbsp;&nbsp;&nbsp;{{academic.other_med |upper }}</td></tr>{% endif %} 
+{% else %} 
+<tr><td>Other Medium available</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+
+{% if academic.noof_med %} <tr><td>Total No. Of Medium available</td><td>:&nbsp;&nbsp;&nbsp;{{academic.noof_med|upper }}</td></tr>{% endif %} 
+{% if academic.minority  %}<tr><td>Whether Minority School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.minority |upper }}</td></tr>
+{% if academic.rel_minority %} <tr><td>Type of Minority</td><td>:&nbsp;&nbsp;&nbsp;{{academic.rel_minority |upper }}</td></tr>{% endif %} 
+{% if academic.ling_minority %} <tr><td></td><td>:&nbsp;&nbsp;&nbsp;{{academic.ling_minority |upper }}</td></tr>{% endif %} 
+{% if academic.min_ord_no  %}<tr><td>Minority Order No.</td><td>:&nbsp;&nbsp;&nbsp;{{academic.min_ord_no |upper }}</td></tr>{% endif %} 
+{% if academic.min_dt_iss %} <tr><td>Order Date</td><td>:&nbsp;&nbsp;&nbsp;{{academic.min_dt_iss |upper }}</td></tr>{% endif %} 
+{% if academic.iss_auth %} <tr><td>Minority Order Issued by</td><td>:&nbsp;&nbsp;&nbsp;{{academic.iss_auth |upper }}</td></tr>{% endif %} 
+{% else %} 
+<tr><td>Whether Minority School</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+
+{% endif %} 
+
+{% if academic.start_order %} <tr><td>School Initial Start order</td><td>:&nbsp;&nbsp;&nbsp;{{academic.start_order |upper }}</td></tr>{% endif %} 
+{% if academic.start_yr %} <tr><td>Year of first Establishment</td><td>:&nbsp;&nbsp;&nbsp;{{academic.start_yr |upper }}</td></tr>{% endif %} 
+{% if academic.recog_typ %} <tr><td>Recognition Type</td><td>:&nbsp;&nbsp;&nbsp;{{academic.recog_typ |upper }}</td></tr>{% endif %} 
+{% if academic.recog_ord %} <tr><td>Recognition order No.</td><td>:&nbsp;&nbsp;&nbsp;{{academic.recog_ord |upper }}</td></tr>{% endif %} 
+{% if academic.recog_dt_fm  %}<tr><td>If Temporary - Recognition date from</td><td>:&nbsp;&nbsp;&nbsp;{{academic.recog_dt_fm |upper }}</td></tr>{% endif %} 
+{% if academic.recog_dt_to %} <tr><td>If Temporary - Recognition date to</td><td>:&nbsp;&nbsp;&nbsp;{{academic.recog_dt_to |upper }}</td></tr>{% endif %} 
+{% if academic.hssstart_order %} <tr><td>Hr. Sec. School Initial Start order</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssstart_order |upper }}</td></tr>{% endif %} 
+{% if academic.hssstart_yr  %}<tr><td>Year of Hr. Sec. School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssstart_yr |upper }}</td></tr>{% endif %} 
+{% if academic.hssrecog_typ %} <tr><td>Hr. Sec. - Recognition Type</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssrecog_typ |upper }}</td></tr>{% endif %} 
+{% if academic.hssrecog_ord %} <tr><td>Hr. Sec. - Recognition order No.</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssrecog_ord |upper }}</td></tr>{% endif %} 
+{% if academic.hssrecog_dt_fm  %}<tr><td>Hr. Sec. - Temp. Recognition date from</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssrecog_dt_fm |upper }}</td></tr>{% endif %} 
+{% if academic.hssrecog_dt_to %} <tr><td>Hr. Sec. - Temp. Recognition date to</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssrecog_dt_to |upper }}</td></tr>{% endif %} 
+{% if academic.upgr_det %} <tr><td>School Upgradation details</td><td>:&nbsp;&nbsp;&nbsp;{{academic.upgr_det |upper }}</td></tr>{% endif %} 
+{% if academic.other_board_aff  %}<tr><td>Affiliation Details - If Other Board (for X)</td><td>:&nbsp;&nbsp;&nbsp;{{academic.other_board_aff|upper }}</td></tr>{% endif %} 
+{% if academic.hssboard  %}<tr><td>Affiliation Details (for XII)</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hssboard|upper }}</td></tr>{% endif %} 
+{% if academic.spl_school %} <tr><td>Whether is this Special School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.spl_school |upper }}</td></tr>
+{% if academic.spl_type %} <tr><td>Special School Type</td><td>:&nbsp;&nbsp;&nbsp;{{academic.spl_type |upper }}</td></tr>{% endif %}
+{% else %}
+<tr><td>Whether is this Special School</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+ 
+{% if academic.boarding %} <tr><td>Whether is this Boarding School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.boarding |upper }}</td></tr>
+{% if academic.hostel_floor %} <tr><td>No. of Floors in the Hostel</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hostel_floor |upper }}</td></tr>{% endif %} 
+{% if academic.hostel_rooms  %}<tr><td>No. of rooms in the Hostel</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hostel_rooms |upper }}</td></tr>{% endif %} 
+{% if academic.hostel_boys  %}<tr><td>Boys</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hostel_boys |upper }}</td></tr>{% endif %} 
+{% if academic.hostel_girls  %}<tr><td>Girls</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hostel_girls |upper }}</td></tr>{% endif %} 
+{% if academic.hostel_staff  %}<tr><td>No. of Staff / Warden</td><td>:&nbsp;&nbsp;&nbsp;{{academic.hostel_staff |upper }}</td></tr>{% endif %} 
+{% else %}
+<tr><td>Whether is this Boarding School</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+
+{% if academic.low_class  %}<tr><td>Lowest Class in the School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.low_class |upper }}</td></tr>{% endif %} 
+{% if academic.high_class %} <tr><td>Highest Class in the School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.high_class |upper }}</td></tr>{% endif %} 
+{% if academic.nrstc %} <tr><td>NRSTC Functioning in the School</td><td>:&nbsp;&nbsp;&nbsp;{{academic.nrstc|upper }}</td></tr>
+{% else %}
+<tr><td>NRSTC Functioning in the School</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_scout %} <tr><td>SCOUT</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_scout|upper }}</td></tr>
+{% else %}
+<tr><td>SCOUT</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_jrc %} <tr><td>JRC</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_jrc|upper }}</td></tr>
+{% else %}
+<tr><td>JRC</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_nss %} <tr><td>NSS</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_nss|upper }}</td></tr>
+{% else %}
+<tr><td>NSS</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_ncc %} <tr><td>NCC</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_ncc|upper }}</td></tr>
+{% else %}
+<tr><td>NCC</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_rrc %} <tr><td>RRC</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_rrc|upper }}</td></tr>
+{% else %}
+
+{% endif %} 
+{% if academic.extra_ec %} <tr><td>Echo Club</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_ec|upper }}</td></tr>
+{% else %}
+<tr><td>RRC</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.extra_cub %} <tr><td>CUB</td><td>:&nbsp;&nbsp;&nbsp;{{academic.extra_cub|upper }}</td></tr>
+{% else %}
+<tr><td>CUB</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.smc_smdc %} <tr><td>SMDC</td><td>:&nbsp;&nbsp;&nbsp;{{academic.smc_smdc |upper }}</td></tr>
+{% else %}
+<tr><td>SMDC</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+{% endif %} 
+{% if academic.dge_no_ten  %}<tr><td>DGE School Code for X Board Exam</td><td>:&nbsp;&nbsp;&nbsp;{{academic.dge_no_ten|upper }}</td></tr>{% endif %} 
+{% if academic.dge_no_twelve  %}<tr><td>DGE School Code for XII Board Exam</td><td>:&nbsp;&nbsp;&nbsp;{{academic.dge_no_twelve|upper }}</td></tr>{% endif %} 
+
+</table>
+<br><br>
+
+
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+INFRASTRUCTURE INFORMATION</h3>
+
+<table width="100%"  border="1" align="center" cellpadding="5" style="margin-left:10px;" >
+{% if infra.electricity %} <tr><td>Electricy Connection Provided</td><td>:&nbsp;&nbsp;&nbsp;{{infra.electricity |upper }}</td></tr>
+{% else %}
+<tr><td>Electricy Connection Provided</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+
+{% endif %} 
+{% if infra.tot_ft %} <tr><td>Total area in Feet</td><td>:&nbsp;&nbsp;&nbsp;{{infra.tot_ft |upper }}</td></tr>
+{% endif %} 
+{% if infra.tot_mt  %}<tr><td>Total area in Metre</td><td>:&nbsp;&nbsp;&nbsp;{{infra.tot_mt |upper }}</td></tr>{% endif %} 
+{% if infra.covered_ft  %}<tr><td>Covered / Constructed Area in Feet</td><td>:&nbsp;&nbsp;&nbsp;{{infra.covered_ft |upper }}</td></tr>{% endif %} 
+{% if infra.covered_mt %} <tr><td>Covered / Constructed Area in Metre</td><td>:&nbsp;&nbsp;&nbsp;{{infra.covered_mt |upper }}</td></tr>{% endif %} 
+{% if infra.open_ft %} <tr><td>Open area (other than play ground) in Feet</td><td>:&nbsp;&nbsp;&nbsp;{{infra.open_ft |upper }}</td></tr>{% endif %} 
+{% if infra.open_mt %} <tr><td>Open area (other than play ground) in Metre</td><td>:&nbsp;&nbsp;&nbsp;{{infra.open_mt |upper }}</td></tr>{% endif %} 
+{% if infra.play_ft %} <tr><td>Play Ground area in Feet</td><td>:&nbsp;&nbsp;&nbsp;{{infra.play_ft |upper }}</td></tr>{% endif %} 
+{% if infra.play_mt  %}<tr><td>Play Ground area in Metre</td><td>:&nbsp;&nbsp;&nbsp;{{infra.play_mt |upper }}</td></tr>{% endif %} 
+{% if infra.cwall  %}<tr><td>Compound Wall available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall |upper }}</td></tr>{% endif %} 
+{% if infra.cwall_concre_len %} <tr><td>Length of Compound wall made by Concrete</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall_concre_len |upper }}</td></tr>{% endif %} 
+{% if infra.cwall_fence_len %} <tr><td>Length of Compound wall made by Fencing</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall_fence_len |upper }}</td></tr>{% endif %} 
+{% if infra.cwall_existbu_len %} <tr><td>Length of Compound wall made by Existing Building</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall_existbu_len |upper }}</td></tr>{% endif %} 
+{% if infra.cwall_nbarr_len %} <tr><td>Length of Compound wall made by Natural Barrier</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall_nbarr_len |upper }}</td></tr>{% endif %} 
+{% if infra.cwall_notcon_len  %}<tr><td>Length of Compound wall not constructed</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwall_notcon_len |upper }}</td></tr>{% endif %} 
+{% if infra.fireext %} <tr><td>Fire existinguisher intalled</td><td>:&nbsp;&nbsp;&nbsp;{{infra.fireext|upper }}</td></tr>{% endif %} 
+{% if infra.fireext_no %} <tr><td>No. of fire existinguisher available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.fireext_no |upper }}</td></tr>{% endif %} 
+{% if infra.fireext_w %} <tr><td>No. of fire existinguisher in working condition</td><td>:&nbsp;&nbsp;&nbsp;{{infra.fireext_w |upper }}</td></tr>{% endif %} 
+{% if infra.firstaid_box %} <tr><td>First-aid box installed</td><td>:&nbsp;&nbsp;&nbsp;{{infra.firstaid_box|upper }}</td></tr>{% endif %} 
+{% if infra.rainwater %} <tr><td>Rain water harvesting sytem installed</td><td>:&nbsp;&nbsp;&nbsp;{{infra.rainwater |upper }}</td></tr>{% endif %} 
+{% if infra.kitchenshed  %}<tr><td>Kitchen shed Available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.kitchenshed|upper }}</td></tr>{% endif %} 
+{% if infra.furn_desk_no %} <tr><td>No. of Desk available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.furn_desk_no |upper }}</td></tr>{% endif %} 
+{% if infra.furn_desk_use %} <tr><td>No. of Desk in use</td><td>:&nbsp;&nbsp;&nbsp;{{infra.furn_desk_use |upper }}</td></tr>{% endif %} 
+{% if infra.furn_bench_no %} <tr><td>No. of Bench available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.furn_bench_no |upper }}</td></tr>{% endif %} 
+{% if infra.furn_bench_use  %}<tr><td>No. of Bench in use</td><td>:&nbsp;&nbsp;&nbsp;{{infra.furn_bench_use |upper }}</td></tr>{% endif %} 
+{% if infra.fans %} <tr><td>No. of Ceiling / Pedestral Fans available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.fans |upper }}</td></tr>{% endif %} 
+{% if infra.fans_work %} <tr><td>No. of Ceiling / Pedestral Fans in use</td><td>:&nbsp;&nbsp;&nbsp;{{infra.fans_work |upper }}</td></tr>{% endif %} 
+{% if infra.tubelights  %}<tr><td>No. of Tubelights available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.tubelights |upper }}</td></tr>{% endif %} 
+{% if infra.tlights_work  %}<tr><td>No. of Tubelights in use</td><td>:&nbsp;&nbsp;&nbsp;{{infra.tlights_work |upper }}</td></tr>{% endif %} 
+{% if infra.incinirator  %}<tr><td>Incinirator is available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.incinirator|upper }}</td></tr>{% endif %} 
+{% if infra.water_toilet %} <tr><td>Water facility is available in Toilet</td><td>:&nbsp;&nbsp;&nbsp;{{infra.water_toilet |upper }}</td></tr>{% endif %} 
+{% if infra.cwsn_toilet %} <tr><td>CWSN Toilet is available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwsn_toilet |upper }}</td></tr>{% endif %} 
+{% if infra.cwsn_toilet_no %} <tr><td>No. Of CWSN toilets available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.cwsn_toilet_no |upper }}</td></tr>{% endif %} 
+{% if infra.water_facility  %}<tr><td>Drinking Water available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.water_facility|upper }}</td></tr>{% endif %} 
+{% if infra.water_source  %}<tr><td>Source of Drinking Water</td><td>:&nbsp;&nbsp;&nbsp;{{infra.water_source|upper }}</td></tr>{% endif %} 
+{% if infra.well_dia  %}<tr><td>Diametre of the well</td><td>:&nbsp;&nbsp;&nbsp;{{infra.well_dia|upper }}</td></tr>{% endif %} 
+{% if infra.well_close %} <tr><td>Well in closed condition</td><td>:&nbsp;&nbsp;&nbsp;{{infra.well_close|upper }}</td></tr>{% endif %} 
+{% if infra.water_puri  %}<tr><td>Type of water Purifier</td><td>:&nbsp;&nbsp;&nbsp;{{infra.water_puri|upper }}</td></tr>{% endif %} 
+{% if infra.water_access  %}<tr><td>Water Access by students</td><td>:&nbsp;&nbsp;&nbsp;{{infra.water_access |upper }}</td></tr>{% endif %} 
+{% if infra.internet_yes  %}<tr><td>Internet Connection Available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.internet_yes |upper }}</td></tr>{% endif %} 
+{% if infra.lightning_arest %} <tr><td>Lightning arester installed</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lightning_arest |upper }}</td></tr>{% endif %} 
+
+  </table>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Toilet Details:</h3>
+
+        <label class="form-control" ><strong style="color:#3C8DBC;"> <center> Urinals </center></strong></label><br>
+        <table border="1">
+        <tr><th rowspan="2"></th><th rowspan="2"></th><th rowspan="2"><center>Usable</center></th><th colspan="2"><center>Un-usable</center></th><th rowspan="2"><center>Urinals<br>(Total No. of Seats)</center></th>
+        </tr>
+        <tr><th><center>Minor Repair</center></th><th><center>Major Repair</center></th></tr>
+        
+        <tr><td rowspan="2">Students</td><td>Boys</td>
+        <td>
+        {%if infra.bu_usable %}
+         {{bu_usable}}"
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        <td>
+
+        {%if infra.bu_minrep %}
+        {{bu_minrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra.bu_majrep %}
+        {{bu_majrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+
+
+        <td>
+        {%if infra.bu_no %}
+        {{bu_no}}
+        {%else%}
+        0
+        {%endif%}  
+        </td>
+        </tr>
+
+
+
+       <tr><td>Girls</td>
+       <td>
+        {%if infra.gu_usable %}
+       {{gu_usable}}
+        {%else%}
+       0
+        {%endif%}
+       </td>
+       <td>
+
+        {%if infra.gu_minrep %}
+
+       {{gu_minrep}}
+        {%else%}
+
+        0
+        {%endif%}
+
+
+       </td>
+
+
+       <td>
+        {%if infra.gu_majrep %}
+       {{gu_majrep}}
+        {%else%}
+       0
+        {%endif%}
+       </td>
+        <td>
+        {%if infra.gu_no %}
+        {{gu_no}}
+        {%else%}
+        0
+         {%endif%} 
+        </td>
+       </tr>
+        <tr><td rowspan="2">Staffs</td><td>Gents</td>
+     
+
+
+        <td>
+        {%if infra.gentsu_usable %}
+        {{gentsu_usable}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra.gentsu_minrep %}
+        {{gentsu_minrep}}
+        {%else%}
+       0
+        {%endif%}
+        </td>
+        <td>
+        {%if infra.gentsu_majrep %}
+        {{gentsu_majrep}}
+        {%else%}
+        0
+        {%endif%}
+
+
+        </td>
+        <td>
+
+        {%if infra.gentsu_no %}
+
+        {{gentsu_no}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        </tr>
+
+ 
+        <tr>
+        <td>Ladies</td>
+        <td>
+        {%if infra.ladiesu_usable %}
+        {{ladiesu_usable}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra.ladiesu_minrep %}
+        {{ladiesu_minrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+
+
+        <td>
+       {%if infra.ladiesu_majrep %}
+       {{ladiesu_majrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+
+       {%if infra.ladiesu_no %}
+       {{ladiesu_no}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        </tr>
+        </table>
+        <br>
+
+
+        <label class="form-control" ><strong style="color:#3C8DBC;"> <center> Latrines </center></strong></label><br>
+        <table border="1">
+
+        <tr>
+        <th rowspan="2"></th><th rowspan="2"></th><th rowspan="2"><center>Usable</center></th>
+        <th colspan="2"><center>Un-usable</center></th>
+        <th rowspan="2"><center>Latrines<br>(Total No. of Seats)</center>
+        </th>
+        </tr>
+        <tr><th><center>Minor Repair</center></th><th><center>Major Repair</center></th>
+        <tr><td rowspan="2">Students</td><td>Boys</td>
+
+        <td>
+        {%if infra.bl_usable %}
+        {{bl_usable}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra.bl_minrep %}
+        {{bl_minrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra.bl_majrep %}
+        {{bl_majrep}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        <td>
+        {%if infra.bl_no %}
+        {{bl_no}}
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        </tr>
+
+
+        <tr><td>Girls</td>
+        <td>
+        {%if infra.gl_usable %}
+        {{gl_usable}}
+        {%else%}
+        0
+        {%endif%}
+
+
+        </td>
+        <td>
+        {%if infra.gl_minrep %}
+        {{gl_minrep}}
+        {%else%}
+       0
+        {%endif%}
+        </td>
+        <td>
+        {%if infra.gl_majrep %}
+        {{gl_majrep}}"
+        {%else%}
+        0
+        {%endif%}
+        </td>
+        <td>
+        {%if infra.gl_no %}
+        {{gl_no}}
+        {%else%}
+        0
+         {%endif%} 
+        </td>
+        </tr>
+
+        <tr><td rowspan="2">Staffs</td><td>Gents</td>
+
+        <td>
+
+        {%if infra.gentsl_usable %}
+        {{gentsl_usable}}
+        {%else%}
+        0       
+        {%endif%} 
+        </td>
+
+
+        <td>
+        {%if infra.gentsl_minrep %}
+        {{gentsl_minrep}}
+        {%else%}
+        0
+        {%endif%} 
+
+       </td>
+        <td>
+        {%if infra.gentsl_majrep %}
+        {{gentsl_majrep}}
+        {%else%}
+        0
+        {%endif%} 
+        </td>
+        <td>
+         {%if infra.gentsl_no %}
+         {{gentsl_no}}
+        {%else%}
+        0
+         {%endif%} 
+        </td> 
+
+        </tr>
+
+        <tr><td>Ladies</td>
+
+        <td>
+         {%if infra.ladiesl_usable %}
+        {{ladiesl_usable}}
+        {%else%}
+         0       
+        {%endif%} 
+        </td>
+
+        <td>
+         {%if infra.ladiesl_minrep %}
+        {{ladiesl_minrep}}
+        {%else%}
+        0
+        {%endif%} 
+         </td>
+
+        <td>
+         {%if infra.ladiesl_majrep %}
+        {{ladiesl_majrep}}
+        {%else%}
+        0
+        {%endif%} 
+        </td>
+        <td>
+         {%if infra.ladiesl_no %}
+       {{ladiesl_no}}
+        {%else%}
+       0
+        {%endif%} 
+        </td>
+        </tr>
+        </tr>
+        </table>
+
+        <br>
+       
+
+<table width="100%"  border="1" align="center" cellpadding="5" style="margin-left:10px;" >
+
+
+
+{% if infra.lib_tamil %} <tr><td>No. of Tamil Language books kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_tamil |upper }}</td></tr>{% endif %} 
+{% if infra.lib_eng %} <tr><td>No. of English Language books kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_eng |upper }}</td></tr>{% endif %} 
+{% if infra.lib_others %} <tr><td>No. of Other Language books kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_others |upper }}</td></tr>{% endif %} 
+{% if infra.lib_tamil_news %} <tr><td>No. of Tamil daily news paper kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_tamil_news |upper }}</td></tr>{% endif %} 
+{% if infra.lib_eng_news %} <tr><td>No. of English daily news paper kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_eng_news |upper }}</td></tr>{% endif %} 
+{% if infra.lib_periodic %} <tr><td>No. of Periodical books kept in Library</td><td>:&nbsp;&nbsp;&nbsp;{{infra.lib_periodic |upper }}</td></tr>{% endif %} 
+{% if infra.trans_faci %} <tr><td>School made its own Transport facilities to the Students</td><td>:&nbsp;&nbsp;&nbsp;{{infra.trans_faci|upper }}</td></tr>{% endif %} 
+{% if infra.trans_bus %} <tr><td>No. of buses in operation</td><td>:&nbsp;&nbsp;&nbsp;{{infra.trans_bus|upper }}</td></tr>{% endif %} 
+{% if infra.trans_van %} <tr><td>No. of vans in operation</td><td>:&nbsp;&nbsp;&nbsp;{{infra.trans_van|upper }}</td></tr>{% endif %} 
+{% if infra.trans_stud %} <tr><td>No. of Students using the transport facility</td><td>:&nbsp;&nbsp;&nbsp;{{infra.trans_stud|upper }}</td></tr>{% endif %} 
+{% if infra.trans_rules %} <tr><td>Transport Department norms followed</td><td>:&nbsp;&nbsp;&nbsp;{{infra.trans_rules|upper }}</td></tr>{% endif %} 
+{% if infra.award_recd  %}<tr><td>Awards received by the School</td><td>:&nbsp;&nbsp;&nbsp;Yes</td></tr>{% endif %} 
+{% if infra.award_info  %}<tr><td>Details of the Award</td><td>:&nbsp;&nbsp;&nbsp;{{infra.award_info |upper }}</td></tr>{% endif %} 
+{% if infra.phy_lab %} <tr><td>Physics Lab available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.phy_lab|upper }}</td></tr>{% endif %} 
+{% if infra.che_lab %} <tr><td>Chemistry Lab available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.che_lab|upper }}</td></tr>{% endif %} 
+{% if infra.bot_lab %} <tr><td>Botany Lab available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.bot_lab|upper }}</td></tr>{% endif %} 
+{% if infra.zoo_lab %} <tr><td>Zoology Lab available</td><td>:&nbsp;&nbsp;&nbsp;{{infra.zoo_lab|upper }}</td></tr>{% endif %} 
+{% if infra.gas_cylin %} <tr><td>Gas cylinder placed out side the Lab</td><td>:&nbsp;&nbsp;&nbsp;Yes</td></tr>{% endif %} 
+{% if infra.suffi_equip %} <tr><td>Sufficient equipments placed in the Lab</td><td>:&nbsp;&nbsp;&nbsp;Yes</td></tr>{% endif %} 
+{% if infra.eb_ht_line %} <tr><td>Any HT Line (EB) cross over the School</td><td>:&nbsp;&nbsp;&nbsp;Yes</td></tr>
+{% else %} 
+<tr><td>Any HT Line (EB) cross over the School</td><td>:&nbsp;&nbsp;&nbsp;No</td></tr>
+
+{% endif %} 
+  
+
+</table>
+
+<br><br><br>
+
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of class wise number of Sections</h3>
+
+
+<br>
+<table width="100%"  border="1" align="center" cellpadding="5" style="margin-left:10px;" >
+
+<tr>
+            <th style="text-align:center; ">Standard</th>
+            <th style="text-align:center; ">No. of Sections</th>
+
+            <th style="text-align:center; ">No. of Sections Aided by Government</th>
+
+            <th style="text-align:center; ">No. of Students in Tamil Medium</th>
+
+            <th style="text-align:center; ">No. of Students in English Medium</th>
+
+            <th style="text-align:center; ">No. of Students in Other Mediums (Studying in Telugu / Kannada / Malayalam / Other Medium)</th>            
+            <th style="text-align:center;" >Total No. of Students</th>
+            <th style="text-align:center;" >No. of CWSN Children in the Class</th>
+
+  </tr>
+
+{% for i in class_det %}
+<tr>
+
+<td style="text-align:center;">     
+
+{{i.class_id}}
+
+</td>
+<td style="text-align:center;">{{i.sections}}</td>
+{% if i.no_sec_aided %}
+<td style="text-align:center;">{{i.no_sec_aided}}</td>
+{% else %}    
+<td style="text-align:center;">0</td>
+</td>
+{% endif %}
+
+{% if i.tam_stud %}
+<td style="text-align:center;">{{i.tam_stud}}</td>
+
+{% else %}
+<td style="text-align:center;">0</td>
+</td>
+{% endif %}
+
+{% if i.eng_stud %}
+<td style="text-align:center;">{{i.eng_stud}}</td>
+{% else %}
+<td style="text-align:center;">0</td>
+</td>
+{% endif %}
+
+{% if i.oth_stud %}
+<td style="text-align:center;">{{i.oth_stud}}</td>
+{% else %}
+<td style="text-align:center;">0</td>
+{% endif %}
+
+{% if i.no_stud %}
+<td style="text-align:center;">{{i.no_stud}}</td>
+{% else %}
+<td style="text-align:center;">0</td>
+{% endif %}
+
+{% if i.cwsn_stud_no %}
+<td style="text-align:center;">{{i.cwsn_stud_no}}</td>
+{% else %}
+<td style="text-align:center;">0</td>
+{% endif %}
+
+   </tr>
+{% endfor %}       
+</table>
+
+<br><br>
+
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Groups available in the Higher Secondary Section</h3>
+
+<table  border="1" >
+<tr>
+	<th style="text-align:center; ">Group Code & Gropu Name</th>
+	<th style="text-align:center; ">No. of Sections available in the Group</th>
+	<th style="text-align:center; ">No. of Sections in the Group Aided by Government</th>       
+ </tr>
+
+ 
+        
+{% for i in schgroup_det %}
+        <tr>
+
+        <td > {{ i.group_name |upper}}</td>
+        <td style="text-align:center;"> {{ i.sec_in_group |upper}}</td>
+
+        {% if i.sec_in_group_aid%}
+        <td style="text-align:center;"> {{ i.sec_in_group_aid |upper}}</td>
+        {% else %} 
+        <td style="text-align:center;">0</td>
+        {% endif %} 
+           </tr>
+        {% endfor %}
+
+        
+</table>
+
+<br><br>
+
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Post Sanctioned Details</h3>
+
+
+
+<table  border="1" >
+<tr>
+            <th rowspan="2" style="text-align:center;">Sl.No.</th>
+            <th rowspan="2" style="text-align:center;">Name of the Sanctioned Post</th>       
+            <th rowspan="2" style="text-align:center;" >Subject</th>
+            <th rowspan="2" style="text-align:center;" >Mode of Sanctioned</th>
+            <th rowspan="2" style="text-align:center; ">G.O. No.</th>       
+            <th rowspan="2" style="text-align:center;" >G.O. Date</th>
+            <th colspan="3" style="text-align:center; ">Number of Post</th>
+         
+            <th rowspan="2" style="text-align:center;" >Post Continuance Details (If temporary)</th>
+          
+  </tr>
+<tr>    
+              <th style="text-align:center; ">Sanctioned</th>
+            <th style="text-align:center; ">Filled</th>
+            <th style="text-align:center; ">Vacant</th>
+  </tr>    
+{% for i in post_det %}
+        <tr>
+        <td style="text-align:center;"> {{forloop.counter}}</td>
+        <td style="text-align:center;"> {{ i.post_name |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_sub |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_mode |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_GO |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_GO_dt |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_sanc |upper}}</td>
+        <td style="text-align:center;"> {{ i.post_filled |upper}}</td>        
+        <td style="text-align:center;"> {{ i.post_vac |upper}}</td>        
+        <td style="text-align:center;"> {{ i.post_GO_pd |upper}}</td>
+
+
+    
+
+           </tr>
+{% endfor %}
+
+     
+</table>
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Part-Time Teachers</h3>
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center; ">Name of the Part-time Post</th>       
+            <th style="text-align:center;" >Name of the Teacher </th>
+              
+  </tr>
+     
+{% for i in parttime_det %}
+        <tr>
+        <td style="text-align:center;"> {{ i.part_instr_sub |upper}}</td>
+        <td style="text-align:center;"> {{ i.part_instr |upper}}</td>
+
+           </tr>
+{% endfor %} 
+</table>
+<br><br>
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of School Land</h3>
+
+<table  border="1" >
+<tr>
+            <th style="text-align:center; ">Land Registration in the Name of </th>
+            <th style="text-align:center; ">School Rights in the Land</th>       
+            <th style="text-align:center;" >Area in Cents</th>
+            <th style="text-align:center;" >Patta No.</th> 
+            <th style="text-align:center;" >Survey No.</th> 
+            <th style="text-align:center;" >Subdivision No.</th> 
+            <th style="text-align:center;" >Type of Land</th>           
+  </tr>
+     
+{% for i in land_det %}
+
+        <tr>
+        <td > {{ i.name |upper}}</td>
+        <td > {{ i.own_type |upper}}</td>
+        <td > {{ i.area_cent |upper}}</td>
+        <td > {{ i.patta_no |upper }}</td>
+        <td > {{ i.survey_no |upper}}</td>
+        <td > {{ i.subdiv_no |upper}}</td>
+        <td > {{ i.land_type |upper}}</td>
+        </tr>
+{% endfor %}  
+</table>
+
+<br><br>
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of School Land (Contd...)</h3>
+
+<table  border="1" >
+<tr>
+            <th style="text-align:center; ">Land Registration in the Name of </th>
+            <th style="text-align:center; ">Document No.</th>       
+            <th style="text-align:center;" >Document Registed Date</th>
+            <th style="text-align:center;" >Document Registed Place</th> 
+            <th style="text-align:center;" >Encumbrance Certificate No</th> 
+            <th style="text-align:center;" >Encumbrance Certificate Date</th> 
+            <th style="text-align:center;" >Encumbrance Period From</th> 
+            <th style="text-align:center;" >Encumbrance Period To</th>
+            <th style="text-align:center;" >Encumbrance Period</th>
+
+
+  </tr>
+     
+{% for i in land_det %}
+
+        <tr>
+        <td > {{ i.name |upper}}</td>
+        <td > {{ i.doc_no |upper}}</td>
+        <td > {{ i.doc_regn_dt |upper}}</td>
+        <td > {{ i.place_regn |upper }}</td>
+        <td > {{ i.ec_cer_no |upper}}</td>
+        <td > {{ i.ec_cer_dt |upper}}</td>
+        <td > {{ i.ec_cer_fm |upper}}</td>
+        <td > {{ i.ec_cer_to |upper}}</td>
+        <td > {{ i.ec_period |upper}}</td>
+        </tr>
+{% endfor %}  
+</table>
+
+
+
+<br><br>
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Buildings</h3>
+
+<table  border="1" >
+<tr>
+
+
+            <th style="text-align:center;">Category of the Room</th>
+            <th style="text-align:center;">No. of Rooms</th>       
+            <th style="text-align:center;">Type of the Roof</th>
+            <th style="text-align:center;">Built-up Area (for All)</th> 
+            
+           
+  </tr>
+
+
+     
+{% for i in build_det %}
+
+        <tr>
+         <td > {{ i.room_cat |upper}}</td>
+        <td> {{ i.room_count |upper}}</td>
+        <td> {{ i.roof_type |upper}}</td>
+        <td> {{ i.builtup_area |upper}}</td>
+        </tr>
+{% endfor %}
+
+
+</table>
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Building Abstract </h3>
+
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center;">Building Name / No.</th>       
+            <th style="text-align:center;" >No of Floors</th>
+            <th style="text-align:center;">No. of Stair Cases</th>
+            <th style="text-align:center; ">Width of Stair Case</th>       
+            <th style="text-align:center;" >Construction Cost Funded by</th>           
+            <th style="text-align:center;" >If NABARD Scheme - Phase</th>
+            <th style="text-align:center;" >Year of Construction</th>                                    
+  </tr>
+     
+{% for i in buildabs_det %}
+
+        <tr>
+        <td > {{ i.building_name |upper}}</td>
+        <td > {{ i.no_of_floors |upper}}</td>
+        <td > {{ i.stair_case_no |upper }}</td>
+        <td > {{ i.stair_case_width |upper}}</td>
+        <td > {{ i.building_funded |upper}}</td>
+
+ <td > 
+{% if i.nabard_phase %}      
+       {{ i.nabard_phase |upper}}
+{% endif %}  
+</td>
+ <td > 
+{% if i.build_cons_yr %}      
+{{ i.build_cons_yr |upper}}
+{% endif %}  
+</td>
+
+           </tr>
+{% endfor %}
+     
+</table>
+
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Building Abstract (Contd...)</h3>
+
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center;">Building Name / No.</th>       
+            <th style="text-align:center;" >Stability Certificate No</th>
+            <th style="text-align:center;">Stability Certificate Date</th>
+            <th style="text-align:center; ">Valid From</th>       
+            <th style="text-align:center;" >Valid To</th>           
+            <th style="text-align:center;" >Name & Designation of the Officer Issued Stability Certificate</th>
+            <th style="text-align:center;" >No. of Students  to be accommodated</th>                                    
+  </tr>
+     
+{% for i in buildabs_det %}
+
+        <tr>
+        <td > {{ i.building_name |upper}}</td>
+        <td > {{ i.stab_cer_no |upper}}</td>
+        <td > {{ i.stab_cer_dt |upper }}</td>
+        <td > {{ i.stab_fm_dt |upper}}</td>
+        <td > {{ i.stab_fm_to |upper}}</td>
+        <td > {{ i.stab_to_dt |upper}}</td>
+        <td > {{ i.stab_iss_auth |upper}}</td>
+        <td > {{ i.no_stud |upper}}</td>
+        </tr>
+{% endfor %}
+     
+</table>
+
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Building Abstract (Contd...)</h3>
+
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center;">Building Name / No.</th>       
+            <th style="text-align:center;" >Building License Certificate No</th>
+            <th style="text-align:center;">Building License Certificate date</th>
+            <th style="text-align:center; ">Name & Designation of the Officer who issued Building License </th>       
+            <th style="text-align:center;" >Sanitary Certificate No</th>           
+            <th style="text-align:center;" >Sanitary Certificate Date</th>
+            <th style="text-align:center;" >Name & Designation of the Officer who issued Sanitary Certificate</th>                                    
+  </tr>
+     
+{% for i in buildabs_det %}
+
+        <t
+        <td > {{ i.building_name |upper}}</td>
+        <td > {{ i.lic_cer_no |upper}}</td>
+        <td > {{ i.lic_cer_dt |upper }}</td>
+        <td > {{ i.lic_iss_auth |upper}}</td>
+        <td > {{ i.san_cer_no |upper}}</td>
+        <td > {{ i.san_cer_dt |upper}}</td>
+        <td > {{ i.san_iss_auth |upper}}</td>
+        </tr>
+{% endfor %}
+     
+</table>
+
+<br><br>
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of Building Abstract (Contd...)</h3>
+
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center;">Building Name / No.</th>       
+            <th style="text-align:center;">Fire & Rescue Department Certificate No.</th>
+            <th style="text-align:center;">Fire & Rescue Department Certificate Date</th>
+            <th style="text-align:center;">Name & Designation of the Officer who issued Fire Certificate</th>      
+            <th style="text-align:center;">Present Condition of the Building</th>           
+
+  </tr>
+     
+{% for i in buildabs_det %}
+
+        <t
+        <td > {{ i.building_name |upper}}</td>
+        <td > {{ i.fire_cer_no |upper}}</td>
+        <td > {{ i.fire_cer_dt |upper }}</td>
+        <td > {{ i.fire_iss_auth |upper}}</td>
+        <td > {{ i.build_pres_cond |upper}}</td>
+        </tr>
+{% endfor %}
+     
+</table>
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Sports & Games Available in the School</h3>
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center;">Name of the Sport / Game"</th>       
+            <th style="text-align:center;">Play Ground"</th>
+            <th style="text-align:center;">Availability of Sports Equipment"</th>
+            <th style="text-align:center;">No. of Equipments"</th>                           
+  </tr>
+     
+{% for i in sports_det %}
+
+        <tr>
+        <td > {{ i.sports_name |upper}}</td>
+        <td > {{ i.play_ground |upper}}</td>
+        <td > {{ i.sports_equip |upper}}</td>
+        <td > {{ i.sports_no_sets |upper}}</td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Details of ICT Equipments </h3>
+
+<table  border="1" >
+<tr>
+
+            <th style="text-align:center; ">Name of the ICT Equipment</th>       
+            <th style="text-align:center;" >In Working (No.)</th>
+            <th style="text-align:center; ">Not in Working (No.)</th>
+            <th style="text-align:center; ">Supplied by</th>                          
+  </tr>
+ 
+{% for i in ict_det %}
+
+        <tr>
+        <td > {{ i.ict_type}}</td>
+        <td > {{ i.working_no}}</td>
+        <td > {{ i.not_working_no}}</td>
+        <td > {{ i.supplied_by}}</td>
+           </tr>
+{% endfor %}
+
+     
+</table>
+
+
+<br><br>
+
+<h3 style="display:block;text-align:top;float:center;font-size:150%;color:blue;"> 
+Pass Percentage of the School for the Academic year from 2010-11 to 2015-16 </h3>
+
+<table  border="1">
+  <tr>
+            <th style="text-align:center;" rowspan="2">Academic Year</th>
+            <th style="text-align:center;" rowspan="2">Standard</th>       
+            <th style="text-align:center;" colspan="3">Boys</th>
+            <th style="text-align:center;" colspan="3">Girls</th>   
+            <th style="text-align:center;" colspan="3">Total</th>                                  
+            </tr>
+<tr>
+            <th style="text-align:center;" >Appeared </th>
+            <th style="text-align:center;" >Passed</th>
+            <th style="text-align:center;" >Passed Percentage(%)</th>
+
+            <th style="text-align:center;">Appeared</th>  
+            <th style="text-align:center;">Passed</th>
+            <th style="text-align:center;" >Passed Percentage(%)</th>             
+
+
+            <th style="text-align:center;">Appeared</th>  
+            <th style="text-align:center;">Passed</th>
+            <th style="text-align:center;" >Passed Percentage(%)</th>     
+  </tr>
+ {% for i in passper_det %}  
+
+       <tr>
+        <td style="text-align:center;" rowspan="2"> {{ i.acad_yr}}</td>
+
+        <td > 
+        <b>X Standard</b>
+        </td>
+        <td style="text-align:center;"> {{ i.ten_b_app}}</td>
+        <td style="text-align:center;"> {{ i.ten_b_pass}}</td>
+         <td style="text-align:center;"> {{ i.ten_b_per}}</td>
+          <td style="text-align:center;"> {{ i.ten_g_app}}</td>
+           <td style="text-align:center;"> {{ i.ten_g_pass}}</td>
+            <td style="text-align:center;"> {{ i.ten_g_per}}</td>
+          <td style="text-align:center;"> {{ i.ten_app}}</td>
+           <td style="text-align:center;"> {{ i.ten_pass}}</td>
+            <td style="text-align:center;"> {{ i.ten_a_per}}</td>           
+        </tr>
+    <tr>
+        <td > 
+        <b>XII Standard</b>
+        </td>
+        <td style="text-align:center;"> {{ i.twelve_b_app}}</td>
+        <td style="text-align:center;"> {{ i.twelve_b_pass}}</td>
+         <td style="text-align:center;"> {{ i.twelve_b_per}}</td>
+          <td style="text-align:center;"> {{ i.twelve_g_app}}</td>
+           <td style="text-align:center;"> {{ i.twelve_g_pass}}</td>
+            <td style="text-align:center;"> {{ i.twelve_g_per}}</td>
+          <td style="text-align:center;"> {{ i.twelve_app}}</td>
+           <td style="text-align:center;"> {{ i.twelve_pass}}</td>
+            <td style="text-align:center;"> {{ i.twelve_a_per}}</td>  
+
+        </tr>        
+     
+{% endfor %}
+</table>
+
+
+
+
+
+
+
+ </body>
+ </html>
+
+
+

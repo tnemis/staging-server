@@ -1,0 +1,382 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+
+{% block extrahead %}   
+  
+ {% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+ 
+  Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Order Date after the Date of Appointment : " + app_date;
+    });
+  Tipped.create('#date_of_clearance',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date of Completion of Probation after the Date of Appointment : " + app_date;
+    });
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   designation: {
+
+                       required:true
+
+                   },
+
+                   order_no: {
+
+                       required:true,
+
+                       minlength:5
+
+                   },
+
+                   order_date: {
+
+                       required:true
+
+                   },
+
+                   date_of_clearance: {
+
+                       required:true
+
+                   },
+                    doprob_session: {
+
+                       required:true
+
+                   }
+
+                   
+
+               },
+
+               messages: {
+
+                   designation: {
+
+                       required: "Select the Designation"
+
+                                      },
+
+                   order_no: {
+
+                       required: "Enter the Order Number"
+
+                   },
+
+                   order_date: {
+
+                       required: "Enter the Order Date"
+
+                   },
+
+                   date_of_clearance: {
+
+                       required: "Enter the Date of Completion of Probation"
+                   },
+
+                   doprob_session: {
+
+                       required: "Select the session "
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+      } );
+
+   </script>
+
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+
+<script type="text/javascript">
+function AfterDate(val) 
+{     
+    var regis_date = document.getElementById('order_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check Your Order Date"); 
+        order_date.style.backgroundColor = "MistyRose";
+        order_date.focus();
+        document.getElementById('order_date').value="";
+
+        return false; 
+      }  
+    } }
+</script>
+
+
+<script type="text/javascript">
+function AfterDate1(val) 
+{     
+    var regis_date = document.getElementById('date_of_clearance').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Date of Completion of Probation"); 
+        date_of_clearance.style.backgroundColor = "MistyRose";
+        date_of_clearance.focus();
+        document.getElementById('date_of_clearance').value="";
+
+        return false; 
+      }  
+    } }
+</script>
+
+
+
+  <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  <fieldset>
+      {% csrf_token %}
+         <input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+
+<center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF PROBATION </h6></b><br></center> <br> 
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+ 
+   
+ <h1><font color='white'> Staff-ID : {{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1><br>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Designation" %}</b>
+    <select id='designation' name="designation"  class="form-control" class="mandatory" >
+            {% if designation %}
+    <option value="{{designation.id}}" >{{ designation.designation}} ---- {{designation.school_name1}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  posting_desg %}
+    <option value="{{i.id}}" >{{ i.designation}} ---- {{i.school_name1 }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.designation.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Order No." %}</b><input type="text" class="form-control" class="mandatory" id="order_no" name="order_no"  value="{{form.order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" style="text-transform: uppercase" /></div>
+<span class="error_message">{{form.order_no.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Order Date" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="order_date" name="order_date"  value="{{form.order_date.value|date:"d/m/Y" }}" maxlength="10" onblur="AfterDate(new Date(this.value))"   /></div>
+<span class="error_message">{{form.order_date.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of completion of Probation" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" placeholder="dd/mm/yyyy" class="form-control" class="mandatory" id="date_of_clearance" name="date_of_clearance"  value="{{form.date_of_clearance.value|date:"d/m/Y" }}" maxlength="10" onblur="AfterDate1(new Date(this.value))"   /></div>
+<span class="error_message">{{form.date_of_clearance.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Probation Session" %}</b>
+      <select name="doprob_session" id="doprob_session" class="form-control">
+        {% if doprob_session %}
+        <option value="{{doprob_session}}">{{doprob_session}}</option>
+        {% endif %}
+        <option value="" >SELECT</option>
+        <option value="FN">FN</option>
+        <option value="AN">AN</option>
+        </select></div>
+        <span class="error_message">{{form.doprob_session.errors}}</span>
+
+
+ </fieldset>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+</button>
+</center>
+          
+ </form>
+ </div>
+
+
+
+<form action="" method="POST">
+<table  border="2" >
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            
+            
+            <th style="text-align:center;">{% trans "Designation" %}</th>
+            <th style="text-align:center;">{% trans "Order No." %}</th>
+            <th style="text-align:center;">{% trans "Order Date" %}</th>
+            <th style="text-align:center;">{% trans "Date of Completion of Probation" %}</th>           
+        
+  <th >Update</th>
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <!-- <td> {{ i.count }}</td>   -->    
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none"> {{ i.teacherid.name|upper}} </td>
+
+        <td> {{ i.designation.designation|upper  }}</td>        
+        <td> {{ i.order_no|upper }}</td>
+        <td> {{ i.order_date }}</td>
+        <td> {{ i.date_of_clearance}} / {{i.doprob_session}}</td>
+    
+        <td><a href="/teachers/teacher_probation_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+
+

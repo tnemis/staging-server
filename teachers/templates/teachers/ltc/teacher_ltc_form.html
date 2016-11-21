@@ -1,0 +1,432 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% block extrahead %} 
+{% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    Tipped.create('#leave_from',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+     });
+      Tipped.create('#leave_to',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+     });
+        Tipped.create('#sanction_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+     });
+});
+ 
+</script>
+
+<style type="text/css">
+.my-error-class {
+   color:red;
+}
+.my-valid-class {
+   color:green;
+}
+   }
+</style>
+<script type="text/javascript">
+       $.validator.setDefaults( {
+           submitHandler: function () {
+               form3.submit();
+           }
+       } );
+       $( document ).ready( function () {
+           $( "#form3" ).validate( {
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+               rules: {
+                  
+                   leave_from: {
+                       required:true 
+                   },
+                   leave_to: {
+                       required:true    
+                   },
+                   destination_type: {
+                       required:true
+                    },
+                   leave_type: {
+                       required:true   
+                   },
+                   sanction_amt: {
+                       required:true,  
+                   },
+                   sanction_order: {
+                       required:true   
+                   },
+                   sanction_date: {
+                       required:true        
+                   },
+               },
+               messages: {
+                  
+                   leave_from: {
+                       required: "Enter the Date"   
+                   },
+                   leave_to: {
+                       required: "Enter the Date"  
+                   },
+                   destination_type: {
+                       required: "Enter the  Type of Destination"  
+                   },
+                   leave_type: {
+                       required: "Enter the  Type of leave" 
+                   },
+                   sanction_amt: {
+                       required: "Enter the  Amount Sanctioned"                        
+
+                   },
+                   sanction_order: {
+                       required: "Enter the Santioned Order No."
+
+                  },
+                  sanction_date: {
+                       required: "Enter the Date of Sanction Order "
+                  },               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+      } );
+
+   </script>
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+<script type="text/javascript">
+function AfterDate1(val) 
+{     
+    var regis_date = document.getElementById('leave_from').value;  
+    var regis_validity = document.getElementById('sanction_date').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = regis_validity.split("/");
+        var sum2=record2[2]+'/'+record2[1]+'/'+record2[0];
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+    
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Enter the Date after the Date of Appointment"); 
+        leave_from.style.backgroundColor = "MistyRose";
+        leave_from.focus();
+        document.getElementById('leave_from').value="";
+        }  
+    }
+    return false; 
+ }
+</script>
+
+<script type="text/javascript">
+function AfterDate2(val) 
+{     
+    var regis_date = document.getElementById('leave_to').value;  
+    var regis_validity = document.getElementById('leave_from').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = regis_validity.split("/");
+        var sum2=record2[2]+'/'+record2[1]+'/'+record2[0];
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+    
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Enter the Date after the Date of Appointment"); 
+        leave_to.style.backgroundColor = "MistyRose";
+        leave_to.focus();
+        document.getElementById('leave_to').value="";
+        }  
+    }
+    return false; 
+ }
+</script>
+
+
+<script type="text/javascript">
+function AfterDate3(val) 
+{     
+    var regis_date = document.getElementById('sanction_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+    
+        if(    govt < enterdate|| enterdate <= 0  ) 
+        {
+        alert("Enter the Date after the Date of Appointment"); 
+        sanction_date.style.backgroundColor = "MistyRose";
+        sanction_date.focus();
+        document.getElementById('sanction_date').value="";
+        }  
+    }
+    return false; 
+ }
+</script>
+
+
+<script type="text/javascript">
+function ltc_block_year1(val)
+{
+  var selectobject=document.getElementById("ltc_block_year");
+  var from_year = document.getElementById('from_year').value;
+  if ( from_year < 2013 )
+  {
+    document.getElementById('from_year').blur();
+    document.getElementById('from_year').value= "";
+    document.getElementById('from_year').focus();
+  }
+  else
+  {
+    for (var i=0; i<selectobject.length; i++)
+    { 
+      if (parseInt(from_year) == parseInt(selectobject.options[i].value ))
+        document.getElementById('block_year').value= selectobject.options[i].text;
+   } 
+  }
+  return false;
+}
+</script>
+
+
+<div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+    <fieldset>
+      {% csrf_token %}
+
+    
+<center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+DETAILS OF LEAVE TRAVEL CONCESSION(LTC) </h6></b></center>
+ <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+ <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p> <br> 
+{{ messages1 }}
+{{ messages2 }}
+ <br> 
+ <h1><font color='white'> Staff-ID : 
+{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+
+ 
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Enter the from Year" %}</b><input type="Number" style="text-transform: uppercase" class="form-control" class="mandatory" id="from_year" name="from_year"  value="{{form.from_year.value}}" onclick="select()" placeholder="yyyy" maxlength="4" onchange="ltc_block_year1(this.value)"/></div>
+<span class="error_message">{{form.from_year.errors}}</span>
+<div class="form-group" id="spouse_name_div6" hidden >
+<select name="ltc_block_year" id="ltc_block_year" class="form-control"   onchange="ltc_(this.value)" visible = "false" >
+
+{% if block_yeear %}}
+ <option value="{{block_yeear}}"  >{{block_yeear}} </option>
+ {% endif %}
+    {% for i in blockk %}
+      <option value="{{i.year}}"  >{{i.block_year}} </option>
+      {% endfor %}
+      </select> 
+    </div>
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Block Year" %}</b> 
+<input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="block_year" name="block_yeear"  value="{{block_yeear}}" onclick="select()"  maxlength="9" readonly/></div>
+<span class="error_message">{{form.block_yeear.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Destination" %}</b>
+    <select id='destination_type' name="destination_type" class="form-control" class="mandatory" >
+    {% if destination_type %}
+    <option value="{{destination_type.id}}" >{{ destination_type.leave_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  eeee %}
+    <option value="{{i.id}}" >{{ i.leave_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.destination_type.errors}}</span>
+
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Type of Leave  " %}</b>
+    <select id='leave_type' name="leave_type"  class="form-control" class="mandatory" >
+            {% if leave_type %}
+    <option value="{{leave_type.id}}" >{{ leave_type.leave_name }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  leave %}
+    <option value="{{i.id}}" >{{ i.leave_name }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.leave_type.errors}}</span>
+
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Amount Sanctioned " %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="sanction_amt" name="sanction_amt"  value="{{form.sanction_amt.value}}" onclick="select()" placeholder="0" /></div>
+<span class="error_message">{{form.sanction_amt.errors}}</span>
+
+
+   
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Sanction Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="sanction_order" name="sanction_order"  value="{{form.sanction_order.value}}" onclick="select()" placeholder="None" maxlength="50"/></div>
+<span class="error_message">{{form.sanction_order.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Sanction Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="sanction_date" name="sanction_date"  value="{{form.sanction_date.value|date:"d/m/Y" }}" onchange ="AfterDate3(this.value)"  maxlength="10"/></div>
+<span class="error_message">{{form.sanction_date.errors}}</span>
+<u><b>{% trans "Leave:" %}</b></u><br>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong><b>{% trans "From" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="leave_from" name="leave_from"  value="{{form.leave_from.value|date:"d/m/Y" }}" onblur="AfterDate1(new Date(this.value))"  maxlength="10"/></div>
+<span class="error_message">{{form.leave_from.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "To" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="leave_to" name="leave_to"  value="{{form.leave_to.value|date:"d/m/Y" }}" onblur="AfterDate2(new Date(this.value))"  maxlength="10"/></div>
+<span class="error_message">{{form.leave_to.errors}}</span>
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Number of Days Sanctioned" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="no_of_days_sanctioned" name="no_of_days_sanctioned"  value="{{form.no_of_days_sanctioned.value}}" onclick="select()" placeholder="0" /></div>
+<span class="error_message">{{form.no_of_days_sanctioned.errors}}</span>
+   
+ <br>
+ 
+    <button class='btn btn-large btn-success' type='submit'>
+    {% trans "Submit" %}
+    </button>
+     
+  </form>
+<br>
+  <form action='' method="POST">
+
+<table  border="2" >
+
+
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <!-- <th></th> -->
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "From Year" %}</th>
+            <th style="text-align:center; ">{% trans "Block Year" %}</th>
+            <th style="text-align:center;">{% trans "Leave From" %}</th>
+            <th style="text-align:center;">{% trans "Leave To" %}</th>
+            <th style="text-align:center;">{% trans "Destination" %}</th>
+            <th style="text-align:center;">{% trans "Type of Leave " %}</th>
+            <th style="text-align:center;">{% trans " Amount Sanctioned" %}</th>
+           <th style="text-align:center;">{% trans "Sanction Order No." %}</th>
+           <th style="text-align:center;">{% trans "Date of Sanction Order " %}</th>
+              <th style="text-align:center;">{% trans "Update" %}</th>
+          
+        
+ 
+  </tr>
+</tr>
+
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ staff_name |upper}} </td>
+
+        <td> {{ i.from_year }}</td>
+         <td> {{ i.block_yeear }}</td>
+        <td> {{ i.leave_from }}</td>
+        <td> {{ i.leave_to }}</td>
+        <td> {{ i.destination_type }}</td>
+        <td> {{ i.leave_type }}</td>
+        <td> {{ i.sanction_amt }}</td>
+    <td> {{ i.sanction_order |upper}}</td>
+    <td> {{ i.sanction_date }}</td>
+     
+
+  <td><a  href="/teachers/teacher_ltc_update/{{tid}}/{{i.id}}/"><button type="button" class="btn btn-warning">Update</button></a></td>
+ 
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+  </div>
+  </div>
+</div>
+
+
+{% endblock %}
+

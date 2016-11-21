@@ -1,0 +1,310 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% block content %}
+{% load url from future %}
+
+
+<style type="text/css">
+
+#k{
+      
+      border: 1px solid blue;
+      padding: 8px ; 
+      color:#069;    
+      text-align: center;  
+
+}
+#m{
+      
+      border: 1px solid blue;
+      padding: 8px ; 
+      color:#069;
+      width:10;
+      text-align: center;
+
+      
+}
+
+</style>
+
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+<center><h3 style="color:red">Name of the School / Office : {{basic_det.school_name}}</h3></center><br>
+{% if AEOENTRY == 1 %}
+
+<table id="k" cellspacing="5"  align="center" width="1000" >
+ 
+
+<th colspan="8" align="center"><p align='center'> TEACHING STAFF</th></p></tr>
+
+<tr id="k" >
+
+
+<th id="k" style="color: white;"> Name of the Sanctioned Post</th>
+<th id="k" style="text-align: center;color: white;" > Subject </th>
+<th id="m" style="color: white;"> Mode of Sanction </th>
+<th id="m" style="color: white;"> G.O. Number</th>
+<th id="k" style="color: white;"> G.O. Date</th>
+<th id="m"style="color: white;"> Number of Post Sanctioned</th>
+
+<th id="m" style="color: white;"> Filled Post</th>
+<th id="m" style="color: white;"> Vacant Post</th>
+
+
+
+</tr>
+
+
+
+{% for i in teaching_rec %}
+{% if i.staff_cat == 1 %}
+
+<tr id="k">
+
+
+
+    
+        <td id="k"> {{ i.post_name}}</td>
+        <td id="k"> {{ i.post_sub}}</td>
+        <td id="k"> {{ i.post_mode}}</td>
+         <td id="k"> {{ i.post_GO}}</td>
+        <td id="k"> {{ i.post_GO_dt}}</td>
+        <td id="k"> {{ i.post_sanc}}</td>
+       
+   
+    <td id="k">   {{i.post_filled }}  </td>
+    <td id="k">     {{i.post_vac}} </td>
+
+</tr>    
+{% endif %}
+{% endfor %}
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="5" style="color: white;"> Total Number of Teaching Staff</td>
+  <td id="k"  style="color: white;">{{teaching_sanc|default:0}}</td> <td id="k" style="color: white;">{{teaching_filled|default:0}}</td>   <td id="k" style="color: white;">{{teaching_vac|default:0}}</td>  
+</tr>
+
+
+</table><br><br>
+
+
+
+
+<table id="k" cellspacing="5"  align="center" width="1000" >
+ 
+<tr>
+<th colspan="8" align="center"><p align='center'> NON-TEACHING STAFF</th></p></tr>
+
+<tr id="k" >
+
+
+<th id="k" style="color: white;"> Name of the Sanctioned Post</th>
+
+<th id="m" style="color: white;"> Mode of Sanction </th>
+<th id="m" style="color: white;"> G.O. Number</th>
+<th id="m" style="color: white;"> G.O. Date</th>
+<th id="m"style="color: white;"> Number of Post Sanctioned</th>
+
+<th id="m" style="color: white;"> Filled Post</th>
+<th id="m" style="color: white;"> Vacant Post</th>
+
+
+</tr>
+
+
+
+{% for i in teaching_rec %}
+      {% if i.staff_cat == 2 %}
+<tr id="k">
+
+
+
+    
+        <td id="k"> {{ i.post_name}}</td>
+       
+        <td id="k"> {{ i.post_mode}}</td>
+         <td id="k"> {{ i.post_GO}}</td>
+        <td id="k"> {{ i.post_GO_dt}}</td>
+        <td id="k"> {{ i.post_sanc}}</td>
+       
+   
+    <td id="k">   {{i.post_filled }}  </td>
+    <td id="k">     {{i.post_vac}} </td>
+</tr>    
+{% endif %}
+{% endfor %}                
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="4" style="color: white;"> Total Number of Non-Teaching Staff</td>
+  <td id="k"  style="color: white;">{{nteaching_sanc|default:0}}</td> <td id="k" style="color: white;">{{nteaching_filled|default:0}}</td>   <td id="k" style="color: white;">
+  {{nteaching_vac|default:0}}</td>  
+</tr>
+
+</table><br><br>
+
+{% elif AEOENTRY == 0 %}
+<table id="k" cellspacing="5"  align="center" width="1000" >
+ 
+<tr>
+<th colspan="9" align="center"><p align='center'> TEACHING STAFF</th></p></tr>
+
+<tr id="k" >
+
+
+<th id="k" style="color: white;"> Name of the Sanctioned Post</th>
+<th id="k" style="text-align: center;color: white;" > Subject </th>
+<th id="m" style="color: white;"> Mode of Sanction </th>
+<th id="m" style="color: white;"> G.O. Number</th>
+<th id="k" style="color: white;"> G.O. Date</th>
+<th id="m"style="color: white;"> Number of Post Sanctioned</th>
+
+<th id="m" style="color: white;"> Filled Post</th>
+<th id="m" style="color: white;"> Vacant Post</th>
+
+<th id="m" style="color: white;"> Click To </th>
+
+</tr>
+
+
+
+{% for i in teaching_rec %}
+     {% if i.staff_cat == 1 %}
+
+<tr id="k">
+
+
+
+    
+        <td id="k"> {{ i.post_name}}</td>
+        <td id="k"> {{ i.post_sub}}</td>
+        <td id="k"> {{ i.post_mode}}</td>
+         <td id="k"> {{ i.post_GO}}</td>
+        <td id="k"> {{ i.post_GO_dt}}</td>
+        <td id="k"> {{ i.post_sanc}}</td>
+       
+   
+    <td id="k">   {{i.post_filled }}  </td>
+    <td id="k">     {{i.post_vac}} </td>
+
+    {% if i.post_vac > 0  %}
+   
+     <td id="m"><a href='/teachers/teacher_new_entry/{{i.id}}/1'>Make Entry</a>         </td>
+     {% else %}
+     <td id="m"><a href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>List Entry</a>        </td>        </td>
+    
+     
+     {% endif %}
+
+
+
+</tr>    
+{% endif %}
+{% endfor %}
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="5" style="color: white;"> Total Number of Teaching Staff</td>
+  <td id="k"  style="color: white;">{{teaching_sanc|default:0}}</td> <td id="k" style="color: white;">{{teaching_filled|default:0}}</td>   <td id="k" style="color: white;">{{teaching_vac|default:0}}</td>  <td></td>
+</tr>
+
+
+
+</table><br><br>
+
+<table id="k" cellspacing="5"  align="center" width="1000" >
+ 
+<tr id="k">
+<th colspan="8" align="center"><p align='center'> NON-TEACHING STAFF</th></p></tr>
+
+<tr id="k" >
+
+
+<th id="k" style="color: white;"> Name of the Sanctioned Post</th>
+
+<th id="m" style="color: white;"> Mode of Sanction </th>
+<th id="m" style="color: white;"> G.O. Number</th>
+<th id="m" style="color: white;"> G.O. Date</th>
+<th id="m"style="color: white;"> Number of Post Sanctioned</th>
+
+<th id="m" style="color: white;"> Filled Post</th>
+<th id="m" style="color: white;"> Vacant Post</th>
+
+<th id="m" style="color: white;"> Click To </th>
+
+</tr>
+
+
+{% for i in teaching_rec %}
+{% if i.staff_cat == 2 %}
+<tr id="k">
+
+
+
+    
+        <td id="k"> {{ i.post_name}}</td>
+       
+        <td id="k"> {{ i.post_mode}}</td>
+         <td id="k"> {{ i.post_GO}}</td>
+        <td id="k"> {{ i.post_GO_dt}}</td>
+        <td id="k"> {{ i.post_sanc}}</td>
+       
+   
+    <td id="k">   {{i.post_filled }}  </td>
+    <td id="k">     {{i.post_vac}} </td>
+        {% if i.post_vac > 0  %}
+ <td id="k"><a href='/teachers/teacher_new_entry/{{i.id}}/2'>Make Entry</a>        </td>
+ {% else %}
+     <td id="m"><a href='/teachers/teachers_school_level_name_list/{{ basic_det.udise_code }}'>List Entry</a>        </td>       
+    
+     
+     {% endif %}
+
+
+</tr>    
+{% endif %}
+{% endfor %}
+<tr id="k" bgcolor="gray">
+  <td id="k" colspan="4" style="color: white;"> Total Number of Non-Teaching Staff</td>
+  <td id="k"  style="color: white;">{{nteaching_sanc|default:0}}</td> <td id="k" style="color: white;">{{nteaching_filled|default:0}}</td>   <td id="k" style="color: white;">
+  {{nteaching_vac|default:0}}</td>  <td></td>
+</tr>
+
+</table><br><br>
+
+{% endif %}
+<br>
+<br>
+
+{% if request.user.account.user_category_id == 2 %}
+<p align="center">
+
+
+
+
+
+<a class="btn btn-small btn-warning" href='/teachers/block_teacher/'><u>Home</u></a></p>
+
+{% else %}
+{% if request.user.account.user_category_id == 18 %}
+<p align="center">
+
+
+
+
+<a class="btn btn-small btn-warning" href='/teachers/block_teacher/'><u>Home</u></a></p>
+{% else %}
+{% if request.user.account.user_category_id == 1 %}
+<p align="center" > 
+<a class="btn btn-small btn-warning" href='/teachers/teacher_detailListView/'><u>Home</u></a></p>
+
+{% else %}
+<p align="center" > 
+<a class="btn btn-small btn-warning" href='/teachers/teacher_detailListView1/{{basic_det.school_id}}'><u>Home</u></a></p>
+{% endif %}
+{% endif %}
+
+{% endif %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,360 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+
+
+{% block extrahead %} 
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+  Tipped.create('#date_of_relinqui',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Order date after the Date of Appointment: " + app_date;
+    });
+  Tipped.create('#crucial_date_for_promotion',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Crucial Date  after the Date of Appointment: " + app_date;
+    });
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+                  
+                   order_no: {
+
+                       required:true,
+
+                       minlength:5
+
+                   },
+
+                   crucial_date_for_promotion: {
+
+                       required:true
+
+                   },
+
+                   date_of_relinqui: {
+
+                       required:true
+
+                   }
+
+               },
+
+               messages: {
+                   
+
+                   order_no: {
+
+                       required: "Enter the Order Number"
+
+                   },
+
+                   crucial_date_for_promotion: {
+
+                       required: "Enter the Crucial Date for Promotion"
+
+                   },
+
+                   date_of_relinqui: {
+
+                       required: "Enter the Date of Relinquishment Order"
+
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+           } );
+
+      } );
+</script>
+<script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+    </script>
+<script type="text/javascript">
+
+function AfterDate(val) 
+{     
+    var regis_date = document.getElementById('crucial_date_for_promotion').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Crucial Date for Promotion"); 
+        order_date.focus();
+        document.getElementById('order_date').value="";
+        order_date.style.backgroundColor = "MistyRose";
+        return false; 
+      }  
+    } }
+</script>
+
+<script type="text/javascript">
+function AfterDate1(val) 
+{   var regis_date = document.getElementById('date_of_relinqui').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Date of Relinquishment Order"); 
+        date_of_relinqui.focus();
+        document.getElementById('date_of_relinqui').value="";
+        date_of_relinqui.style.backgroundColor = "MistyRose";
+        return false; 
+      }  
+    } }
+</script>
+
+    
+
+<script type="text/javascript">
+function crucial(birth) {    
+    var birth = document.getElementById('crucial_date_for_promotion').value;  
+    var record_day3=birth.split("/");      
+    var birth1=record_day3[0];
+    var birth2=record_day3[1];
+    var birth3=Number(record_day3[2]) + 3;     
+    document.getElementById("promo_next_eligible_date").value=birth1 + "/" + birth2 + "/" + birth3;   
+}  
+</script>
+
+
+<div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  
+  <center><b><h4 style="display:block;text-align:top;float:center;font-size:200%;color:red;">DETAILS OF RELINQUISHMENT</h4></b></center> 
+  <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+   <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+{% csrf_token %}
+
+ <h1><font color='white'> Staff-ID :{{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1>
+<fieldset>
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Present Designation" %}</b>
+    <select id='current_designation' name="current_designation"  class="form-control" class="mandatory" >
+            {% if current_designation %}
+    <option value="{{current_designation.id}}" >{{ current_designation.designation}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  posting_desg %}
+    <option value="{{i.id}}" >{{ i.designation}}  </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.designation.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Promoted To" %}</b>    <select id='promoted_to' name="promoted_to"  class="form-control" class="mandatory" >
+            {% if promoted_to %}
+    <option value="{{promoted_to.id}}" >{{ promoted_to }} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  designation_list %}
+    <option value="{{i.id}}" >{{ i.user_desig }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.promoted_to.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Relinquishment Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="date_of_relinqui" name="date_of_relinqui"  value="{{form.date_of_relinqui.value|date:"d/m/Y" }}"onblur="AfterDate1(new Date(this.value))" maxlength="10"/></div>
+<span class="error_message">{{form.date_of_relinqui.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Order Number " %}</b><input type="text" class="form-control" class="mandatory" id="order_no" name="order_no"  value="{{form.order_no.value}}"   maxlength="50" /></div>
+<span class="error_message">{{form.order_no.errors}}</span>
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Crucial Date for Promotion " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory" id="crucial_date_for_promotion" name="crucial_date_for_promotion"  value="{{form.crucial_date_for_promotion.value|date:"d/m/Y" }}" maxlength="10" onchange="AfterDate(this.value)" onblur="crucial(this.value)"/></div>
+<span class="error_message">{{form.crucial_date_for_promotion.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Next Promotion Eligible Date  " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory" id="promo_next_eligible_date" name="promo_next_eligible_date"  value="{{form.promo_next_eligible_date.value|date:"d/m/Y" }}" maxlength="10" readonly/></div>
+<span class="error_message">{{form.promo_next_eligible_date.errors}}</span>
+</fieldset>
+
+<button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button>
+      
+</center>
+          
+ </form>
+</div>
+
+<form action="" method="POST">
+<table  border="2" > 
+          <thead><tr>                      
+            <th style="text-align:center; " rowspan="2">{% trans "S. No." %}</th> 
+            <th style="text-align:center; " rowspan="2">Name of the Staff</th>
+            
+            <th style="text-align:center; " rowspan="2">Present Designation</th>
+            <th style="text-align:center; " rowspan="2">Promoted To </th>
+                     
+            <th style="text-align:center; "rowspan="2">Date of Relinquishment Order  </th> 
+             <th style="text-align:center; "rowspan="5"> Relinquishment Order No. </th>
+            <th style="text-align:center; " rowspan="2">Crucial Date for Promotion  </th> 
+            <th style="text-align:center; " rowspan="2">Next Promotion Eligible Date </th> 
+            <th style="text-align:center; " rowspan="2">Update</th>
+                       
+          </tr>        
+ </thead>
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none" rowspan="1">{{ i.teacherid.name|upper }} </td>       
+        <td> {{ i.current_designation.designation|upper  }}</td> 
+        <td> {{ i.promoted_to |upper}}</td> 
+        <td>{{i.date_of_relinqui}}</td>
+       
+        <td> {{ i.order_no |upper}}</td>
+       
+        <td> {{ i.crucial_date_for_promotion }}</td>
+        <td> {{ i.promo_next_eligible_date }}</td>
+
+
+        <td><a href="/teachers/teacher_relinquis_update/{{tid}}/{{i.id}}/"><button type="button" class="btn btn-warning">Update</button></a></td> 
+       
+        {% endfor %} 
+        </tr> 
+        
+</table> 
+</form>
+</div>
+</div>
+</div>
+{% endblock %}
+    
+
+   
+
+
+

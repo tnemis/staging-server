@@ -1,0 +1,139 @@
+{% extends "baseapp/master_base.html"|pjax:request %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% load imagekit %}
+{% block content %}
+
+
+
+
+<center><h3> Schemes Reports</h3></center>
+<table class='table table-bordered table-striped2' border="2" align="center">
+  <thead>
+    <tr>
+      <th colspan="2">{% trans "Schemes" %}</th>
+      <th>I</th>
+      <th>II</th>
+      <th>III</th>
+      <th>IV</th>
+      <th>V</th>
+      <th>VI</th>
+      <th>VII</th>
+      <th>VIII</th>
+      <th>IX</th>
+      <th>X</th>
+      <th>XI</th>
+      <th>XII</th>
+
+    </tr>
+  </thead>
+<tbody>            
+   {% if request.user.account.user_category.user_category == 'school' %}       
+<tr>
+    <td colspan="2">total students</td>
+    <td style="color:#069" >{{I|default:0}}</td>
+    <td style="color:#069" >{{II|default:0}}</td>
+    <td style="color:#069" >{{III|default:0}}</td>
+    <td style="color:#069" >{{IV|default:0}}</td>
+    <td style="color:#069" >{{V|default:0}}</td>
+    <td style="color:#069" >{{VI|default:0}}</td>
+    <td style="color:#069" >{{VII|default:0}}</td>
+    <td style="color:#069" >{{VIII|default:0}}</td>
+    <td style="color:#069" >{{IX|default:0}}</td>
+    <td style="color:#069" >{{X|default:0}}</td>
+    <td style="color:#069" >{{XI|default:0}}</td>
+    <td style="color:#069" >{{XII|default:0}}</td>    
+</tr>
+<tr>
+    <td  rowspan="3" style="vertical-align:middle;" ><h5 class="fa fa-rotate-90">Books</h5></td>
+    <td>Term I</td>
+    <td>{{book1_1|default:0}}</td>
+    <td>{{book1_2|default:0}}</td>
+    <td>{{book1_3|default:0}}</td>
+    <td>{{book1_4|default:0}}</td>
+    <td>{{book1_5|default:0}}</td>
+    <td>{{book1_6|default:0}}</td>
+    <td>{{book1_7|default:0}}</td>
+    <td>{{book1_8|default:0}}</td>
+    <td>{{book1_9|default:0}}</td>
+    <td>{{book1_10|default:0}}</td>
+    <td>{{book1_11|default:0}}</td> 
+    <td>{{book1_12|default:0}}</td>    
+</tr>
+<tr>
+    
+    <td>Term II</td>
+    <td>{{book1_1|default:0}}</td>
+    <td>{{book1_2|default:0}}</td>
+    <td>{{book1_3|default:0}}</td>
+    <td>{{book1_4|default:0}}</td>
+    <td>{{book1_5|default:0}}</td>
+    <td>{{book1_6|default:0}}</td>
+    <td>{{book1_7|default:0}}</td>
+    <td>{{book1_8|default:0}}</td>
+    <td>{{book1_9|default:0}}</td>
+    <td>{{book1_10|default:0}}</td>
+    <td>{{book1_11|default:0}}</td> 
+    <td>{{book1_12|default:0}}</td>    
+</tr>
+<tr>
+    
+    <td>Term III</td>
+    <td>{{book1_1|default:0}}</td>
+    <td>{{book1_2|default:0}}</td>
+    <td>{{book1_3|default:0}}</td>
+    <td>{{book1_4|default:0}}</td>
+    <td>{{book1_5|default:0}}</td>
+    <td>{{book1_6|default:0}}</td>
+    <td>{{book1_7|default:0}}</td>
+    <td>{{book1_8|default:0}}</td>
+    <td>{{book1_9|default:0}}</td>
+    <td>{{book1_10|default:0}}</td>
+    <td>{{book1_11|default:0}}</td> 
+    <td>{{book1_12|default:0}}</td>    
+</tr>
+{% else %}
+<tr>
+    <td>{{totalcount|default:0}}</td>
+    <td><a href= '{% url "students_child_classwiselist_detail" cl_id=1 school_code=school_code %}' style="color:#069;">{{I|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=2 school_code=school_code %}' style="color:#069;" >{{II|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=3 school_code=school_code %}' style="color:#069;" >{{III|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=4 school_code=school_code %}' style="color:#069;" >{{IV|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=5 school_code=school_code %}' style="color:#069;" >{{V|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=6 school_code=school_code %}' style="color:#069;" >{{VI|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=7 school_code=school_code %}' style="color:#069;" >{{VII|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=8 school_code=school_code %}' style="color:#069;" >{{VIII|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=9 school_code=school_code %}' style="color:#069;" >{{IX|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=10 school_code=school_code %}' style="color:#069;" >{{X|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=11 school_code=school_code %}' style="color:#069;" >{{XI|default:0}}</a></td>
+    <td><a href='{% url "students_child_classwiselist_detail" cl_id=12 school_code=school_code %}' style="color:#069;" >{{XII|default:0}}</a></td>        
+</tr>
+{% endif %}
+
+      </tbody>
+      
+</table>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+

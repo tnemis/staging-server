@@ -1,0 +1,265 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+
+
+{% block extrahead %} 
+
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!-- jquery validate -->
+<script type="text/javascript" src="/site_media/static/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/site_media/static/js/jquery.validate.js"></script>
+
+
+<style type="text/css">
+.my-error-class {
+    color:red;
+}
+.my-valid-class {
+    color:green;
+}
+    }
+</style>
+
+
+
+{% endblock %}
+
+{% block content %}
+
+    <script type="text/javascript">
+        $.validator.setDefaults( {
+            submitHandler: function () {
+                group_edit.submit();
+            }
+        } );
+
+        $( document ).ready( function () {
+            $( "#group_edit" ).validate( {
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+                rules: {
+                    group_name: {
+                        required:true
+                    },
+                    sec_in_group: {
+                        required:true
+                    },                         
+                    sec_in_group_aid: {
+                        required:true                     
+                    },
+                    permis_ordno: {
+                        required:true                   
+                    }, 
+                    permis_orddt: {
+                        required:true                   
+                    }
+
+                },
+                messages: {
+
+                    group_name: {
+                        required: "Select the group running in the school from the drop down"
+                    },
+                    sec_in_group: {
+                        required: "No. of Sections in the group running in the school should not be blank"
+                    },
+                    sec_in_group_aid: {
+                        required: "No. of Aided Sections in the group should not be blank"
+                    },  
+                    permis_ordno: {
+                        required: "Order No. in which the group started should not be blank"
+                    }, 
+                    permis_orddt: {
+                        required: "Group permission order date should not be blank"
+                    }
+
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+       } );
+    </script>
+
+<script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+</script>
+<script type="text/javascript">
+function date_future_chk(inpid)
+{
+   var go_date = document.getElementById(inpid).value;
+   var today = new Date(); 
+      
+
+   if(go_date != "" )
+   {
+      
+       var record_day1=go_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       // var record_day2=prob_date.split("/");  
+       // var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+       var go_dt=new Date(sum1);    
+       // var probation_date=new Date(sum2); 
+       
+      
+       
+       if(go_dt > today)
+       {
+           alert("Pl. Enter correct G.O. date, future date can not be entered ");
+           document.getElementById(inpid).focus();
+           document.getElementById(inpid).value="";
+           inpid.style.backgroundColor = "MistyRose";
+           
+       }
+        else
+       {document.getElementById(inpid).style.background = 'none';}
+   }
+   return false; 
+}
+</script>
+
+<form id="group_edit" method="post" class="form-horizontal" action="">
+
+      {% csrf_token %}
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="school_key" name="school_key" value="{{basic_det.id}}" /></div>
+
+<div class="form-group" type="hidden"> <b></b><input type="hidden" id="sec_exist" name="sec_exist" value="{{class_det}}" /></div>
+
+<center><h6 style="display:block;text-align:top;float:center;font-size:150%;color:red;"> 
+ Details of Groups available in the Higher Secondary Section</h6></center>
+  <center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Name of the Group" %}</b>
+    <select id='group_name' name="group_name"  class="form-control" class="mandatory" >
+            {% if group_name %}
+    <option value="{{group_name}}" >{{ group_name }} </option>
+        {% endif %}
+        <option value="">SELECT A GROUP</option>
+    {% for i in gropu_mas %}
+        <option value="{{i}}">{{i}}</option>
+    {% endfor %}        
+     </select></div>
+     <span class="error_message">{{form.group_name.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "No. of Sections available  in the Group:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="sec_in_group" min=1 max=30 name="sec_in_group" value="{{sec_in_group}}"></div>
+<span class="error_message">{{form.sec_in_group.errors}}</span>
+
+
+{% if aid_chk%}
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "No. of Sections in the Group Aided by Government:" %}</b><input type="number" class="form-control" class="form-control mandatory" id="sec_in_group_aid" min=1 max=30 name="sec_in_group_aid" value="{{sec_in_group_aid}}" /></div>
+<span class="error_message">{{form.sec_in_group_aid.errors}}</span>
+
+{% endif %} 
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Group Permission Order No.:" %}</b><input type="text" class="form-control" class="form-control mandatory" id="permis_ordno" name="permis_ordno" value="{{permis_ordno}}" maxlength="50" /></div>
+<span class="error_message">{{form.permis_ordno.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b>{% trans "Group Permission Order Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="permis_orddt" id="permis_orddt" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.permis_orddt.value|date:"d/m/Y"  }}" maxlength="10"  onblur="date_future_chk('permis_orddt')"> 
+    </div></div>
+    <span class="error_message">{{form.permis_orddt.errors}}</span>
+
+<!-- 
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Group Permission Order Date:" %}</b><input type="text" class="form-control" class="form-control, mandatory" id="permis_orddt" name="permis_orddt" value="{{permis_orddt}}" /></div>
+<span class="error_message">{{form.permis_orddt.errors}}</span> -->
+
+<button type="submit" class='btn btn-large btn-success' name="Save" value="Save" >Save</button>
+
+<!--  <button class='btn btn-large btn-success' type='submit' value ="Submit" onclick="this.form.submit();">Save</button> -->
+  </form>
+
+
+<form action="" method="POST">
+
+<table  border="2" >
+<tr>
+            <th style="text-align:center; ">{% trans "Name of the Group" %}</th>
+            <th style="text-align:center; ">{% trans "No. of Sections available in the Group" %}</th>
+                    {% if aid_chk%}
+                        <th style="text-align:center; ">{% trans "No. of Sections in the Group Aided by Government" %}</th>
+                         {% endif %}        
+            <th style="text-align:center;" >{% trans "Update" %}</th>
+            <th style="text-align:center;" >{% trans "Delete" %}</th>
+  </tr>
+
+ 
+        
+{% for i in group_det %}
+        <tr>
+
+        <td > {{ i.group_name |upper}}</td>
+        <td style="text-align:center;"> {{ i.sec_in_group |upper}}</td>
+
+        {% if aid_chk%}
+        <td style="text-align:center;"> {{ i.sec_in_group_aid |upper}}</td>
+        {% endif %} 
+        <td style="text-align:center;"><a href="/schoolnew/group_update/{{i.id}}"><input type="button" class="btn btn-info" value="Update"></a></td>
+
+
+        <td style="text-align:center;"><a href="/schoolnew/group_delete/{{i.id}}"><input type="button" class="btn btn-danger" value="Delete"></a></td>
+           </tr>
+        {% endfor %}
+
+        
+</table>
+<br><br><br>
+      <center> <a href="/schoolnew/school_registration">HOME</a></center>
+</form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

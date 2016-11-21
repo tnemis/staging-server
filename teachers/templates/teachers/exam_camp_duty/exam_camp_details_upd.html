@@ -1,0 +1,338 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+
+{% block extrahead %}   
+  
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   year: {
+
+                       required:true
+
+                   },
+
+                   month: {
+
+                       required:true,
+
+                     }
+                     
+              },
+
+               messages: {
+
+                   year: {
+
+                       required: "Enter the Year"
+
+                                      },
+
+                   month: {
+
+                       required: "Enter the Month"
+
+                   },
+
+                   order_date: {
+
+                       required: "Enter the Order Date"
+
+                   },
+
+                   date_of_clearance: {
+
+                       required: "Enter the Date of Completion of Probation"
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+      } );
+
+   </script>
+
+
+
+
+
+
+<script type="text/javascript">
+function percent_calc()
+{
+
+ app=document.getElementById('appeared').value;
+ pass=document.getElementById('passed').value;
+
+ document.getElementById('percentage').value=Math.round(( pass / app ) * 100);
+
+ 
+}
+
+
+
+$(document).ready(function() {
+
+ 
+  Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Order Date after the Date of Appointment : " + app_date;
+    });
+  Tipped.create('#date_of_clearance',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date of Completion of Probation after the Date of Appointment : " + app_date;
+    });
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+
+</style>
+
+
+
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+
+
+  <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  <fieldset>
+      {% csrf_token %}
+         <input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+
+<center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> 
+EXAM DUTY & RESULT DETAILS </h6></b><br></center> <br> 
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+
+
+<h1><font color='white'> Staff-ID : {{ staff_uid}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{staff_name |upper }}</font></h1><br>
+<input type="hidden" name="dategovt" id="dategovt" value="{{ dategovt }}">
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Month " %}</b>
+   <select id='month' name="month"  class="form-control" class="mandatory" >
+           {% if month %}
+   <option value="{{month.id}}" >{{ month.months_name }} </option>
+       {% endif %}
+   <option value="" >SELECT</option>
+       {% for i in  month_value %}
+   <option value="{{i.id}}" >{{ i.months_name }} </option>
+       {% endfor %}
+    </select></div>
+    <span class="error_message">{{form.month.errors}}</span>
+
+
+ 
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Year" %}</b><input type="number" class="form-control" class="mandatory" id="year" name="year"  value="{{form.year.value}}" onclick="select()"  /></div>
+<span class="error_message">{{form.year.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Subject" %}</b>
+{% if subjects %}
+<input type="text" class="form-control" class="mandatory" id="subject" name="subject"  value="{{subject}}" onclick="select()" />
+
+{% else %}
+<input type="text" class="form-control" class="mandatory" id="subject" name="subject"  value="{{form.subject.value}}" onclick="select()" />
+{% endif %}
+   </div>
+     <span class="error_message">{{form.subject.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Appeared" %}</b><input type="number" class="form-control" class="mandatory" id="appeared" name="appeared"  value="{{form.appeared.value}}" onclick="select()" /></div>
+<span class="error_message">{{form.appeared.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Passed" %}</b><input type="number" class="form-control" class="mandatory" id="passed" name="passed"  value="{{form.passed.value}}" onclick="select()"  onchange="percent_calc()" /></div>
+<span class="error_message">{{form.passed.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Percentage" %}</b><input type="number" class="form-control" class="mandatory" id="percentage" name="percentage"  value="{{form.percentage.value}}" onclick="select()" /></div>
+<span class="error_message">{{form.percentage.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Examination Duty" %}</b>
+    <select id='exam_duty' name="exam_duty"  class="form-control" class="mandatory" >
+            {% if exam_duty %}
+      <option value="{{exam_duty}}" >{{ exam_duty}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  exams %}
+    <option value="{{i.exam_duty_post}}" >{{ i.exam_duty_post}} </option>
+        {% endfor %}
+        
+     </select></div>
+     <span class="error_message">{{form.exam_duty.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Valuation Duty" %}</b>
+    <select id='val_camp' name="val_camp"  class="form-control" class="mandatory" >
+            {% if val_camp %}
+    <option value="{{val_camp}}" >{{ val_camp}} </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  camps %}
+    <option value="{{i.camp_duty_post}}" >{{ i.camp_duty_post}} </option>
+        {% endfor %}
+
+     </select></div>
+     <span class="error_message">{{form.val_camp.errors}}</span>
+
+
+ </fieldset>
+ <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+</button>
+</center>
+          
+ </form>
+ </div>
+
+
+
+
+
+
+
+
+<form action="" method="POST">
+<table  border="2" >
+ <tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            
+             
+            <th style="text-align:center;">{% trans "Month" %}</th>
+            <th style="text-align:center;">{% trans "Year" %}</th>
+          
+            <th style="text-align:center;">{% trans "Subject" %}</th>
+            <th style="text-align:center;">{% trans "Appeared" %}</th>  
+             <th style="text-align:center;">{% trans "Passed" %}</th>  
+              <th style="text-align:center;">{% trans "Percentage" %}</th>  
+            <th style="text-align:center;">{% trans "Exam Duty" %}</th>
+            <th style="text-align:center;">{% trans "Valuation Duty" %}</th>           
+        
+  <th >Update</th>
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <!-- <td> {{ i.count }}</td>   -->    
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none"> {{ i.teacherid.name|upper}} </td>
+        <td>{{i.month}}</td>
+
+        <td> {{ i.year }}</td>        
+
+        <td> {{ i.subject }}</td>
+         <td> {{ i.appeared }}</td>
+          <td> {{ i.passed }}</td>
+        <td> {{ i.percentage }}</td>
+        <td> {{ i.exam_duty  }}</td>        
+        <td> {{ i.val_camp }}</td>
+        
+        <td><a href="/teachers/exam_camp_duty_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>
+        
+        {% endfor %}
+        </tr>
+        
+</table>
+</form>
+</div>
+</div>
+</div>
+
+{% endblock %}

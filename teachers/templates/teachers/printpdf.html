@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Profile - School Education Deparment</title>
+</head>
+<style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+
+<body>
+<h1 align="center" style="font-size:20px;">Staff Profile</h1>
+<h2><font color='blue'>Name : {{teacher.name |upper }}</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font align='right' color='blue'>Staff-ID : {{ teacher.count}}</font></h2>
+<table width="100%"  border="1" align="center" cellpadding="5" >
+  <tr><th style="width:750px;border:0px; text-align:center; colour='blue'">Photograph</th>
+      <th style="width:1000px;border:0px; color='blue'">Basic Information</th></tr>
+      <tr>
+        <td valign="TOP">
+        <table>
+          <tr>
+            <tr> <td style="width:230px">
+            <div style="margin-left:10px">
+                {% if teacher.uploadfile %}
+                <img src="{{MEDIA_URL}}/{{teacher.uploadfile}}" width="200" height="200">
+                {%else%}
+                <img src="{{STATIC_URL}}img/student.png" width="200" height="200"/>
+                {%endif%}
+            <span ></span>
+            </div>
+        </td></tr> </table></td>
+
+                <td valign="TOP">
+        <table style="margin-left:10px;">
+        <tr> <td  > Name </td><td  > : &nbsp;&nbsp;&nbsp; {{ teacher.name|upper }} </td> </tr>
+        <!-- <tr> <td  > Name (Tamil) </td><td  > : </td> <td  >{% if teacher.name_tamil %}  {{ teacher.name_tamil }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr> -->
+        <tr><td  >ID No. </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.count }} </td> </tr>
+
+        <tr> <td  > Designation</td><td> : &nbsp;&nbsp;&nbsp;{{ teacher.stafs |upper }}   --{{ teacher.designation |upper }} </td> </tr>
+       
+        <tr> <td  > Subject</td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.subject |upper }}</td> </tr>
+        <tr> <td  > Name of School / Office </td><td> : &nbsp;&nbsp;&nbsp;{{ school.school_name |upper}} </td> </tr>
+        <tr> <td  > Native District </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.native_district |upper }} </td> </tr></td></tr>
+
+        <tr> <td  > Pension Type </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.pension_name |upper}} </td> </tr></td></tr>
+        <tr> <td  > Pension No. </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.pension_number }} </td> </tr>
+        <tr> <td  > Health Insurance No. </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.health_number %} {{ teacher.health_number |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}
+         <tr> <td  > Employment Status </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.employment_status %} {{ teacher.employment_status |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+        </table></td></tr></table>
+       
+            </br>
+<table border="1" align="center" cellpadding="5">
+  <tr><th><font color='blue' >School / Office Information</th>
+      <th><font color='blue' >Bank Details</th></tr>
+      <tr>
+        <td valign="TOP">
+        <table style="margin-left:10px">
+          
+            <tr> <td  > Name of School / Office </td><td  > : &nbsp;&nbsp;&nbsp;{{ school.school_name |upper }} </td> </tr>
+           
+         <!--    <tr> <td  > District </td><td  > : &nbsp;&nbsp;&nbsp;{{ school.district |upper}} </td> </tr>
+            <tr> <td  > Block </td><td  > : &nbsp;&nbsp;&nbsp;{{ school.block |upper }} </td> </tr> -->
+          <!--   <tr> <td  > Zone </td><td  > : &nbsp;&nbsp;&nbsp;{{school.habitation.zone.zone_type |upper}}</td> </tr>
+            <tr> <td  > Zone Name </td><td  > : &nbsp;&nbsp;&nbsp;{{school.habitation.zone.name |upper}}</td> </tr>
+            <tr> <td  > Habitation </td><td  > : &nbsp;&nbsp;&nbsp;{{school.habitation.name |upper}} </td> </tr> -->
+            {% if school.udise_code %}<tr><td> Udise code </td><td>:&nbsp;&nbsp;&nbsp;{{ school.udise_code|upper }}</td></tr>{% endif %} 
+
+{% if school.district %}<tr><td> Revenue District </td><td>:&nbsp;&nbsp;&nbsp;{{ school.district|upper }}</td></tr>{% endif %} 
+
+{% if school.block %}<tr><td> Block </td><td>:&nbsp;&nbsp;&nbsp;{{ school.block|upper }}</td></tr>{% endif %} 
+
+{% if school.edu_district %}<tr><td> Educational District </td><td>:&nbsp;&nbsp;&nbsp;{{ school.edu_district|upper }}</td></tr>{% endif %} 
+
+{% if school.local_body_type %}<tr><td> Type of Local Body Administration </td><td>:&nbsp;&nbsp;&nbsp;{{ school.local_body_type|upper }}</td></tr>{% endif %} 
+
+{% if school.village_panchayat %}<tr><td> Village Panchayat </td><td>:&nbsp;&nbsp;&nbsp;{{ school.village_panchayat|upper }}</td></tr>{% endif %} 
+
+{% if school.vill_habitation %}<tr><td>Village Habitation </td><td>:&nbsp;&nbsp;&nbsp;{{ school.vill_habitation|upper }}</td></tr>{% endif %} 
+
+{% if school.town_panchayat %}<tr><td>Town Panchayat </td><td>:&nbsp;&nbsp;&nbsp;{{ school.town_panchayat|upper }}</td></tr>{% endif %} 
+
+{% if school.town_panchayat_ward %}<tr><td>Town Panchayat Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ school.town_panchayat_ward|upper }}</td></tr>{% endif %} 
+
+{% if school.cantonment %}<tr><td>Cantonment</td><td>:&nbsp;&nbsp;&nbsp;{{ school.cantonment|upper }}</td></tr>{% endif %} 
+
+{% if school.cantonment_ward %}<tr><td>Cantonment Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ school.cantonment_ward|upper }}</td></tr>{% endif %} 
+
+{% if school.township %}<tr><td>Township</td><td>:&nbsp;&nbsp;&nbsp;{{ school.township|upper }}</td></tr>{% endif %} 
+
+{% if school.township_ward %}<tr><td>Township Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ school.township_ward|upper }}</td></tr>{% endif %} 
+
+{% if school.municipality %}<tr><td>Municipality</td><td>:&nbsp;&nbsp;&nbsp;{{ school.municipality|upper }}</td></tr>{% endif %} 
+
+{% if school.municipal_ward %}<tr><td>Municipality Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ school.municipal_ward|upper }}</td></tr>{% endif %} 
+
+{% if school.corporation %}<tr><td>Corporation</td><td>:&nbsp;&nbsp;&nbsp;{{ school.corporation|upper }}</td></tr>{% endif %} 
+       
+{% if school.corpn_zone %}<tr><td>Corporation Zone</td><td>:&nbsp;&nbsp;&nbsp;{{ school.corpn_zone|upper }}</td></tr>{% endif %} 
+
+{% if school.corpn_ward %}<tr><td>Corporatoin Ward</td><td>:&nbsp;&nbsp;&nbsp;{{ school.corpn_ward|upper }}</td></tr>{% endif %} 
+      
+{% if school.assembly %}<tr><td>Assembly Constituency</td><td>:&nbsp;&nbsp;&nbsp;{{ school.assembly|upper }}</td></tr>{% endif %} 
+
+{% if school.parliament %}<tr><td>Parliament Constituency </td><td>:&nbsp;&nbsp;&nbsp;{{ school.parliament|upper }}</td></tr>{% endif %} 
+
+{% if school.address %}<tr><td>Postal Address</td><td>:&nbsp;&nbsp;&nbsp;{{ school.address|upper }}</td></tr>{% endif %} 
+
+{% if school.pincode %}<tr><td>Pincode</td><td>:&nbsp;&nbsp;&nbsp;{{ school.pincode|upper }}</td></tr>{% endif %} 
+
+
+        
+               <tr> <td  >Type of Management  </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.management %} {{ teacher.management |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+             </table></td>
+            <td valign="TOP">
+        <table style="margin-left:10px">
+       
+         <tr> <td  > District (Bank)</td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.bank_dist %} {{ teacher.bank_dist |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+         
+        <tr> <td  > Name of the Bank </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.bank %} {{ teacher.bank |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+            <tr> <td>Saving Bank Account No. </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.bank_account_no %} {{ teacher.bank_account_no |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+            <tr> <td  > Bank IFSC Code </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.branch.ifsc_code %} {{ teacher.branch.ifsc_code |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}   </td> </tr>
+          
+            <tr> <td  > Aadhaar No. </td><td  > :&nbsp;&nbsp;&nbsp; {% if teacher.aadhaar_number %} {{ teacher.aadhaar_number |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}    </td> </tr>
+
+            <tr> <td  > PAN No. </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.pan_number %} {{ teacher.pan_number }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}    </td> </tr>
+                   
+             </td> </tr> </table></td>
+
+            </tr></table>
+
+            </br>
+
+            <table border="1"  align="center" cellpadding="5">
+  <tr><th><font color='blue' >Personal Information</th>
+      <th><font color='blue' >Additional Information</th></tr>
+      <tr>
+      <td valign="TOP">
+        <table style="margin-left:10px"><tr> <td style="border:0px;" > Gender </td><td style="border:0px;" > : &nbsp;&nbsp;&nbsp;{{ teacher.gender |upper }} </td> </tr>
+            <tr> <td  > Date of Birth </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.dob |upper}} </td> </tr>
+            <tr> <td  > Date of Retirement </td><td  > : &nbsp;&nbsp;&nbsp;{{ teacher.dor |upper }} </td> </tr>
+           
+            
+
+            <tr> <td  > Mother Tongue </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.mothertongue %} {{ teacher.mothertongue |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Religion </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.religion %} {{ teacher.religion |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Community </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.community %} {{ teacher.community  |upper}} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+        
+            <tr> <td  > Sub-Caste </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.sub_caste %} {{ teacher.sub_caste |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+           
+            <tr> <td  > Residential Address </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.pres_add_flatno %} {{ teacher.pres_add_flatno |upper }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} ,
+            {% if teacher.pres_add_street %} {{ teacher.pres_add_street |upper }}{% endif %} ,
+            {% if teacher.pres_add_area %} {{ teacher.pres_add_area |upper }}{% endif %} ,
+            {% if teacher.pres_add_city %} {{ teacher.pres_add_city |upper }}{% endif %} .
+
+  </td> </tr>
+            <tr> <td  > PIN Code </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.present_pincode %} {{ teacher.present_pincode }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Phone No. </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.phone_number %} {{ teacher.phone_number }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  >e-mail</td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.email %} {{ teacher.email }} {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Marital Status </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.marital %} {{ teacher.marital |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Name of Mother </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.mother_name %} {{ teacher.mother_name |upper}} {% else %}&nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  >  Name of the Father </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.father_name %} {{ teacher.father_name |upper}} {% else %}&nbsp;&nbsp;&nbsp;- {% endif %}  </td>
+            </tr>
+            <tr> <td  > Name of the Spouse </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.spouse_name %} {{ teacher.spouse_name |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Blood Group </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.blood_group %}  {{ teacher.blood_group |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td  > Identification Mark - 1 </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.imark1 %}  {{ teacher.imark1 |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td  > Identification Mark - 2 </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.imark2 %}  {{ teacher.imark2 |upper}}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}  </td> </tr>
+            <tr> <td  > Height </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.height %} {{ teacher.height }} cm  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Weight </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.weight %} {{ teacher.weight }} kg  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr></table></td>
+                  
+                <td valign="TOP">
+        <table style="margin-left:10px">
+
+            <tr> <td  > Date of Appointment in Government Service / Designation </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.dofags %} {{ teacher.dofags |upper }} -- {{ teacher.designation_fags |upper }}  {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+           
+
+            <tr> <td  > Date of  Appointment in School Education Department </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.dofsed %} {{ teacher.dofsed |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td style="border:0px;" > Date of Joining to Present School / Office </td><td style="border:0px;" > : &nbsp;&nbsp;&nbsp;{{ teacher.dojocs |upper }} - {{teacher.dojocs_session | upper}} </td> </tr>
+
+            <tr> <td  > Date of Regularisation  </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.doregu %} {{ teacher.doregu |upper }} / {{teacher.doregu_session}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  >Date of Probation  </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.doprob %} {{ teacher.doprob |upper }}  / {{teacher.doprob_session}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Month of Increment  </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.increment_month %} {{ teacher.increment_month |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Passport No. </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.passport_no %} {{ teacher.passport_no  |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Date of Passport Issued on</td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.passport_date_from %} {{ teacher.passport_date_from |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Date of Passport Expiry on </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.passport_date_to %} {{ teacher.passport_date_to |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Differently Abled </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.differently_abled_type %} {{ teacher.differently_abled_type |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Date of Appointment in Aided School  </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.appointed_aided_date %} {{ teacher.appointed_aided_date |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Minority Language </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.language_test %} {{ teacher.language_test |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Date of Certificate Evaluation </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.evaluation_date %} {{ teacher.evaluation_date |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Date of Unit Transfer </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.uta_date %} {{ teacher.uta_date |upper }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+
+            <tr> <td  > Typing Tamil Junior</td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.tamil_jr %}  Yes   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  >  Typing English Junior </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.eng_jr %} {{ teacher.eng_jr }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+            <tr> <td  > Typing Tamil Senior  </td><td  > : &nbsp;&nbsp;&nbsp; {% if teacher.tamil_sr %} {{ teacher.tamil_sr }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+             <tr> <td  > Typing English Senior </td><td  > : &nbsp;&nbsp;&nbsp;{% if teacher.eng_sr %} {{ teacher.eng_sr }}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %} </td> </tr>
+                     </table></td></tr></table>
+
+            <br>
+            <br>
+             <br>
+            <br>
+             <br>
+            <br>
+            
+
+            
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+    <th colspan="7" font color='blue'>DETAILS OF APPOINTMENT,PROMOTION AND PREVIOUS EMPLOYMENT</center></th>
+    </tr>
+    <tr>
+    <th style="text-align: center">S. No.</th>
+    <th style="text-align:center; ">Designation</th>
+            <th style="text-align:center;"> Name of the School </th>
+            <th style="text-align:center;"> District </th>
+            <th style="text-align:center;"> Mode of Entry </th>
+            <th style="text-align:center;"> Period From </th>
+            <th style="text-align:center;"> Period To </th>
+           
+    </tr>
+            
+    {% for i in posting_list %}
+    <tr>
+    <td align="center">{{forloop.counter}}</td> 
+   <td> {{ i.designation|upper}}</td>
+        <td> {{ i.school_name1|upper}}</td>
+        <td> {{ i.district|upper }}</td>
+        <td> {{ i.type_of_posting |upper }}</td>
+        <td> {{ i.period_from|upper }}</td>
+        <td> {{ i.period_to|upper }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF REGULARISATION</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S.No.</th>
+ 
+  <th style="text-align:center; ">Designation</th>
+  <th style="text-align:center;">Order No.</th>
+  <th style="text-align:center;">Order Date</th>
+  <th style="text-align:center;">Date of Regularisation</th>           
+  </tr>
+             
+  {% for i in regularasation_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+    <td> {{ i.designation.designation |upper }}</td>
+  <td> {{ i.order_no|upper }}</td>
+  <td> {{ i.order_date|upper }}</td>
+  <td> {{ i.date_of_regularisation|upper }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+  <br>
+  <br>
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF PROBATION</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S. No.</th>               
+     <th style="text-align:center;">Designation</th>
+  <th style="text-align:center;">Order No.</th>
+  <th style="text-align:center;">Order Date</th>
+  <th style="text-align:center;">Date of Completion of Probation</th>    
+  </tr>
+             
+  {% for i in probation_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+     <td> {{ i.designation.designation|upper  }}</td>        
+        <td> {{ i.order_no|upper }}</td>
+        <td> {{ i.order_date|upper }}</td>
+        <td> {{ i.date_of_clearance|upper }}</td>
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'>DETAILS OF RELINQUISHMENT</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S. No.</th>               
+  <th style="text-align:center">Present Designation</th>
+  <th style="text-align:center">Promoted To Post</th>
+  <th style="text-align:center"> Date of Order</th>
+  <th style="text-align:center">Order No. </th>
+  <th style="text-align:center">Crucial date for Promotion </th>
+  <th style="text-align:center">Next Promotion Eligible Date
+</th>
+  </tr>
+      {% for i in previousemp_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  <td align="center"> {{ i.current_designation.designation|upper }}</td>
+  <td align="center"> {{ i.promoted_to|upper }}</td>
+  <td align="center"> {{ i.date_of_relinqui|upper }}</td>
+  <td align="center"> {{ i.order_no|upper }}</td>
+  <td align="center"> {{ i.crucial_date_for_promotion|upper }}</td>
+  <td align="center"> {{ i.promo_next_eligible_date|upper }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="8" font color='blue'>DETAILS OF EDUCATIONAL QUALIFICATION</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center"> S. No.</th>
+   <th style="text-align:center; ">Qualification</th>
+            <th style="text-align:center;">Subject</th>
+            <th style="text-align:center;">Medium of Instruction</th>
+            <th style="text-align:center;">Month of Passing</th>
+            <th style="text-align:center;">Year of Passing</th>
+            <th style="text-align:center;">Name of the University / Board</th>
+           <th style="text-align:center;">Grade in which Passed</th>
+  </tr>
+  {% for i in edu_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+   <td> {{ i.qualification |upper}}</td>
+        <td> {{ i.subject |upper }}</td>
+      <td> {{ i.medium_of_instruction |upper }}</td>
+      <td> {{ i.month  |upper}}</td>
+        <td> {{ i.year }}</td>
+        <td> {{ i.university  |upper}}</td>
+      <td> {{ i.remarks |upper }}</td>  
+  </tr>
+  {% endfor %}
+   
+            </table>
+       
+<br>
+<br> 
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+    <th colspan="7" font color='blue'>DETAILS OF INSERVICE TRAINING ATTENDED</center></th>
+    </tr>
+    <tr>
+    <th style="text-align:center">S.No.</th>               
+            <th style="text-align:center; ">Course</th>
+            <th style="text-align:center; ">Institution</th>
+            <th style="text-align:center; ">City</th>
+            <th style="text-align:center; ">County</th>
+            <th style="text-align:center; ">Training From</th>
+            <th style="text-align:center; ">Training To</th>
+
+    </tr>
+             
+    {% for i in training_list %}
+    <tr>
+    <td align="center">{{forloop.counter}}</td> 
+     <td> {{ i.course|upper }}</td> 
+        <td> {{ i.institution|upper }}</td> 
+        <td> {{ i.city|upper }}</td> 
+        <td> {{ i.country|upper }}</td> 
+        <td> {{ i.duration_from|upper }}</td> 
+        <td> {{ i.duration_to|upper }}</td> 
+              </tr>
+              {% endfor %}
+            </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'>DETAILS OF THE DEPARTMENTAL TEST PASSED</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S.No.</th>               
+    <th style="text-align:center; ">Test</th>
+            <th style="text-align:center; ">Month of Passing</th>
+            <th style="text-align:center; ">Year of Passing</th>
+            <th style="text-align:center; ">Register No.</th>
+            <th style="text-align:center; ">Gazette No. / Bulletin No.</th>
+            <th style="text-align:center; ">Date of Issue of the Gazette</th>
+            <th style="text-align:center; ">Page No.</th>
+               
+  </tr>
+             
+  {% for i in testpass_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+        <td> {{ i.tests_passed|upper }}</td> 
+        <td> {{ i.month |upper }}</td> 
+        <td> {{ i.year }}</td> 
+        <td> {{ i.reg_no|upper }}</td> 
+        <td> {{ i.gaz_no |upper}}</td> 
+        <td> {{ i.gaz_date|upper }}</td> 
+        <td> {{ i.page_no }}</td> 
+ 
+  </tr>
+  {% endfor %}
+            </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF STAFF'S FAMILY</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S. No.</th>               
+ <th style="text-align:center; ">Name of the Family Member</th>
+            <th style="text-align:center;">Date of Birth</th>
+            <th style="text-align:center;">Relationship</th>
+            <th style="text-align:center;">Aadhaar No.</th>
+             <th style="text-align:center;">Details of Spouse (Whether Government Employee)</th>
+  </tr>
+             
+  {% for i in family_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+ <td> {{ i.name |upper }}</td> 
+        <td> {{ i.dob|upper }}</td> 
+        <td> {{ i.relation |upper}}</td>
+        <td> {{ i.aadhaar_number}}</td>
+        <td> {% if i.spou_gov == "yes" %} {{ i.district |upper}}   {% else %} &nbsp;&nbsp;&nbsp;- {% endif %}
+  </tr>
+  {% endfor %}
+  </table>
+
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF STAFF LEAVE</center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S.No.</th>
+ <th style="text-align:center; ">Type of Leave</th>
+  <th style="text-align:center; ">Leave From</th>
+  <th style="text-align:center; ">Leave To</th>
+  <th style="text-align:center; ">Sanction Order No.</th>
+  <th style="text-align:center; ">Date of Sanction Order</th>
+  </tr>
+  {% for i in leave_list %}
+  <tr>
+
+        <td> {{ i.leave_type|upper }}</td> 
+        <td> {{ i.leave_from|upper }}</td> 
+        <td> {{ i.leave_to|upper }}</td> 
+        <td> {{ i.order_no|upper }}</td> 
+        <td> {{ i.order_date|upper }}</td> 
+ 
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="6" font color='blue'>DETAILS OF LEAVE SURRENDERED</center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S. No.</th>
+   <th style="text-align:center; ">Date of Surrender</th>
+            <th style="text-align:center;">EL Current Balance Days</th>
+            <th style="text-align:center;">No. of Days to be Surrendered</th>
+            <th style="text-align:center;">Sanction Order No.</th>
+            <th style="text-align:center;">Date of Sanction Order</th> 
+  </tr>
+  {% for i in gpfloan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  
+        <td> {{ i.surrender_date|upper }}</td> 
+        <td> {{ i.current_balance_days|upper }}</td> 
+        <td> {{ i.no_of_days|upper }}</td> 
+        <td> {{ i.order_no|upper }}</td> 
+        <td> {{ i.order_date|upper }}</td> 
+
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+
+
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="5" font color='blue'>DETAILS OF FINACIAL NOMINATION</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>               
+    <th style="text-align:center; ">Name of the Fund</th>
+            <th style="text-align:center;">Name of the Family Member &&  Relationship && Age</th>
+           
+            <th style="text-align:center;">Percentage</th>
+            <th style="text-align:center;">Registration Date of Nomini</th>
+  </tr>
+             
+  {% for i in nomini_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+   <td>{{ i.fund_name|upper }}</td> 
+      {% if i.nominee_name_id == None %}
+        <td> {{ i.other_nominee |upper}}</td>
+        {% else %}
+        <td> {{ i.nominee_name.name|upper}}-{{i.nominee_name.relation|upper}}-{{i.nominee_name.dob |upper}}</td> 
+         {% endif %}
+             <td> {{ i.percentage }}</td> 
+        <td> {{ i.nom_dt |upper}}</td>     
+
+    
+   
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="9" font color='blue'>DETAILS OF LOAN</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>
+  <th style="text-align:center; ">Category</th>
+        <th style="text-align:center; ">Purpose</th>
+            <th style="text-align:center; ">Amount Sanctioned</th>
+            <th style="text-align:center; ">Total No. of Instalments</th>
+            <th style="text-align:center; ">Monthly Instalment</th>
+            <th style="text-align:center; ">Date of First Instalment</th>
+            <th style="text-align:center; ">Sanction Order No.</th>
+            <th style="text-align:center; ">Date of Sanction Order</th>
+  </tr>
+  {% for i in loan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+     <td> {{ i.loan_category |upper }}</td> 
+        <td> {{ i.loan_purpose |upper }}</td> 
+        <td> {{ i.sanctioned_amt |upper }}</td> 
+        <td> {{ i.installments |upper }}</td>
+        <td> {{ i.monthly_installment }}</td>
+        <td> {{ i.first_insta_date |upper }}</td> 
+        <td> {{ i.sanctioned_order  |upper}}</td> 
+        <td> {{ i.sanctioned_date|upper }}</td> 
+
+  </tr>
+  {% endfor %}
+   
+            </table>
+        <br>
+        <br>
+
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'>DETAILS OF STAFF GPF / TPF LOAN </center></th>
+  </tr>
+  <tr >
+  <th style="text-align: center"> S. No.</th>
+  <th style="text-align:center; ">Amount Sanctioned</th>
+            <th style="text-align:center; ">Total No. of Instalments</th>
+            <th style="text-align:center; "> Monthly Instalment</th>
+            <th style="text-align:center; ">Date of First Instalment </th>
+            <th style="text-align:center; ">Sanction Order No.</th>
+            <th style="text-align:center; ">Date of Sanction Order</th> 
+  </tr>
+  {% for i in gpfloan_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  <td> {{ i.sanctioned_amt }}</td> 
+        <td> {{ i.installments }}</td> 
+        <td> {{ i.monthly_installment }}</td> 
+        <td> {{ i.first_insta_date|upper }}</td> 
+        <td> {{ i.sanctioned_order|upper }}</td> 
+        <td> {{ i.sanctioned_date|upper }}</td> 
+  </tr>
+  {% endfor %}
+  
+  </table>
+        <br>
+        <br>
+
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="7" font color='blue'> DETAILS OF MOVABLE PROPERTY</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>               
+ <th style="text-align:center; ">Description of the Property</th>
+            <th style="text-align:center;">Total Value of Purchase</th>
+            <th style="text-align:center;">Source of Income</th>
+            <th style="text-align:center;">Date of Purchase Document</th>     
+            <th style="text-align:center;">Present Value</th>       
+           <th style="text-align:center;">Date of Intimation</th>
+  </tr>
+             
+  {% for i in movable_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+ <td> {{ i.prop_description|upper }}</td>
+        <td> {{ i.purchase_value }}</td>
+        <td> {{ i.source|upper }}</td>        
+        <td> {{ i.purchase_doc_date|upper }}</td>
+        <td> {{ i.present_value }}</td>       
+        <td> {{ i.order_date|upper }}</td>
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="10" font color='blue'>DETAILS OF IMMOVABLE PROPERTY</center></th>
+  </tr>
+  <tr >
+  <th style="text-align:center">S. No.</th>               
+    <th style="text-align:center; ">Description of the Property</th>
+            <th style="text-align:center;">Property Document No.</th>
+            <th style="text-align:center;">Date of Property Document</th> 
+            <th style="text-align:center;">Place</th>
+            <th style="text-align:center;">Source of Income</th>
+            <th style="text-align:center;">Purchase value</th>
+           <th style="text-align:center;">Present Value</th>
+           <th style="text-align:center;">Order No.</th>
+            <th style="text-align:center;">Date of Order</th>       
+  </tr>
+             
+  {% for i in immovalble_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+    <td> {{ i.prop_description|upper }}</td>
+        <td> {{ i.doc_number |upper}}</td>
+        <td> {{ i.doc_date|upper }}</td>
+        <td> {{ i.place|upper }}</td>
+        <td> {{ i.acquired_source |upper}}</td>
+        <td> {{ i.purchase_value }}</td>
+        <td> {{ i.present_value }}</td>
+        <td> {{ i.order_no |upper}}</td>
+        <td> {{ i.order_date|upper }}</td>
+    
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="9" font color='blue'>DETAILS OF LEAVE TRAVEL CONCESSION(LTC)</center></th>
+  </tr>
+  <tr>
+  <th style="text-align:center">S. No.</th>               
+  
+            <th style="text-align:center; ">Block Year</th>
+            <th style="text-align:center;">Leave From</th>
+            <th style="text-align:center;">Leave To</th>
+            <th style="text-align:center;">Destination</th>
+            <th style="text-align:center;">Type of Leave  </th>
+            <th style="text-align:center;">Amount Sanctioned</th>
+           <th style="text-align:center;">Sanction Order No.</th>
+           <th style="text-align:center;">Date of Sanction Order </th>
+               
+  </tr>
+             
+  {% for i in ltc_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  
+         <td> {{ i.block_yeear }}</td>
+        <td> {{ i.leave_from }}</td>
+        <td> {{ i.leave_to }}</td>
+        <td> {{ i.destination_type }}</td>
+        <td> {{ i.leave_type }}</td>
+        <td> {{ i.sanction_amt }}</td>
+    <td> {{ i.sanction_order |upper}}</td>
+    <td> {{ i.sanction_date }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+<br>
+<br>
+
+   
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+  <th colspan="8" font color='blue'>DETAILS OF DISPLINARY ACTION TAKEN</center></th>
+  </tr>
+  <tr>
+   <th style="text-align:center">S. No.</th>    
+  <th style="text-align:center; ">Post In Which the  Charge committed</th>
+            <th style="text-align:center;">Gist of the Charge</th>
+            <th style="text-align:center;">Order No.</th>
+            <th style="text-align:center;">Date of Memo Order </th>
+            <th style="text-align:center;">Type of the Rule</th> 
+  <th style="text-align:center">Final Order</th>
+               
+  </tr>
+             
+  {% for i in action_list %}
+  <tr>
+  <td align="center">{{forloop.counter}}</td> 
+  <td align="center"> {{ i.post_name_charge_committed.designation }}</td>
+   <td align="center"> {{ i.gist }}</td>
+  <td align="center"> {{ i.charge_memo_number }}</td>
+  <td align="center"> {{ i.charge_memo_date }}</td>
+ 
+  <td align="center"> {{ i.type_charge_memo }}</td>
+   <td align="center">
+     {% if i.a_final_status %}
+
+    {% if i.a_final_status = '1' %} Censure  {% endif %}
+    {% if i.a_final_status = '2' %}  Increment Cut Without Cummulative Effect  {% endif %}
+    {% if i.a_final_status = '3' %} Charges Dropped {% endif %}
+
+     {% else %}
+    {% if i.b_punishment_type %}
+     {{ i.b_punishment_type }}
+      {% else %}
+    {% if i.b_punishment_type_appeal %}
+     {{ i.b_punishment_type_appeal }}
+     {% endif %}
+    {% endif %}
+    {% endif %}
+</td>
+</tr>
+{% endfor %}
+  </table>
+
+<br>
+
+<table  border="2" >
+<tr>
+  <th colspan="9" font color='blue'>DETAILS OF EXAM DUTY / RESULT</center></th>
+  </tr>
+ <tr>
+            <th style="text-align:center; "> S. No. </th>
+           
+             
+            <th style="text-align:center;"> Month </th>
+            <th style="text-align:center;"> Year </th>
+          
+            <th style="text-align:center;"> Subject </th>
+            <th style="text-align:center;"> Appeared </th>  
+             <th style="text-align:center;"> Passed </th>  
+              <th style="text-align:center;"> Percentage </th>  
+            <th style="text-align:center;"> Exam Duty </th>
+            <th style="text-align:center;"> Valuation Duty </th>           
+        
+ 
+  
+  </tr>
+</tr>
+
+
+        
+{% for i in exam_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+    
+        
+        <td>{{i.month|upper}}</td>
+
+        <td> {{ i.year|upper }}</td>        
+
+        <td> {{ i.subject|upper }}</td>
+         <td> {{ i.appeared|upper }}</td>
+          <td> {{ i.passed|upper }}</td>
+        <td> {{ i.percentage }}</td>
+        <td> {{ i.exam_duty|upper  }}</td>        
+        <td> {{ i.val_camp |upper}}</td>
+        
+      
+        {% endfor %}
+        </tr>
+        
+</table>
+
+  <br>
+
+<table  border="2" >
+<tr>
+  <th colspan="5" font color='blue'>DETAILS OF AWARDS</center></th>
+  </tr>
+ <tr>
+            <th style="text-align:center; "> S. No. </th>
+      
+            <th style="text-align:center;"> Name of the Award </th>
+            <th style="text-align:center;"> National / State Level </th>
+             <th style="text-align:center;"> Year  </th>
+            <th style="text-align:center;"> Remarks </th>
+      </th> </tr></tr>        
+{% for i in award_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <td>{{i.award_name|upper}}</td>
+        <td> {{ i.level|upper }}</td>        
+        <td> {{ i.year|upper }}</td>
+        <td> {{ i.remarks|upper }}</td>
+        {% endfor %}
+        </tr>
+</table>
+  <br><br><br><br>
+
+    <p align="left">{{teacher.name}} <br>Name of the staff</p>                                       <p align="right">  {{ teacher.pay_drawing_officer }} <br>
+                                                      Pay Drawing Officer</p>
+<br>
+<br>
+
+        <div id="footerContent">
+            {%block page_foot%}
+                Page <pdf:pagenumber>
+            {%endblock%}
+        </div>
+
+</body>
+</html>

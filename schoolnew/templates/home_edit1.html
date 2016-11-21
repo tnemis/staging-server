@@ -1,0 +1,639 @@
+{% extends "baseapp/master_base_new.html"|pjax:request %}
+<!-- {% load cache %} -->
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css" />
+
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+<script type="text/javascript" src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+function formattedDate(date) {
+    // var d = new Date(basic_det.modified_date),
+    var d = new Date(date || Date.now()),
+    
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day,month, year].join('/');
+}
+
+</script>
+
+<!-- {% cache 20 sidebar %} -->
+ 
+<a  class="btn btn-large btn-success" href='/schoolnew/printpdf/{{basic_det.id}}'>Print PDF</a>
+<!-- <a  class="btn btn-large btn-success" href='/schoolnew/sch_state_rep/'>State Report</a> -->
+<a  class="btn btn-large btn-success" href='/schoolnew/sch_state_abs/'>State Abstract</a>
+
+<a  class="btn btn-large btn-success" href='/schoolnew/sch_dist_abs/{{basic_det.district_id}}'>District Abstract</a>
+
+
+<a  class="btn btn-large btn-success" href='/schoolnew/sch_block_abs/{{basic_det.block_id}}'>Block Abstract</a>
+
+<center><font size="5" color="blue">SCHOOL  PROFILE</font></center>
+
+
+
+<table class="mytable" border="3" >
+  <tbody>
+  <th><center>CATEGORY</center></th>
+  <th><center>CURRENT STATUS</center></th>
+  <th><center>LAST UPDATE ON</center></th>
+    <tr>
+      <td>Basic Information</td>
+        {% if basic_det %}
+        <td>
+        <a href="/schoolnew/basic_info_edit/">Update the Existing Entry</a>
+
+        {% else %}        
+        <a href="/schoolnew/basic_info_edit/">Make New Entries</a>
+        {% endif %}
+        </td>
+        <td>
+        {% if basic_det %} 
+        <center>{{basic_det.modified_date}}</center>
+        {% else %}  
+
+        {% endif %} 
+        </td>
+
+    </tr>
+    <tr>
+
+       <td>Administrative Information</td>
+        <td>  
+        {% if acade_det %}   
+        <a href="/schoolnew/admin_edit/">Update the Existing Entry</a>
+        {% else %}      
+        {% if basic_det.manage_cate_id %} 
+        <a href="/schoolnew/admin_entry/">Make New Entries</a>
+        {% else %}  
+         First Update Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+        <td>         
+        {% if  acade_det %} 
+        <center>{{acade_det.modified_date}}</center>
+        {% else %}  
+        <center > <font size="4" color="Red">No Entries Found</font></center> 
+
+
+   </td>
+{% endif %}   
+    </tr>
+        <tr>
+          
+      <td>Infrastructure Information</td>
+      <td>
+        {% if infra_det %}   
+        <a href="/schoolnew/infra_edit/">Update the Existing Entry</a>
+        {% else %}
+        {% if acade_det %}     
+        <a href="/schoolnew/infra_entry/">Make New Entries</a>
+        {% else %}  
+         First Make Entries in Academic Details
+        {% endif %}         
+        {% endif %}
+        </td>
+      <td>
+    {% if  infra_det %} 
+        <center>{{infra_det.modified_date}}</center>
+        {% else %}  
+        <center > <font size="4" color="Red">No Entries Found</font></center> 
+        {% endif %}
+      </td>
+
+    </tr>
+
+
+
+
+        <tr>
+
+         
+
+        <td>Class-wise No. of Sections Available in the School</td>
+        <td>  
+        {% if acade_det %}       
+            <a href="/schoolnew/class_section_edit/">Update the Existing Class Section Details</a>
+        {% else %}
+        {% if basic_det %}     
+        First Make Entries in Academic Details
+        {% else %}  
+        First Make Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td>
+      
+        <td>   
+        {% if class_det %}   
+        {% for i in class_det|slice:":1" %}
+
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center> 
+        {% endif %}        
+   </td>
+
+    </tr>
+    
+{% if grp_chk %}    
+    <tr>
+
+     
+
+        <td>Groups Functioning in the School</td>
+        <td>  
+        {% if acade_det %}   
+
+            {% if schgroup_det %}         
+            <a href="/schoolnew/group_edit/">Update the Existing Groups Details</a>   
+            {% else %}
+            <a href="/schoolnew/group_edit/">Make New Entries</a>
+            {% endif %} 
+
+        {% else %}
+        {% if basic_det %}     
+        First Make Entries in Academic Details
+        {% else %}  
+         First Make Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td>
+      
+        <td>   
+        {% if schgroup_det %}   
+        {% for i in schgroup_det|slice:":1" %}
+
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center> 
+        {% endif %}        
+   </td>
+
+    </tr>
+{% endif %}
+
+    
+{% if govaid_ent %} 
+
+        <tr>
+
+        
+
+        <td>Teaching Staff Post Sanctioned to the School</td>
+        <td>  
+        {% if acade_det %}
+            {% if teach_det %}         
+            <a href="/schoolnew/teaching_edit/">Update the Existing Teaching Staff Post Sanctioned Details</a>   
+            {% else %}
+            <a href="/schoolnew/teaching_edit/">Make New Entries</a>
+            {% endif %} 
+
+        {% else %}
+        {% if basic_det %}     
+        First Make Entries in Academic Details
+        {% else %}  
+         First Make Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td>
+      
+        <td>   
+
+
+        {% if teach_mdate %}   
+        {% for i in teach_mdate|slice:":1" %}
+
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>  
+        {% endif %} 
+
+   </td>
+
+    </tr>
+{% endif %}
+
+        </tr>
+{% if govaid_ent %} 
+        <tr>
+         
+        <!-- <td height="50">4</td> -->
+        <td>Non-Teaching Staff Post Sanctioned to the School</td>
+        <td>  
+        {% if acade_det %} 
+
+            {% if nonteach_det %}         
+            <a href="/schoolnew/nonteaching_edit/">Update the Existing Non-Teaching Staff Post Sanctioned Details</a>  
+            {% else %}
+            <a href="/schoolnew/nonteaching_edit/">Make New Entries</a>
+            {% endif %} 
+
+
+        {% else %}
+        {% if basic_det %}     
+        First Make Entries in Academic Details
+        {% else %}  
+         First Make Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+
+        {% if nonteach_det %}   
+        {% for i in nonteach_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>  
+        {% endif %} 
+
+       </td>
+       {% endif %}
+        </tr>
+
+        <tr>
+          
+
+        <td>Part Time Staff Post Sanctioned to the School</td>
+        <td>  
+        {% if acade_det %}
+
+            {% if parttime_det %}         
+            <a href="/schoolnew/parttime_edit/">Update the Existing Part-time Staff Post Sanctioned Details</a> 
+            {% else %}
+            <a href="/schoolnew/parttime_edit/">Make New Entries</a>
+            {% endif %}
+
+
+        {% else %}
+        {% if basic_det %}     
+        First Make Entries in Academic Details
+        {% else %}  
+         First Make Entries in Basic Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td> 
+        {% if parttime_det %}   
+        {% for i in parttime_det|slice:":1" %}
+
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+          <center > <font size="4" color="Red">No Entries Found</font></center>  
+
+        {% endif %}
+
+      </td>
+        </tr>
+        
+        <tr>
+                
+        <!-- <td height="50">4</td> -->
+        <td>Land Details of the the School</td>
+        <td>  
+        {% if infra_det %}   
+        
+        <a href="/schoolnew/land_edit/">Update the Land Details of the School</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+
+        {% if land_det %}   
+        {% for i in land_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>
+        {% endif %}         
+      </td>
+        </tr>
+
+        <tr>
+
+                
+        <!-- <td height="50">4</td> -->
+        <td>Building Details of the School</td>
+        <td>  
+        {% if infra_det %}   
+        <a href="/schoolnew/build_edit/">Update the Building Details of the School</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+
+        {% if building_det %}   
+        {% for i in building_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>
+        {% endif %}          
+      </td>
+        </tr>
+
+        <tr>
+                
+        <!-- <td height="50">4</td> -->
+        <td>Abstracts about Buildings of the School</td>
+        <td>  
+        {% if infra_det %}   
+        <a href="/schoolnew/buildabs_edit/">Update the Abstracts about Buildings of the School</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+        {% if buildabs_det %}   
+        {% for i in buildabs_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center> 
+        {% endif %}         
+      </td>
+        </tr>
+
+        <tr>
+                
+        <!-- <td height="50">4</td> -->
+        <td>Sports Facilities of the School</td>
+        <td>  
+        {% if infra_det %}   
+        <a href="/schoolnew/sports_edit/">Update the Sports Facilities Details</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+        {% if sports_det %}   
+        {% for i in sports_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>  
+        {% endif %}         
+      </td>
+        </tr>
+
+
+        <tr>
+                
+        <!-- <td height="50">4</td> -->
+        <td>ICT Equipments available in the School</td>
+        <td>  
+        {% if infra_det %}   
+        <a href="/schoolnew/ict_edit/">Update the ICT Equipments Details</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+
+        {% if ict_det %}   
+        {% for i in ict_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>  
+        {% endif %}         
+       </td>
+     
+        </tr>
+{% if pass_ent %}
+        <tr>
+                
+        <td>Pass Percentage of the School </td>
+        <td>  
+        {% if infra_det %}   
+        <a href="/schoolnew/pass_edit/">Make Entries for Pass Percentage</a>
+
+        {% else %}
+
+        {% if academic_det %}     
+        First Make Entries in Infra Structure Details
+        {% else %}  
+        First Make Entries in Academic & Infra Structure Details
+        {% endif %}         
+        {% endif %}
+      </td> 
+      <td>
+
+        {% if ict_det %}   
+        {% for i in ict_det|slice:":1" %}
+                <center>{{i.modified_date}}</center>
+        {% endfor %}
+        {% else %}
+        <center > <font size="4" color="Red">No Entries Found</font></center>  
+        {% endif %}         
+       </td>
+        </tr>
+{% endif %}        
+
+
+  </tbody>
+
+</table>
+
+
+<style type="text/css">
+.mytable {
+margin:0px;padding:0px;
+width:100%; box-shadow: 10px 10px 5px #888888;
+border:1px solid #000000;
+
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}.mytable table{
+width:100%;
+height:100%;
+margin:0px;padding:0px;
+}.mytable tr:last-child td:last-child {
+-moz-border-radius-bottomright:0px;
+-webkit-border-bottom-right-radius:0px;
+border-bottom-right-radius:0px;
+}
+.mytable table tr:first-child td:first-child {
+-moz-border-radius-topleft:0px;
+-webkit-border-top-left-radius:0px;
+border-top-left-radius:0px;
+}
+.mytable table tr:first-child td:last-child {
+-moz-border-radius-topright:0px;
+-webkit-border-top-right-radius:0px;
+border-top-right-radius:0px;
+}.mytable tr:last-child td:first-child{
+-moz-border-radius-bottomleft:0px;
+-webkit-border-bottom-left-radius:0px;
+border-bottom-left-radius:0px;
+}.mytable tr:hover td{
+background-color:gray;
+}
+.mytable td{
+vertical-align:middle;
+    background:-o-linear-gradient(bottom, #ffffff 5%, gray 100%);   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, white) );   background:-moz-linear-gradient( center top, #ffffff 5%, white 100% );   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="gray"); background: -o-linear-gradient(top,#ffffff,d3e9ff);
+background-color:red;
+border:1px solid #000000;
+border-width:0px 1px 1px 0px;
+text-align:left;
+padding:7px;
+font-size:18px;
+font-weight:normal;
+color:;
+}.mytable tr:last-child td{
+border-width:0px 1px 0px 0px;
+}.mytable tr td:last-child{
+border-width:0px 0px 1px 0px;
+}.mytable tr:last-child td:last-child{
+border-width:0px 0px 0px 0px;
+}
+.mytable tr:first-child td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+border:0px solid #000000;
+text-align:center;
+border-width:0px 0px 1px 1px;
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+}
+.mytable tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #0057af 5%, #007fff 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #007fff) );    background:-moz-linear-gradient( center top, #0057af 5%, #007fff 100% );    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0057af", endColorstr="#007fff");  background: -o-linear-gradient(top,#0057af,007fff);
+background-color:red;
+}
+.mytable tr:first-child td:first-child{
+border-width:0px 0px 1px 0px;
+}
+.mytable tr:first-child td:last-child{
+border-width:0px 0px 1px 1px;
+}
+
+
+
+.s_button {
+    display: block;
+    height: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 30px;
+    width: 100px;
+    margin: 20px;
+
+    color: #FFF;
+    text-align: center;
+    border: solid #427AA8 1px;
+    
+    text-decoration: none;
+    border-radius: 5px;
+    /* Gradient */
+    background: #0088cc;    
+    
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 rgba(255,255,255, 0.3), inset 0 1px 0 rgba(255,255,255, 0.3);
+}
+
+.s_button:hover {
+    background: #59A3E0;
+    text-decoration: none;
+    filter: none;
+}​
+
+
+</style>
+<style type="text/css">
+.button {
+    background: #25A6E1;
+    background: -moz-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#25A6E1),color-stop(100%,#188BC0));
+    background: -webkit-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -o-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: -ms-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    background: linear-gradient(top,#25A6E1 0%,#188BC0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+    padding:8px 13px;
+    color:#fff;
+    font-family:'Helvetica Neue',sans-serif;
+    font-size:17px;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:1px solid #1A87B9
+}       
+
+</style>
+
+
+
+
+<script type="text/javascript">
+window.stop();
+</script>
+<!-- {% endcache %} -->
+
+{% endblock %}
+
+

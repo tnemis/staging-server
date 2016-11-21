@@ -1,0 +1,355 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+
+
+{% block extrahead %} 
+
+  
+ 
+  
+{% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+Tipped.create('#surrender_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after : " + app_date;
+     });
+      Tipped.create('#order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after : " + app_date;
+     });
+
+});
+
+</script>
+
+<style type="text/css">
+
+.my-error-class {
+
+   color:red;
+
+}
+
+.my-valid-class {
+
+   color:green;
+
+}
+
+}
+</style>
+
+
+<script type="text/javascript">
+
+       $.validator.setDefaults( {
+
+           submitHandler: function () {
+
+               form3.submit();
+
+           }
+
+       } );
+
+       $( document ).ready( function () {
+
+           $( "#form3" ).validate( {
+
+               errorClass: "my-error-class",
+
+               validClass: "my-valid-class",
+
+               rules: {
+
+                   surrender_date: {
+
+                       required:true
+
+                   },
+
+                   current_balance_days: {
+
+                       required:false
+
+                   },
+
+                   no_of_days: {
+
+                       required:true
+                   },
+
+                   order_no: {
+
+                       required:true
+                   },
+
+                   order_date: {
+
+                       required:true
+                   }
+
+               },
+
+               messages: {
+
+                   surrender_date: {
+
+                       required: "Enter Date of EL Surrender"
+
+                   },
+
+                   current_balance_days: {
+
+                       required: "EL Current Balance"
+                   },
+
+                   no_of_days: {
+
+                       required: "Enter the No. of Days to be Surrendered"
+                   },
+
+                   order_no: {
+
+                       required: "Enter the Order Number"
+                   },
+
+                   order_date: {
+
+                       required: "Enter the Date of Order"
+                   }
+
+               },
+
+               errorElement: "em",
+
+               errorPlacement: function ( error, element ) {
+
+                   // Add the `help-block` class to the error element
+
+                   error.addClass( "help-block" );
+
+                   if ( element.prop( "type" ) === "checkbox" ) {
+
+                       error.insertAfter( element.parent( "label" ) );
+
+                   } else {
+
+                       error.insertAfter( element );
+
+                   }
+
+               },
+
+               highlight: function ( element, errorClass, validClass ) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+
+               },
+
+               unhighlight: function (element, errorClass, validClass) {
+
+                   $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+
+               }
+
+           } );
+
+      } );
+
+   </script>
+
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+
+<script type="text/javascript">
+function AfterDate(val) 
+{     
+    var regis_date = document.getElementById('surrender_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Date"); 
+        surrender_date.style.backgroundColor = "MistyRose";
+        surrender_date.focus();
+        return false; 
+      }  
+    } }
+</script>
+
+
+<script type="text/javascript">
+function AfterDate1(val) 
+{     
+    var regis_date = document.getElementById('order_date').value;  
+    var regis_validity = document.getElementById('dategovt').value;
+    var today = new Date(); 
+     if(regis_date != "") 
+    {  
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=regis_date.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record2 = new Date(regis_validity);
+        var sum2=record2.getMonth()+1+'/'+record2.getDate()+'/'+record2.getFullYear();
+        var sum3=today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
+        var record5 = new Date(sum1);
+        var record4 = new Date(regis_validity); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();        
+        var date2_ms = record4.getTime();        
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date3_ms - date2_ms)-1;
+        var difference_ms2 = (date3_ms - date1_ms)-1;
+        var govt=Math.ceil(difference_ms1/ONE_DAY);
+        var enterdate=Math.ceil(difference_ms2/ONE_DAY);
+       
+
+        if(govt < enterdate || enterdate <= 0  ) 
+        {
+        alert("Check the Date"); 
+        order_date.style.backgroundColor = "MistyRose";
+        order_date.focus();
+        return false; 
+      }  
+    } }
+</script>
+  
+  
+  <div class="content">
+  <form id="form3" action='#' method='post' enctype="multipart/form-data" name="frm">
+  
+  <center><b><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;"> DETAILS OF LEAVE SURRENDERED </h6></b></center> 
+  <center><h3>(Additional rows can be created after saving each detail)</h3></center> <p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p>
+<fieldset>
+{% csrf_token %}
+
+ <h1><font color='white'> Staff-ID :{{ unique_id.count}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{unique_id.name |upper }}</font></h1>
+<br>
+
+<input type="hidden" name="unique_id" id="unique_id" value="{{ tid }}">
+<input type="hidden" name="unique_name" id="unique_name" value="{{ unique_id.name }}">
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ validated }}">
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Surrender" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="surrender_date" name="surrender_date"  value="{{form.surrender_date.value|date:"d/m/Y" }}" onblur="AfterDate(new Date(this.value))"  maxlength="10"/></div>
+<span class="error_message">{{form.surrender_date.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "No. of EL Days in Credit" %}</b>
+{% if  el_bal %}
+<input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="current_balance_days" name="current_balance_days"  value="{{ el_bal }}" onclick="select()" placeholder="NONE" maxlength="50" readonly />
+{% else %}
+<input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="current_balance_days" name="current_balance_days"  value="{{form.current_balance_days.value}}" onclick="select()" placeholder="NONE" maxlength="2" />
+{% endif %}
+</div>
+<span class="error_message">{{form.current_balance_days.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "No. of Days to be Surrended" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="no_of_days" name="no_of_days"  value="{{form.no_of_days.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.no_of_days.errors}}</span>
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Sanction Order Number" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="order_no" name="order_no"  value="{{form.order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.order_no.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Sanction Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control" class="mandatory" id="order_date" name="order_date"  value="{{form.order_date.value|date:"d/m/Y" }}" onblur="AfterDate1(new Date(this.value))"  maxlength="10"/></div>
+<span class="error_message">{{form.order_date.errors}}</span>
+
+<button class='btn btn-large btn-success' type='submit'>
+      {% trans "Submit" %}
+      </button>
+      </fieldset>
+</center>
+          
+ </form>
+</div>
+
+<form action="" method="POST">
+
+<table  border="2" > 
+
+<tr> 
+            <th style="text-align:center; ">{% trans "S. No." %}</th> 
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th> 
+            <th style="text-align:center; ">{% trans "Date of Surrender" %}</th>
+            <th style="text-align:center;">{% trans "EL Current Balance Days" %}</th>
+            <th style="text-align:center;">{% trans "No. of Days to be Surrendered" %}</th>
+            <th style="text-align:center;">{% trans "Sanction Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Sanction Order" %}</th> 
+  
+ <!--  <th >Update</th> -->
+  
+  </tr> 
+</tr> 
+ 
+        
+{% for i in edu_list %} 
+        <tr> 
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ unique_id.name|upper}} </td> 
+
+        <td> {{ i.surrender_date }}</td> 
+        <td> {{ i.current_balance_days }}</td> 
+        <td> {{ i.no_of_days }}</td> 
+        <td> {{ i.order_no }}</td> 
+        <td> {{ i.order_date }}</td> 
+
+
+       <!--  <td><a href="/teachers/teacher_leave_surrender_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>  -->
+       {% endfor %} 
+       </tr> 
+        
+</table> 
+</form>
+
+
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+ 
+
+
+ 

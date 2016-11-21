@@ -1,0 +1,1469 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css" />
+<script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
+
+<script src="/site_media/static/js/jquery-1.9.1.min.js"></script>
+<script src="/site_media/static/js/jquery.cookie-1.3.1.js"></script>
+<script src="/site_media/static/js/stepExample.js"></script>
+<link href="/site_media/static/css/tipped.css" rel="stylesheet" type="text/css" />
+<script src="/site_media/static/js/modernizr-2.6.2.min.js"></script>
+
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<script>
+    $.validator.addMethod('notNone', function(value, element) {
+        return (value != 'none' && value != "Please select");
+    }, 'Please select an option.');
+
+    $(function ()
+    {
+        $("#lefthand-nav").affix({
+            offset: {
+                top: function ()
+                {
+                    return $("#topbar").outerHeight() + $("#banner").outerHeight();
+                }
+            }
+        });
+
+        function errorPlacement(error, element)
+        {
+            element.after(error);
+
+        }
+
+
+        $("#form").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex)
+            {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex)
+                {
+                    return true;
+                }
+
+                // Forbid next action on "Warning" step if the user is to young
+                // if (newIndex === 3 && Number($("#age-2").val()) < 18)
+                // {
+                //     return false;
+                // }
+
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex)
+                {
+                    // To remove error styles
+                    $("#form .body:eq(" + newIndex + ") label.error").remove();
+                    $("#form .body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+
+                $("#form").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form").valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex)
+            {
+                // Used to skip the "Warning" step if the user is old enough.
+                // if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
+                // {
+                //     $("#form").steps("next");
+                // }
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                // if (currentIndex === 2 && priorIndex === 3)
+                // {
+                //     $("#form").steps("previous");
+                // }
+            },
+            onFinishing: function (event, currentIndex)
+            {
+                $("#form").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form").valid();
+            },
+            onFinished: function (event, currentIndex)
+            {
+                var form = $(this);
+                form.submit();
+            }
+        }).validate({
+                    errorPlacement: errorPlacement,
+                    rules: {
+
+                        hostel_staff:{
+                            digits:true,
+                            min:1,
+                        },
+                        hostel_rooms:{
+                            digits:true,
+                            min:1,
+                        },
+                        hostel_floor:{
+                            digits:true,
+                            min:1,
+                        },
+                        hostel_boys:{
+                            digits:true,
+                        },
+                        hostel_girls:{
+                            digits:true,
+                        }
+
+                    }
+                });
+
+
+    });
+
+</script>
+
+<script type="text/javascript">
+   $(function() {
+       $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+       $("[data-mask]").inputmask();
+   });
+</script>
+
+<script type="text/javascript">
+  
+    function hostel_chk() 
+        { 
+            var hos_opt= $("#res_school_div option:selected").text()
+
+            if(hos_opt == 'Yes') 
+            {
+                document.getElementById('id_hostel').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('id_hostel').style.display = "none";
+            }
+        }
+        
+
+</script>
+
+ 
+<script type="text/javascript">
+ function tem_recog1()
+        { 
+            var chk_sb = document.getElementById("id_board")
+            
+            if(chk_sb.value == 'State Board')
+            {          
+              var gov_stat=document.getElementById('gov_chk').value
+
+              if (gov_stat != 'Yes')
+              {    
+
+                var recog_stat = $("#id_recog_typ option:selected").text()
+                  if(recog_stat == 'Temporary')
+                  {
+                    document.getElementById('recog_fm').style.display = "";
+                    document.getElementById('recog_to').style.display = "";                
+                  } 
+                  else 
+                  {
+                    document.getElementById('recog_fm').style.display = "none";
+                    document.getElementById('recog_to').style.display = "none";
+
+                  }
+              }
+            }     
+        }
+
+ function tem_recog2()
+        { 
+            var chk_sb = document.getElementById("id_board")
+            
+            if(chk_sb.value == 'State Board')
+            {          
+              var gov_stat=document.getElementById('gov_chk').value
+
+              if (gov_stat != 'Yes')
+              {    
+                var recog_stat = $("#hssrecog_typ_div option:selected").text()
+                  if(recog_stat == 'Temporary')
+                  {
+                    document.getElementById('hssrecog_fm').style.display = "";
+                    document.getElementById('hssrecog_to').style.display = "";                
+                  } 
+                  else 
+                  {
+                    document.getElementById('hssrecog_fm').style.display = "none";
+                    document.getElementById('hssrecog_to').style.display = "none";
+
+                  }
+              }
+            }     
+        }  
+function tem_recog3()
+        { 
+            var chk_sb = document.getElementById("id_board")
+            
+            if(chk_sb.value != 'State Board')
+            {          
+              var gov_stat=document.getElementById('gov_chk').value
+
+              if (gov_stat != 'Yes')
+              {    
+                var recog_stat = $("#obhssid_recog_typ option:selected").text()
+                  if(recog_stat == 'Temporary')
+                  {
+                    document.getElementById('obhssrecog_fm').style.display = "";
+                    document.getElementById('obhssrecog_to').style.display = "";                
+                  } 
+                  else 
+                  {
+                    document.getElementById('obhssrecog_fm').style.display = "none";
+                    document.getElementById('obhssrecog_to').style.display = "none";
+
+                  }
+              }
+            }     
+        }                 
+</script>
+
+<script type="text/javascript">
+
+    function minostate() 
+        { 
+            var result= $("#id_minority option:selected").text()
+            if(result == 'Yes') 
+            {
+                document.getElementById('minority_div1').style.display = "";
+                document.getElementById('minority_div2').style.display = "";
+                document.getElementById('minority_div3').style.display = "";
+                document.getElementById('minority_div4').style.display = "";
+
+
+            } 
+
+            else {   
+
+                document.getElementById('minority_div1').style.display = "none";
+                document.getElementById('minority_div2').style.display = "none";
+                document.getElementById('minority_div3').style.display = "none";
+                document.getElementById('minority_div4').style.display = "none";
+                var min1 = document.getElementById("id_Ord_No");
+                var min2 = document.getElementById("min_dt_iss");
+                var min3 = document.getElementById("id_iss_auth");
+                min1.value = ''
+                min2.value = ''
+                min3.value = ''
+
+            }
+        }
+
+    </script>
+
+
+ <script type="text/javascript">
+ 
+
+    function splsch() 
+        { 
+
+            var min_sch_opt= $("#id_spl_school option:selected").text()
+            if(min_sch_opt == 'Yes') 
+            {
+                document.getElementById('spl_sch_div').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('spl_sch_div').style.display = "none";
+            }
+        }
+
+
+
+
+        function cwsn() 
+        { 
+            var cwsn_opt= $("#id_cwsn_toilet option:selected").text()
+            if(cwsn_opt == 'Yes') 
+            {
+                document.getElementById('cwsn_no').style.display = "";
+            } 
+            else 
+            {   
+                document.getElementById('cwsn_no').style.display = "none";
+            }
+        }
+
+        
+
+        function cwsn() 
+        { 
+            var cwsn_opt= $("#id_cwsn_toilet option:selected").text()
+
+            if(cwsn_opt == 'Yes') 
+            {
+                document.getElementById('cwsn_no').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('cwsn_no').style.display = "none";
+            }
+        }
+
+   
+   
+
+        
+    function obhssdiv()
+        { 
+            var chk_sb = document.getElementById("id_board")
+            
+            if(chk_sb.value != 'State Board')
+            {
+
+            var ob_hss = $("#hssboard option:selected").text()
+            if(ob_hss == 'State Board') 
+            {
+                document.getElementById('obhssrecog_ordno_div').style.display = "";
+                document.getElementById('obhssrecog_typ_div').style.display = "";  
+                // document.getElementById('obhssrecog_fm').style.display = "";
+                // document.getElementById('obhssrecog_to').style.display = "";
+                document.getElementById('hssdge_12div').style.display = "";;
+
+            } 
+
+            else {
+                document.getElementById('obhssrecog_ordno_div').style.display = "none";
+                document.getElementById('obhssrecog_typ_div').style.display = "none";  
+                // document.getElementById('obhssrecog_fm').style.display = "none";
+                // document.getElementById('obhssrecog_to').style.display = "none"; 
+                document.getElementById('hssdge_12div').style.display = "none"; 
+                var obtemrecogfm = document.getElementById("hssrecog_dt_fm");
+                var obtemrecogto = document.getElementById("hssrecog_dt_to");
+                obtemrecogfm.value = ''
+                obtemrecogto.value = ''
+            }
+          }
+ 
+        }        
+</script>
+
+<script type="text/javascript">
+function get_othermed(chk_box) 
+        { 
+        if (chk_box.value== 'Yes'){
+           document.getElementById('oth_med_div').style.display = "";
+            }
+        else
+            {
+            document.getElementById('oth_med_div').style.display = "none";
+            }
+        med_coun();
+        }
+</script>
+
+
+<script type="text/javascript">
+  function med_coun() {
+  var tamil_m=document.getElementById("tamil_med");
+  var eng_m=document.getElementById("eng_med");
+  var tel_m=document.getElementById("tel_med");
+  var kan_m=document.getElementById("kan_med");  
+  var mal_m=document.getElementById("mal_med");
+  var urdu_m=document.getElementById("urdu_med");
+  var oth_m=document.getElementById("oth_med");
+    
+
+  if(tamil_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = Math.round(1);
+
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = 0;
+  }
+
+
+  if(eng_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+  if(tel_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+    if(kan_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+    if(mal_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+    if(urdu_m.value == 'True')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+    if(oth_m.value == 'Yes')
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 1);
+  }
+  else
+  {
+    var tot_med1 = document.getElementById("noof_med");
+    var tot_med=parseInt(document.getElementById("noof_med").value);
+    tot_med1.value = (tot_med + 0);
+  }
+   } 
+</script>
+
+
+
+
+<script type="text/javascript">
+     
+
+
+$(document).ready(function(){
+    hostel_chk();      
+   });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    minostate(); 
+    
+   });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  tem_recog1();
+  tem_recog2();
+  tem_recog3();
+
+   });
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  
+  var chk_med=document.getElementById("oth_med");
+  if(oth_med == 'True')
+  {
+    get_othermed('Yes');
+  }
+  else if(oth_med == 'False')
+  {
+    get_othermed('No');
+  }
+  else
+  {
+    get_othermed('No');
+  }
+  
+   });
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var datefm1=document.getElementById('recog_dtfm').value
+    var dateto1=document.getElementById('recog_dtto').value      
+    document.getElementById("recog_dt_fm").defaultValue = datefm1;  
+    document.getElementById("recog_dt_to").defaultValue = dateto1;   
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    splsch();
+
+   });
+</script>
+
+<script type="text/javascript">
+function date_future_chk(inpid)
+{
+   var go_date = document.getElementById(inpid).value;
+   var today = new Date(); 
+      
+
+   if(go_date != "" )
+   {
+      
+       var record_day1=go_date.split("/");  
+       var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+       var go_dt=new Date(sum1);    
+  
+      
+       
+       if(go_dt > today)
+       {
+           alert("Pl. Enter correct G.O. date, future date can not be entered ");
+           document.getElementById(inpid).focus();
+           document.getElementById(inpid).value="";
+           inpid.style.backgroundColor = "MistyRose";
+           
+       }
+        else
+       {document.getElementById(inpid).style.background = 'none';}
+   }
+   return false; 
+}
+</script>
+
+
+<script type="text/javascript">
+function chk_fmto_Date() 
+{    
+
+    var dt1 = document.getElementById('recog_dt_fm').value;  
+    var dt2 = document.getElementById('recog_dt_to').value;
+    var today = new Date(); 
+   if(dt1 != "") 
+   {  
+
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=dt1.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=dt2.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+(record_day3[0]);
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();
+        var date2_ms = record4.getTime();
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date2_ms - date1_ms)-1;
+        var difference_ms2 = (date3_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        if (Math.floor((future+1)/365)>0)
+        {
+
+        }
+        else if (Math.floor((future+1)/365)<0)
+        {
+            alert('Please Enter Correct Dates in From & To places');
+            document.getElementById('recog_dt_fm').focus();
+            document.getElementById('recog_dt_fm').value="";
+            document.getElementById('recog_dt_to').value="";
+        }
+
+
+    }   
+}
+</script>
+
+
+<script type="text/javascript">
+function chk_fmto_Date1() 
+{    
+
+    var dt1 = document.getElementById('hssrecog_dt_fm').value;  
+    var dt2 = document.getElementById('hssrecog_dt_to').value;
+    var today = new Date(); 
+   if(dt1 != "") 
+   {  
+
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+        var record_day2=dt1.split("/");  
+        var sum1=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var record_day3=dt2.split("/");  
+        var sum2=record_day3[2]+'/'+record_day3[1]+'/'+(record_day3[0]);
+        var record5 = new Date(sum1);
+        var record4 = new Date(sum2); 
+        var record3 = new Date(today);
+        var date1_ms = record5.getTime();
+        var date2_ms = record4.getTime();
+        var date3_ms=record3.getTime();        
+        var difference_ms1 = (date2_ms - date1_ms)-1;
+        var difference_ms2 = (date3_ms - date2_ms)-1;
+        var future=Math.ceil(difference_ms1/ONE_DAY);
+        if (Math.floor((future+1)/365)>0)
+        {
+
+        }
+        else if (Math.floor((future+1)/365)<0)
+        {
+            alert('Please Enter Correct Dates in From & To places');
+            document.getElementById('hssrecog_dt_fm').focus();
+            document.getElementById('hssrecog_dt_fm').value="";
+            document.getElementById('hssrecog_dt_to').value="";
+        }
+
+
+    }   
+}
+</script>
+
+<form id="form" method='post' enctype="multipart/form-data" name="form">
+
+
+<h3>ADMINISTRATIVE INFORMATION</h3>
+<fieldset>
+        {% csrf_token %}
+
+<input type="hidden" name="gov_chk" id="gov_chk" value="{{gov_chk}}">
+<div class="form-group"> <b>{% trans "School ID:" %}</b><input id="school_key" name="school_key" type="number" class="form-control" value= "{{new_sch_id}}" readonly="readonly" /></div><span class="error_message">{{form.school_key.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Type of the School:" %}</b><select id="schooltype" name="schooltype" class="form-control mandatory" >
+        {% if schooltype %}
+        <option value="{{schooltype}}" selected="selected">{{schooltype}}</option>
+        {% endif %}
+        <option value="">Select</option><option>Co-Ed</option><option>Boys</option><option>Girls</option></select></div><span class="error_message">{{form.schooltype.errors}}</span>
+
+<div class="form-group"><u><b>{% trans "Standards:" %}</b></u></div>
+
+<div class="form-group"> <b>{% trans "Lowest Standard:" %}</b><input id="id_low_class" name='low_class' class="form-control mandatory" onchange="incin()" onblur="incin()" value= "{{low_class}}" readonly="readonly" /></div><span class="error_message">{{form.low_class.errors}}</span>
+<div class="form-group"> <b>{% trans "Highest Standard: " %}</b><input id="id_high_class" name='high_class' class="form-control mandatory" value= "{{high_class}}" readonly="readonly" /></div><span class="error_message">{{form.high_class.errors}}</span>
+        
+
+ {% if gov_chk == 'Yes' %}
+        
+        <div class="form-group"> <b>{% trans " Is  SMC / SMDC  Functioning in the School:" %}</b><select id="id_smc" name='smc_smdc' class="form-control mandatory">
+                {% if smc_smdc == "Yes" %}
+                <option value="Yes" selected="selected">Yes</option> 
+                {% endif %} 
+                {% if smc_smdc == "No" %}      
+                 <option value="No" selected="selected">No</option>   
+                {% endif %} 
+                <option value="">Select</option>                
+                <option>Yes</option>
+                <option>No</option>
+                </select></div><span class="error_message">{{form.smc_smdc.errors}}</span>
+           
+
+ {% endif %} 
+ 
+<div class="form-group"> <b>{% trans "Board of Education followed by the School: " %}</b><input id="id_board" name="board" type="text" class="form-control" value="{{board}}" readonly="readonly" /></div> <span class="error_message">{{form.board.errors}}</span>
+
+
+         <div class="table-responsive"> <b>{% trans "Medium of instruction Available in the School:" %}</b>
+        </div>
+
+    <div class="table-responsive">   
+
+      <table id='table_comp' border="1">
+         <tr>
+         <td rowspan="2"> <div class="form-group"> {% trans "Medium of Instruction:" %}</div></td>
+        <td> <div class="form-group"><b><center>{% trans "Tamil" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "English" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "Telugu" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "Kannadam" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "Malayalam" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "Urdu" %}</center></b></div></td>
+        <td> <div class="form-group"><b><center>{% trans "Others" %}</center></b></div></td>
+        </tr>
+         <tr>
+         <td>
+          <div>
+          <!-- onchange="med_coun();" onblur="med_coun(frm.tamil_med.value);" -->
+        <select id="tamil_med" class="form-control mandatory" name='tamil_med' onchange="med_coun();" >
+
+                {% if tamil_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if tamil_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.tamil_med.errors}}</span></td>
+
+         
+         <td>
+          <div>
+        <select id="eng_med" class="form-control mandatory" name='eng_med'  onchange="med_coun();" >
+                {% if eng_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if eng_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.eng_med.errors}}</span></td>
+     
+        
+         <td>
+          <div>
+        <select id="tel_med" class="form-control mandatory" name='tel_med' onchange="med_coun();" >
+                {% if tel_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if tel_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.tel_med.errors}}</span>
+       </td>
+       <td> 
+
+          <div>
+        <select id="kan_med" class="form-control mandatory" name='kan_med' onchange="med_coun();" >
+                {% if kan_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if kan_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.kan_med.errors}}</span></td>
+               <td>
+
+          <div>
+        <select id="mal_med" class="form-control mandatory" name='mal_med' onchange="med_coun();" >
+                {% if mal_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if mal_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.mal_med.errors}}</span>   </td>
+       <td> 
+
+          <div>
+        <select id="urdu_med" class="form-control mandatory" name='urdu_med' onchange="med_coun();" >
+                {% if urdu_med == True %}
+                <option value = True selected="selected">Exist</option>
+                <option value = False >Not Exist</option> 
+                {% else %}             
+                {% if urdu_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Exist</option>
+                <option value = False >Not Exist</option>
+                {% else %}
+                <option value = False selected="selected">Not Exist</option>
+                <option value = True >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.urdu_med.errors}}</span>   </td>
+       <td> 
+
+
+          <div>
+        <select id="oth_med" class="form-control mandatory" name='oth_med' onchange="get_othermed(this);">
+                {% if oth_med == True %}
+                <option value = 'Yes' selected="selected">Exist</option>
+                <option value = 'No' >Not Exist</option> 
+                {% else %}             
+                {% if oth_med == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = 'Yes' >Exist</option>
+                <option value = 'No' >Not Exist</option>
+                {% else %}
+                <option value = 'No' selected="selected">Not Exist</option>
+                <option value = 'Yes' >Exist</option>
+                {% endif %}  
+                {% endif %} 
+       </select></div><span class="error_message">{{form.oth_med.errors}}</span></td>
+              </tr>   
+       </table>
+   </div>    
+
+<div class="form-group" id="oth_med_div" style="visibility:hide" > <b>{% trans "Enter the Medium of Instruction: " %}</b><input id="other_med" name="other_med" type="text" class="form-control mandatory" value="{{other_med}}" maxlength="50" style="text-transform:uppercase"/></div> <span class="error_message">{{form.other_med.errors}}</span>
+
+
+<div class="form-group" class="form-group"> <b>{% trans "Total No. of Mediums are available  in the School: " %}</b><input readonly="readonly" id="noof_med" name="noof_med" type="number" class="form-control mandatory" value="{{noof_med}}"  min='1'/></div> <span class="error_message">{{form.noof_med.errors}}</span>
+
+
+<div  class="form-group"> <b>{% trans "Minority school:" %}</b><select id="id_minority" name="minority" class="form-control mandatory" onchange="minostate()" onblur="minostate()" onfocus="minostate()">
+
+        {% if minority == True %}
+        <option value=True selected="selected">Yes</option> 
+        <option value=False >No</option>   
+        {% else %}
+        {% if minority == null %}
+        <option value="" selected="selected">Select</option><option value=True>Yes</option><option value=False>No</option> 
+        {% else %}
+        <option value=False selected="selected">No</option>
+        <option value=True >Yes</option> 
+        {% endif %}
+        {% endif %}  
+        option>             
+        </select></div><span class="error_message">{{form.minority.errors}}</span>
+
+<div  class="form-group" style="visibility:hide" id="minority_div1" name="minority_div1"><strong style="color:red;">*</strong> <b>{% trans "Type of Minority:" %}</b><select id="id_mino_type" name="mino_type" class="form-control mandatory">
+        {% if rel_minority == True %}
+        <option value="Religious Minority" selected="selected">Religious Minority</option>
+        {% else %}
+        {% if ling_minority == True %}
+        <option value="Linguistic Minority" selected="selected">Linguistic Minority</option>
+        {% else %}
+
+        <option value="" selected="selected">Select</option><option value='Religious Minority'>Religious Minority</option><option value='Linguistic Minority'>Linguistic Minority</option>
+        {% endif %}
+
+        {% endif %}        
+         
+        </select> </div> <span class="error_message">{{form.mino_type.errors}}</span>
+
+<div class="form-group" style="visibility:hide" id="minority_div2" name="minority_div2"><strong style="color:red;">*</strong> <b>{% trans "Order No. of Minority Status:" %}</b><input id="id_Ord_No" name="min_ord_no" value="{{min_ord_no}}" class="form-control mandatory" type="text" maxlength="50" style="text-transform:uppercase"></div><span class="error_message">{{form.min_ord_no.errors}}</span>
+
+
+
+<div class="form-group" style="visibility:hide" id="minority_div3" > <b><strong style="color:red;">*</strong>{% trans "Minority Order date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="min_dt_iss" name="min_dt_iss"  value="{{form.min_dt_iss.value|date:"d/m/Y" }}"  onblur="date_future_chk('min_dt_iss')" maxlength="10"/></div>
+<span class="error_message">{{form.min_dt_iss.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id="minority_div4" name="minority_div4"> <b>{% trans "Minority Status declared by which Authority:" %}</b><input id="id_iss_auth" name="iss_auth" value="{{iss_auth}}" class="form-control mandatory" type="text" maxlength="50" style="text-transform:uppercase"></div><span class="error_message">{{form.iss_auth.errors}}</span>
+
+
+
+
+        </fieldset>
+
+
+<h3>ADMINISTRATIVE INFORMATION </h3>
+<fieldset>
+
+ {% if gov_chk == 'Yes' %}
+ <br>
+        <div class="form-group" id="est_year_div" name="est_year_div"><b>{% trans "G.O. No. & Date by which the School was Sanctioned (Upto X Standard):" %}</b><input id="id_start_order" name="start_order" value="{{start_order}}" class="form-control" type="text"  maxlength="200" style="text-transform:uppercase"></div><span class="error_message">{{form.start_order.errors}}</span> 
+
+        <div class="form-group" id="est_year_div" name="est_year_div"><b>{% trans "Year of School Started:" %}</b><input id="start_yr" name="start_yr" value="{{start_yr}}" class="form-control" type="text"  maxlength="10" style="text-transform:uppercase"></div><span class="error_message">{{form.start_yr.errors}}</span>         
+
+{% if high_class = 'XII Std' %}
+        <div class="form-group" id="est_year_div" name="est_year_div"><b>{% trans "G.O. No. & Date by which the School was sanctioned Higher Secondary Sections (+1,+2):" %}</b><input id="hssstart_order" name="hssstart_order" value="{{hssstart_order}}" class="form-control" type="text" maxlength="200" style="text-transform:uppercase"></div><span class="error_message">{{form.hssstart_order.errors}}</span>
+
+        <div class="form-group" id="est_year_div" name="est_year_div"><b>{% trans "Year of Higher Secondary Sections Started:(+1,+2):" %}</b><input id="hssstart_yr" name="hssstart_yr" value="{{hssstart_yr}}" class="form-control" type="text" maxlength="10" style="text-transform:uppercase"></div><span class="error_message">{{form.hssstart_yr.errors}}</span>          
+
+ {% endif %}
+
+{% else %} 
+<br>
+        <div class="form-group" id="est_year_div" style="visibility:hide" name="est_year_div"><b>{% trans "Order No. & Date by which the school was started initially :" %}</b><input id="id_start_order" name="start_order" value="{{start_order}}" class="form-control mandatory" type="text"></div><span class="error_message" maxlength="200" style="text-transform:uppercase">{{form.start_order.errors}}</span> 
+
+{% if high_class = 'XII Std' %}
+
+        <div class="form-group" id="est_year_div" style="visibility:hide" name="est_year_div"><b>{% trans "Permission details by which the school was permitted to Higher Secondary Sections (+1,+2):" %}</b><input id="id_hssstart_order" name="hssstart_order" value="{{hssstart_order}}" class="form-control mandatory" type="text" maxlength="200" style="text-transform:uppercase"></div><span class="error_message">{{form.start_order.errors}}</span> 
+{% endif %}     
+
+{% endif %}  
+
+{% if board = 'State Board' %}
+ 
+    {% if gov_chk == 'Yes' %}
+      <div class="form-group" style="visibility:hide" id='dt_none1'> 
+      <input type="hidden" name="recog_dt_fm" id="recog_dtfm" value="{{ recog_dtfm }}">
+      <input type="hidden" name="recog_dt_to" id="recog_dtto" value="{{ recog_dtto }}">
+      </div>
+    {% else %} 
+
+        <div class="form-group" style="visibility:hide" id="recog_ordno_div" name="recog_typ_div"> <b>{% trans "Recognition order No. & Date for Upto X Std (Max 200 Characters):" %}</b><input id="id_recog_ord" name="recog_ord" value="{{recog_ord}}" class="form-control mandatory" maxlength="200" type="text"></div><span class="error_message">{{form.recog_ord.errors}}</span> 
+
+ 
+        <div class="form-group" style="visibility:hide" id="recog_typ_div" name="recog_typ_div"> <b>{% trans "Type of Recognition Accorded to the School by the Govt. (Upto X Std):" %}</b><select id="id_recog_typ" name='recog_typ' onchange="tem_recog1();" class="form-control mandatory" onblur="tem_recog1();" class="form-control">
+                {% if recog_typ == 'Permanent' %}
+                <option value='{{recog_typ}}' selected="selected">{{recog_typ}}</option>
+                {% endif %}
+                {% if recog_typ == 'Temporary' %}
+                <option value='{{recog_typ}}' selected="selected">{{recog_typ}}</option>
+                {% endif %}                
+        <option value="">Select</option><option>Permanent</option><option>Temporary</option></select>
+        </div><span class="error_message">{{form.recog_typ.errors}}</span> <br>
+
+
+<div class="form-group" style="visibility:hide" id='recog_fm'> <b><strong style="color:red;">*</strong>{% trans "Temporary Recognition Accorded by Govt. (Upto X Std): From Date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="recog_dt_fm" name="recog_dt_fm"  value="{{form.recog_dt_fm.value|date:"d/m/Y" }}"  onblur="date_future_chk('recog_dt_fm')" maxlength="10"/></div>
+<span class="error_message">{{form.recog_dt_fm.errors}}</span>
+
+
+<div class="form-group" style="visibility:hide" id='recog_to'> <b><strong style="color:red;">*</strong>{% trans "Recognition - to Date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="recog_dt_to" name="recog_dt_to"  value="{{form.recog_dt_to.value|date:"d/m/Y" }}"  onblur="chk_fmto_Date()" maxlength="10"/></div>
+<span class="error_message">{{form.recog_dt_to.errors}}</span>
+
+<!-- 
+      <div class="form-group" style="visibility:hide" id='recog_to'> <b>{% trans "Recognition - to Date:" %}</b>
+           <div class="input-group">
+             <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+         </div>
+        <input class="form-control"   name="recog_dt_to" id="recog_dt_to" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.recog_dt_to.value|date:"d/m/Y"  }}" >
+      
+          </div></div>
+          <span class="error_message">{{form.recog_dt_to.errors}}</span> -->
+
+<!--       <div class="form-group" style="visibility:hide" id='dt_none2'> 
+      <input type="hidden" name="recog_dt_fm" id="recog_dtfm" value="{{ recog_dtfm }}">
+      <input type="hidden" name="recog_dt_to" id="recog_dtto" value="{{ recog_dtto }}">
+      </div> -->
+
+
+{% if high_class = 'XII Std' %}
+
+   <div class="form-group" style="visibility:hide" id="hssrecog_ordno_div" name="recog_typ_div"> <b>{% trans "Higher Secondary-Recognition order No. & Date (Max 200 Characters):" %}</b><input id="hssid_recog_ord" name="hssrecog_ord" maxlength="200" value="{{form.recog_ord.value}}" class="form-control mandatory" type="text"></div><span class="error_message">{{form.hssrecog_ord.errors}}</span> 
+
+ 
+    <div class="form-group" style="visibility:hide" id="hssrecog_typ_div" name="hssrecog_typ_div"> <b>{% trans "Higher Secondary-Type of Recognition Accorded to this School by the Govt. (For XI & XII Stds):" %}</b><select id="hssid_recog_typ" name='hssrecog_typ' onchange="tem_recog2();" onblur="tem_recog2();" class="form-control">
+                {% if hssrecog_typ == 'Permanent' %}
+                <option value="{{hssrecog_typ}}" selected="selected">{{hssrecog_typ}}</option>
+                {% endif %}
+                {% if hssrecog_typ == 'Temporary' %}
+                <option value="{{hssrecog_typ}}" selected="selected">{{hssrecog_typ}}</option>
+                {% endif %}
+
+         <option value="">Select</option><option>Permanent</option><option>Temporary</option></select>
+        </div><span class="error_message">{{form.hssrecog_typ.errors}}</span> <br>
+
+
+  <div class="form-group" style="visibility:hide" id='hssrecog_fm'> <b><strong style="color:red;">*</strong>{% trans "Temporary Recognition Accorded by Govt.(For XI & XII Stds)  From date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="hssrecog_dt_fm" name="hssrecog_dt_fm"  value="{{form.hssrecog_dt_fm.value|date:"d/m/Y" }}"  onblur="date_future_chk('hssrecog_dt_fm')" maxlength="10"/></div>
+      <span class="error_message">{{form.hssrecog_dt_fm.errors}}</span>
+
+  <div class="form-group" style="visibility:hide" id='hssrecog_to'> <b><strong style="color:red;">*</strong>{% trans "Recognition - To Date:" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="hssrecog_dt_to" name="hssrecog_dt_to"  value="{{form.hssrecog_dt_to.value|date:"d/m/Y" }}"  onblur="chk_fmto_Date1()" maxlength="10"/></div>
+      <span class="error_message">{{form.hssrecog_dt_to.errors}}</span>
+
+<!-- <div class="form-group" style="visibility:hide" id='hssrecog_to'> <b>{% trans "Recognition - to Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="hssrecog_dt_to" id="hssrecog_dt_to" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.hssrecog_dt_to.value|date:"d/m/Y"  }}" >
+      
+    </div></div>
+    <span class="error_message">{{form.hssrecog_dt_to.errors}}</span> -->
+
+
+<div class="form-group"   id="dge_10div" > <b>{% trans "School Code No. for DGE X Std Examinations:" %}</b><input id="dge_no_ten" name="dge_no_ten" type="text" value= "{{dge_no_ten}}" class="form-control mandatory" /></div><span class="error_message">{{form.dge_no_ten.errors}}</span>
+
+<div class="form-group" id="dge_12div" > <b>{% trans "School Code No. for DGE XII Std Examinations:" %}</b><input id="dge_no_twelve" name="dge_no_twelve" type="text" value= "{{dge_no_twelve}}" class="form-control mandatory" /></div><span class="error_message">{{form.dge_no_twelve.errors}}</span>  
+
+{% endif %}
+
+
+{% if high_class = 'X Std' %}
+
+<div class="form-group"   id="dge_10div" > <b>{% trans "School Code No. for DGE X Std Examinations:" %}</b><input id="dge_no_ten" name="dge_no_ten" type="text" value= "{{dge_no_ten}}" class="form-control mandatory" /></div><span class="error_message">{{form.dge_no_ten.errors}}</span>
+
+{% endif %}
+
+{% endif %}
+
+{% else %}
+
+      <div class="form-group" id='dt_none3'> 
+      <input type="hidden" name="recog_dt_fm" id="recog_dtfm" value="{{ recog_dtfm }}">
+      <input type="hidden" name="recog_dt_to" id="recog_dtto" value="{{ recog_dtto }}">
+      </div>
+
+<div class="form-group"   id="other_board_aff" name="other_board_aff"> <b>{% trans "Details of Affiliation to Other Board (NOC No. & Date- Max 200 Characters):" %}</b><input id="other_board_aff" maxlength="200"
+ name="other_board_aff" type="text" value= "{{other_board_aff}}" class="form-control mandatory" /></div><span class="error_message">{{form.other_board_aff.errors}}</span>  
+
+
+{% if high_class = 'XII Std' %}
+    <div class="form-group" > <b>{% trans "Details of Board followed in Higher Secondary Sections (XI & XII):" %}</b><select id="hssboard" name="hssboard" onchange="obhssdiv();" onblur="obhssdiv();" class="form-control mandatory" >
+                {% if hssboard %}
+                 {% else %}
+                <option value="" selected="selected">Select</option>
+                <option value="State Board">State Board</option>
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IB/IGCSE/CAMBRIDGE">IB/IGCSE/CAMBRIDGE</option>
+                <option value="NIOS">NIOS</option>                                              
+                {% endif %}
+                {% if hssboard = 'State Board'%}
+                <option value="State Board" selected="selected">State Board</option>
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IB/IGCSE/CAMBRIDGE">IB/IGCSE/CAMBRIDGE</option>
+                <option value="NIOS">NIOS</option>                                                
+                {% endif %}
+                {% if hssboard = 'CBSE'%}
+                <option value="CBSE" selected="selected">CBSE</option>
+                <option value="State Board">State Board</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IB/IGCSE/CAMBRIDGE">IB/IGCSE/CAMBRIDGE</option>
+                <option value="NIOS">NIOS</option>                                                
+                {% endif %}
+                {% if hssboard = 'ICSE'%}
+                <option value="ICSE" selected="selected">ICSE</option>
+                <option value="CBSE">CBSE</option>
+                <option value="State Board">State Board</option>
+                <option value="IB/IGCSE/CAMBRIDGE">IB/IGCSE/CAMBRIDGE</option>
+                <option value="NIOS">NIOS</option>                                                
+                {% endif %}
+                {% if hssboard = 'IB/IGCSE/CAMBRIDGE'%}
+                <option value="IB/IGCSE/CAMBRIDGE" selected="selected">IB/IGCSE/CAMBRIDGE</option>
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="State Board">State Board</option>
+                <option value="NIOS">NIOS</option>                                                
+                {% endif %}
+                {% if hssboard = 'NIOS'%}
+                <option value="NIOS" selected="selected">NIOS</option>
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IB/IGCSE/CAMBRIDGE">IB/IGCSE/CAMBRIDGE</option>
+                <option value="State Board">State Board</option>                       
+                {% endif %}                                                                
+                </select></div><span class="error_message">{{form.hssboard.errors}}</span>
+
+   <div class="form-group" style="visibility:hide" id="obhssrecog_ordno_div" name="recog_typ_div"> <b>{% trans "Hr. Sec. Sections Recognition order No. & Date (Max 200 Characters):" %}</b><input id="hssid_recog_ord" maxlength="200" name="hssrecog_ord" value="{{hssrecog_ord}}" class="form-control mandatory" type="text"></div><span class="error_message">{{form.hssrecog_ord.errors}}</span> 
+
+ 
+    <div class="form-group" style="visibility:hide" id="obhssrecog_typ_div" name="hssrecog_typ_div"> <b>{% trans "Hr. Sec. Sections Type of Recognition Accorded to this School by the Govt.:" %}</b><select id="obhssid_recog_typ" name='hssrecog_typ' onchange="tem_recog3();" onblur="tem_recog3();" class="form-control mandatory">
+                {% if hssrecog_typ == 'Permanent' %}
+                <option value = Permanent selected="selected">Permanent</option>
+                {% endif %}
+                {% if hssrecog_typ == 'Temporary' %}
+                <option value = Temporary selected="selected">Temporary</option>
+                {% endif %}
+                <option value="">Select</option><option>Temporary</option><option>Permanent</option></select>
+                </div><span class="error_message">{{form.hssrecog_typ.errors}}</span> <br>
+
+
+<div class="form-group" style="visibility:hide" id='obhssrecog_fm'> <b><strong style="color:red;">*</strong>{% trans "Hr. Sec. Sections Temporary Recognition Accorded by Govt:. for the Period From (date):" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="hssrecog_dt_fm" name="hssrecog_dt_fm"  value="{{form.hssrecog_dt_fm.value|date:"d/m/Y" }}"  onblur="date_future_chk('hssrecog_dt_fm')" maxlength="10"/></div>
+      <span class="error_message">{{form.hssrecog_dt_fm.errors}}</span>
+
+
+
+<div class="form-group" style="visibility:hide" id='obhssrecog_to'> <b><strong style="color:red;">*</strong>{% trans "Hr. Sec. Sections Temporary Recognition Accorded by Govt:. for the Period to (date):" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'"  class="form-control mandatory " id="hssrecog_dt_to" name="hssrecog_dt_to"  value="{{form.hssrecog_dt_to.value|date:"d/m/Y" }}"  onblur="chk_fmto_Date1()" maxlength="10"/></div>
+      <span class="error_message">{{form.hssrecog_dt_to.errors}}</span>
+
+<!-- 
+<div class="form-group" style="visibility:hide" id='obhssrecog_to'> <b>{% trans "Hr. Sec. Sections Recognition - to Date:" %}</b>
+     <div class="input-group">
+       <div class="input-group-addon">
+           <i class="fa fa-calendar"></i>
+       </div>
+<input class="form-control"   name="hssrecog_dt_to" id="hssrecog_dt_to" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.hssrecog_dt_to.value|date:"d/m/Y"  }}" onblur="date_future_chk3(hssrecog_dt_to)" >
+   </div></div>
+    <span class="error_message">{{form.hssrecog_dt_to.errors}}</span> -->
+
+  
+<div class="form-group" style="visibility:hide" id="hssdge_12div" > <b>{% trans "School Code No. for DGE XII Std Examinations:" %}</b><input id="dge_no_twelve" name="dge_no_twelve" type="text" value= "{{dge_no_twelve}}" class="form-control mandatory" /></div><span class="error_message">{{form.dge_no_twelve.errors}}</span>  
+
+                
+{% endif %} 
+{% endif %}   
+
+<div class="form-group" > <b>{% trans "Details of upgradation of School: (Short Details with Order No. & Date - max 200 Characters):"  %}</b><input id="upgr_det" maxlength="200" style="text-transform:uppercase" name="upgr_det" value="{{upgr_det}}" class="form-control" type="text"></div><span class="error_message">{{form.upgr_det.errors}}</span> 
+
+<br>
+ 
+
+</fieldset>
+
+<h3>ADMINISTRATIVE INFORMATION</h3>
+<fieldset>
+{{spl_school}}
+       <div class="form-group" id="spl_school_div" name="spl_school_div"><strong style="color:red;">*</strong> <b>{% trans "Is this a Special School for CWSN:" %}</b><select id="id_spl_school" name='spl_school' class="form-control mandatory" onchange="splsch()" onblur="splsch()">
+                {% if spl_school == True %}
+                <option value= True selected="selected">Yes</option>
+                <option value= False>No</option>
+                {% else %}             
+                {% if spl_school == null %}
+                <option value="" selected="selected">Select</option><option value= True>Yes</option><option value= False>No</option>
+                {% else %}
+                <option value= False selected="selected">No</option>
+                <option value= True >Yes</option>
+                {% endif %}
+                {% endif %}  
+        </select></div><span class="error_message">{{form.spl_school.errors}}</span>
+
+        <div id="spl_sch_div" style="visibility:hide" class="form-group"> <b>{% trans "Type of Special School: " %}</b><select id="id_spl_type" name='spl_type' class="form-control mandatory">
+                {% if spl_type %}
+                <option value="{{spl_type}}" selected="selected">{{spl_type}}</option>
+                {% endif %}
+        <option value="">Select</option><option>Visually Challenged</option><option>Hearing & Speech Impaired</option><option> Intellectual Development Disorder (IDD)</option><option>Orthopedically Challenged</option><option>Multiple Disorder</option></select></div><span class="error_message">{{form.spl_type.errors}}</span>
+
+        <div class="form-group" id="res_school_div" name="res_school_div"><strong style="color:red;">*</strong> <b>{% trans "Is this School Residential/Boarding School:" %}</b><select id="id_res_school" name='boarding' class="form-control mandatory" onchange="hostel_chk()" onblur="hostel_chk()">
+
+                {% if boarding == True %}
+                <option value= True selected="selected">Yes</option>
+                <option value= False>No</option>
+                {% else %}             
+                {% if boarding == null %}
+                <option value="" selected="selected">Select</option><option value= True>Yes</option><option value= False>No</option>
+                {% else %}
+                <option value= False selected="selected">No</option>
+                <option value= True >Yes</option>
+                 {% endif %}
+                 {% endif %}
+                </select></div><span class="error_message">{{form.boarding.errors}}</span>
+
+        <div id="id_hostel" class="form-group" style="visibility:hide" class="form-group">
+            <label>Hostel Facilities::</label><br>
+              <table border="1" id="dataTable7">
+                <tr>
+                    <th><center>No. of Floors</center></th>
+                    <th><center>No. of Rooms</center></th>
+                    <th><center>No. of Boys in the Hostel</center></th>
+                    <th><center>No. of Girls in the Hostel</center></th>
+                    <th><center>No. of Staff / Warden</center></th>
+                </tr>
+                <tr>
+                    <td><input id="id_hostel_floor" name="hostel_floor" value="{{hostel_floor}}" type="number" min="0"  class="form-control mandatory"/></td>
+                    <td><input id="id_hostel_rooms" name="hostel_rooms" value="{{hostel_rooms}}" type="number" min="0" class="form-control mandatory"/></td>
+                    <td><input id="id_hostel_boys" name="hostel_boys" value="{{hostel_boys}}" type="number" min="0" class="form-control mandatory"/></td>
+                    <td><input id="id_hostel_girls" name="hostel_girls"  value="{{hostel_girls}}" type="number" min="0" class="form-control mandatory"/></td>
+                    <td><input id="id_hostel_staff" name="hostel_staff" value="{{hostel_staff}}" type="number" min="0" class="form-control mandatory"/></td>
+                </tr>
+            </table>
+        </div>
+        
+
+{% if govaid_chk %}
+{% if high_class = 'VIII Std' %}
+        <div class="form-group"><strong style="color:red;">*</strong> <b>{% trans "Whether the Non-residential Special Traning Centre is functioning in the School:" %}</b><select id="nrstc" name='nrstc' class="form-control mandatory">
+                {% if nrstc == True %}
+                <option value= True selected="selected">Yes</option>
+                <option value= False>No</option>
+                {% else %}             
+                {% if nrstc == null %}
+                <option value="" selected="selected">Select</option><option value= True >Yes</option><option value= False>No</option>
+                {% else %}
+                <option value= False selected="selected">No</option>
+                <option value= True >Yes</option>
+                {% endif %}
+                {% endif %}
+                </select></div>
+{% endif %}
+{% endif %}
+
+ <div class="form-group"><strong style="color:red;">*</strong><b>{% trans "Class wise No. of Sections & Students Details:" %}</b></div>
+
+     <br>    
+            <div id="class_sec" class="form-group"> 
+
+
+
+                <table border=1 id="dataTableclass" class="table">
+                    <tr>
+                        <th><center>Sl. No.</center></th>
+                        <th><center>Standard</center></th>
+                        <th><center>No. of Sections</center></th>
+                        {% if aid_chk%}
+                        <th><center>No. of Sections Aided by Government</center></th>
+                        {% endif %} 
+                        <th><center>No. of Students</center></th>               
+                    </tr>
+
+
+                    {% for j in class_det %} 
+                    <tr>
+                        <td><center>{{forloop.counter}}</center></td>
+                    <td>
+                    <center>{{j.class_id}}</center>
+                        </td>
+     
+                        <td ><center>{{j.sections}}</center></td>   
+                        {% if aid_chk%}        
+                        <td ><center>{{j.no_sec_aided}}</center></td>   
+                        {% endif %}            
+                        <td ><center>{{j.no_stud}}</center></td>                          
+                    </tr>
+                    {% endfor %}
+            
+                </table>
+       <center>(Note: If you want to Edit Class wise No. of Sections & Students Details, please select appropriate Update link in Index Page)</center>                
+            </div>
+</fieldset>
+
+<h3>ADMINISTRATIVE INFORMATION </h3>
+<fieldset>
+
+<br>        
+
+
+<label><u>{% trans "Extra Curricular Activities: " %}</u></label>
+<br><br><br>
+        <div class="form-group"> <b>{% trans "Scout and Guides:" %}</b><select id="id_extra_scout" class="form-control mandatory" name="extra_scout" >
+            {% if extra_scout %}
+                <option value="{{extra_scout}}" selected="selected">{{extra_scout}}</option>
+            {% endif %} 
+        <option value="">Select</option><option>Established and Functioning</option><option>Not established</option></select></div><span class="error_message">{{form.extra_scout.errors}}</span>
+   
+<br><br>
+
+        <div class="form-group"> <b>{% trans "Junior Red Cross (JRC): " %}</b><select id="id_extra_jrc" class="form-control mandatory" name="extra_jrc" >
+            {% if extra_jrc %}
+                <option value="{{extra_jrc}}" selected="selected">{{extra_jrc}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_jrc.errors}}</span>
+<br><br>
+
+{% if high_class == 'XII Std' %}
+
+        <div class="form-group"> <b>{% trans "National Service Scheme (NSS): " %}</b><select id="id_extra_nss" class="form-control mandatory" name="extra_nss" >
+            {% if extra_nss %}
+                <option value="{{extra_nss}}" selected="selected">{{extra_nss}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_nss.errors}}</span>
+<br><br>
+{% endif %}
+
+{% if high_class != 'V Std' %}
+
+        <div class="form-group"> <b>{% trans "National Cadet Corps (NCC): " %}</b><select id="id_extra_ncc" class="form-control mandatory" name="extra_ncc" >
+            {% if extra_ncc %}
+                <option value="{{extra_ncc}}" selected="selected">{{extra_ncc}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_ncc.errors}}</span>
+<br><br>
+{% endif %}
+        <div class="form-group"> <b>{% trans "Red Ribbon Club: " %}</b><select id="id_extra_rrc" class="form-control mandatory" name="extra_rrc" >
+            {% if extra_rrc %}
+                <option value="{{extra_rrc}}" selected="selected">{{extra_rrc}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_rrc.errors}}</span>
+<br><br>
+
+        <div class="form-group"> <b>{% trans "Eco Club: " %}</b><select id="id_extra_ec" class="form-control mandatory" name="extra_ec" >
+            {% if extra_ec %}
+                <option value="{{extra_ec}}" selected="selected">{{extra_ec}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_ec.errors}}</span>
+<br>   <br>     
+
+        <div class="form-group"> <b>{% trans "CUBs : " %}</b><select id="id_extra_cub" class="form-control mandatory" name="extra_cub" >
+            {% if extra_cub %}
+                <option value="{{extra_cub}}" selected="selected">{{extra_cub}}</option>
+            {% endif %}
+        <option value="">Select</option><option>Established</option><option>Not established</option></select></div><span class="error_message">{{form.extra_cub.errors}}</span>
+<br>
+
+</fieldset>
+
+{% if grp_chk %}
+<h3>ADMINISTRATIVE INFORMATION</h3>
+<fieldset>
+        <div class="form-group"><strong style="color:red;">*</strong><b>{% trans "Groups Available in the School:" %}</b></div>
+
+            <div id="groups" class="form-group"> 
+
+                <table border=1 id="dataTablegroups">
+                    <tr>
+                        <th><center>Sl.No.</center></th>
+                        <th><center>Group Name</center></th>
+                        <th><center>No. of Sections in the Group</center></th>
+                        {% if aid_chk%}
+                        <th><center>No. of Sections Aided by Government in the Group</center></th>
+                        {% endif %} 
+
+                    </tr>
+
+                    {% for fm in group_det%} 
+                    <tr>
+
+                        <td><center>{{forloop.counter}}</center></td>
+                        <td >{{fm.group_name}}</td>
+                        <td >{{fm.sec_in_group }}</td>
+                        {% if aid_chk%}
+                        <td >{{fm.sec_in_group_aid}}</td>
+                        {% endif %} 
+                    </tr>
+
+                    {% endfor %}
+                </table>
+            </div><br>
+{% endif %}            
+<br>
+</fieldset>
+
+{% if govaid_chk %}
+<h3>ADMINISTRATIVE INFORMATION</h3>
+<fieldset>
+        <div class="form-group"> <b>{% trans "Scale Register:" %}</b></div>
+
+        <div >
+            <div id="staff_teaching" class="form-group">
+                <u>Teaching Staff:</u><br>
+
+                <table border=1 id="dataTable1">
+                    <tr>
+                        <th style="text-align:center;">Sl. No.</th>
+                        <th style="text-align:center;">Name of the Sanctioned Post</th>
+                        <th style="text-align:center;">Subject</th>
+                        <th style="text-align:center;">Mode of Sanctioned</th>
+                        <th style="text-align:center;">Number of post Sanctioned</th>
+                        <th style="text-align:center;">G.O. / Continuance order No. (Incase of temporary)</th>
+                        <th style="text-align:center;">Date</th>
+                        <th style="text-align:center;">Period For Continuance Given</th>
+                        <th style="text-align:center;">Number of post Filled</th>
+                        <th style="text-align:center;">Number of post Vacant</th>
+                    </tr>
+
+                    {% for tp in teach_det %} 
+                    <tr>
+
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td >{{tp.post_name}}</td>                  
+                        <td >{{tp.post_sub}}</td>
+                        <td >{{tp.post_mode}}</td>
+                        <td style="text-align:center;">{{tp.post_sanc}}</td>
+                        <td >{{tp.post_GO}}</td>
+                        <td >{{tp.post_GO_dt}}</td>
+                        <td style="text-align:center;">{{tp.post_GO_pd}}</td>
+                        <td style="text-align:center;">{{tp.post_filled}}</td>
+                        <td style="text-align:center;">{{tp.post_vac}}</td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div> 
+
+            </div>
+       <center>(Note: If you want to Edit Scale Register for Teaching Post, please select appropriate Update link in Index Page)</center>
+        </fieldset>
+
+
+<h3>ADMINISTRATIVE INFORMATION </h3>
+<fieldset>
+<br>
+            <div>
+            <div id="staff_nonteaching" class="form-group">
+                <u>Non-Teaching Staff :</u><br>
+
+                <table border=1 id="dataTable2">
+                    <tr>
+                        <th style="text-align:center;" >Sl. No.</th>
+                        <th style="text-align:center;">Name of the Sanctioned Post</th>
+                        <th style="text-align:center;">Mode of Sanctioned</th>
+                        <th style="text-align:center;">Number of post Sanctioned</th>
+                        <th style="text-align:center;">G.O. / Continuance order No.(Incase of temporary)</th>
+                        <th style="text-align:center;">Date</th>
+                        <th style="text-align:center;">Period For Continuance Given</th>
+                    </tr>
+                    {% for ntp in nonteach_det %} 
+                    <tr>
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td >{{ntp.post_name}}</td>
+                        <td >{{ntp.post_mode}}</td>
+                        <td style="text-align:center;">{{ntp.post_sanc}}</td>
+                        <td >{{ntp.post_GO}}</td>
+                        <td  >{{ntp.post_GO_dt}}</td>
+                        <td style="text-align:center;">{{ntp.post_GO_pd}}</td>
+                       
+                    </tr>           
+                    {% endfor %}
+                </table>
+            </div><br>
+
+            <div id="parttime" class="form-group">
+                <u>Part-Time Instructors:</u><br>
+                <table border=1 id="dataTable3">
+                    <tr> <th><center>Sl. No.</center></th> <th><center>Name</center></th> <th><center>Subject Handling</center></th> </tr>
+                    {% for pt in ptime_det %} 
+                    <tr>
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td>{{pt.part_instr}}</td>
+                        <td>{{pt.part_instr_sub}}</td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+<br>
+        </div>
+       <center>(Note: If you want to Edit Scale Register for Non-Teaching Post or Part-time Instructors Details, please select appropriate Update link in Index Page)</center>
+
+
+
+
+    </fieldset> 
+        {% endif %}
+</form>
+
+
+{% endblock %}
+
+
+
+

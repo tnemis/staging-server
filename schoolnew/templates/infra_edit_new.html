@@ -1,0 +1,1737 @@
+{% extends "baseapp/master_base_new.html"|pjax:request%}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+{% load static %} 
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css"/>
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+
+<link href="/site_media/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css"/>
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css"/>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script src="/site_media/static/js/modernizr-2.6.2.min.js"></script>
+<script src="/site_media/static/js/jquery.cookie-1.3.1.js"></script>
+<script src="/site_media/static/js/jquery.steps.js"></script>
+<script src="/site_media/static/js/stepExample.js"></script> 
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<script>
+    $.validator.addMethod('notNone', function(value, element) {
+        return (value != 'none' && value != "Please select");
+    }, 'Please select an option.');
+
+    $(function ()
+    {
+        $("#lefthand-nav").affix({
+            offset: {
+                top: function ()
+                {
+                    return $("#topbar").outerHeight() + $("#banner").outerHeight();
+                }
+            }
+        });
+
+        prettyPrint();
+
+        function errorPlacement(error, element)
+        {
+            element.before(error);
+
+        }
+
+
+        $("#form_infra").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex)
+            {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex)
+                {
+                    return true;
+                }
+
+                // Forbid next action on "Warning" step if the user is to young
+                // if (newIndex === 3 && Number($("#age-2").val()) < 18)
+                // {
+                //     return false;
+                // }
+
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex)
+                {
+                    // To remove error styles
+                    $("#form_infra .body:eq(" + newIndex + ") label.error").remove();
+                    $("#form_infra .body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+
+                $("#form_infra").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form_infra").valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex)
+            {
+                // Used to skip the "Warning" step if the user is old enough.
+                // if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
+                // {
+                //     $("#form_infra").steps("next");
+                // }
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                // if (currentIndex === 2 && priorIndex === 3)
+                // {
+                //     $("#form_infra").steps("previous");
+                // }
+
+
+            },
+            onFinishing: function (event, currentIndex)
+            {
+                $("#form_infra").validate().settings.ignore = ":disabled,:hidden";
+                return $("#form_infra").valid();
+            },
+            onFinished: function (event, currentIndex)
+            {
+                var form = $(this);
+                form.submit();
+            }
+        })
+
+        .validate({
+                    errorPlacement: errorPlacement,
+                    rules: {
+                        fireext_w:{
+                            digits:true,
+                        },
+                        fireext_no:{
+                            digits:true,
+                            min:0,
+                        }
+                    }
+
+                });
+
+
+    });
+</script>
+
+
+<script language="javascript">
+
+    function opnarea()
+    {
+              var val1 = parseInt(document.getElementById("opn_area").value);
+              var ansD1 = document.getElementById("id_opn_ft");
+              var ansD2 = document.getElementById("id_opn_mt");
+              var des=document.getElementById("opn_area_opt");
+
+              var autotot=document.getElementById("tot_area");
+              var autototft=document.getElementById("id_tot_ft");
+              var autototmt=document.getElementById("id_tot_mt");
+
+              var autocvd=parseInt(document.getElementById("cov_area").value);
+              var autocvdft=parseInt(document.getElementById("id_cvd_ft").value);
+              var autocvdmt=parseInt(document.getElementById("id_cvd_mt").value);
+
+              var autoplay=parseInt(document.getElementById("play_area").value);
+              var autoplft=parseInt(document.getElementById("id_play_ft").value);
+              var autoplmt=parseInt(document.getElementById("id_play_mt").value); 
+
+              if (des.value=='Sq_Feet'){
+                ansD1.value = Math.round(val1)
+                ansD2.value = Math.round(((val1*0.09290304)))
+                autototft.value = autocvdft+autoplft+val1;
+                autototmt.value = Math.round((val1*0.09290304)+autocvdmt+autoplmt)                 
+                } else if(des.value=='Sq_Meter'){
+                ansD1.value = Math.round((val1/0.09290304))
+                ansD2.value = Math.round(val1)
+                autototft.value = Math.round((autocvdft+autoplft+(val1/0.09290304)));
+                autototmt.value = val1+autocvdmt+autoplmt
+                }
+                autotot.value = autocvd+val1+autoplay;
+
+
+              
+    }
+     function cvdarea()
+    {
+              var val1 = parseInt(document.getElementById("cov_area").value);
+              var ansD1 = document.getElementById("id_cvd_ft");
+              var ansD2 = document.getElementById("id_cvd_mt");
+              var des=document.getElementById("cov_type");
+
+              var autotot=document.getElementById("tot_area");
+              var autototft=document.getElementById("id_tot_ft");
+              var autototmt=document.getElementById("id_tot_mt");
+
+              var autoopn=parseInt(document.getElementById("opn_area").value);
+              var autoopnft=parseInt(document.getElementById("id_opn_ft").value);
+              var autoopnmt=parseInt(document.getElementById("id_opn_mt").value);
+
+
+              var autoplay=parseInt(document.getElementById("play_area").value);
+              var autoplft=parseInt(document.getElementById("id_play_ft").value);
+              var autoplmt=parseInt(document.getElementById("id_play_mt").value); 
+
+              if (des.value=='Sq_Feet'){
+                ansD1.value = Math.round(val1)
+                ansD2.value = Math.round((val1*0.09290304))
+                autototft.value = autoopnft+autoplft+val1; 
+                autototmt.value = Math.round((val1*0.09290304)+autoplmt+autoopnmt)              
+                } else if(des.value=='Sq_Meter'){
+                ansD1.value = Math.round((val1/0.09290304))
+                ansD2.value = Math.round(val1)
+                autototft.value = Math.round((autoopnft+autoplft+(val1/0.09290304)));
+                autototmt.value = val1+autoplmt+autoopnmt
+
+                }
+                autotot.value = autoopn+val1+autoplay;
+
+ 
+    }
+        function playarea()
+    {
+              var val1 = parseInt(document.getElementById("play_area").value);
+              var ansD1 = document.getElementById("id_play_ft");
+              var ansD2 = document.getElementById("id_play_mt");
+              var des=document.getElementById("play_area_opt");
+
+              var autotot=document.getElementById("tot_area");
+              var autototft=document.getElementById("id_tot_ft");
+              var autototmt=document.getElementById("id_tot_mt");
+
+              var autoopn=parseInt(document.getElementById("opn_area").value);
+              var autoopnft=parseInt(document.getElementById("id_opn_ft").value);
+              var autoopnmt=parseInt(document.getElementById("id_opn_mt").value);
+
+              var autocvd=parseInt(document.getElementById("cov_area").value);
+              var autocvdft=parseInt(document.getElementById("id_cvd_ft").value);
+              var autocvdmt=parseInt(document.getElementById("id_cvd_mt").value);
+
+              if (des.value=='Sq_Feet'){
+                ansD1.value = Math.round(val1)
+                ansD2.value = Math.round((val1*0.09290304))
+                autototft.value = autocvdft+autoopnft+val1;   
+                autototmt.value = Math.round((val1*0.09290304)+autocvdmt+autoopnmt)              
+                } else if(des.value=='Sq_Meter'){
+                ansD1.value = Math.round((val1/0.09290304))
+                ansD2.value = Math.round(val1)
+                autototft.value = Math.round((autocvdft+autoopnft+(val1/0.09290304)));  
+                autototmt.value = val1+autocvdmt+autoopnmt              
+                }
+                autotot.value = autoopn+autocvd+val1;
+            
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+ 
+    function Govshowhide() 
+        { 
+
+            var sch_mana_cat=$("#id_sch_mana_cat option:selected").text()
+            var sch_mana= $("#id_sch_management option:selected").text()
+
+            if((sch_mana_cat == 'Government') && (sch_mana!='Kendra Vidyalaya - Central Government') && (sch_mana!='Army Central Government') && (sch_mana!='---------'))
+            {
+                document.getElementById('ict_gov').style.display = ""
+                document.getElementById('id_kitchenshed_div').style.display = "";
+                document.getElementById('ict_others').style.display = "none";
+            } 
+
+            else {   
+
+                document.getElementById('ict_others').style.display = "";
+                document.getElementById('ict_gov').style.display = "none";
+                document.getElementById('id_kitchenshed_div').style.display = "none";
+
+                
+            }
+        }
+
+    </script>
+
+
+<script type="text/javascript">
+
+function chk_compound(chk_box,chk_div,chk_val) 
+        { 
+            
+            if (chk_box.checked == 1)
+            {
+                document.getElementById(chk_div).style.display = "";
+            }
+            else
+            {
+                
+                document.getElementById(chk_div).style.display = "none";
+          
+            }
+
+
+        }
+
+</script>
+
+
+<script type="text/javascript">  
+    function comp_types(chk_radio)
+        {
+
+            if (chk_radio=="Yes") 
+            {  
+                document.getElementById("table_comp").style.display = "";
+                chk_compound(frm.concre,'comp_div1','cwall_concre_len');
+                chk_compound(frm.fence,'comp_div2','cwall_fence_len');
+                chk_compound(frm.build,'comp_div3','cwall_existbu_len');
+                chk_compound(frm.nbarrier,'comp_div4','cwall_nbarr_len');                
+            } 
+            else {
+                document.getElementById("table_comp").style.display = "none";
+            }
+    }
+
+
+</script>
+
+  
+<script type="text/javascript">
+
+        function fire_ext() 
+        { 
+            var fire_extn= $("#fire_extin option:selected").text();
+
+            if(fire_extn == 'Yes') 
+            {
+                
+                document.getElementById('fire_extin_no').style.display = "";
+                document.getElementById('fire_extin_now').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('fire_extin_no').style.display = "none";
+                document.getElementById('fire_extin_now').style.display = "none";
+            }
+        }
+
+        function cwsn() 
+        { 
+            var cwsn_opt= $("#id_cwsn_toilet option:selected").text()
+            if(cwsn_opt == 'Yes') 
+            {
+                document.getElementById('cwsn_no').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('cwsn_no').style.display = "none";
+            }
+        }
+
+
+
+        function water_chk() 
+        { 
+
+            var water_so= $("#id_water_source option:selected").text()
+            
+            if(water_so == 'Open Well') 
+            {
+                document.getElementById('id_well1').style.display = "";
+                document.getElementById('id_well2').style.display = "";
+            } 
+
+            else 
+            {   
+
+                document.getElementById('id_well1').style.display = "none";
+                document.getElementById('id_well2').style.display = "none";
+            }
+        }
+
+
+   function check_ent(usable, minrep,majrep,inp_id) { 
+      var unittype = String(unittype); 
+      var usable = Number(usable); 
+      var minrep = Number(minrep); 
+      var majrep = Number(majrep); 
+      var inp_id = String(inp_id);
+      var tot_nos_u= document.getElementById(inp_id);
+      tot_nos_u.value = Number(usable + minrep + majrep);
+
+   } 
+   
+
+</script>
+
+<script type="text/javascript">
+        function trans_show()
+        { 
+            var trans_opt = $("#trans_faci option:selected").text();
+            if(trans_opt == 'Available') 
+            {
+                document.getElementById('trans_div1').style.display = "";
+                document.getElementById('trans_div2').style.display = "";
+                document.getElementById('trans_div3').style.display = "";
+                document.getElementById('trans_div4').style.display = "";
+
+            } 
+
+            else 
+            {   
+                document.getElementById('trans_div1').style.display = "none";
+                document.getElementById('trans_div2').style.display = "none";
+                document.getElementById('trans_div3').style.display = "none";
+                document.getElementById('trans_div4').style.display = "none";
+            }
+        }
+</script>
+<script type="text/javascript">
+
+        function award_show()
+        { 
+            var award_chk = $("#award_recd option:selected").text()
+            
+            if(award_chk == 'Yes') 
+            {
+                document.getElementById('id_award_info').style.display = "";
+            } 
+
+            else 
+            {   
+                document.getElementById('id_award_info').style.display = "none";
+            }
+        }
+</script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+var chk_g1 = document.getElementById("gov_chk"); 
+    if (chk_g1=='No')
+        {   
+            document.getElementById('trans_faci').style.display = "";
+            trans_show();       
+        }
+
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  
+    var chk_cwall1=document.getElementById('cwall_yes').value
+   
+    if (chk_cwall1=='Yes')
+        {
+
+            comp_types('Yes');
+        }
+    else
+        { 
+            comp_types('No');
+        }
+    
+});
+</script> 
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    fire_ext();
+    water_chk();       
+    cwsn();          
+    opnarea();  
+    cvdarea();          
+    playarea();        
+    award_show();
+    fsadf
+});
+
+</script>
+
+
+
+
+      
+<form id="form_infra" method='post' enctype="multipart/form-data" name="frm">
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+        {% csrf_token %}
+<input type="hidden" name="chk_cwall" id="chk_cwall" value="{{chk_cwall}}">
+<input type="hidden" name="gov_chk" id="gov_chk" value="{{gov_chk}}">
+        <div class="form-group"> <b>{% trans "School ID:" %}</b><input id="school_key" name="school_key" type="number" class="form-control" value= "{{new_sch_id}}" readonly /></div><span class="error_message">{{form.school_key.errors}}</span>
+        <br>
+                
+
+        <div class="form-group"><b>{% trans "Whether the School has Electricity Connection:" %}</b>
+        <select id="id_electricity" name="electricity" class="form-control mandatory">
+                {% if electricity == 'Yes' %}
+                <option value="Yes" selected="selected">Yes</option>
+                {% endif %}
+                {% if electricity == 'No' %}
+                <option value="No" selected="selected">No</option>
+                {% endif %}
+        <option value="">Select</option><option>Yes</option><option>No</option></select></div>   
+
+
+
+
+        <div class="form-group"> <b>{% trans "Campus Area: (in Sq. feet / in Sq. Meters)" %}</b>
+
+        <table>
+            <tr><th width="50"><center>Particulars</center></th><th><center>Measured Area</center></th><th><center>Measurement Type</center></th> <th><center>Area in Sq.Feet</center></th><th><center>Area in Sq. Meters</center></th></tr>
+
+
+
+            <tr><td style="border:0px;padding-top:10px;">Constructed / Covered Area: </td>
+            <td style="border:0px;padding-top:10px;">
+            {%if infra_edit_chk %}
+            <input id="cov_area" name="cov" step="any" type="number" min="1" value="{{cov}}" onblur="javascript:cvdarea()" maxlength="6" />
+            {%else%}
+            <input id="cov_area" name="cov" step="any" type="number" min="1" value=1 onblur="javascript:cvdarea()" maxlength="6"/>
+            {%endif%}
+            </td>
+            <td style="border:0px;padding-top:10px;">
+            <select id="cov_type" name="cov_type" onchange="javascript:cvdarea()"> 
+                {% if cov_type %}
+                <option value="{{cov_type}}" selected="selected">{{cov_type}}</option>
+                {% endif %}
+            <option value="Sq_Feet">Sq. Feet</option>
+            <option value="Sq_Meter">Sq. Meter</option>
+            </select></td>
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_cvd_ft" name="covered_ft" readonly value="covered_ft" type="number" />
+            {%else%}
+            <input id="id_cvd_ft" name="covered_ft" readonly value=1 type="number" />
+            {%endif%}
+
+            </td>
+
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_cvd_mt" name="covered_mt" readonly value="covered_mt" type="number" />
+            {%else%}
+            <input id="id_cvd_mt" name="covered_mt" readonly value=1 type="number" />
+            {%endif%}
+            </td>
+          </tr>
+
+            <tr><td style="border:0px;padding-top:10px;">Play Ground: </td>
+            <td style="border:0px;padding-top:10px;">
+            {%if infra_edit_chk %}
+            <input id="play_area" name="play" step="any" min="0" type="number" value="{{play}}" onblur="javascript:playarea()" maxlength="6"  />
+            {%else%}
+            <input id="play_area" name="play" step="any" min="0" type="number" value=1 onblur="javascript:playarea()" maxlength="6"  />
+            {%endif%}
+
+       
+
+            </td>
+            <td style="border:0px;padding-top:10px;">
+            <select id="play_area_opt" name="play_type" onblur="javascript:playarea();" onchange="javascript:playarea();"> 
+                  {% if play_type %}
+                <option value="{{play_type}}" selected="selected">{{play_type}}</option>
+                {% endif %}
+            <option value="Sq_Feet">Sq. Feet</option>
+            <option value="Sq_Meter">Sq. Meter</option>
+            </select></td>
+
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_play_ft" name="play_ft" readonly value="play_ft" type="number" />
+            {%else%}
+            <input id="id_play_ft" name="play_ft" readonly value=1 type="number" />
+            {%endif%}
+            </td>
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_play_mt" name="play_mt" readonly value="play_mt" type="number" />            
+            {%else%}
+           <input id="id_play_mt" name="play_mt" readonly value=1 type="number" />
+            {%endif%}
+ 
+
+            </td>
+          </tr>
+            <tr><td style="border:0px;padding-top:10px;">Open Area (Other than Play ground): </td>
+            <td style="border:0px;padding-top:10px;">
+            {%if infra_edit_chk %}
+            <input id="opn_area" name="opn" min="0"  type="number" value="{{opn}}" onblur="javascript:opnarea()"  maxlength="6"/>
+            {%else%}
+            <input id="opn_area" name="opn" min="0" type="number" value=1 onblur="javascript:opnarea()" maxlength="6" />
+            {%endif%}
+            </td>
+            <td style="border:0px;padding-top:10px;">
+            <select id="opn_area_opt" name="opn_type" onchange="javascript:opnarea()"> 
+
+            {% if opn_type %}
+            <option value="{{opn_type}}" selected="selected">{{opn_type}}</option>
+            {% endif %}
+            <option value="Sq_Feet">Sq. Feet</option>
+            <option value="Sq_Meter">Sq. Meter</option>
+            </select></td>
+
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_opn_ft" name="open_ft" readonly type="number" value="open_ft" />        
+            {%else%}
+            <input id="id_opn_ft" name="open_ft" readonly type="number" value=1 />            
+            {%endif%}
+
+
+
+
+            </td>
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+           <input id="id_opn_mt" name="open_mt" readonly type="number" value="open_mt" />            {%else%}
+           <input id="id_opn_mt" name="open_mt" readonly type="number" value=1 />            {%endif%}
+            </td>
+          </tr>
+
+
+            <tr><td style="border:0px;padding-top:10px;" >Total Area: </td>
+            <td style="border:0px;padding-top:10px;">
+            {%if infra_edit_chk %}
+            <input id="tot_area" name="tot_area" onblur="javascript:totarea()" type="number" value="{{tot_area}}" readonly  />
+            {%else%}
+            <input id="tot_area" name="tot_area" onblur="javascript:totarea()" type="number" value=1 readonly  />
+            {%endif%}
+
+
+            </td>
+            <td ></td>
+            <td style="border:0px;padding-top:10px;">
+            {%if infra_edit_chk %}
+            <input id="id_tot_ft" name="tot_ft" readonly type="number" value="tot_ft" />
+            {%else%}
+            <input id="id_tot_ft" name="tot_ft" readonly type="number" value=1 />
+            {%endif%}
+
+
+            </td>
+
+            <td style="border:0px;padding-top:10px;"> 
+            {%if infra_edit_chk %}
+            <input id="id_tot_mt" name="tot_mt" readonly type="number" value="tot_mt" />    {%else%}
+            <input id="id_tot_mt" name="tot_mt" readonly type="number" value=1 />            {%endif%}
+            </td>
+            </tr>
+
+          </table> </div>
+ <br>
+
+        <div class="form-group" >
+
+        <b>{% trans "Whether the School has Compound Wall:" %}</b>
+
+        <div class="form-group">
+        <select id="cwall_yes" name='cwall' class="form-control mandatory" onchange="comp_types(this.value);" onblur="comp_types(this.value);">
+
+                {% if cwall == True %}
+                <option value= 'Yes' selected="selected">Yes</option>
+                <option value= 'No' >No</option>
+                {% else %}             
+                {% if cwall == null %}
+                <option value="" selected="selected">Select</option><option value= 'Yes'>Yes</option><option value= 'No' >No</option>
+                {% else %}
+                <option value= 'No' selected="selected">No</option>
+                <option value= 'Yes' >Yes</option>
+                {% endif %}
+                {% endif %} 
+
+       </select></div><span class="error_message">{{form.cwall.errors}}</span>
+
+
+    </div>
+
+        
+         <div class="form-group">
+         <table id='table_comp'>
+         <tr>
+         <td colspan="4"> <div class="form-group"> {% trans "Type of Compound Wall available in the School (Please tick appropriate & Enter the length in Feet of the same in the box given):" %}</div></td>
+         </tr>
+         <tr>
+        <td>
+        <div class="form-group"> 
+
+        {% if cwall_concre %}
+        <input type="checkbox" onclick="chk_compound(frm.concre,'comp_div1','cwall_concre_len');" onselect="chk_compound(frm.concre,'comp_div1','cwall_concre_len');" value="cwall_concre" name="cwall_concre" checked id="concre"/>
+        {% else %} 
+        <input type="checkbox" onclick="chk_compound(frm.concre,'comp_div1','cwall_concre_len');" onselect="chk_compound(frm.concre,'comp_div1','cwall_concre_len');" value="cwall_concre" name="cwall_concre" id="concre"/> 
+        {% endif %} 
+
+        <b>{% trans "Compound Wall made by Concrete" %}</b><br>
+       </div>
+        </td>
+        <td>
+        <div class="form-group">      
+        {% if cwall_fence %}
+        <input type="checkbox" onclick="chk_compound(frm.fence,'comp_div2','cwall_fence_len');" onselect="chk_compound(frm.fence,'comp_div2','cwall_fence_len');" value="cwall_fence" name="cwall_fence" checked id="fence"/>
+        {% else %} 
+        <input type="checkbox" onclick="chk_compound(frm.fence,'comp_div2','cwall_fence_len');" onselect="chk_compound(frm.fence,'comp_div2','cwall_fence_len');" value="cwall_fence" name="cwall_fence" id="fence"/> 
+        {% endif %}  
+        <b>{% trans "Compound Wall made by Fencing" %}</b><br>
+       </div>
+        </td>
+        <td>
+        <div class="form-group">      
+        {% if cwall_existbu %}
+        <input type="checkbox" onclick="chk_compound(frm.build,'comp_div3','cwall_existbu_len');" onselect="chk_compound(frm.build,'comp_div3','cwall_existbu_len');" value="cwall_existbu" name="cwall_existbu" checked id="build" />
+        {% else %} 
+        <input type="checkbox" onclick="chk_compound(frm.build,'comp_div3','cwall_existbu_len');" onselect="chk_compound(frm.build,'comp_div3','cwall_existbu_len');" value="cwall_existbu" name="cwall_existbu" id="build" /> 
+        {% endif %}  
+        <b>{% trans "Existing Building situated as Compound" %}</b><br>
+       </div>
+        </td>
+        <td>
+        <div class="form-group">      
+        
+        {% if cwall_nbarr %}
+        <input type="checkbox" onclick="chk_compound(frm.nbarrier,'comp_div4','cwall_nbarr_len');" onselect="chk_compound(frm.nbarrier,'comp_div4','cwall_nbarr_len');" value="cwall_nbarr" name="cwall_nbarr" checked id="nbarrier" />
+        {% else %} 
+        <input type="checkbox" onclick="chk_compound(frm.nbarrier,'comp_div4','cwall_nbarr_len');" onselect="chk_compound(frm.nbarrier,'comp_div4','cwall_nbarr_len');" value="cwall_nbarr" name="cwall_nbarr" id="nbarrier"/> 
+        {% endif %}  
+        <b>{% trans "Compound Wall made by Natural Barrier" %}</b><br>
+       </div>
+        </td>
+        </tr>
+        <tr>
+        <td> 
+        <div id="comp_div1" style="visibility:hide" class="form-group"> 
+        <label><strong style="color:#3C8DBC;"><center>Length in feet</center></strong></label>        
+        {%if infra_edit_chk %}
+        <input id="cwall_concre_len" name="cwall_concre_len"  value="{{cwall_concre_len}}" type="number" min="0" maxlength="6" >
+        {%else%}
+        <input id="cwall_concre_len" name="cwall_concre_len" min="0" value=0 type="number" maxlength="6">
+        {%endif%}
+
+        </div>
+        </td>
+                <td>
+        <div id="comp_div2" style="visibility:hide" class="form-group"> 
+        <label><strong style="color:#3C8DBC;"><center>Length in feet</center></strong></label>        
+        {%if infra_edit_chk %}
+        <input id="cwall_fence_len" name="cwall_fence_len"  value="{{cwall_fence_len}}" type="number" min="0" maxlength="6" >
+        {%else%}
+        <input id="cwall_fence_len" name="cwall_fence_len" min="0"  value=0 type="number"  maxlength="6">
+        {%endif%}
+
+        </div>
+        </td>
+        <td>
+        <div id="comp_div3" style="visibility:hide" class="form-group">
+        <label><strong style="color:#3C8DBC;"><center>Length in feet</center></strong></label>
+        {%if infra_edit_chk %}
+        <input id="cwall_existbu_len" name="cwall_existbu_len"  value="{{cwall_existbu_len}}"type="number" min="0" maxlength="6">
+        {%else%}
+        <input id="cwall_existbu_len" name="cwall_existbu_len" min="0"  value=0 type="number" maxlength="6">
+        {%endif%}
+
+        </div>
+        </td>
+        <td>
+        <div id="comp_div4" style="visibility:hide" class="form-group">
+        <label><strong style="color:#3C8DBC;"><center>Length in feet</center></strong></label>        
+        {%if infra_edit_chk %}
+        <input id="cwall_nbarr_len" name="cwall_nbarr_len"  value="{{cwall_nbarr_len}}"type="number" min="0" maxlength="6">
+        {%else%}
+        <input id="cwall_nbarr_len" name="cwall_nbarr_len"  value=0 min="0"  type="number" maxlength="6">
+        {%endif%}
+
+        </div>
+        </td>
+        </tr>
+         </table>
+     </div>  
+
+        <br>
+        <div id="compwall_div2" name="compound_div3" class="form-group"> <b>{% trans "Length of Compound Wall Not Constructed: " %}</b>
+        <label><strong style="color:#3C8DBC;"><center>(Length in feet)</center></strong></label>
+        {%if infra_edit_chk %}
+        <input id="cwall_notcon_len" name="cwall_notcon_len" class="form-control" min="0" type="number" value="{{cwall_notcon_len}}" onblur="comp_wall();" maxlength="4">
+        {%else%}
+        <input id="cwall_notcon_len" name="cwall_notcon_len" class="form-control" type="number" value=0 min="0" onblur="comp_wall();"  maxlength="4" >
+        {%endif%}
+
+
+        </div>
+     </fieldset>
+          <h3>INFRASTRUCTURE DETAILS </h3>
+     <fieldset>
+
+        <div class="form-group"> <u><b>{% trans "Land Registration Details:" %}</b></u><br>
+            <table border="1" id="dataTable4">
+                <tr>
+                    <th><center>S. No.</center></th>
+                    <th><center>Land Registration in the Name of</center></th>
+                    <th><center>School Rights in the Land</center></th>
+                    <th><center>Area in cents</center></th>
+                    <th><center>Survey No.</center></th>
+                    <th><center>Patta No.</center></th>
+
+                </tr>
+  
+
+                {% for landdet in land_det %}
+                <tr>
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td >{{landdet.name}}</td>
+                        <td style="text-align:center;">{{landdet.own_type}}</td>
+                        <td style="text-align:center;">{{landdet.area}}</td>
+                        <td >{{landdet.survey_no}}</td>
+                        <td >{{landdet.patta_no}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div><br>
+
+        <div class="form-group"> <u><b>{% trans "Building Details:" %}</b></u>
+            <table border="1" width="1000" id="dataTable5">
+            <tr>
+                <th><center>S. No.</center></th>
+                <th><center>Category of Room</center></th>
+                <th><center>No. of Rooms</center></th>
+                <th><center>Type of Roof</center></th>
+                <th><center>Built-up Area (for All)</center></th>
+            </tr><br>
+
+
+
+            {% for bd in build_det %}
+            <tr>
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td>{{bd.room_cat}}</td>
+                        <td style="text-align:center;" >{{bd.room_count}}</td>
+                        <td style="text-align:center;">{{bd.roof_type}}</td>
+                        <td style="text-align:center;">{{bd.builtup_area}}</td>
+            </tr>
+
+            {% endfor %}
+
+
+            </table>
+        </div><br>
+</fieldset>
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+
+        <div class="form-group"><u> <b>{% trans "Abstract for Building:" %}</b></u>
+
+
+            <table border="1"  id="dataTable5abs">
+            <tr>
+                <th><center>S. No.</center></th>
+                <th><center>Building Name / No.</center></th>
+                <th><center>No. of Floors</center></th>
+                <th><center>No. of Stair Cases</center></th>
+                <th><center>Width of Stair Case</center></th>
+                <th><center>Construction Cost Funded by</center></th>
+                <th><center>Stability Certificate No.</center></th>
+                <th><center>Stability Certifiacte Date</center></th>
+            </tr><br>
+
+            {% for bdabs in buildabs_det %}
+            <tr>
+                        <td style="text-align:center;">{{forloop.counter}}</td>
+                        <td >{{bdabs.building_name}}</td>
+                        <td style="text-align:center;" >{{bdabs.no_of_floors}}</td>
+                        <td style="text-align:center;">{{bdabs.stair_case_no}}</td>
+                        <td style="text-align:center;">{{bdabs.stair_case_width}}</td>
+                        <td style="text-align:center;">{{bdabs.building_funded}}</td>
+                        <td style="text-align:center;">{{bdabs.stability_cer_no}}</td>
+                        <td style="text-align:center;">{{bdabs.stability_cer_date}}</td>
+            </tr>
+
+            {% endfor %}
+
+            </table>
+        </div><br>
+    
+
+        <div class="form-group"><strong style="color:red;">*</strong> <b>{% trans "Does the School has Fire Extinguisher:" %}</b><select id="fire_extin" class="form-control mandatory" name="fireext" onchange="fire_ext();" onblur="fire_ext();">
+
+                {% if fireext == True %}
+                <option value= True selected="selected">Yes</option>
+                <option value= False>No</option>
+                {% else %}             
+                {% if fireext == null %}
+                <option value="" selected="selected">Select</option><option value= True>Yes</option><option value= False>No</option>
+                {% else %}
+                <option value= False selected="selected">No</option>
+                <option value= True >Yes</option>
+                {% endif %}
+                {% endif %}  
+                </select>
+        </div><span class="error_message">{{form.fireext.errors}}</span>
+
+
+
+        <div id="fire_extin_no" style="visibility:hide" class="form-group"> <b>{% trans "No. of Fire Extinguishers is  Installed in the School: " %}</b>
+        {%if infra_edit_chk %}
+        <input id="id_fireext_no" type="number" name="fireext_no" min="0" value="{{fireext_no}}" class="form-control mandatory" maxlength="4">
+        {%else%}
+        <input id="id_fireext_no" type="number" name="fireext_no" min="0" value=1 class="form-control mandatory" maxlength="4">
+        {%endif%}
+        </div> <span class="error_message">{{form.fireext_no.errors}}</span>
+
+        <div id="fire_extin_now" style="visibility:hide" class="form-group"> <b>{% trans "No. of Fire Extinguishers Completed Annual Maintenance: " %}</b>
+        {%if infra_edit_chk %}
+      <input id="id_fireext_w" type="number" min="0" name="fireext_w" value="{{fireext_w}}"class="form-control mandatory" maxlength="4">
+        {%else%}
+       <input id="id_fireext_w" type="number" min="0" name="fireext_w" value=0 class="form-control mandatory" maxlength="4">
+        {%endif%}
+        </div> <span class="error_message">{{form.fireext_w.errors}}</span>
+
+       
+</fieldset>
+       
+<h3>INFRASTRUCTURE DETAILS</h3>
+
+<fieldset>
+
+        <div class="form-group" id="id_rainwater_div" name="rainwater_div"><b>{% trans "Does the School has Rain Water Harvesting System:" %}</b><select id="id_rainwater" class="form-control mandatory" name="rainwater">
+            {% if rainwater %}
+                <option value="{{rainwater}}" selected="selected">{{rainwater}}</option>
+            {% endif %}
+         <option value="">Select</option><option>Yes</option><option>No</option></select></div>
+
+        <div class="form-group"> <b>{% trans "Furniture:  Total No. of Desks in the School: " %}</b>
+
+        {%if infra_edit_chk %}
+         <input id="id_furn_desk_no" type="number" min="0" name="furn_desk_no" value="{{furn_desk_no}}"  class="form-control"  maxlength="4">
+        {%else%}
+        <input id="id_furn_desk_no" type="number" min="0" name="furn_desk_no" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.furn_desk_no.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Furniture: Total No. of Desks in usable condition in the School: " %}</b>
+
+        {%if infra_edit_chk %}
+         <input id="furn_desk_use" type="number" min="0" name="furn_desk_use" value="{{furn_desk_use}}"  class="form-control"  maxlength="4">
+        {%else%}
+        <input id="furn_desk_use" type="number" min="0" name="furn_desk_use" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.furn_desk_use.errors}}</span>
+
+
+        <div class="form-group"> <b>{% trans "Furniture:  Total No. of Benchs available in the School: " %}</b>
+
+        {%if infra_edit_chk %}
+        <input id="id_furn_bench_no" type="number" min="0" name="furn_bench_no" value="{{furn_bench_no}}" class="form-control"  maxlength="4">
+        {%else%}
+        <input id="id_furn_bench_no" type="number" min="0" name="furn_bench_no" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.furn_bench_no.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Furniture:  No. of Benchs in usable condition in the School: " %}</b>
+
+        {%if infra_edit_chk %}
+        <input id="furn_bench_use" type="number" min="0" name="furn_bench_use" value="{{furn_bench_use}}" class="form-control"  maxlength="4">
+        {%else%}
+        <input id="furn_bench_use" type="number" min="0" name="furn_bench_use" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.furn_bench_use.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Electrical:  Total No. of Fans available in the School: " %}</b>
+        {%if infra_edit_chk %}
+        <input id="id_fans" type="number" min="0" name="fans" value="{{fans}}" class="form-control"  maxlength="4">
+        {%else%}
+        <input id="id_fans" type="number" min="0" name="fans" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.fans.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Electrical:  No. of Fans in working condition in the School: " %}</b>
+        {%if infra_edit_chk %}
+        <input id="fans_work" type="number" min="0" name="fans_work" value="{{fans_work}}" class="form-control"  maxlength="4">
+        {%else%}
+        <input id="fans_work" type="number" min="0" name="fans_work" value=0 class="form-control"  maxlength="4">
+        {%endif%}
+        </div><span class="error_message">{{form.fans_work.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Electrical:  Total No. of Tubelights available in the School: " %}</b><input id="id_tubelights" type="number" min="0" name="tubelights" value="{{tubelights}}" class="form-control"  maxlength="4" placeholder="0"></div><span class="error_message">{{form.tubelights.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "Electrical:   No. of Tubelights in working condition in the School: " %}</b><input id="tlights_work" type="number" min="0" name="tlights_work" value="{{tlights_work}}" class="form-control" maxlength="4" placeholder="0"></div><span class="error_message">{{form.tlights_work.errors}}</span>
+
+
+        <div class="form-group"> <b>{% trans "Whether the school is Equipped with Lightning Protection System : " %}</b><select id="lightning_arest" class="form-control mandatory" name="lightning_arest" >
+            {% if lightning_arest %}
+                <option value="{{lightning_arest}}" selected="selected">{{lightning_arest}}</option>
+            {% endif %}
+             <option value="">Select</option><option>Yes</option><option>No</option></select></div>
+
+        <span class="error_message">{{form.lightning_arest.errors}}</span>
+
+
+</fieldset>
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+         <label>Toilet Details: (Express in terms of Seats which refers to one unit to be used by the Student / Teacher)</label><br>
+
+        <div>
+         <label class="form-control"><strong style="color:#3C8DBC;"><center> Urinals </center></strong></label><br>
+        <table border="1">
+        <tr><th rowspan="2"></th><th rowspan="2"></th><th rowspan="2"><center>Usable</center></th><th colspan="2"><center>Un-usable</center></th><th rowspan="2"><center>Urinals<br>(Total No. of Seats)</center></th>
+        </tr>
+        <tr><th><center>Minor Repair</center></th><th><center>Major Repair</center></th></tr>
+        
+        <tr><td rowspan="2">Students</td><td>Boys</td>
+        <td>
+        {%if infra_edit_chk %}
+         <input id="bu_usable" name="bu_usable" min="0" value="{{bu_usable}}" type="number" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')" maxlength="3">
+        {%else%}
+        <input id="bu_usable" name="bu_usable" min="0" value=0 maxlength="3"type="number" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')" >
+        {%endif%}
+        </td>
+        <td>
+
+        {%if infra_edit_chk %}
+        <input id="bu_minrep" name="bu_minrep" min="0" value="{{bu_minrep}}" type="number" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')" maxlength="3">
+        {%else%}
+        <input id="bu_minrep" name="bu_minrep" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')">
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bu_majrep" name="bu_majrep" min="0"  maxlength="3" value="{{bu_majrep}}" type="number" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')">
+        {%else%}
+        <input id="bu_majrep" name="bu_majrep" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.bu_usable.value,frm.bu_minrep.value,frm.bu_majrep.value,'bu_no')">
+        {%endif%}
+        </td>
+
+
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bu_no" name="bu_no"  value="{{bu_no}}" min="0" type="number" readonly style="color:Blue;">
+        {%else%}
+        <input id="bu_no" name="bu_no"  value=0 min="0"  type="number" readonly style="color:Blue;">
+        {%endif%}  
+        </td>
+        </tr>
+
+
+
+       <tr><td>Girls</td>
+       <td>
+        {%if infra_edit_chk %}
+       <input id="gu_usable" name="gu_usable" min="0" value="{{gu_usable}}" type="number" maxlength="3" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%else%}
+       <input id="gu_usable" name="gu_usable" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%endif%}
+       </td>
+       <td>
+
+        {%if infra_edit_chk %}
+
+       <input id="gu_minrep" name="gu_minrep" min="0" value="{{gu_minrep}}"type="number" maxlength="3" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%else%}
+
+       <input id="gu_minrep" name="gu_minrep" min="0" value=0  type="number" maxlength="3" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%endif%}
+
+
+       </td>
+
+
+       <td>
+        {%if infra_edit_chk %}
+       <input id="gu_majrep" name="gu_majrep" min="0" value="{{gu_majrep}}"  maxlength="3"type="number" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%else%}
+       <input id="gu_majrep" name="gu_majrep" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.gu_usable.value,frm.gu_minrep.value,frm.gu_majrep.value,'gu_no')">
+        {%endif%}
+       </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gu_no" name="gu_no" value="{{gu_no}}" min="0" type="number"  readonly style="color:Blue;">
+        {%else%}
+        <input id="gu_no" name="gu_no" value=0 type="number"  readonly style="color:Blue;">
+        {%endif%}
+        </td>
+       </tr>
+        <tr><td rowspan="2">Staffs</td><td>Gents</td>
+     
+
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gentsu_usable" name="gentsu_usable" min="0" maxlength="3" value="{{gentsu_usable}}" type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')">
+        {%else%}
+        <input id="gentsu_usable" name="gentsu_usable" min="0" value=0 maxlength="3" type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')">
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gentsu_minrep" name="gentsu_minrep" min="0"  maxlength="3" value="{{gentsu_minrep}}" type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')">
+        {%else%}
+        <input id="gentsu_minrep" name="gentsu_minrep" min="0" value=0  maxlength="3" type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')">
+        {%endif%}
+        </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gentsu_majrep" name="gentsu_majrep" min="0" value="{{gentsu_majrep}}"  type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')" maxlength="3">
+        {%else%}
+        <input id="gentsu_majrep" name="gentsu_majrep" min="0" value=0  type="number" onblur="check_ent(frm.gentsu_usable.value,frm.gentsu_minrep.value,frm.gentsu_majrep.value,'gentsu_no')" maxlength="3">
+        {%endif%}
+
+
+        </td>
+        <td>
+
+        {%if infra_edit_chk %}
+
+        <input id="gentsu_no" name="gentsu_no" value="{{gentsu_no}}" type="number" readonly style="color:Blue;">
+        {%else%}
+        <input id="gentsu_no" name="gentsu_no" value=0 type="number" readonly style="color:Blue;">
+        {%endif%}
+        </td>
+        </tr>
+
+ 
+        <tr>
+        <td>Ladies</td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="ladiesu_usable" name="ladiesu_usable" min="0" value="{{ladiesu_usable}}" type="number" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')" maxlength="3">
+        {%else%}
+        <input id="ladiesu_usable" name="ladiesu_usable" min="0" value=0 type="number" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')" maxlength="3">
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="ladiesu_minrep" name="ladiesu_minrep" min="0" value="{{ladiesu_minrep}}"  type="number" maxlength="3" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')">
+        {%else%}
+        <input id="ladiesu_minrep" name="ladiesu_minrep" maxlength="3" min="0" value=0  type="number" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')">
+        {%endif%}
+        </td>
+
+
+
+        <td>
+       {%if infra_edit_chk %}
+       <input id="ladiesu_majrep" name="ladiesu_majrep" min="0" maxlength="3" value="{{ladiesu_majrep}}"  type="number" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')">
+        {%else%}
+       <input id="ladiesu_majrep" name="ladiesu_majrep" min="0" value=0  maxlength="3" type="number" onblur="check_ent(frm.ladiesu_usable.value,frm.ladiesu_minrep.value,frm.ladiesu_majrep.value,'ladiesu_no')">
+        {%endif%}
+        </td>
+
+        <td>
+
+       {%if infra_edit_chk %}
+        <input id="ladiesu_no" name="ladiesu_no"  value="{{ladiesu_no}}" type="number" readonly maxlength="3" style="color:Blue;">
+        {%else%}
+        <input id="ladiesu_no" name="ladiesu_no"  value=0 type="number"  readonly style="color:Blue;">
+        {%endif%}
+        </td>
+        </tr>
+        </table>
+        <br>
+
+
+        <label class="form-control" ><strong style="color:#3C8DBC;"> <center> Latrines </center></strong></label><br>
+        <table border="1">
+
+        <tr>
+        <th rowspan="2"></th><th rowspan="2"></th><th rowspan="2"><center>Usable</center></th>
+        <th colspan="2"><center>Un-usable</center></th>
+        <th rowspan="2"><center>Latrines<br>(Total No. of Seats)</center>
+        </th>
+        </tr>
+        <tr><th><center>Minor Repair</center></th><th><center>Major Repair</center></th>
+        <tr><td rowspan="2">Students</td><td>Boys</td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bl_usable" name="bl_usable" min="0" value="{{bl_usable}}" maxlength="3" type="number" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%else%}
+        <input id="bl_usable" name="bl_usable" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bl_minrep" name="bl_minrep" min="0" value="{{bl_minrep}}" maxlength="3" type="number" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%else%}
+        <input id="bl_minrep" name="bl_minrep" min="0" value=0 type="number"  maxlength="3" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%endif%}
+        </td>
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bl_majrep" name="bl_majrep" min="0" maxlength="3"  value="{{bl_majrep}}" type="number" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%else%}
+        <input id="bl_majrep" name="bl_majrep" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.bl_usable.value,frm.bl_minrep.value,frm.bl_majrep.value,'bl_no')">
+        {%endif%}
+        </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="bl_no" name="bl_no" value="{{bl_no}}" type="number" readonly style="color:Blue;">
+        {%else%}
+        <input id="bl_no" name="bl_no" value=0 type="number" readonly style="color:Blue;">
+        {%endif%}
+        </td>
+        </tr>
+
+
+        <tr><td>Girls</td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gl_usable" name="gl_usable" min="0" value="{{gl_usable}}"  maxlength="3" type="number" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%else%}
+        <input id="gl_usable" name="gl_usable" min="0" value=0 type="number" maxlength="3" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%endif%}
+
+
+        </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gl_minrep" name="gl_minrep" min="0"  maxlength="3" value="{{gl_minrep}}"  type="number" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%else%}
+        <input id="gl_minrep" name="gl_minrep" min="0" value=0  maxlength="3" type="number" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%endif%}
+        </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gl_majrep" name="gl_majrep" min="0" maxlength="3" value="{{gl_majrep}}" type="number" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%else%}
+        <input id="gl_majrep" name="gl_majrep" min="0"  maxlength="3" value=0 type="number" onblur="check_ent(frm.gl_usable.value,frm.gl_minrep.value,frm.gl_majrep.value,'gl_no')">
+        {%endif%}
+        </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gl_no" name="gl_no" value="{{gl_no}}"  type="number" readonly style="color:Blue;">
+        {%else%}
+        <input id="gl_no" name="gl_no" value=0 type="number" readonly style="color:Blue;">
+        {%endif%} 
+        </td>
+        </tr>
+
+        <tr><td rowspan="2">Staffs</td><td>Gents</td>
+
+        <td>
+
+        {%if infra_edit_chk %}
+        <input id="gentsl_usable" name="gentsl_usable" min="0" maxlength="3" value="{{gentsl_usable}}"  type="number" onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">
+        {%else%}
+
+         <input id="gentsl_usable" name="gentsl_usable" min="0" maxlength="3" value=0 type="number" onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">       
+        {%endif%} 
+        </td>
+
+
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gentsl_minrep" name="gentsl_minrep" min="0" maxlength="3" value="{{gentsl_minrep}}"  type="number" onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">
+        {%else%}
+         <input id="gentsl_minrep" name="gentsl_minrep" min="0" value=0  maxlength="3" type="number" onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">
+        {%endif%} 
+
+       </td>
+        <td>
+        {%if infra_edit_chk %}
+        <input id="gentsl_majrep" name="gentsl_majrep" min="0" maxlength="3" value="{{gentsl_majrep}}" type="number"  onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">
+        {%else%}
+        <input id="gentsl_majrep" name="gentsl_majrep" min="0" value=0 maxlength="3"  type="number"  onblur="check_ent(frm.gentsl_usable.value,frm.gentsl_minrep.value,frm.gentsl_majrep.value,'gentsl_no')">
+        {%endif%} 
+        </td>
+        <td>
+         {%if infra_edit_chk %}
+       <input id="gentsl_no" name="gentsl_no" value="{{gentsl_no}}"  type="number" readonly style="color:Blue;">
+        {%else%}
+       <input id="gentsl_no" name="gentsl_no" value=0  type="number" readonly style="color:Blue;">        
+        {%endif%} 
+        </td> 
+
+        </tr>
+
+        <tr><td>Ladies</td>
+
+        <td>
+         {%if infra_edit_chk %}
+        <input id="ladiesl_usable" name="ladiesl_usable" min="0" value="{{ladiesl_usable}}" type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">
+        {%else%}
+         <input id="ladiesl_usable" name="ladiesl_usable" min="0" value=0 type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">       
+        {%endif%} 
+        </td>
+
+        <td>
+         {%if infra_edit_chk %}
+        <input id="ladiesl_minrep" name="ladiesl_minrep" min="0" value="{{ladiesl_minrep}}" type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">
+        {%else%}
+        <input id="ladiesl_minrep" name="ladiesl_minrep" min="0" value=0 type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">
+        {%endif%} 
+         </td>
+
+        <td>
+         {%if infra_edit_chk %}
+        <input id="ladiesl_majrep" name="ladiesl_majrep" min="0" value="{{ladiesl_majrep}}" type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">
+        {%else%}
+        <input id="ladiesl_majrep" name="ladiesl_majrep" min="0" value=0 type="number" onblur="check_ent(frm.ladiesl_usable.value,frm.ladiesl_minrep.value,frm.ladiesl_majrep.value,'ladiesl_no')" maxlength="3">
+        {%endif%} 
+        </td>
+        <td>
+         {%if infra_edit_chk %}
+        <input id="ladiesl_no" name="ladiesl_no" min="0" value="{{ladiesl_no}}" type="number" readonly style="color:Blue;" >
+        {%else%}
+        <input id="ladiesl_no" name="ladiesl_no" min="0" value=0  type="number" readonly style="color:Blue;" >
+        {%endif%} 
+        </td>
+        </tr>
+        </tr>
+        </table>
+
+        <br>
+</div>         
+
+
+</fieldset>
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+        {% if inci_chk %}
+        <div class="form-group" id="id_incinerator_div" > <strong style="color:red;">*</strong> <b>{% trans "Incinerator is available:" %}</b><select id="id_incinerator" name="incinirator" class="form-control mandatory">
+            {% if incinirator %}
+                <option value="{{incinirator}}" selected="selected">{{incinirator}}</option>
+            {% endif %}
+         <option value="">Select</option><option>Yes</option><option>No</option></select></div><span class="error_message">{{form.incinerator.errors}}</span>
+        <br>
+        {% endif %} 
+ 
+        <div class="form-group"> <b>{% trans "Water Facility for Toilet is Available: " %}</b><select id="id_water_toilet" class="form-control mandatory" name="water_toilet">
+                {% if water_toilet == True %}
+                <option value = True selected="selected">Yes</option>
+                <option value = False >No</option> 
+                {% else %}             
+                {% if water_toilet == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Yes</option>
+                <option value = False >No</option>
+                {% else %}
+                <option value = False selected="selected">No</option>
+                <option value = True >Yes</option>
+                {% endif %}  
+                {% endif %} 
+                 </select> </div><span class="error_message">{{form.water_toilet.errors}}</span>
+
+
+
+        <div class="form-group"> <b>{% trans "CWSN (Children with special needs) Toilet is Available in the School: " %}</b><select id="id_cwsn_toilet" class="form-control mandatory" name="cwsn_toilet" onchange="cwsn()" onblur="cwsn()">
+
+                {% if cwsn_toilet == True %}
+                <option value = True selected="selected">Yes</option>
+                <option value = False >No</option> 
+                {% else %}             
+                {% if cwsn_toilet == null %}
+                <option value="" selected="selected">Select</option>
+                <option value = True >Yes</option>
+                <option value = False >No</option>
+                {% else %}
+                <option value = False selected="selected">No</option>
+                <option value = True >Yes</option>
+                {% endif %}  
+                {% endif %} 
+                </select> </div><span class="error_message">{{form.cwsn_toilet.errors}}</span>
+
+        <div id="cwsn_no" style="visibility:hide" class="form-group"> <b>{% trans "No. of Friendly Toilets available for differently abled (CWSN) Students: " %}</b><input id="id_cwsn_toilet_no" type="number" min="0" name="cwsn_toilet_no" value="{{cwsn_toilet_no}}" class="form-control mandatory" maxlength="3"></div>
+
+
+        <div class="form-group"> <b>{% trans "Drinking Water Facility is Available with in the School Premises: " %}</b><select id="id_water_facility" class="form-control mandatory" name="water_facility">
+            {% if water_facility %}
+                <option value="{{water_facility}}" selected="selected">{{water_facility}}</option>
+            {% endif %}
+
+         <option value="">Select</option><option>Yes</option><option>No</option></select></div>
+
+        <div class="form-group"> <b>{% trans "Main Source of Drinking Water: " %}</b><select id="id_water_source" class="form-control mandatory" name="water_source" onchange="water_chk()" onblur="water_chk()" onchange="water_chk()">
+            {% if water_source %}
+                <option value="{{water_source}}" selected="selected">{{water_source}}</option>
+            {% endif %}
+         <option value="">Select</option><option>Bore Well</option><option>Open Well</option><option>Pipe Line Supply by Local Body</option><option>Pond</option></select></div>
+
+        <div id="id_well1" style="visibility:hide" class="form-group"> <b>{% trans "Diameter of the Well in the School (in feet): " %}</b><input id="id_well_dia" type="number" min="0"  name="well_dia" value="well_dia" class="form-control"></div><span class="error_message">{{form.well_dia.errors}}</span>
+        <div id="id_well2" style="visibility:hide" class="form-group"> <b>{% trans "Whether Well is covered: " %}</b><select id="id_well_close" class="form-control mandatory" name="well_close">
+            {% if well_close %}
+                <option value="{{well_close}}" selected="selected">{{well_close}}</option>
+            {% endif %}
+         <option value="">Select</option><option>Not Closed</option><option>Closed</option> </select> </div><span class="error_message">{{form.well_close.errors}}</span>
+
+        
+    </fieldset>
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+
+        <div class="form-group"> <b>{% trans "Water Purification system: " %}</b><select id="id_water_puri" class="form-control mandatory" name="water_puri" >
+            {% if water_puri %}
+                <option value="{{water_puri}}" selected="selected">{{water_puri}}</option>
+            {% endif %} 
+         <option value="">Select</option><option>Water filter</option><option>RO system</option><option>Not available</option></select></div><span class="error_message">{{form.water_puri.errors}}</span>
+
+
+        <div class="form-group"> <b>{% trans "Drinking Water access by Children through: " %}</b><select id="id_water_access" class="form-control mandatory" name="water_access" >
+            {% if water_access %}
+                <option value="{{water_access}}"selected="selected">{{water_access}}</option>
+            {% endif %} 
+         <option value="">Select</option><option>Pitcher / Jug / Container</option><option>Stainless Steel Drum with Tap</option><option>Cement Tank with Tap</option><option>Plastic Tank with Tap</option></select></div><span class="error_message">{{form.water_access.errors}}</span>
+
+        <div class="form-group"> <b>{% trans "First-aid Facility is available: " %}</b><select id="id_firstaid_box" class="form-control mandatory" name="firstaid_box" >
+            {% if firstaid_box %}
+                <option value="{{firstaid_box}}" selected="selected">{{firstaid_box}}</option>
+            {% endif %} 
+        <option value="">Select</option><option>Available</option><option>Not available</option></select></div><span class="error_message">{{form.firstaid_box.errors}}</span>
+
+</fieldset>
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+        <div id="sports" class="form-group">
+            <label><u>Sports and Games played and availability of Sports Material in the School:</u></label>
+            <table border="1" id="dataTable6">
+                <tr>
+                    <th>S. No.</th>
+                    <th>Sports and Games</th>
+                    <th>Play Ground <br> Where Played</th>
+                    <th>Availability of Equipment<br>& Materials</th>
+                    <th>No. of Sets</th>
+                </tr>
+
+
+
+            {% for sports in sports_det %}
+            <tr>
+                        <td style="text-align:center;">{{sports.sports_sno}}</td>
+                        <td >{{sports.sports_name}}</td>
+                        <td style="text-align:center;" >{{sports.play_ground}}</td>
+                        <td style="text-align:center;">{{sports.sports_equip}}</td>
+                        <td style="text-align:center;">{{sports.sports_no_sets}}</td>
+
+            </tr>
+
+            {% endfor %}
+            </table>
+        </div><br>
+        
+
+        <div id="ict_gov" class="form-group" style="visibility:hide">
+            <label><label><u>ICT Facility:</u></label></label><br>
+
+            <table border="1" id="dataTable8" class="table">
+                <tr>
+                    <th style="text-align:center;">S. No.</th>
+                    <th style="text-align:center;">Type of Item</th>
+                    <th style="text-align:center;">Working (No.)</th>
+                    <th style="text-align:center;">Not Working (No.)</th>
+                    <th style="text-align:center;">Supplied by</th>
+                </tr>
+                {% for ict in ict_det %}
+                <tr>
+                        <td style="text-align:center;">{{ict.ict_sno}}</td>
+                        <td >{{ict.item_type}}</td>
+                        <td style="text-align:center;">{{ict.working}}</td>
+                        <td style="text-align:center;">{{ict.not_working}}</td>
+                        <td >{{ict.supplied_by}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div><br>
+
+
+        <div class="form-group"> <b>{% trans "Is Internet Connection Available: " %}</b><select id="internet_yes" class="form-control mandatory" name="internet_yes" value="internet_opt">
+                {% if internet_yes == True %}
+                <option value= True selected="selected">Yes</option>
+                <option value= False>No</option>
+                {% else %}             
+                {% if internet_yes == null %}
+                <option value="" selected="selected">Select</option><option value= True>Yes</option><option value= False>No</option>
+                {% else %}
+                <option value= False selected="selected">No</option>
+                <option value= True >Yes</option>
+                {% endif %}
+                {% endif %}
+                </select></div><span class="error_message">{{form.internet_yes.errors}}</span>
+
+
+        {% if govaid_chk %}     
+        <div class="form-group" style="visibility:hide" id="id_kitchenshed_div" name="kitchenshed_div"><b>{% trans "Is Kitchen Shed  Available in the School:" %}</b><select id="id_kitchenshed" class="form-control mandatory" name="kitchenshed">
+            {% if kitchenshed %}
+                <option value="{{kitchenshed}}" selected="selected">{{kitchenshed}}</option>
+            {% endif %}
+
+         <option value="">Select</option><option>Yes</option><option>No</option></select></div>
+
+        {% endif %}
+        <label><u>Library:</u></label><br>
+         <table>
+
+         <tr><th colspan="3"><center>Available Books</center></th></tr>
+        <tr><th><center>In Tamil</center></th><th><center>In English</center></th><th><center>In Other Lang.</center></th></tr>
+        <tr>
+
+
+        <td>
+         {%if infra_edit_chk %}
+       <input name="lib_tamil" type="number" min="0"  value="{{lib_tamil}}" class="form-control" maxlength="5" />
+        {%else%}
+       <input name="lib_tamil" type="number" min="0"  value=0 class="form-control" maxlength="5" />
+        {%endif%} 
+
+        </td>
+
+
+        <td>
+         {%if infra_edit_chk %}
+        <input name="lib_eng " type="number" min="0" value="{{lib_eng}}" class="form-control" maxlength="5" />
+        {%else%}
+        <input name="lib_eng " type="number" min="0" value=0 class="form-control" maxlength="5" />
+        {%endif%} 
+        </td>
+
+
+        <td>
+         {%if infra_edit_chk %}
+        <input name="lib_others " type="number" min="0" value="{{lib_others}}"  class="form-control" maxlength="4"/>
+        {%else%}
+        <input name="lib_others " type="number" min="0" value="0"  class="form-control" maxlength="4" />
+        {%endif%} 
+        </td>
+        </tr>
+        </table>
+
+    </fieldset>
+
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+
+     <div class="form-group"> <b>{% trans "No. of Tamil daily Newspapers Purchased for  Library: " %}</b><input id="lib_tamil_news" type="number" min="0" name="lib_tamil_news" value="{{lib_tamil_news}}" class="form-control" maxlength="2"></div><span class="error_message">{{form.lib_tamil_news.errors}}</span>
+
+    <div class="form-group"> <b>{% trans "No. of English daily Newspapers Purchased for  Library: " %}</b><input id="lib_eng_news" type="number" min="0" name="lib_eng_news" value="{{lib_eng_news}}" class="form-control" maxlength="2" ></div><span class="error_message">{{form.lib_eng_news.errors}}</span>
+
+    <div class="form-group"> <b>{% trans "No. of Periodicals Purchased for Library: " %}</b><input id="lib_periodic" type="number" min="0" name="lib_periodic" value="{{lib_periodic}}" class="form-control" maxlength="2"></div><span class="error_message">{{form.lib_periodic.errors}}</span>
+
+<!-- {% if gov_chk == "No" %} -->
+   <div class="form-group" style="visibility:hide" > <b>{% trans "Whether Transport Facilities Available in the School:" %}</b><select id="trans_faci" class="form-control mandatory" name="trans_faci" onblur="trans_show();" onchange="trans_show();">
+
+                {% if trans_faci == True %}
+                <option value= True selected="selected">Available</option>
+                <option value= False>Not available</option>
+                {% else %}             
+                {% if trans_faci == null %}
+                <option value="" selected="selected">Select</option><option value= True >Available</option><option value= False>Not available</option>
+                {% else %}
+                <option value= False selected="selected">Not available</option>
+                <option value= True >Available</option>
+                {% endif %}
+                {% endif %}
+
+               </select></div><span class="error_message">{{form.trans_faci.errors}}</span>
+
+
+    <div class="form-group"  style="visibility:hide" id="trans_div1"> <b>{% trans "No. of Buses used: " %}</b><input id="trans_bus" type="number" min="0" name="trans_bus" value="{{trans_bus}}" class="form-control mandatory" maxlength="3"></div><span class="error_message">{{form.trans_bus.errors}}</span>
+
+    <div class="form-group"style="visibility:hide" id="trans_div2"> <b>{% trans "No. of Vans used: " %}</b><input id="trans_van" type="number" min="0" name="trans_van" value="{{trans_van}}" class="form-control"  maxlength="3"></div><span class="error_message">{{form.trans_van.errors}}</span>
+
+    <div class="form-group" style="visibility:hide" id="trans_div3"> <b>{% trans "No. of Students uses the facility: " %}</b><input id="trans_stud" type="number" min="0" name="trans_stud" value="{{trans_stud}}" class="form-control mandatory"  maxlength="6"></div><span class="error_message">{{form.trans_stud.errors}}</span>
+
+   <div class="form-group" style="visibility:hide" id="trans_div4"> <b>{% trans "Whether Transport Department's Rules laid down for student transport is fully followed:" %}</b><select id="trans_rules" class="form-control mandatory" name="trans_rules">
+        {% if trans_rules == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if trans_rules == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.trans_rules.errors}}</span>
+
+<!-- { % else %} -->
+ <!--   <div class="form-group" type="hidden"> <b>{% trans "Whether transport facilities available in the school:" %}</b><select id="trans_faci" class="form-control mandatory" name="trans_faci" onblur="trans_show();" onchange="trans_show();">
+
+                {% if trans_faci == True %}
+                <option value= True selected="selected">Available</option>
+                <option value= False>Not available</option>
+                {% else %}             
+                {% if trans_faci == null %}
+                <option value="" selected="selected">Select</option><option value= True >Available</option><option value= False>Not available</option>
+                {% else %}
+                <option value= False selected="selected">Not available</option>
+                <option value= True >Available</option>
+                {% endif %}
+                {% endif %}
+
+               </select></div><span class="error_message">{{form.trans_faci.errors}}</span>
+
+
+    <div class="form-group" type="hidden" id="trans_div1"> <b>{% trans "No. of Busses used for transport facility: " %}</b><input id="trans_bus" type="number" min="0" name="trans_bus" value="{{trans_bus}}" class="form-control mandatory"></div><span class="error_message">{{form.trans_bus.errors}}</span>
+
+    <div class="form-group" type="hidden" id="trans_div2"> <b>{% trans "No. of Vans used for transport facility: " %}</b><input id="trans_van" type="number" min="0" name="trans_van" value="{{trans_van}}" class="form-control"></div><span class="error_message">{{form.trans_van.errors}}</span>
+
+    <div class="form-group" type="hidden" id="trans_div3"> <b>{% trans "No. of Students used School's transport facility: " %}</b><input id="trans_stud" type="number" min="0" name="trans_stud" value="{{trans_stud}}" class="form-control mandatory"></div><span class="error_message">{{form.trans_stud.errors}}</span>
+
+   <div class="form-group" type="hidden" id="trans_div4"> <b>{% trans "Whether transport department's Rules laid down for School transport is fully followed:" %}</b><select id="trans_rules" class="form-control mandatory" name="trans_rules">
+        {% if trans_rules == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if trans_rules == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.trans_rules.errors}}</span>
+
+{% endif %} -->
+   <div class="form-group"> <b>{% trans "Whether the School Received any awards for the performance / service in Education:" %}</b><select id="award_recd" class="form-control mandatory" name="award_recd" onblur="award_show();" onchange="award_show();">
+        {% if award_recd == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if award_recd == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.award_recd.errors}}</span>
+
+    <div class="form-group" style="visibility:hide" id="id_award_info"> <b>{% trans "If so, Brief detail about the Award received by the School (Max 100 Characters):" %}</b><input id="award_info" name="award_info" value="{{form.award_info.value}}" class="form-control mandatory" type="text" maxlength="100" style="text-transform:uppercase"></div><span class="error_message">{{form.award_info.errors}}</span> 
+
+
+
+</fieldset>
+
+<!-- to check for HSS school -->
+
+<h3>INFRASTRUCTURE DETAILS</h3>
+<fieldset>
+{% if lab_chk == 'Yes' %}
+<label><u>Laboratory Details</u></label><br>
+    
+<div class="form-group"> <b>{% trans "No. Permanent work tables in Physics Lab: " %}</b><input id="phy_lab" type="number" min="0" name="phy_lab" value="{{phy_lab}}" class="form-control" maxlength="3"></div><span class="error_message">{{form.phy_lab.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. Permanent work tables in Chemistry Lab: " %}</b><input id="che_lab" type="number" min="0" name="che_lab" value="{{che_lab}}" class="form-control" maxlength="3"></div><span class="error_message">{{form.che_lab.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. Permanent work tables in Botany Lab: " %}</b><input id="bot_lab" type="number" min="0" name="bot_lab" value="{{bot_lab}}" class="form-control" maxlength="3"></div><span class="error_message">{{form.bot_lab.errors}}</span>
+
+<div class="form-group"> <b>{% trans "No. Permanent work tables in Zoolgy Lab: " %}</b><input id="zoo_lab" type="number" min="0" name="zoo_lab" value="{{zoo_lab}}" class="form-control" maxlength="3"></div><span class="error_message">{{form.zoo_lab.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Whether the Gas cylinder in the Chemistry Lab placed outside the Lab safely:" %}</b><select id="gas_cylin" class="form-control" name="gas_cylin" value="gas_cylin" >
+        {% if gas_cylin == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if gas_cylin == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.gas_cylin.errors}}</span>
+
+<div class="form-group"> <b>{% trans "Whether Sufficient Equipments are Available for the Lab:" %}</b><select id="suffi_equip" class="form-control  mandatory" name="suffi_equip" value="suffi_equip" >
+        {% if suffi_equip == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if suffi_equip == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.suffi_equip.errors}}</span>
+
+{% endif %}
+
+<div class="form-group"> <b>{% trans "Is there any Electricity Board Heavy Tension (HT) line Cross over the School:" %}</b><select id="eb_ht_line" class="form-control  mandatory" name="eb_ht_line" value="eb_ht_line" >
+        {% if eb_ht_line == True %}
+        <option value = True selected="selected">Yes</option>
+        <option value = False>No</option> 
+        {% else %}             
+        {% if eb_ht_line == null %}
+        <option value="" selected="selected">Select</option>
+        <option value = True >Yes</option>
+        <option value = False >No</option>
+        {% else %}
+        <option value = False selected="selected">No</option>
+        <option value = True >Yes</option>
+        {% endif %}  
+        {% endif %}
+    </select></div><span class="error_message">{{form.eb_ht_line.errors}}</span>
+
+
+  
+
+</fieldset>
+</form>
+
+
+{% endblock %}
+
+
+
+

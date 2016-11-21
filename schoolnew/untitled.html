@@ -1,0 +1,9 @@
+<!--         {% if govaid_chk %}  -->
+<!--         {% else %}                                              
+        <div class="form-group"> <b>{% trans "5. Board followed: " %}</b><select id="id_board" name='board' class="form-control">
+                {% if board %}
+                <option value="{{board}}" selected="selected">{{board}}</option>
+                {% endif %}
+        <option>State Common Board</option><option>CBSE</option><option>ICSE</option><option>ISE</option><option>International School</option><option>NIOS</option><option>Others</option></select></div> <span class="error_message">{{form.board.errors}}</span>
+
+        {% endif %} -->

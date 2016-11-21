@@ -1,0 +1,583 @@
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+
+<html>
+<head>
+
+<link href="/site_media/static/css/jquery.steps.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/site_media/static/css/normalize.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<style>
+   /* Begin Navigation Bar Styling */
+   #nav {
+      width: 100%;
+      float: left;
+      margin: 0 0 3em 0;
+      padding: 0;
+      list-style: none;
+      background-color: #f2f2f2;
+      border-bottom: 1px solid #ccc; 
+      border-top: 1px solid #ccc; }
+   #nav li {
+      float: left; }
+   #nav li a {
+      display: block;
+      padding: 8px 15px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #069;
+      border-right: 1px solid #ccc; }
+   #nav li a:hover {
+      color: #c00;
+      background-color: #fff; }
+   /* End navigation bar styling. */
+   
+   /* This is just styling for this specific page. */
+   body {
+      background-color: ; 
+      font: small/1.3 Arial, Helvetica, sans-serif; }
+   #wrap {
+      width: 750px;
+      margin: 0 auto;
+      background-color: #fff; }
+   h1 {
+      font-size: 1.5em;
+      padding: 1em 8px;
+      color: #333;
+      background-color: #069;
+      margin: 0; }
+   #content {
+      padding: 0 50px 50px; }
+   .table-striped1 {
+      width: 60%;
+   }   
+   .table-striped2 {
+      width: 80%;
+   }
+   th {
+      width:1000px; 
+      background-color:#3C8DBC; 
+      color:#fff;
+   }   
+   .table-striped3 {
+      width: 70%;
+   }
+   .table-striped4 {
+      width: 30%;
+   }
+</style>
+
+
+
+<SCRIPT LANGUAGE="JavaScript">
+$(document).ready(function() {
+    $('#selectall1').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox1').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall2').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox2').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall3').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox3').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox3').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall4').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox4').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox4').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall5').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox5').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox5').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#selectall6').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox6').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox6').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall7').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox7').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox7').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall8').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox8').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox8').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall9').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox9').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox9').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall10').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox10').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox10').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall11').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox11').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox11').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall12').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox12').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox12').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall13').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox13').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox13').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall14').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox14').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox14').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall15').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox15').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox15').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall16').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox16').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox16').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+$(document).ready(function() {
+    $('#selectall17').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox17').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox17').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall18').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox18').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox18').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+$(document).ready(function() {
+    $('#selectall19').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox19').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox19').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+$(document).ready(function() {
+    $('#selectall20').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox20').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox20').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+$(document).ready(function() {
+    $('#selectall21').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox21').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox21').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+$(document).ready(function() {
+    $('#selectall22').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox22').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox22').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+
+
+$(document).ready(function() {
+    $('#selectall23').click(function(event) {  //on click
+        if(this.checked) { // check select status
+            $('.checkbox23').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"             
+            });
+        }else{
+            $('.checkbox23').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                     
+            });       
+        }
+    });
+  
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+{ 
+if(document.getElementById("testName").checked)
+{
+  document.getElementById('testNameHidden').disabled = true;
+}
+    
+}
+
+$('#A').click(function() {
+   // alert($(this).prop('checked'));
+    if ($(this).is(':checked') == true) {
+        $('.cb').prop('checked', true);
+    }else{
+        $('.cb').prop('checked', false);
+    }
+});
+
+
+// $('#changeValue').change(function(){
+
+//     if($(this).attr('checked')){
+//           $(this).val('TRUE');
+//      }else{
+//           $(this).val('FALSE');
+//      }
+    
+// });
+
+// function changeValueCheckbox(element){
+//    if(element.checked){
+//     element.value='Yes';
+//   }else {
+//     element.value='No';
+//   }
+// }
+// </script>
+<script>
+function chk(x){
+var a = document.getElementById(x);
+
+if (a.checked) {a.value = "True";} else{a.value = "False";} 
+
+// alert(a.name +":" + a.value);
+
+}
+</script>
+
+
+
+        <script type="text/javascript">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                //Datemask2 mm/dd/yyyy
+
+                $("[data-mask]").inputmask();
+
+                //Date range as a button
+
+            });
+        </script>
+
+
+
+    
+</head>
+<body>
+<center>
+<table>
+
+            <tr><td><h4 style="color:#3C8DBC;"><b>School Name : </b></h4></td>
+            <td><h4 style="color:#00A65A;">{{ user.account.get_user_info.school_name }} ( {{ user.account.get_user_info.school_code }} ) </h4></td>
+            <td width="30px"></td>
+            <td><h4 style="color:#3C8DBC;"><b>Block </b></h4></td>
+            <td><h4 style="color:#00A65A;">{{ user.account.get_user_info.block.block_name }} </h4> </td>
+                        <td width="80px"></td></table>
+</div>
+ 
+ <h3> Students Schemes:class {{ class_id }}</h3>
+
+
+<style type="text/css">
+  /*  #mname {
+    display:none;
+}
+    #date {
+    display:block;
+}
+#maidenname:checked ~ #mname {
+    display:block;
+}
+#maidenname:checked ~ #date {
+    display:none;
+}*/
+  #mname {
+    display:none;
+}
+    #date {
+    display:none;
+}
+#maidenname:checked ~ #mname {
+    display:block;
+}
+#maidenname:checked ~ #date {
+    display:block;
+}
+        .l {
+            float:right;
+        }
+        .inlineTable {
+            display: inline-block;
+        }
+</style>
+
+<form >             
+   
+<table>
+<tr>
+<td>
+    <input type="checkbox" placeholder="Maiden Name" id="maidenname" name="chkname">  
+
+
+
+    <input type="text" class="l" placeholder="Maiden Name" id="mname" name="mname"/> 
+
+
+    <input type="text" class="l" placeholder="Date" id="date" name="date"/>
+</td>
+</tr>
+</table>
+</form>
+
+
+
+
+</body>
+</html>

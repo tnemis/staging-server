@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block content_class %}home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<div class="row">
+        <div class="col-md-8">
+
+    <div style="text-align: center">
+        <div style="width: 50%; margin: 0 auto; text-align: left">
+            <div style="display: table;">
+<div id="row" style="display: table-row; ">
+
+<!-- First Row - Left -->              
+<div id="left" style="display: table-cell; padding-right: 50px; ">
+
+
+            {% if request.user.account.user_category.user_category == 'school' %}
+                   <a href="/students/child_detail/"><h4><center>{% trans "Students" %}</center></h4>
+                   <img src="{{STATIC_URL}}img/student_page.png"/></a>
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'block' %}
+                    <a href="/students/block/"><h4><center>{% trans "Students" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/student_page.png"/></a>
+                    
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'district' %}
+                    <a href="/students/district/"><h4><center>{% trans "Students" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/student_page.png"/></a>
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'state' %}
+                    <a href="/students/state/"><h4><center>{% trans "Students" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/student_page.png"/></a>
+            {% endif %}
+            {% if request.user.account.user_category.user_category == 'aeeo' %}
+                                
+                   <a href="/teachers/block_teacher/"><h4><center>{% trans "Teacher" %}</center></h4><img src="{{STATIC_URL}}img/teacher_icon.jpg"/>
+                   </a>
+            
+            {% endif %}
+           
+
+            {% if request.user.account.user_category.user_category == 'CEO' or request.user.account.user_category.user_category == 'DEEO' or request.user.account.user_category.user_category == 'DEO' or request.user.account.user_category.user_category == 'HOD' or request.user.account.user_category.user_category == 'IMS' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'CIPE' or request.user.account.user_category.user_category == 'IAS' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'DIET' %}
+            {% if 'SCHSEC' not in request.user.username and 'SPDSSA' not in request.user.username and 'PDRMSA' not in request.user.username and 'EMIS' not in request.user.username %}
+            
+                    <a href="/schoolnew/office_registration/"><h4><center>{% trans "Office Establishment" %}    </center></h4>
+                    <img src="{{STATIC_URL}}img/headoffice.png"/></a>
+            {% endif %}
+            {% endif %}
+</div>
+<!-- First Row - Middle -->  
+<div id="middle" style="display: table-cell; padding-right: 50px; ">
+
+            {% if request.user.account.user_category.user_category == 'school' %}
+                    <a href="{% url 'students_barcode_generator' %}"><h4><center>{% trans "Students ID Card" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/Student_id.png"/></a>
+            {% endif %}
+            
+            {% if request.user.account.user_category.user_category == 'aeeo' %} 
+                      
+            {% if 'AAEEO' not in request.user.username  %}
+
+                    <a href="/schoolnew/office_registration/"><h4><center>{% trans "Office Establishment" %}    </center></h4>
+                    <img src="{{STATIC_URL}}img/headoffice.png"/></a>
+                      
+                    
+            {% endif %}
+            {% endif %}
+            
+
+            {% if request.user.account.user_category.user_category == 'CEO' or request.user.account.user_category.user_category == 'DEEO' or request.user.account.user_category.user_category == 'DEO' or request.user.account.user_category.user_category == 'HOD' or request.user.account.user_category.user_category == 'IMS' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'CIPE' or request.user.account.user_category.user_category == 'IAS' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'DIET' %}
+
+            {% if 'SCHSEC' not in request.user.username and 'SPDSSA' not in request.user.username and 'PDRMSA' not in request.user.username and 'EMIS' not in request.user.username %} 
+                    <a href="/teachers/staff_detailListView"><h4><center>{% trans "Staff Details" %}    </center></h4>
+                    <img src="{{STATIC_URL}}img/officestaff.jpg"/></a>
+            {% endif %}
+            {% endif %}
+
+</div>
+<!-- First Row - Right -->  
+<div id="right" style="display: table-cell; padding-right: 50px; ">
+
+			{% if request.user.account.user_category.user_category == 'school' %}
+                 <a href="/schoolnew/school_registration/"><h4><center>{% trans "School" %}</center></h4>
+                <img src="{{STATIC_URL}}img/School.png"/></a>
+                </div>
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'aeeo' %}
+            {% if 'AAEEO' not in request.user.username  %}
+                     <a href="/teachers/staff_detailListView"><h4><center>{% trans "Staff Details" %}    </center></h4>
+                    <img src="{{STATIC_URL}}img/officestaff.jpg"/></a>
+
+            {% endif %}
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'state' %}
+                    <a href="/reports/list/"><h4><center>{% trans "Reports" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/report.png"/></a>
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'district' %}
+                    <a href="/reports/list/"><h4><center>{% trans "Reports" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/report.png"/></a>
+            {% endif %}
+
+            {% if request.user.account.user_category.user_category == 'CEO' or request.user.account.user_category.user_category == 'DEEO' or request.user.account.user_category.user_category == 'DEO' or request.user.account.user_category.user_category == 'HOD' or request.user.account.user_category.user_category == 'IMS' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'CIPE' or request.user.account.user_category.user_category == 'IAS' or request.user.account.user_category.user_category == 'ACEO' or request.user.account.user_category.user_category == 'DIPE' or request.user.account.user_category.user_category == 'DIET' %}
+
+                    <a href="/reports/list/"><h4><center>{% trans "Reports" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/report.png"/></a>
+            {% endif %}
+                
+</div>
+
+<!-- Second Row - Left --> 
+</div>
+<br><br>
+            
+<div id="row"  style="display: table-row;">
+
+
+<div id="left" style="display: table-cell; padding-right: 50px; ">
+            
+            {% if request.user.account.user_category.user_category == 'school' %}
+
+
+                   <a href="/teachers/teacher_detailListView/"><h4><center>{% trans "Teacher" %}</center></h4>
+                  <img src="{{STATIC_URL}}img/teacher_icon.jpg"/></a>
+
+            
+            {% endif %}   
+            </div>
+<div id="middle" style="display: table-cell; padding-right: 50px; ">
+
+            
+                    <a href="/messages/inbox/"><h4><center>{% trans "Mailbox" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/inbox.png"/></a>
+
+            
+            {% if request.user.account.user_category.user_category == 'aeeo' %}
+                    <a href="/reports/list/"><h4><center>{% trans "Reports" %}</center></h4>
+                    <img src="{{STATIC_URL}}img/report.png"/></a>
+            {% endif %}
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+
+

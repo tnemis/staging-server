@@ -1,0 +1,463 @@
+{% extends "baseapp/master_base_new.html"|pjax:request %}
+
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block extrahead %} 
+
+<link href="/site_media/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+{{dept_opt}}
+ <div  class="form-group" style="visibility:hide" id="dept_div" name="dept_div"><b>{% trans "Select Department for the Report:" %}</b><select id="dept_choi" class="form-control" name='dept_choi' onselect="dept_rep();" onchange="dept_rep();" >
+            {% if dept_opt == 1 %}
+                <option value = '1' selected="selected" >D.S.E. Report</option>
+            {% else %} 
+            {% if dept_opt == 2 %}
+                <option value = '2' selected="selected" >D.E.E. Report</option>
+            {% else %}
+            {% if dept_opt == 3 %}
+                <option value = '3' selected="selected" >D.M.S. Report</option>
+               
+            {% else %} 
+
+            {% endif %} 
+            {% if dept_opt == 4 %}                        
+                <option value='4' selected="selected">All Directorate Report</option>
+            {% else %}
+                <option value="" selected="selected">Select</option>
+                <option value = 'D.S.E. Report' >D.S.E. Report</option>                
+                <option value = 'D.E.E. Report' >D.E.E. Report</option>
+                <option value = 'D.M.S. Report' >D.M.S. Report</option>
+                <option value = 'All Directorate Report' >All Directorate Report</option>
+                 {% endif %}                  
+            {% endif %}                  
+            {% endif %}
+       </select></div>
+
+ <div id="all_rep" name="all_rep" class="form-group" style="visibility:hide">
+
+<center><h2> School Profile - Entry - Status Report (All Directorate Schools)</h2></center>
+
+
+  <table class='table table-bordered table-striped2-header-rotated' border="2" align="center" cellspacing="0">
+ 
+      <tr>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">SL.NO.</th>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">UDISE CODE</th>
+        <th rowspan="3"  style="vertical-align:middle;" class="text-center">NAME OF THE SCHOOL</th>
+        <th colspan="7"  style="vertical-align:middle;" class="text-center">ENTRIES MADE IN </th>
+      </tr>
+      <tr>  
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Basic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Academic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Infrastructure Information</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Teaching Post</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Non-Teaching Post</th>  
+        </tr><tr>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+</tr>
+    {% for i in allsl %}
+<tr>
+<td class="text-center">
+        {{forloop.counter}}
+</td>
+<td>
+        {{i.udise_code}}
+</td>
+
+<td>     
+        {{i.school_name}}
+</td> 
+<td>
+{% for k in  schbi %}
+{% if k.id == i.id %}
+{% if k.manage_cate %}
+Yes
+{% else %} 
+No 
+{% endif %}
+
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schai %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+
+<td>
+{% for k in  schii %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptftot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntftot}}
+{% endif %}
+{% endfor %}
+</td>
+</tr>        
+        
+{% endfor %}
+
+
+</table>
+</div>    
+
+<div id="dse_rep" name="dse_rep" class="form-group" style="visibility:hide"> 
+
+<center><h2> School Profile - Entry - Status Report (D.S.E. Schools)</h2></center>
+
+
+  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+ 
+      <tr>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">SL.NO.</th>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">UDISE CODE</th>
+        <th rowspan="3"  style="vertical-align:middle;" class="text-center">NAME OF THE SCHOOL</th>
+        <th colspan="7"  style="vertical-align:middle;" class="text-center">ENTRIES MADE IN </th>
+      </tr>
+      <tr>  
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Basic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Academic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Infrastructure Information</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Teaching Post</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Non-Teaching Post</th>  
+        </tr><tr>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+</tr>
+    {% for i in dsesl %}
+<tr>
+<td class="text-center">
+        {{forloop.counter}}
+</td>
+<td>
+        {{i.udise_code}}
+</td>
+
+<td>     
+        {{i.school_name}}
+</td> 
+<td>
+{% for k in  schbi %}
+{% if k.id == i.id %}
+{% if k.manage_cate %}
+Yes
+{% else %} 
+No 
+{% endif %}
+
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schai %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+
+<td>
+{% for k in  schii %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptftot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntftot}}
+{% endif %}
+{% endfor %}
+</td>
+</tr>        
+        
+{% endfor %}
+
+
+</table>
+</div>
+
+<div id="dee_rep" name="dee_rep" class="form-group" style="visibility:hide"> 
+
+<center><h2> School Profile - Entry - Status Report (D.E.E. Schools)</h2></center>
+
+
+  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+ 
+      <tr>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">SL.NO.</th>
+        <th rowspan="3" style="vertical-align:middle;" class="text-center">UDISE CODE</th>
+        <th rowspan="3"  style="vertical-align:middle;" class="text-center">NAME OF THE SCHOOL</th>
+        <th colspan="7"  style="vertical-align:middle;" class="text-center">ENTRIES MADE IN </th>
+      </tr>
+      <tr>  
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Basic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Academic Information</th>
+        <th style="vertical-align:middle;" rowspan="2" class="text-center">Infrastructure Information</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Teaching Post</th>
+        <th style="vertical-align:middle;" colspan="2" class="text-center">Non-Teaching Post</th>  
+        </tr><tr>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Sanctioned</th>
+        <th style="vertical-align:middle;" class="text-center">No. Post Filled</th>
+</tr>
+    {% for i in deesl %}
+<tr>
+<td class="text-center">
+        {{forloop.counter}}
+</td>
+<td>
+        {{i.udise_code}}
+</td>
+
+<td>     
+        {{i.school_name}}
+</td> 
+<td>
+{% for k in  schbi %}
+{% if k.id == i.id %}
+{% if k.manage_cate %}
+Yes
+{% else %} 
+No 
+{% endif %}
+
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schai %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+
+<td>
+{% for k in  schii %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schtsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tptftot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsis %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntstot}}
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schntsif %}
+{% if k.staff__school_key_id == i.id %}
+{{k.tpntftot}}
+{% endif %}
+{% endfor %}
+</td>
+</tr>        
+        
+{% endfor %}
+
+
+</table>
+</div>
+
+ <div id="dms_rep" name="dms_rep" class="form-group" style="visibility:hide">
+
+<center><h2> School Profile - Entry - Status Report (Matriculation Schools)</h2></center>
+
+
+  <table class='table table-bordered table-striped2' border="2" align="center" cellspacing="0">
+ 
+      <tr>
+        <th width=5% rowspan="2" style="vertical-align:middle;" class="text-center">SL.NO.</th>
+        <th width=15% rowspan="2" style="vertical-align:middle;" class="text-center">UDISE CODE</th>
+        <th width=5% rowspan="2"  style="vertical-align:middle;" class="text-center">NAME OF THE SCHOOL</th>
+        <th width=5% colspan="5"  style="vertical-align:middle;" class="text-center">ENTRIES MADE IN </th>
+      </tr>
+      <tr>  
+        <th width=5% style="vertical-align:middle;" class="text-center">Basic Information</th>
+        <th width=5% style="vertical-align:middle;" class="text-center">Academic Information</th>
+        <th width=5% style="vertical-align:middle;" class="text-center">Infrastructure Information</th>
+
+</tr>
+     {% for i in dmssl %}
+<tr>
+<td class="text-center">
+        {{forloop.counter}}
+</td>
+<td>
+        {{i.udise_code}}
+</td>
+
+<td>     
+        {{i.school_name}}
+</td> 
+<td>
+{% for k in  schbi %}
+{% if k.id == i.id %}
+{% if k.manage_cate %}
+Yes
+{% else %} 
+No 
+{% endif %}
+
+{% endif %}
+{% endfor %}
+</td>
+<td>
+{% for k in  schai %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+
+<td>
+{% for k in  schii %}
+{% if k.school_key_id == i.id %}
+Yes
+{% endif %}
+{% endfor %}
+</td>
+
+
+</tr>        
+        
+{% endfor %}
+</table>
+</div> 
+<center>
+<a  class="btn btn-large btn-info" href='/schoolnew/sch_dist_repbi/{{blkid.district1}}/{{dept_opt}}'>Back</a>
+</center>
+
+<script type="text/javascript">
+function dept_rep()
+        { 
+            var repo_cho=$("#dept_choi option:selected").text()
+            if(repo_cho == 'All Directorate Report')
+            {
+                document.getElementById('dms_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "";
+                
+            } 
+            else if(repo_cho == 'D.S.E. Report')
+            {   
+
+                document.getElementById('dse_rep').style.display = "";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";
+                document.getElementById('dms_rep').style.display = "none";  
+            }
+            else if(repo_cho == 'D.E.E. Report')
+            {   
+                document.getElementById('dee_rep').style.display = "";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";
+                document.getElementById('dms_rep').style.display = "none"; 
+            }  
+            else if(repo_cho == 'D.M.S. Report')
+            {   
+                document.getElementById('dms_rep').style.display = "";
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none";  
+            }  
+
+            else 
+            {   
+                document.getElementById('dee_rep').style.display = "none";
+                document.getElementById('dse_rep').style.display = "none";
+                document.getElementById('all_rep').style.display = "none"; 
+                document.getElementById('dms_rep').style.display = "none";
+            }                        
+        }
+window.onload=dept_rep();
+window.stop();
+</script>
+  
+{% endblock %}
+
+

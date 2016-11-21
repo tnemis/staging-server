@@ -1,0 +1,26 @@
+{% extends 'teachers/base.html'|pjax:request %}
+{% load i18n %}
+{% load url from future %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+
+
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete :</p>
+<h3>
+   <b>
+   Name: {{ data.name }}<br>
+   Designation:{{ data.designation }}<br>
+   Date of birth: {{ data.dob }}<br>
+</b>
+</h3>
+<button class='btn btn-large btn-success' type='submit' onclick="this.disabled=true,this.form.submit(); type='submit'">  
+
+            
+            {% trans "Delete" %}
+          
+        </button>
+
+{% endblock %}

@@ -1,0 +1,814 @@
+{% extends 'teachers/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load url from future %}
+{% block extrahead %} 
+{% load static %}   
+{% endblock %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/tipped.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/tipped.css' %}"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+
+  Tipped.create('#charge_memo_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+  
+    Tipped.create('#a_individual_exp_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+Tipped.create('#a_final_order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+    Tipped.create('#e_suspension_order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+    Tipped.create('#e_reinitiated_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+    Tipped.create('#b_individula_exp_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+    Tipped.create('#b_enquiry_officer_app_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+    Tipped.create('#b_addl_exp_individual_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+
+Tipped.create('#b_final_order_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment: " + app_date;
+    });
+Tipped.create('#b_appeal_date',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+Tipped.create('#b_final_order_date_appeal',function() {
+      var app_date = document.getElementById('dategovt').value;
+      return "Enter the Date after the Date of Appointment : " + app_date;
+    });
+});
+</script>
+
+<script = "text/javascript">
+
+$(document).ready(function() {
+   
+       
+var def=document.getElementById("type_charge_memo").value;
+
+
+if(def==3)
+
+  
+  {
+    mar_div(def);
+    var sus=document.getElementById("e_whether_suspented").value;
+
+    mar_div2(sus);
+    var rein=document.getElementById("e_reinitiated_service").value;
+    
+    mar_div3(rein);
+    var memo=document.getElementById("e_charge_memo").value;
+    
+    if (memo==2)
+    {
+       
+    mar_div4(memo);
+    var enq=document.getElementById("b_enquiry_officer_appointed").value;
+    mar_div1(enq);
+    var charg=document.getElementById("b_charges_proved").value;
+    mar_div30(charg);
+    var inc=document.getElementById("b_punishment_type").value;
+    mar_div9(inc);
+    var appl=document.getElementById("b_appeal_received").value;
+    mar_div6(appl);
+    var punish=document.getElementById("b_punishment_type_appeal").value;
+    mar_div10(punish);
+    }
+    else{
+       
+        mar_div4(memo);
+        var memo=document.getElementById("a_final_status").value;
+        mar_div5(memo);
+    }
+ 
+    
+  }
+
+
+ else if (def==2)
+  {
+   
+    mar_div(def);
+    var enq=document.getElementById("b_enquiry_officer_appointed").value;
+    mar_div1(enq);
+    var charg=document.getElementById("b_charges_proved").value;
+    mar_div30(charg);
+    var inc=document.getElementById("b_punishment_type").value;
+    mar_div9(inc);
+    var appl=document.getElementById("b_appeal_received").value;
+    mar_div6(appl);
+    var punish=document.getElementById("b_punishment_type_appeal").value;
+    mar_div10(punish);
+    
+  }
+  
+ 
+else{
+    
+    mar_div(def);
+    var memo=document.getElementById("a_final_status").value;
+    mar_div5(memo); 
+     
+  }
+    });
+
+
+function mar_div(flag)
+
+ {   
+      if (flag == '1' )
+    {
+     
+        
+        document.getElementById("spouse_name_div").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div").style.display = 'none';
+             
+
+    }
+
+    if (flag == '2' )
+    {   
+        
+        
+        
+        document.getElementById("spouse_name_div0").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div0").style.display = 'none';
+        
+        
+        
+
+    }
+
+    if (flag == '3' )
+    { 
+        document.getElementById("spouse_name_div1").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div1").style.display = 'none';
+       
+        
+
+    }
+
+}
+
+
+
+function mar_div1(flag)
+{
+    if (flag == '1' )
+    {
+
+        document.getElementById("spouse_name_div3").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div3").style.display = 'none';
+        
+
+ 
+
+
+
+    }
+
+}
+
+function mar_div2(flag)
+{
+    if (flag == '1' )
+    {
+        document.getElementById("spouse_name_div4").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div4").style.display = 'none';
+        
+    }
+
+}
+function mar_div3(flag)
+{
+    if (flag == '1' )
+    {
+        document.getElementById("spouse_name_div5").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div5").style.display = 'none';
+        
+ 
+    }
+
+}
+
+function mar_div4(flag)
+{  
+    if (flag == '1' )
+    {
+        document.getElementById("spouse_name_div").style.display = 'block';
+    }
+    else{
+        
+        
+        document.getElementById("spouse_name_div").style.display = 'none';
+        
+
+    }
+
+    if (flag == '2' )
+    {
+        
+        document.getElementById("spouse_name_div0").style.display = 'block';
+
+    }
+
+    else{
+        
+        
+        document.getElementById("spouse_name_div0").style.display = 'none';
+
+         
+    }
+}
+
+
+function mar_div5(flag)
+{  
+    if (flag == '2' )
+    {
+        document.getElementById("spouse_name_div6").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div6").style.display = 'none';
+       
+    }
+
+}
+
+function mar_div6(flag)
+{
+    if (flag == '1' )
+    {
+        document.getElementById("spouse_name_div7").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div7").style.display = 'none';
+       
+        
+
+
+    }
+
+
+}
+
+function mar_div10(flag)
+
+{   
+    if (flag == "Increment Cut Without Cummulative Effect" || flag == "Increment Cut With Cummulative Effect" )
+    {
+        document.getElementById("spouse_name_div10").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div10").style.display = 'none';
+        
+  
+    }
+
+
+}
+function mar_div9(flag)
+{
+    if (flag == '1' || flag == '7' )
+    {
+        document.getElementById("spouse_name_div9").style.display = 'block';
+    }
+    else{
+        document.getElementById("spouse_name_div9").style.display = 'none';
+        
+       
+    }
+
+
+}
+function mar_div30(flag)
+
+{
+    
+    if (flag == '1')
+    {
+        document.getElementById("spouse_name_div30").style.display = 'block';
+    }
+  else{
+        document.getElementById("spouse_name_div30").style.display = 'none';
+        
+        
+    }
+
+}
+
+</script>
+
+
+
+ <script type="text/javascript">
+            $(function() {
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("[data-mask]").inputmask();
+            });
+        </script>
+<script type="text/javascript">
+
+function dob_regular(val)
+{
+    var app_date = document.getElementById('dategovt').value;    
+   
+    var prob_date = document.getElementById('charge_memo_date').value;    
+    var today = new Date();    
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2);        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Enter the Date after the Date of Appointment");
+            document.getElementById('charge_memo_date').focus();
+            document.getElementById('charge_memo_date').value="";
+            charge_memo_date.style.backgroundColor = "MistyRose";            
+        }
+         else
+        {document.getElementById('charge_memo_date').style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+
+
+
+
+<script type="text/javascript">
+
+function dob_regular1(val,id)
+{
+    var prob_date=val;
+    var idd=id;
+    var app_date = document.getElementById('charge_memo_date').value;   
+    var today = new Date();    
+    if(prob_date != "" )
+    {   
+        var record_day1=app_date.split("/");  
+        var sum1=record_day1[2]+'/'+record_day1[1]+'/'+record_day1[0];
+        var record_day2=prob_date.split("/");  
+        var sum2=record_day2[2]+'/'+record_day2[1]+'/'+record_day2[0];
+        var appoint_date=new Date(sum1);    
+        var probation_date=new Date(sum2);        
+       
+        
+        if(appoint_date > probation_date || probation_date > today)
+        {
+            alert("Enter the Date after the Date of Appointment ");
+            document.getElementById(idd).focus();
+            document.getElementById(idd).value="";
+            document.getElementById(idd).style.backgroundColor = "MistyRose";            
+        }
+         else
+        {document.getElementById(idd).style.background = 'none';}
+    }
+    return false; 
+}
+</script>
+ 
+    
+
+    
+<div class="content">
+  <form id="form-3" action='#' method='post' enctype="multipart/form-data" name="frm">
+    <fieldset>
+      {% csrf_token %}
+    
+<center><h6 style="display:block;text-align:top;float:center;font-size:200%;color:red;">DETAILS OF DISCIPLINARY ACTION TAKEN</h6></center>
+<center><h3>(Additional rows can be created after saving each detail)</h3></center>
+<p align="right" >  <a  class="btn btn-small btn-success" href='/teachers/teacher_personnel_entry_after/{{tid}}/'>Back...</a></p><br> 
+<input type="hidden" name="unique_id" id="unique_id" value="{{ tid }}">
+<input type="hidden" name="pk1" id="pk1" value="{{ pk1 }}">
+<input type="hidden" name="unique_name" id="unique_name" value="{{ unique_id.name }}">
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+<br> <br> 
+ <h1><font color='white'> Staff-ID : {{unique_id.count}}
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name : {{unique_id.name |upper }}</font></h1>
+<br> 
+
+<input type="hidden" name="dategovt" id="dategovt"  value="{{ dategovt }}">
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Post In Which the Lapse committed"%}</b>
+    <select id='post_name_charge_committed' name="post_name_charge_committed"  class="form-control" class="mandatory" onclick="slect_fist()">
+
+            {% if post_name_charge_committed %}
+    <option value="{{post_name_charge_committed.id}}" selected="selected">{{post_name_charge_committed.designation.user_desig}} ---- {{post_name_charge_committed.school_name1}} </option>
+        {% endif %}
+    <option value="select" >SELECT</option>
+        {% for i in  posting_desg %}
+    <option value="{{i.id}}" >{{ i.designation.user_desig}}----{{i.school_name1 }} </option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.post_name_charge_committed.errors}}</span>
+
+     <div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Gist of the Charge" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="gist" name="gist"   value="{{form.gist.value}}" onclick="select()" placeholder="NONE" maxlength="500" /></div>
+<span class="error_message">{{form.gist.errors}}</span>
+
+
+
+
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="charge_memo_number" name="charge_memo_number"  value="{{form.charge_memo_number.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.charge_memo_number.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Memo Order " %}</b>
+<input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  maxlength="10" id="charge_memo_date" name="charge_memo_date"  value="{{form.charge_memo_date.value|date:"d/m/Y"}}" onchange="dob_regular(this.value)"/>
+
+</div>
+<span class="error_message">{{form.charge_memo_date.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Is Charges Pending? Details with Months" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="charge_pending" name="charge_pending"   value="{{form.charge_pending.value}}" maxlength="300" /></div>
+  <span class="error_message">{{form.charge_pending.errors}}</span>
+
+
+
+
+<div class="form-group"> <b> {% trans "Type of the Rule" %}</b>
+    <select name="type_charge_memo" id="type_charge_memo"  class="form-control" onchange="mar_div(this.value)" >
+    <option value="select" >SELECT</option>  
+   {% if type_charge_memo %}
+    <option value="{{type_charge_memo.id}}" selected="selected">{{ type_charge_memo}} </option>
+        {% endif %}
+         {% for i in  type_charge_memo1 %}
+    <option value="{{i.id}}" >{{ i.rule_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <span class="error_message">{{form.type_charge_memo.errors}}</span>
+
+
+<div class="form-group" id="spouse_name_div1" hidden >
+
+
+
+<div class="form-group"> <b> {% trans "17(e)Whether Suspended" %}</b>
+    <select name="e_whether_suspented" id="e_whether_suspented"  class="form-control" onchange="mar_div2(this.value)">
+
+
+{% if e_whether_suspented == '1' %}
+    <option value="{{form.e_whether_suspented.value}}" selected="selected">Yes </option>
+    {% elif e_whether_suspented == '2' %}
+    <option value="{{form.e_whether_suspented.value}}" selected="selected">No </option>
+        {% endif %}
+
+
+        <option value="" >---------</option>
+        <option value="1" >Yes </option>
+        <option value="2" >No</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.e_whether_suspented.errors}}</span>
+
+
+
+<div class="form-group" id="spouse_name_div4" hidden >
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(e) Date of Suspended Order " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="e_suspension_order_date" name="e_suspension_order_date"  value="{{form.e_suspension_order_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_suspension_order_date.errors}}</span>
+
+
+
+<div class="form-group"> <b> {% trans "Reinstate to Service" %}</b>
+    <select name="e_reinitiated_service" id="e_reinitiated_service"  class="form-control" onchange="mar_div3(this.value)" >
+
+{% if e_reinitiated_service == '1' %}
+
+    <option value="{{form.e_reinitiated_service.value}}" selected="selected">Yes </option>
+    {% elif e_reinitiated_service == '2' %}
+    <option value="{{form.e_reinitiated_service.value}}" selected="selected">No </option>
+        {% endif %}
+
+
+        <option value="" >---------</option>
+        <option value="1" >Yes </option>
+        <option value="2" >No</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.e_reinitiated_service.errors}}</span>
+
+
+<div class="form-group" id="spouse_name_div5" hidden >
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Reinstated " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"   id="e_reinitiated_date" name="e_reinitiated_date"  value="{{form.e_reinitiated_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.reinitiated_date.errors}}</span>
+</div>
+</div>
+
+
+<div class="form-group"> <b> {% trans "Charge Memo " %}</b>
+    <select name="e_charge_memo" id="e_charge_memo"  class="form-control" onchange="mar_div4(this.value)" >
+        
+{% if e_charge_memo == '1' %}
+
+    <option value="{{form.e_charge_memo.value}}" >17(a)</option>
+    {% elif e_charge_memo == '2' %}
+     <option value="{{form.e_charge_memo.value}}" >17(b)</option>
+     {% endif %}
+        
+
+        <option value="" >---------</option>
+        <option value="1" >17(a) </option>
+        <option value="2" >17(b)</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.e_charge_memo.errors}}</span>
+</div>
+
+<div class="form-group" id="spouse_name_div" hidden >
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(a) Explanation Date of the Individual " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="a_individual_exp_date" name="a_individual_exp_date"  value="{{form.a_individual_exp_date.value|date:"d/m/Y"  }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.a_individual_exp_date.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "17(a) Final Order No." %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="a_final_order_no" name="a_final_order_no"  value="{{form.a_final_order_no.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.a_final_order_no.errors}}</span>
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(a)  Date of Final Order" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="a_final_order_date" name="a_final_order_date"  value="{{form.a_final_order_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.a_final_order_date.errors}}</span>
+
+
+
+<div class="form-group"> <b> {% trans "17(a) Details of Final order " %}</b>
+    <select name="a_final_status" id="a_final_status"  class="form-control" onchange="mar_div5(this.value)">
+        
+
+   
+   {% if a_final_status == '1' %}
+    <option value="{{form.a_final_status.value}}" >Censure </option>
+    {% elif a_final_status == '2' %}
+     <option value="{{form.a_final_status.value}}">Increment Cut Without Cummulative Effect </option>
+     {% elif a_final_status == '3' %}
+     <option value="{{form.a_final_status.value}}">Charges Dropped</option>
+        {% endif %}
+   
+
+
+        <option value="" >---------</option>
+        <option value="1" >Censure </option>
+        <option value="2" >Increment Cut Without Cummulative Effect</option>
+        <option value="3" >Charges Dropped</option> 
+        </select>
+    </div>
+    <span class="error_message">{{form.a_final_status.errors}}</span>
+
+
+<div class="form-group" id="spouse_name_div6" hidden >
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "17(a) Total No. of months Increment cut" %}</b><input type="text"  class="form-control" class="mandatory" id="a_increment_cut_years" name="a_increment_cut_years"  value="{{form.a_increment_cut_years.value}}" onclick="select()" placeholder="0" maxlength="10" /></div>
+<span class="error_message">{{form.a_increment_cut_years.errors}}</span>
+</div>
+</div>
+
+
+
+
+<div class="form-group" id="spouse_name_div0" hidden >
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(b)Explanation Date of the Individual" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_individula_exp_date" name="b_individula_exp_date"  value="{{form.b_individula_exp_date.value|date:"d/m/Y"}}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_individula_exp_date.errors}}</span>
+
+
+<div class="form-group"> <b> {% trans "Enquiry Officer  Appointed" %}</b>
+    <select name="b_enquiry_officer_appointed" id="b_enquiry_officer_appointed"  class="form-control" onchange="mar_div1(this.value)" >
+        
+        {% if b_enquiry_officer_appointed == '1' %}
+
+        <option value="{{form.b_enquiry_officer_appointed.value}}" >Yes</option>
+        {% elif b_enquiry_officer_appointed == '2' %}
+        <option value="{{form.b_enquiry_officer_appointed.value}}" >No</option>
+        {% endif %}
+        
+        
+        <option value="" >---------</option>
+        <option value="1" >Yes </option>
+        <option value="2" >No</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.b_enquiry_officer_appointed.errors}}</span>
+
+
+
+
+
+<div class="form-group" id="spouse_name_div3" hidden >
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Enquiry Officer Appointed " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_enquiry_officer_app_date" name="b_enquiry_officer_app_date"  value="{{form.b_enquiry_officer_app_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_enquiry_officer_app_date.errors}}</span>
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Enquiry Officer Desigination with Place ( AEEO / DEO / CEO / JD )" %}</b><input type="text" style="text-transform: uppercase" class="form-control" class="mandatory" id="b_enquiry_officer_name" name="b_enquiry_officer_name"  value="{{form.b_enquiry_officer_name.value}}" onclick="select()" placeholder="NONE" maxlength="50" /></div>
+<span class="error_message">{{form.b_enquiry_officer_name.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Enquiry Officer's Report " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_enquiry_officer_rpt_received" name="b_enquiry_officer_rpt_received"  value="{{form.b_enquiry_officer_rpt_received.value|date:"d/m/Y"}}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_enquiry_officer_rpt_received.errors}}</span>
+</div>
+
+
+<div class="form-group"> <b> {% trans "Charges Proved" %}</b>
+    <select name="b_charges_proved" id="b_charges_proved"  class="form-control"  onchange="mar_div30(this.value)">
+       
+        
+        {% if b_charges_proved == '1' %}
+        <option value="{{form.b_charges_proved.value}}" >Yes</option>
+        {% elif b_charges_proved == '2'  %}
+        <option value="{{form.b_charges_proved.value}}" >No</option>
+        {% endif %}
+        
+        <option value="" >---------</option>
+        <option value="1" >Yes </option>
+        <option value="2" >No</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.b_charges_proved.errors}}</span>
+
+
+ <div class="form-group" id="spouse_name_div30" hidden >
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans " Date of Additional Explanation of Individual " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_addl_exp_individual_date" name="b_addl_exp_individual_date"  value="{{form.b_addl_exp_individual_date.value|date:"d/m/Y"}}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_addl_exp_individual_date.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(b) Date of Final Order " %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_final_order_date" name="b_final_order_date"  value="{{form.b_final_order_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_final_order_date.errors}}</span>
+
+<div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "17(b) Details of Final Order "%}</b>
+    <select id='b_punishment_type' name="b_punishment_type"  class="form-control" class="mandatory" onchange="mar_div9(this.value)" >
+            {% if b_punishment_type %}
+    <option value="{{b_punishment_type.id}}" >{{ b_punishment_type.action_name}}  </option>
+        {% endif %}
+    <option value="" >SELECT</option>
+        {% for i in  action_namee %}
+    <option value="{{i.id}}" >{{ i.action_name}}</option>
+        {% endfor %}
+     </select></div>
+     <span class="error_message">{{form.b_punishment_type.errors}}</span>
+     </div>
+
+     <div class="form-group" id="spouse_name_div9" hidden >
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Total No. of months Increment cut" %}</b><input type="text"  class="form-control" class="mandatory" id="b_increment_cut_years" name="b_increment_cut_years"  value="{{form.b_increment_cut_years.value}}" onclick="select()" placeholder="0" maxlength="10" /></div>
+<span class="error_message">{{form.b_increment_cut_years.errors}}</span>
+</div>
+
+
+
+ 
+
+<div class="form-group"> <b> {% trans "Appeal Received" %}</b>
+    <select name="b_appeal_received" id="b_appeal_received"  class="form-control" onchange="mar_div6(this.value)" >
+        
+        {% if b_appeal_received == '1' %}
+        <option value="{{form.b_appeal_received.value}}" selected="selected">Yes</option>
+        {% elif b_appeal_received == '2' %}
+        <option value="{{form.b_appeal_received.value}}" selected="selected">No</option>
+        {% endif %}
+        
+        
+        <option value="" >---------</option>
+        <option value="1" >Yes </option>
+        <option value="2" >No</option>
+        </select>
+    </div>
+    <span class="error_message">{{form.b_appeal_received.errors}}</span>
+
+
+
+<div class="form-group" id="spouse_name_div7" hidden >
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "Date of Appeal received" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory" id="b_appeal_date" name="b_appeal_date"  value="{{form.b_appeal_date.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.appeal_date.errors}}</span>
+
+
+
+<div class="form-group"> <b><strong style="color:red;">*</strong>{% trans "17(b) Date of Final order after Appeal received" %}</b><input type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" class="form-control" class="mandatory"  id="b_final_order_date_appeal" name="b_final_order_date_appeal"  value="{{form.b_final_order_date_appeal.value|date:"d/m/Y"   }}" maxlength="10" onblur="dob_regular1(this.value,this.id)"/></div>
+<span class="error_message">{{form.b_final_order_date_appeal.errors}}</span>
+
+
+
+<div class="form-group"> <b> {% trans "Details of Final Order  After Appeal" %}</b>
+    <select name="b_punishment_type_appeal" id="b_punishment_type_appeal"  class="form-control" onchange="mar_div10(this.value)"  >
+        
+        {% if b_punishment_type_appeal %}
+        <option value="{{form.b_punishment_type_appeal.value}}" >{{form.b_punishment_type_appeal.value}}</option>
+        
+        {% endif %}
+
+        <option value="" >---------</option>
+        <option value="Censure" >Censure </option>
+        <option value="Increment Cut Without Cummulative Effect" >Increment Cut Without Cummulative Effect</option>
+        <option value="Charges Dropped" >Charges Dropped</option> 
+        <option value="Increment Cut With Cummulative Effect" >Increment Cut With Cummulative Effect</option>
+        <option value="Dismissal" >Dismissal </option> 
+        <option value="Removal" >Removal</option> 
+        <option value="Compulsory Retirement" >Compulsory Retirement</option> 
+        <option value="Reversion" >Reversion</option> 
+        <option value="Medical invalidation" >Medical invalidation</option> 
+        </select>
+    </div>
+    <span class="error_message">{{form.b_punishment_type_appeal.errors}}</span>
+
+
+
+<div class="form-group" id="spouse_name_div10" hidden >
+
+<div class="form-group"  > <b><strong style="color:red;">*</strong>{% trans "Total No. of months Increment cut" %}</b><input type="text"  class="form-control" class="mandatory" id="b_increment_cut_years_appeal" name="b_increment_cut_years_appeal"  value="{{form.b_increment_cut_years_appeal.value}}" onclick="select()" placeholder="0" maxlength="10" /></div>
+<span class="error_message">{{form.b_increment_cut_years_appeal.errors}}</span>
+</div>
+
+
+</div>
+
+    </fieldset>
+   <button class='btn btn-large btn-success' type='submit'>
+            {% trans "Submit" %}
+      </button>       
+
+
+<form action="" method="POST">
+
+<table  border="2" >
+<tr>
+            <th style="text-align:center; ">{% trans "S. No." %}</th>
+            <th style="text-align:center; ">{% trans "Staff Name" %}</th>
+            <th style="text-align:center; ">{% trans "Post In Which the  Charge committed" %}</th>
+            <th style="text-align:center;">{% trans "Gist of the Charge" %}</th>
+            <th style="text-align:center;">{% trans "Order No." %}</th>
+            <th style="text-align:center;">{% trans "Date of Memo Order " %}</th>
+            <th style="text-align:center;">{% trans "Type of the Rule" %}</th>             
+            <th >Update</th> 
+          
+</tr>
+</tr>
+ 
+{% for i in edu_list %}
+        <tr>
+        <td>{{forloop.counter}}</td>  
+        <td> <a href="/teachers/teacher_full_detail/{{i.teacherid_id}}"style="text-decoration: none">{{ i.teacherid.name|upper }} </td>
+        <td> {{ i.post_name_charge_committed.designation }}
+        {{ i.post_name_charge_committed.school_name1 }}</td>
+        <td> {{ i.gist |upper }}</td>
+        <td> {{ i.charge_memo_number }}</td>
+        <td> {{ i.charge_memo_date }}</td>
+        <td> {{ i.type_charge_memo }}</td>
+        <td><a href="/teachers/teacher_action_update/{{tid}}/{{i.id}}"><button type="button" class="btn btn-warning">Update</button></a></td>
+        
+       
+        {% endfor %}
+        </tr>
+        
+</table>
+  </form>
+
+  </div>
+  </div>
+</div>
+
+{% endblock %}
