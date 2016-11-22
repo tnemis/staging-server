@@ -982,9 +982,9 @@ function no_future(birth){
 
    
    var minyr = String(today.getFullYear()-5);
-   var maxyr = String(today.getFullYear()-20);
-   var minDate = new Date(minyr,0,1);
-   var maxDate = new Date(maxyr,0,1);
+   var maxyr = String(today.getFullYear()-25);
+   var minDate = new Date(minyr,5,1);
+   var maxDate = new Date(maxyr,5,1);
 
     if(myDate > today){
     alert("Date Error: FUTURE DATE ENTERED !!!");
