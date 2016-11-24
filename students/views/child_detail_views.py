@@ -19,7 +19,8 @@ from django import template
 from django.contrib import messages
 from excel_response import ExcelResponse
 from django.utils import simplejson
-
+import os
+from django.conf import settings
 
 class Child_detailView(object):
     model = Child_detail
@@ -61,7 +62,7 @@ class Child_detailCreateView(View):
         religion_list = Religion.objects.all().exclude(religion_name='Undefined').order_by('id')
         community_list = Community.objects.all().exclude(community_name='undefined').order_by('id')
         schemes = Schemes.objects.all().order_by('scheme_name')
-        class_studying_list = Class_Studying.objects.all()
+        class_studying_list = Class_Studying.objects.all()[9:12]
         nationality_list = Nationality.objects.all().exclude(nationality='Undefined').order_by('id')
         group_code_list = Group_code.objects.all()
         bank_list = Bank.objects.all()
@@ -475,8 +476,8 @@ class Child_detailUpdateView(View):
             fmdetail =None
         district_list = District.objects.all().exclude(district_name='None').order_by('district_name')
         form = Child_detailform(instance=instance)
-        grp= instance.group_code
         ge = instance.gender
+        grp= instance.group_code
         cls_studying = instance.class_studying
         cls_section = instance.class_section
         academic_yr = instance.academic_year
@@ -507,7 +508,7 @@ class Child_detailUpdateView(View):
         nationality_list = Nationality.objects.all().exclude(nationality='Undefined').order_by('id')
         schemes = Schemes.objects.all()
         mthr_name = instance.mother_name
-        class_studying_list = Class_Studying.objects.all()
+        class_studying_list = Class_Studying.objects.all()[9:12]
         first_language_value = instance.first_language
         optional_language_value = instance.optional_language
         group_code_list = Group_code.objects.all()
@@ -542,6 +543,7 @@ class Child_detailUpdateView(View):
         cls_section = instance.class_section
         academic_yr = instance.academic_year
         stud_photo = instance.photograph
+        # photo1=instance.photo
         bank_name = instance.bank
         differently_abled_list1 = instance.differently_abled
         student_count = School_child_count.objects.get(school_id = instance.school_id)
@@ -615,14 +617,21 @@ class Child_detailUpdateView(View):
                 dis_advntgd_grp = ''
 
             
+            check = request.POST.get('clear_photo')
             
-            if stud_photo == '':
+            if check == "True":
+                # photo_file=settings.MEDIA_ROOT+'/'+ str(stud_photo)
+                # photo_file1=settings.MEDIA_ROOT+'/'+ str(photo1)
+                # os.remove(photo_file)
+                # os.remove(photo_file1)
+                student_photo=''
                 student_photo = form.cleaned_data['photograph']
             else:
-                if request.POST.get('clear_photo') == "True":
-                    student_photo = form.cleaned_data['photograph']
-                else:
-                    student_photo = stud_photo        
+                student_photo = stud_photo        
+
+            if stud_photo == '':
+                student_photo = form.cleaned_data['photograph']
+            
 
             if form.cleaned_data['schemes']:
                 scheme_list=request.POST.getlist('schemes')

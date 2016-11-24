@@ -166,10 +166,7 @@
                         weight:{
                             min:7,
                             max:150,
-                        },
-                        school_admission_no:{
-                            min:-1,
-                        }
+                        },   
                     }
                 });
 
@@ -968,46 +965,6 @@ function nation(nation)
 }
 
 
-function no_future(birth){
-   var bday = document.getElementById(birth).value;
-   
-
-   var date = bday.substring(0,2);
-   var month = bday.substring(3,5);
-   var year = bday.substring(6,10);
-
-
-   var myDate = new Date(year,month-1,date);
-   var today = new Date();
-
-   
-   var minyr = String(today.getFullYear()-5);
-   var maxyr = String(today.getFullYear()-25);
-   var minDate = new Date(minyr,5,1);
-   var maxDate = new Date(maxyr,5,1);
-
-    if(myDate > today){
-    alert("Date Error: FUTURE DATE ENTERED !!!");
-    document.getElementById('dob').value='';
-    }
-    else{
-        if(myDate <= minDate && myDate >=  maxDate){
-            return;
-        }
-        else{
-            document.getElementById('dob').value='';
-            document.getElementById("dob").focus();
-            alert("Age should be in the range 5-20");
-
-        }
-    }
-
-    
-    
-}
-
-
-
 function getAge(birth) {
     var today = new Date();
 
@@ -1062,22 +1019,23 @@ function community_cert_avlbl(comm)
 
 
 
- var sci_prtl =["Visual Impairment (Blindness)","Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Multiple disability","Down syndrome",];
+var sci_prtl =["Visual Impairment (Blindness)","Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Multiple disability","Down syndrome","Autism","Muscular dystrophy","Locomotor Impairment/Handicapped"];
 
- var lang_exmpt = ["Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Down syndrome",];
-
+    var lang_exmpt = ["Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Down syndrome","Multiple disability","Autism"];
 
  function exemptions(dt)
  {  
-    var sci_prtl =["Visual Impairment (Blindness)","Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Multiple disability","Down syndrome",];
+    var sci_prtl =["Visual Impairment (Blindness)","Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Multiple disability","Down syndrome","Autism","Muscular dystrophy","Locomotor Impairment/Handicapped"];
 
-    var lang_exmpt = ["Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Down syndrome",];
+
+    var lang_exmpt = ["Hearing Impairment","Speech Impairment","Mental Retardation","Learning disability/Dyslexia","Cerebral Palsy","Down syndrome","Multiple disability","Autism"];
     var x = document.getElementById('class_studying').value;
    
     if( sci_prtl.indexOf(dt) >= 0 && x == 10 )  {
         document.getElementById('sp').style.display = "block";
     }else{
         document.getElementById('sp').style.display = "none";
+        document.getElementById('sp').value="";
 
     }
     
@@ -1092,11 +1050,14 @@ function community_cert_avlbl(comm)
         document.getElementById('le').style.display = "block";
     }else{
         document.getElementById('le').style.display = "none";
+        document.getElementById('le').value="";
 
     }
     if( lang_exmpt.indexOf(dt) >= 0 && y == 12){
         document.getElementById('le1').style.display = "block";
     }else{
+        
+        document.getElementById('le1').value="";
         document.getElementById('le1').style.display = "none";
 
     }
@@ -1117,12 +1078,22 @@ function abled(dif)
         
     document.getElementById('child_differently_abled_div').style.display = "block";
     document.getElementById('national_id_div').style.display = "block";
+
     
     
     } else {
         
     document.getElementById('child_differently_abled_div').style.display = "none";
     document.getElementById('national_id_div').style.display = "none";
+    document.getElementById("da_id_no").value ="";
+    document.getElementById("id_sci_practical").value ="";
+    document.getElementById("id_lang_exemption").value ="";
+    document.getElementById("id_lang_exemption1").value ="";
+    document.getElementById("differently_abled").value ="";
+    document.getElementById('sp').style.display = "none";
+    document.getElementById('le').style.display = "none";
+    document.getElementById('le1').style.display = "none";
+    
     
     }
 
@@ -1237,25 +1208,6 @@ function sports(sport)
 </script>
 
 <script type="text/javascript">
-function validate_photo()
-{
-    var fileUpload = document.getElementById("photograph");
-        if (typeof (fileUpload.files) != "undefined") {
-            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
-            // alert(size);
-            // alert (size);
-            if (size > 50) {
-                alert("Maximum file size is 50 KB");
-                document.getElementById("photograph").focus();
-                document.getElementById("photograph").value = '';
-
-            }
-            
-        } else {
-            alert("This browser does not support HTML5.");
-        }
-}
-
 
 function clearFileInputField(Id) {
 
@@ -1264,10 +1216,174 @@ function clearFileInputField(Id) {
         document.getElementById(photograph);
 
     }
+
+function check() {
+
+    var x = document.getElementById("education_medium").value;
+    if(x == '3'){
+        document.getElementById("id_grpcode_language1").value = "HIN";
+        document.getElementById("id_grpcode_language2").value = "HIN";
+        document.getElementById("id_grpcode_language3").value = "HIN";
+        document.getElementById("id_grpcode_language4").value = "HIN";
+        
+    }
+    if(x == '2'){
+        document.getElementById("id_grpcode_language1").value = "ENG";
+        document.getElementById("id_grpcode_language2").value = "ENG";
+        document.getElementById("id_grpcode_language3").value = "ENG";
+        document.getElementById("id_grpcode_language4").value = "ENG";
+        
+    }
+    if(x == '6'){
+        document.getElementById("id_grpcode_language1").value = "KAN";
+        document.getElementById("id_grpcode_language2").value = "KAN";
+        document.getElementById("id_grpcode_language3").value = "KAN";
+        document.getElementById("id_grpcode_language4").value = "KAN";
+        
+    }
+    if(x == '5'){
+        document.getElementById("id_grpcode_language1").value = "MAL";
+        document.getElementById("id_grpcode_language2").value = "MAL";
+        document.getElementById("id_grpcode_language3").value = "MAL";
+        document.getElementById("id_grpcode_language4").value = "MAL";
+        
+    }
+    if(x == '1'){
+        document.getElementById("id_grpcode_language1").value = "TAM";
+        document.getElementById("id_grpcode_language2").value = "TAM";
+        document.getElementById("id_grpcode_language3").value = "TAM";
+        document.getElementById("id_grpcode_language4").value = "TAM";
+        
+    }
+    if(x == '7'){
+        document.getElementById("id_grpcode_language1").value = "URD";
+        document.getElementById("id_grpcode_language2").value = "URD";
+        document.getElementById("id_grpcode_language3").value = "URD";
+        document.getElementById("id_grpcode_language4").value = "URD";
+        
+    }
+    if(x == '4'){
+        document.getElementById("id_grpcode_language1").value = "TEL";
+        document.getElementById("id_grpcode_language2").value = "TEL";
+        document.getElementById("id_grpcode_language3").value = "TEL";
+        document.getElementById("id_grpcode_language4").value = "TEL";
+        
+    }
+
+       
+
+    }
 </script>
 
+<script type="text/javascript">
+function validate_photo()
+{
+    
+    var fileUpload2 = document.getElementById("photograph");
+    
+    if (typeof (fileUpload2.files) != "undefined"){
+      var fileUpload1 = document.getElementById("photograph").value;
+       var ext = fileUpload1.split('.').pop();
+       
+       if(String(ext) != "jpg" && String(ext) != "jpeg" && String(ext) != "JPG" && String(ext) != "JPEG")
+       {    
+          alert("Upload the File with JPG or JPEG format Only");
+         document.getElementById("photograph").focus();
+         document.getElementById("photograph").value = '';
+         return false;}}
 
 
+    var fileUpload = document.getElementById("photograph");
+    
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            // alert(size);
+            // alert (size);
+            if (size > 50) {
+                alert("Maximum file size is 50 KB");
+                document.getElementById("photograph").focus();
+               document.getElementById("photograph").value = '';
+            }
+            
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+
+
+if (typeof (fileUpload.files) != "undefined") {
+       var reader = new FileReader();
+       reader.readAsDataURL(fileUpload.files[0]);
+       reader.onload = function (e) {
+       var image = new Image();
+       image.src = e.target.result;
+       image.onload = function () {
+       var height = this.height;
+       var width = this.width;
+       if (height > 200 || width > 200 || height < 120 || width < 120) {
+
+       alert("Height and Width must not exceed 200px and less than 120px.");
+        document.getElementById("photograph").focus();
+        document.getElementById("photograph").value = '';
+        return false;
+        }
+      
+
+            return true;};}
+        } else {
+       alert("This browser does not support HTML5.");
+    return false;}
+}
+</script>
+
+<script type="text/javascript">
+
+
+function no_future(dob_id){
+   var bday = document.getElementById(dob_id).value;
+   
+   // alert(bday);
+   var date = bday.substring(0,2);
+   var month = bday.substring(3,5);
+   var year = bday.substring(6,10);
+
+   // alert(year);
+   var myDate = new Date(year,month-1,date);
+   var today = new Date();
+   var curyr= today.getFullYear();
+   
+   var minyr = today.getFullYear()-5;
+   var maxyr = today.getFullYear()-25;
+
+   var minDate = new Date(minyr,5,1);
+   var maxDate = new Date(maxyr,5,1);
+
+    if(year > curyr){
+    alert("Date Error: FUTURE DATE ENTERED !!!");
+    document.getElementById('dob').value="";
+    }
+    else{
+    var chkyr=myDate.getFullYear();
+    // alert(chkyr);
+    // alert(minyr);
+    // alert(maxyr);
+
+    if(chkyr >= minyr || chkyr <=  maxyr)
+       {           
+            alert("Age should be in the range 5-25");
+            document.getElementById('dob').value="";
+            return;          
+        }
+        else
+        {
+            return;
+        }
+}    
+
+    
+    
+}
+
+</script>
 <div class="row">
   <div  >
   <div class="content">
@@ -1295,7 +1411,7 @@ function clearFileInputField(Id) {
 
  <!--  <div class="form-group"> <b>{% trans "Height" %} (in cm)</b><input type="text" class="form-control" value="{{form.height.value|default:0}}" id="height" name="height" onkeypress="return isNumber(event)" onblur="validate_height()" maxlength="3" /></div><span class="error_message">{{form.height.errors}}</span> -->
 
-    <div class="form-group">        <b>{% trans "Photograph" %}</b>    
+    <div class="form-group" class="mandatory">        <b>{% trans "Photograph" %}</b>    
 <strong style="color:blue;"> [Allowed Photo Size – 200 x 200 (Upto 50 KB), Allowed File format – jpg, jpeg]</strong> 
 {% if photo %}
 <a href="{{MEDIA_URL}}{{ photo }}">{{ photo }}</a><br>
@@ -1303,7 +1419,7 @@ function clearFileInputField(Id) {
 
 {% endif %}
 
-<input type="file" name="photograph" value="photograph" id = "photograph" onblur="validate_photo()">
+<input type="file" name="photograph" value="photograph" id = "photograph" onchange="validate_photo()">
 </div>
     <span class="error_message">{{form.photograph.errors}}</span>
 
@@ -1336,8 +1452,10 @@ function clearFileInputField(Id) {
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input class="mandatory" name="dob" id="dob" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.dob.value|date:"d/m/Y"  }}" onblur="getAge(new Date(this.value));no_future(this.id);" onfocus="fmg_validate()">
+        
+        <input class="form-control mandatory" name="dob" id="dob" type="text" data-mask="" data-inputmask="'alias': 'dd/mm/yyyy'" value="{{form.dob.value|date:"d/m/Y"  }}" onblur="getAge(new Date(this.value));no_future('dob');" >
       </div></div><span class="error_message">{{form.dob.errors}}</span>
+      <!-- onfocus="fmg_validate()" -->
 
 
 
@@ -1392,7 +1510,7 @@ function clearFileInputField(Id) {
       {% endfor %}
      </select></div><span class="error_message">{{form.mothertounge.errors}}</span>
 
-     <div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "School Admission No" %}</b><input type="text" class="form-control mandatory" value="{{form.school_admission_no.value}}" id="school_admission_no" name="school_admission_no" onkeypress="return isNumber(event)"   /></div><span class="error_message">{{form.school_admission_no.errors}}</span>
+     <div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "School Admission No" %}</b><input type="text" class="form-control mandatory" value="{{form.school_admission_no.value}}" id="school_admission_no" name="school_admission_no"    /></div><span class="error_message">{{form.school_admission_no.errors}}</span>
      </fieldset>
      <h3>Second Step</h3>
     
@@ -1460,7 +1578,7 @@ function clearFileInputField(Id) {
 
 <!-- Child history of 10,11 --> 
 {% if form.class_studying.value == 12 %}
-<div  id="stu_hist" class="form-group"><strong style="color:red;">*</strong><b>{% trans "Whether the student studied in wich section in 10std and 11 std:" %}</b>   
+<div  id="stu_hist" class="form-group"><strong style="color:red;">*</strong><b>{% trans "Category of School in which student studied in 10th and 11th std:" %}</b>   
             
 
                 <table  class="table table-bordered table-striped2" border="2" align="center">
@@ -1477,8 +1595,8 @@ function clearFileInputField(Id) {
                         <select class="mandatory" name="schl_cat_10" id="schl_cat_10" class="form-control" >
                         <option value=  >---------</option>
                             <option {% if schl_cat_10 == 1  %} selected {% endif %} value=1 >Goverment</option>
-                            <option {% if schl_cat_10 == 2 %} selected {% endif %} value=2 >Aided section in aided school</option>
-                            <option {% if schl_cat_10 == 3  %} selected {% endif %} value=3 >Unaided section in aided school</option>
+                            <option {% if schl_cat_10 == 2 %} selected {% endif %} value=2 >Aided section in Aided school</option>
+                            <option {% if schl_cat_10 == 3  %} selected {% endif %} value=3 >Unaided section in Aided school</option>
                             <option {% if schl_cat_10 == 4  %} selected {% endif %} value=4 >Unaided School</option>
                             </select>
                         </td>                             
@@ -1491,8 +1609,8 @@ function clearFileInputField(Id) {
                             <select class="mandatory" name="schl_cat_12" id="schl_cat_12" class="form-control" >
                             <option value=  >---------</option>
                             <option {% if schl_cat_12 == 1  %} selected {% endif %} value=1 >Goverment</option>
-                            <option {% if schl_cat_12 == 2 %} selected {% endif %} value=2 >Aided section in aided school</option>
-                            <option {% if schl_cat_12 == 3  %} selected {% endif %} value=3 >Unaided section in aided school</option>
+                            <option {% if schl_cat_12 == 2 %} selected {% endif %} value=2 >Aided section in Aided school</option>
+                            <option {% if schl_cat_12 == 3  %} selected {% endif %} value=3 >Unaided section in Aided school</option>
                             <option {% if schl_cat_12 == 4  %} selected {% endif %} value=4 >Unaided School</option>
                             </select>
                         </td>                             
@@ -1517,7 +1635,7 @@ function clearFileInputField(Id) {
 </script>
 
 {% else %}
-<div style='display:none;' id="stu_hist" class="form-group"><strong style="color:red;">*</strong><b>{% trans "Whether the student studied in wich section in 10std and 11 std:" %}</b>   
+<div style='display:none;' id="stu_hist" class="form-group"><strong style="color:red;">*</strong><b>{% trans "Category of School in which student studied in 10th and 11th std:" %}</b>   
             
 
                 <table  class="table table-bordered table-striped2" border="2" align="center">
@@ -1529,7 +1647,7 @@ function clearFileInputField(Id) {
 
                     <tr>
                         <td>(1)</td>
-                        <td>10th Standard was studied in  wich section</td>
+                        <td>10th Standard was studied in  which section</td>
                         <td>
                         <select class="mandatory" name="schl_cat_10" id="schl_cat_10" class="form-control" >
                             <option value= >---------</option>
@@ -1543,7 +1661,7 @@ function clearFileInputField(Id) {
 
                     <tr>
                         <td>(2)</td>
-                        <td>11th Standard was studied in  wich section</td>
+                        <td>11th Standard was studied in  which section</td>
                         <td>
                             <select class="mandatory" name="schl_cat_12" id="schl_cat_12"  >
                             <option value="" >---------</option>
@@ -1580,7 +1698,7 @@ function clearFileInputField(Id) {
 
 
     <div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Medium Of Instruction" %}</b>
-    <select id='education_medium' name="education_medium" class="mandatory" >
+    <select id='education_medium' name="education_medium" class="mandatory" onclick = "check()">
     {% if edu_medium %}
         <option value="{{edu_medium.id}}">{{edu_medium.education_medium}}</option>
     {% endif %}
@@ -1595,16 +1713,16 @@ function clearFileInputField(Id) {
 
      <select id='group_code' name="group_code" class="form-control"   >
      {% if grp %}
-        <option value="{{ grp.id }}" selected >{{ grp.group_name }}</option>
+        <option value="{{ grp.id }}" selected >{{ grp.group_code}}- {{ grp.group_name }}</option>
     {% endif %}
     <option value="" >---------</option>
       {% for gpcd in group_code_list %}
 
-        <option value="{{gpcd.id}}" >{{gpcd.group_name}}</option>
+        <option value="{{gpcd.id}}" >{{gpcd.group_code}}-{{gpcd.group_name}}</option>
       {% endfor %}
      </select></div><span class="error_message">{{form.group_code.errors}}</span>
 
-     <div class="form-group"  id="tbl"> 
+     <div class="form-group"  id="tbl"> <b>{% trans "Enter the medium for each group subject displayed above:" %}</b>
      <table class="table">
         
         <tbody>
@@ -1628,12 +1746,12 @@ function clearFileInputField(Id) {
 
      
      <div class="form-group" id="fl" onmouseover="choose();" onselect="choose();" onchange="choose();" onblur="choose()" onkeydown="choose();" onfocus="choose();"> <b><strong style="color:red;">*</strong> {% trans "First Language" %}</b>
-    <p>{{ form.first_language|add_class:'form-control' }}</p>
+    <p>{{ form.first_language|add_class:'mandatory' }}</p>
     </div><span class="error_message">{{form.first_language.errors}}</span>
     
      <!-- optional language -->
 
-     <div class="form-group" id="ol"> <b> {% trans "Optional Language" %}</b>
+     <div class="form-group" id="ol"> <b> {% trans "Part IV Optional Language" %}</b>
     {{ form.optional_language|add_class:'form-control' }}
    </div><span class="error_message">{{form.optional_language.errors}}</span>
    
@@ -1705,16 +1823,7 @@ function clearFileInputField(Id) {
      <fieldset>
 
 
-   <div class="form-group"> <b><strong style="color:red;">*</strong> {% trans "Religion" %}</b>
-   <select id='religion' name="religion" class="mandatory" >
-   {% if religion_value %}
-       <option value="{{religion_value.id}}">{{religion_value.religion_name}}</option>
-   {% endif %}
-   <option value="" >---------</option>
-     {% for rel in religion_list %}
-       <option value="{{rel.id}}" >{{rel.religion_name}}</option>
-     {% endfor %}
-    </select></div><span class="error_message">{{form.religion.errors}}</span>
+   <div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Religion" %}</b>{{ form.religion|add_class:"mandatory" }}</div><span class="error_message">{{form.religion.errors}}</span>
     
 
   <div class="form-group"> <strong style="color:red;">*</strong> <b>{% trans "Community" %}</b>{{ form.community|add_class:"mandatory" }}</div><span class="error_message">{{form.community.errors}}</span>

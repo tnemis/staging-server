@@ -3,12 +3,20 @@ from django.contrib.auth.decorators import login_required
 
 from students.base_views import barcode_generator
 from students.views.child_detail_views import *
+from students.views.nominal_roll_reports import *
 urlpatterns = patterns('',
     url(
         regex=r'^id_card/?(?P<uid>\d+?)?/$',
         view=barcode_generator,
         name='students_barcode_generator'
     ),
+    
+    url(
+        regex=r'^child_detail/nominal_roll_list/(?P<pk>\d+?)/$',
+        view=Nominal_roll_list.as_view(),
+        name='nominal_roll_list'
+        ),
+
     url(
         regex=r'^child_admit/(?P<pk>\d+?)/$',
         view=login_required(Child_admit.as_view()),

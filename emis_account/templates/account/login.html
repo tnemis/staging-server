@@ -77,15 +77,15 @@ function myfun(input) {
 </div>
 <div class="login_box">
 
-<!--<div style="height:300px; display: table-cell; vertical-align: middle;">
+<!-- <div style="height:300px; display: table-cell; vertical-align: middle;">
 <strong style="color:black; font-size:22px;"> Site is under maintenance. </strong>
 </div> -->
 
- <form method="POST" action="{% url "account_login" %}" autocomplete="off" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %} class='login'>
+<form method="POST" action="{% url "account_login" %}" autocomplete="off" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %} class='login'>
 
   {% csrf_token %}
   
-<!--   
+
   <p>    <label for="login">Username:</label>
       <input id="id_username" type="text" name="username" maxlength="30">
 
@@ -99,18 +99,18 @@ function myfun(input) {
             <label for="captcha">Captcha:                  </label></p>
             <p>
            {{form.captcha}}
-            </p> -->
+            </p> 
   <p>
-<tr><th><label for="id_username">Username:</label></th><td><input id="id_username" maxlength="30" name="username" type="text" /></td></tr>
+<!-- <tr><th><label for="id_username">Username:</label></th><td><input id="id_username" maxlength="30" name="username" type="text" /></td></tr>
 <tr><th><label for="id_password">Password:</label></th><td><input id="id_password" name="password" type="password" onblur="myfun(this.value)" /></td></tr>
 
 <tr>
 <td>
 <label for="{{ form.captcha.auto_id }}">{{ form.captcha.label }}</label>{{ form.captcha }}<span class="error">{{ form.captcha.errors }}</span>
 </td>
-</tr>
+</tr> -->
 
-      <!-- -- -->
+      
 
 
 </p>
@@ -130,7 +130,7 @@ password?</a></p>
 
 
 
- <!--<p> <a href="/helpdesk/tickets/submit/">Create Ticket</a> |  <a href="">Ticket Status</a> </p>-->
+ <p> <a href="/helpdesk/tickets/submit/">Create Ticket</a> |  <a href="">Ticket Status</a> </p>
   <div>
   <div style="height:50px;"></div>
     <div align="center">

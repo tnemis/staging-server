@@ -250,6 +250,7 @@ Model for Community
 class Community(models.Model):
    community_code = models.CharField(max_length=100)
    community_name = models.CharField(max_length=100)
+   religion = models.ForeignKey('Religion')
 
    def __unicode__(self):
        return u'%s' % (self.community_name)

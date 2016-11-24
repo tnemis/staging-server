@@ -785,5 +785,50 @@ class State_level_progress_report_man_dee1(View):
         return render(request,'state/state_progress_report_dee.html',locals())
 
 
-        
-        
+
+
+class District_dse_progress_report(View):
+    def get(self,request,**kwargs):
+        district=self.kwargs['pk']
+        district_name=District.objects.get(id=district)
+        school_list=School.objects.filter(district_id=district,category_id__in=[3,5,6,7,8,9,10],management_id__in=[1,2,3,4,5,6,8]).order_by('management_id')
+        emis_count=School_child_count.objects.filter(school_id__in=school_list)
+        dist_dse_total_emis_one=emis_count.aggregate(Sum('one')).values()[0]
+        dist_dse_total_emis_two=emis_count.aggregate(Sum('two')).values()[0]
+        dist_dse_total_emis_three=emis_count.aggregate(Sum('three')).values()[0]
+        dist_dse_total_emis_four=emis_count.aggregate(Sum('four')).values()[0]
+        dist_dse_total_emis_five=emis_count.aggregate(Sum('five')).values()[0]
+        dist_dse_total_emis_six=emis_count.aggregate(Sum('six')).values()[0]
+        dist_dse_total_emis_seven=emis_count.aggregate(Sum('seven')).values()[0]
+        dist_dse_total_emis_eight=emis_count.aggregate(Sum('eight')).values()[0]
+        dist_dse_total_emis_nine=emis_count.aggregate(Sum('nine')).values()[0]
+        dist_dse_total_emis_ten=emis_count.aggregate(Sum('ten')).values()[0]
+        dist_dse_total_emis_eleven=emis_count.aggregate(Sum('eleven')).values()[0]
+        dist_dse_total_emis_twelve=emis_count.aggregate(Sum('twelve')).values()[0]
+        dist_dse_total_emis_total_count=emis_count.aggregate(Sum('total_count')).values()[0]
+        return render(request,'district/district_dse_progress_report.html',locals())
+
+
+class District_matric_progress_report(View):
+    def get(self,request,**kwargs):
+        district=self.kwargs['pk']
+        district_name=District.objects.get(id=district)
+        school_list=School.objects.filter(district_id=district,management_id=9).order_by('management_id')
+        emis_count=School_child_count.objects.filter(school_id__in=school_list)
+        dist_matric_total_emis_one=emis_count.aggregate(Sum('one')).values()[0]
+        dist_matric_total_emis_two=emis_count.aggregate(Sum('two')).values()[0]
+        dist_matric_total_emis_three=emis_count.aggregate(Sum('three')).values()[0]
+        dist_matric_total_emis_four=emis_count.aggregate(Sum('four')).values()[0]
+        dist_matric_total_emis_five=emis_count.aggregate(Sum('five')).values()[0]
+        dist_matric_total_emis_six=emis_count.aggregate(Sum('six')).values()[0]
+        dist_matric_total_emis_seven=emis_count.aggregate(Sum('seven')).values()[0]
+        dist_matric_total_emis_eight=emis_count.aggregate(Sum('eight')).values()[0]
+        dist_matric_total_emis_nine=emis_count.aggregate(Sum('nine')).values()[0]
+        dist_matric_total_emis_ten=emis_count.aggregate(Sum('ten')).values()[0]
+        dist_matric_total_emis_eleven=emis_count.aggregate(Sum('eleven')).values()[0]
+        dist_matric_total_emis_twelve=emis_count.aggregate(Sum('twelve')).values()[0]
+        dist_matric_total_emis_total_count=emis_count.aggregate(Sum('total_count')).values()[0]
+        return render(request,'district/district_matric_progress_report.html',locals())
+
+
+

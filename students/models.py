@@ -22,10 +22,17 @@ fl_choice =(
     ('FRE','FRENCH'),  
     ('SAN','SANSKRIT'),
     ('GER','GERMAN'),
-    ('ARA','ARABIC'),
     ('HIN','HINDI'),
 )
-
+gcl_choice =(
+    ('TAM','TAMIL'),
+    ('KAN','KANNADA'),
+    ('TEL','TELUGU'),
+    ('MAL','MALAYALAM'),
+    ('URD','URDU'),
+    ('HIN','HINDI'),
+    ('ENG','ENGLISH')
+)
 ol_choice =(
     ('KAN','KANNADA'),
     ('TEL','TELUGU'),
@@ -113,20 +120,22 @@ class Child_detail(caching.base.CachingMixin, models.Model):
                                      )
     gender = models.CharField(max_length=15)
     dob = models.DateField(default='1990-01-01')
-    community = models.ForeignKey(Community,blank=True,null=True)
+    religion=models.ForeignKey(Religion,blank=True,null=True)
+    community =ChainedForeignKey(
+        Community, chained_field='religion', chained_model_field='religion', auto_choose=True,blank=True,null=True)
     community_certificate = models.CharField(max_length=3,blank=True,null=True)
     community_certificate_no = models.CharField(max_length=200,blank=True,null=True)
     community_certificate_date = models.DateField(blank=True,null=True,default='1990-01-01')
     nativity_certificate = models.CharField(max_length=3,blank=True,null=True)
-    religion = models.ForeignKey(Religion)
+    
     mothertounge = models.ForeignKey(Language)
     phone_number = BigIntegerField(default=0,  blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     child_differently_abled = models.CharField(max_length=3)
-    differently_abled = models.CharField(max_length=1000,blank=True,null=True)
+    differently_abled = models.CharField(max_length=30,blank=True,null=True)
     da_id_no = models.CharField(max_length=20,blank=True,null=True)
     sci_practical = models.CharField(choices=sp_choice,max_length=30,blank=True,null=True)
-    lang_exemption = models.CharField(choices=sp_choice,max_length=30,blank=True,null=True)
+    lang_exemption = models.CharField(choices=le_choice,max_length=30,blank=True,null=True)
     lang_exemption1 = models.CharField(choices=le_choice,max_length=30,blank=True,null=True)
     child_admitted_under_reservation = models.CharField(max_length=3,blank=True,null=True)
     weaker_section = models.CharField(max_length=3,blank=True,null=True)
@@ -158,10 +167,10 @@ class Child_detail(caching.base.CachingMixin, models.Model):
     class_studying = models.ForeignKey(Class_Studying)
     class_section = models.CharField(max_length=30)
     group_code = models.ForeignKey(Group_code, blank=True, null=True)
-    grpcode_language1 = models.CharField(choices=fl_choice,max_length=3,blank=True,null=True)
-    grpcode_language2 = models.CharField(choices=fl_choice,max_length=3,blank=True,null=True)
-    grpcode_language3 = models.CharField(choices=fl_choice,max_length=3,blank=True,null=True)
-    grpcode_language4 = models.CharField(choices=fl_choice,max_length=3,blank=True,null=True)
+    grpcode_language1 = models.CharField(choices=gcl_choice,max_length=3,blank=True,null=True)
+    grpcode_language2 = models.CharField(choices=gcl_choice,max_length=3,blank=True,null=True)
+    grpcode_language3 = models.CharField(choices=gcl_choice,max_length=3,blank=True,null=True)
+    grpcode_language4 = models.CharField(choices=gcl_choice,max_length=3,blank=True,null=True)
     first_language = models.CharField(choices=fl_choice,max_length=30,default='',blank=True,null=True)
     optional_language = models.CharField(choices=ol_choice,max_length=30,default='',blank=True,null=True)
     attendance_status = models.CharField(max_length=30, blank=True, null=True)
@@ -179,7 +188,7 @@ class Child_detail(caching.base.CachingMixin, models.Model):
     school_admission_no = models.CharField(max_length=100)
     bank = models.ForeignKey(Bank, blank=True, null=True)
     bank_branch = models.CharField(default='', max_length=200, blank=True, null=True)
-    bank_account_no = models.BigIntegerField(default='', blank=True, null=True)
+    bank_account_no = models.CharField(default='', max_length=30, blank=True, null=True)
     bank_ifsc_code = models.CharField(max_length=50, default='', blank=True, null=True)
     sports_player = models.CharField(max_length=3)
     sports_name = models.CharField(max_length=1000,blank=True,null=True)
@@ -203,8 +212,10 @@ class Child_detail(caching.base.CachingMixin, models.Model):
         default=0, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True)
+    # thamarai added two fields
     schl_cat_10 = models.IntegerField(blank=True, null=True)
     schl_cat_12 = models.IntegerField(blank=True, null=True)
+
 
     objects = caching.base.CachingManager()
     # history = HistoricalRecords()
