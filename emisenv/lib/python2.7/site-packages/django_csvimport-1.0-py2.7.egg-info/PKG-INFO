@@ -1,0 +1,231 @@
+Metadata-Version: 1.1
+Name: django-csvimport
+Version: 1.0
+Summary: Import CSV files to django models
+Home-page: https://github.com/edcrewe/django-csvimport
+Author: Ed Crewe
+Author-email: edmundcrewe@gmail.com
+License: Apache
+Description: Django CSV Import
+        =================
+        
+        Ed Crewe - June 2013
+        
+        Overview
+        --------
+        
+        django-csvimport is a generic importer tool to allow the upload of CSV files for
+        populating data. The egg installs an admin cvsimport model that has a file upload field.
+        Add a new csvimport and upload a comma separated values file or MS Excel file.
+        
+        The upload triggers the import mechanism which matches the header line of the files 
+        field names to the fields in the selected model. Importing any rows that include all required fields.
+        Optionally required fields can be specified as part of the upload.
+        By default duplicate value rows are not inserted.
+        
+        The import can also be run as a custom command, ie manage.py csvimport filename
+        for possible use via cronjob etc.
+        
+        The core import code was based on http://djangosnippets.org/snippets/633/ by Jonathan Holst.
+        It adds character encoding handling, model field and column autodetection, admin interface,
+        custom command etc.
+        
+        NB: There is another similar application django-batchimport but it not packaged,
+        requires Excel files and doesnt provide a custom command for batch usage.
+        
+        Installation instructions
+        -------------------------
+        
+        Add the following to the INSTALLED_APPS in the settings.py of your project:
+        
+        >>>  pip install django-csvimport
+        ...
+        ...  INSTALLED_APPS = (
+        ...  ...
+        ...  'csvimport',
+        ...  )
+        ...
+        ...  python manage.py syncdb
+        
+        
+        Custom command
+        --------------
+        
+        Use manage.py csvimport --mappings='' --model='app_label.model_name' importfile.csv
+        
+        For mappings enter a list of fields in order only if you dont have a header row 
+        with matching field names - or you want to override it, eg.
+        
+        --mappings = 'column1=shared_code,column2=org(Organisation|name)'
+        
+        where (model|foreign key field) is used to specify relations if again, you want to
+        override what would be looked up from your models.
+        
+        Admin interface import
+        ----------------------
+        
+        Just add a csvimport item, fill in the form and submit. 
+        Failed import rows are added to the log field.
+        
+        Demonstration installation instructions
+        ---------------------------------------
+        
+        To see how it works, you can install a demo easily enough eg. via virtual environment, 
+        then use the tests settings to have some sample models for importing data, and the fixtures are sample csv files.
+        
+        - Run the following in your shell:
+        
+        >>> virtualenv mysite
+        ... cd mysite
+        ... pip install django
+        ... pip install django-csvimport
+        ...
+        ... cat > bin/django-admin.py << EOF
+        ... #!/usr/bin/env python
+        ... from django.core import management
+        ... import os
+        ... os.environ["DJANGO_SETTINGS_MODULE"] = "csvimport.tests.settings"
+        ... if __name__ == "__main__":
+        ...     management.execute_from_command_line()
+        ... EOF
+        ...
+        ... django-admin.py syncdb
+        ... django-admin.py runserver
+        
+        - Go to http://127.0.0.1:8000/admin/ in your browser - pay attention to the trailing / !
+        - Click on add CSVImport
+        - Pick the django-csvimport/csvimport/tests/fixtures/countries.csv [1] and upload it
+        - Check to see if the Country model is now populated.
+        
+        [1] also available from https://raw.github.com/edcrewe/django-csvimport/master/csvimport/tests/fixtures/countries.csv
+        
+        Alternatively you can use the command line to upload
+        
+        django-admin.py csvimport --model='tests.Country' django-csvimport/csvimport/tests/fixtures/countries.csv --settings=csvimport.tests.settings 
+         
+        
+        Acknowledgements
+        ----------------
+        
+        This egg was created as part of a django dash at the House of Omni, Bristol UK, organised
+        by Dan Fairs and my local django users group, #DBBUG. It was a core component for an application
+        for aid agency supply chain sharing, prompted by Fraser Stephens of the HELIOS foundation
+        and developed by Ed Crewe and Tom Dunham.
+        
+         
+        
+        
+        TODO
+        ====
+        
+        #. Add more tests
+        #. Add option to create model from CSV file
+        #. Add use of xlrd for Excel file upload
+        #. Improve related model creation - use of related csv file?
+        
+        Changelog
+        =========
+        
+        Contributors listed as [github.com username] where they are on github 
+        
+        1.0 - Added signals and code cleanup - 29th January 2013
+        --------------------------------------------------------
+        
+        #. Fixed number overflow test and tested with django 1.5.1 [edcrewe]
+        #. Added signals to the app, to allow the model to custom format a row. 
+        #. added appconf to allow the app to be more customizable - eg. select models for import.
+        #. Removed except all and return database errors.
+        
+        [cwood]
+        
+        0.9 - Missed import of re for change to display of error log - 9th Dec 2012
+        ---------------------------------------------------------------------------
+        
+        #. Import re in csvimport/models.py [blorenz]
+        
+        0.8 - Tidy up logging and Boolean handling - 9th Dec 2012
+        ---------------------------------------------------------
+        
+        #. Fix display of error log so there are newlines for each entry [smeyfroi]
+        #. Log processed rows to the csvimport.management.commands.csvimport logger [smeyfroi]
+        #. Fix for boolean data [smeyfroi]
+        #. Add setting for using standard logging machinery for Admin UI log lines [edcrewe]
+        #. Add test to check creation and content of csvimport log file [edcrewe] 
+        
+        0.7 - Fixes and merge in changes for running up the test app - 24th Nov 2012
+        ----------------------------------------------------------------------------
+        
+        #. Merge in changes for 1.4 templates in settings [elena]
+        #. Merge in doc changes [elena, valhallasw]
+        #. Fix bug with columns that are floats [imposeren]
+        #. Fix imports via the admin not having charset encoding argument [edcrewe]
+        
+        0.6 - Handle text not number or special float to integer - 7th March 2012
+        -------------------------------------------------------------------------
+        
+        #. Handle numeric columns with text in - zero if not nan or inf
+        
+        [edcrewe]
+        
+        0.5 - Add command line encoding option and error return - 6th March 2012
+        ------------------------------------------------------------------------
+        
+        #. Make sure command line usage returns errors and warnings
+        #. Add the option to force --charset=utf-8 for example rather than chardet 
+        #. Add numeric type handling for empty fields or other issues plus tests
+        
+        [Tessa Alexander, edcrewe]
+        
+        0.4 - Add settings to allow demo site install from tests - 4th October 2011
+        ---------------------------------------------------------------------------
+        
+        #. Add demo countries.csv file
+        #. Add MEDIA_ROOT for file uploads
+        
+        [edcrewe]
+        
+        0.3 - Fix issue with adding in admin - 25th Sept 2011
+        -----------------------------------------------------
+        
+        #. Fix empty mapping submitted
+        #. Remove non-generic filename country processing code
+        #. Use get_models to populate drop down for admin import form
+        #. Add upload message about whether mapping is from CSV header row
+        #. Ensure header row only used if mapping is not supplied.
+        
+        [edcrewe]
+        
+        0.2 - Initial beta release version - 29th July 2011
+        ---------------------------------------------------
+        
+        #. Build it as a django-csvimport egg
+        #. Create csvimport management command
+        #. Improve character set detection and unicode handling
+        #. Add admin csvimport model to upload CSV files with logging of import
+        #. Use file upload save to trigger csvimport command
+        #. Autodetect column mappings by matching model fields and CSV header text
+        #. Add a deduplicate feature
+        #. Start to add test suite with data / app for HELIOS cross agency supply chain 
+           data sharing http://www.helios-foundation.org/cbha-project/index_html
+        
+        [edcrewe]
+        
+        0.1 - Unreleased
+        ----------------
+        
+        #. Use django snippet as starting point
+           http://djangosnippets.org/snippets/633/
+        
+        [Jonathan Holst]
+          
+        
+        
+        
+        
+Keywords: CVS import django fixture
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Development Status :: 4 - Beta
+Classifier: Framework :: Django
+Classifier: License :: OSI Approved :: Apache Software License

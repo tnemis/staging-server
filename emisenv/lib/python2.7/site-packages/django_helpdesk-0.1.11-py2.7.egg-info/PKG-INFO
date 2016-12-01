@@ -1,0 +1,29 @@
+Metadata-Version: 1.1
+Name: django-helpdesk
+Version: 0.1.11
+Summary: Django-powered ticket tracker for your helpdesk
+Home-page: http://github.com/rossp/django-helpdesk
+Author: Ross Poulton
+Author-email: ross@rossp.org
+License: BSD
+Description: 
+        ===============
+        django-helpdesk
+        ===============
+        
+        This is a Django-powered helpdesk ticket tracker, designed to
+        plug into an existing Django website and provide you with 
+        internal (or, perhaps, external) helpdesk management.
+        
+Keywords: django,helpdesk,tickets,incidents,cases
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Framework :: Django
+Classifier: Environment :: Web Environment
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Customer Service
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Software Development :: Bug Tracking
